@@ -1,0 +1,185 @@
+.content-warper{
+    display: grid;
+    grid-template-areas:    'sub-title nav'
+                            'aside main';
+    grid-template-rows: 64px auto;
+    grid-template-columns: 290px auto;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.sub-title{
+    grid-area: sub-title;
+    background-color: #8fa3c0d7;
+    z-index: 2;
+    box-shadow: -5px 0px 16px 0px rgba(0,0,0,0.2);
+}
+
+.content-nav{
+    grid-area: nav;
+    background-color: white;
+    z-index: 2;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+aside{
+    grid-area: aside;
+    z-index: 2;
+    transition: opacity 5s ease-out;
+}
+
+.content-aside{
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    height: 100%;
+    width: 100%;
+    transition: width 2s;
+}
+
+.content-main{
+    grid-area: main;
+    position: relative;
+    overflow: hidden;
+}
+
+.content-aside-toggle{
+    display: none;
+    cursor: pointer;
+}
+
+.content-toggle{
+    position: absolute; 
+    height:100%;
+    max-height:100%;
+    width:100%;
+    background-color:rgba(240, 255, 255, 0.103); 
+    align-items:stretch; 
+    top:0; 
+    z-index:1000;
+    display: none;
+    grid-template-columns: 290px auto;
+}
+
+.content-toggle-aside{
+    width: 290px; 
+}
+
+.aside-menu{
+    display: flex;
+    flex-direction: column;
+    background-color: #899cb9;
+    padding-left: 7px;
+}
+
+.aside-menu > span{
+    height: 30px;
+    align-items: stretch;
+    color: rgb(217, 217, 217);
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.aside-menu > div{
+height: 40px;
+display: grid;
+align-items: stretch;
+}
+
+.aside-menu > div > a{
+    text-decoration: none;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 7px auto; 
+    font-size: 20px;
+    gap: 5px;
+}
+
+.aside-menu > div > a > span{
+    display: flex;
+    align-items: center;
+}
+
+.aside-menu>div>a:hover :first-child {
+    background-color: white;
+}
+
+.aside-menu>div:hover {
+    background-color: #67758B;
+}
+
+
+.main{
+    display: grid;
+    grid-template-rows: min-content auto 80px;
+    height: 100%;
+    max-height: 100%;
+    gap: 10px;
+}
+
+#main-content-header{
+    padding: 20px 20px 0 20px;
+    justify-content: space-between;
+    align-content: stretch;
+}
+
+#main-content-header>*{
+    display: flex;
+    justify-content: space-between;
+    align-content: stretch;
+}
+
+#main-content-header> .row{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: stretch;
+    gap:5px
+}
+
+@media only screen and (max-width: 1400px) {
+
+}
+
+@media only screen and (max-width: 1200px) {
+    .content-warper{
+        display: grid;
+        grid-template-areas:    'nav nav'
+                                'main main';
+        grid-template-rows: 64px auto;
+        grid-template-columns: auto auto;
+    }
+    aside{
+        display: none;
+    }
+    .sub-title{
+        display: none;
+    }
+    .content-nav{
+        padding: 0 50px;
+        gap: 10px;
+    }
+    .content-aside-toggle{
+        display: block;
+    }
+
+    .content-aside{
+        width: 0;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+
+  }
+
+@media only screen and (max-width: 768px) {
+    .main{
+        grid-template-rows: min-content auto 50px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+
+}
