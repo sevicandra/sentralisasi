@@ -14,7 +14,7 @@
 </a>
 </div>
 <div>
-    <a href="">
+    <a href="/monitoring/laporan">
         <span></span>
         <span>Laporan</span>
     </a>

@@ -8,41 +8,38 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        return view('monitoring.index');
+        return view('monitoring.beranda.index');
     }
-
-    public function index_rincian()
+    
+    public function daftar()
     {
-        return view('monitoring.rincian.index');
-    }
+        switch (request('jns')) {
+            case 'gaji-rutin':
+                return view('monitoring.beranda.gaji_rutin');                
+                break;
 
-    public function rincian_penghasilan()
-    {
-        return view('monitoring.rincian.penghasilan');
-    }
+            case 'kekurangan-gaji':
+                return view('monitoring.beranda.kekurangan_gaji');
+                break;
 
-    public function rincian_gaji()
-    {
-        return view('monitoring.rincian.gaji');
-    }
-
-    public function rincian_uang_makan()
-    {
-        return view('monitoring.rincian.uang_makan');
-    }
-
-    public function rincian_uang_lembur()
-    {
-        return view('monitoring.rincian.uang_lembur');
-    }
-
-    public function rincian_tunjangan_kinerja()
-    {
-        return view('monitoring.rincian.tunjangan_kinerja');
-    }
-
-    public function rincian_lainnya()
-    {
-        return view('monitoring.rincian.lainnya');
+            case 'uang-makan':
+                return view('monitoring.beranda.uang_makan');
+                break;
+                
+            case 'uang-lembur':
+                return view('monitoring.beranda.uang_lembur');
+                break;
+                
+            case 'tukin-rutin':
+                return view('monitoring.beranda.tukin_rutin');
+                break;
+                
+            case 'kekurangan-tukin':
+                return view('monitoring.beranda.kekurangan_tukin');
+                break;
+            default:
+                return view('monitoring.beranda.gaji_rutin');
+                break;
+        }
     }
 }

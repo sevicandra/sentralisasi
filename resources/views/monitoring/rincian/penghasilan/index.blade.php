@@ -41,8 +41,8 @@
                             <td class="text-right"></td>
                             <td class="pb-0 pt-0">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="" class="btn btn-sm btn-outline-success pt-0 pb-0">Surat</a>
-                                    <a href="" class="btn btn-sm btn-outline-success pt-0 pb-0">Daftar</a>
+                                    <a href="/monitoring/rincian/penghasilan/surat" class="btn btn-sm btn-outline-success pt-0 pb-0">Surat</a>
+                                    <a href="/monitoring/rincian/penghasilan/daftar" class="btn btn-sm btn-outline-success pt-0 pb-0">Daftar</a>
                                 </div>
                             </td>
                         </tr>
