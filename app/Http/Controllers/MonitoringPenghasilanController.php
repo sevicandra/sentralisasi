@@ -5,66 +5,70 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spipu\Html2Pdf\Html2Pdf;
 
-class MonitoringRincianController extends Controller
+class MonitoringPenghasilanController extends Controller
 {
-
     public function index()
     {
-        return view('monitoring.rincian.index',[
-            "pageTitle"=>"Rincian"
+        return view('monitoring.penghasilan.index',[
+            'pageTitle'=>'Penghasilan'
         ]);
     }
 
-    public function penghasilan()
+    public function satker()
+    {
+        return view('monitoring.rincian.index');
+    }
+
+    public function satker_penghasilan()
     {
         return view('monitoring.rincian.penghasilan.index',[
             "pageTitle"=>"Penghasilan"
         ]);
     }
 
-    public function gaji()
+    public function satker_gaji()
     {
         return view('monitoring.rincian.gaji',[
             "pageTitle"=>"Gaji"
         ]);
     }
 
-    public function uang_makan()
+    public function satker_uang_makan()
     {
         return view('monitoring.rincian.uang_makan',[
             "pageTitle"=>"Uang Makan"
         ]);
     }
 
-    public function uang_lembur()
+    public function satker_uang_lembur()
     {
         return view('monitoring.rincian.uang_lembur',[
             "pageTitle"=>"Uang Lembur"
         ]);
     }
 
-    public function tunjangan_kinerja()
+    public function satker_tunjangan_kinerja()
     {
         return view('monitoring.rincian.tunjangan_kinerja',[
             "pageTitle"=>"Tunjangan Kinerja"
         ]);
     }
 
-    public function lainnya()
+    public function satker_lainnya()
     {
         return view('monitoring.rincian.lainnya.index',[
             "pageTitle"=>"Lainnya"
         ]);
     }
 
-    public function lainnya_detail()
+    public function satker_lainnya_detail()
     {
         return view('monitoring.rincian.lainnya.detail',[
             "pageTitle"=>"Detail"
         ]);
     }
 
-    public function penghasilan_daftar()
+    public function satker_penghasilan_daftar()
     {
         ob_start();
         $html = ob_get_clean();
@@ -75,7 +79,7 @@ class MonitoringRincianController extends Controller
         $html2pdf->output('daftar-gaji-' . "januari" . "2022" . '.pdf', 'D');
     }
 
-    public function penghasilan_surat()
+    public function satker_penghasilan_surat()
     {
         ob_start();
         $html = ob_get_clean();

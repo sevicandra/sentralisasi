@@ -5,15 +5,6 @@
 @section('main-content')
 
     <div id="main-content-header">
-        <div class="row">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <h1 class="h3">Profil</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div id="main-content">
         <div class="row">
@@ -89,7 +80,7 @@
                                         </tr>
     
                                     <tr>
-                                        <td colspan="5"><a href="/monitoring/laporan/profil/kp4" class="btn btn-sm btn-outline-success pt-0 pb-0">Download KP4</a></td>
+                                        <td colspan="5"><a href="{{ Request::url() }}/kp4" class="btn btn-sm btn-outline-success pt-0 pb-0">Download KP4</a></td>
                                     </tr>
                                 </tbody>
                             </table>

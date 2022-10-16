@@ -7,11 +7,6 @@
     <div id="main-content-header">
         <div class="row">
             <div class="row">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <div class="col-lg-5">
-                        <h1 class="h3">PPh Pasal 21</h1>
-                    </div>
-                </div>
                 <div class="row mb-3">
                     <div class="col-lg-8">
                         <a href="" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1">2022</a>
@@ -19,7 +14,7 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col-lg-8">
-                        <a href="/monitoring/laporan/pph-pasal-21/cetak" class="btn btn-sm btn-outline-success">Download Form 1721-A2</a>
+                        <a href="{{ Request::url() }}/pph-pasal-21/cetak" class="btn btn-sm btn-outline-success">Download Form 1721-A2</a>
                     </div>
                 </div>
             </div>

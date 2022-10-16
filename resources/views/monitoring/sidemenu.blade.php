@@ -19,3 +19,18 @@
         <span>Laporan</span>
     </a>
 </div>
+<span>
+    Monitoring Pusat
+</span>
+<div>
+    <a href="/monitoring/penghasilan">
+        <span></span>
+        <span>Penghasilan</span>
+    </a>
+</div>
+<div>
+<a href="/monitoring/pelaporan">
+    <span></span>
+    <span>Pelaporan</span>
+</a>
+</div>

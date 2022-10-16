@@ -9,27 +9,37 @@ class MonitoringLaporanController extends Controller
 {
     public function index()
     {
-        return view('monitoring.laporan.index');
+        return view('monitoring.laporan.index',[
+            "pageTitle"=>"Laporan"
+        ]);
     }
     
     public function profil()
     {
-        return view('monitoring.laporan.profil.index');
+        return view('monitoring.laporan.profil.index',[
+            "pageTitle"=>"Profil"
+        ]);
     }
 
     public function pph_pasal_21()
     {
-        return view('monitoring.laporan.pph_pasal_21.index');
+        return view('monitoring.laporan.pph_pasal_21.index',[
+            "pageTitle"=>"PPh Pasal 21"
+        ]);
     }
 
     public function pph_pasal_21_final()
     {
-        return view('monitoring.laporan.pph_pasal_21_final.index');
+        return view('monitoring.laporan.pph_pasal_21_final.index',[
+            "pageTitle"=>"PPh Pasal 21 Final"
+        ]);
     }
 
     public function penghasilan_tahunan()
     {
-        return view('monitoring.laporan.penghasilan_tahunan.index');
+        return view('monitoring.laporan.penghasilan_tahunan.index',[
+            "pageTitle"=>"Penghasilan Tahunan"
+        ]);
     }
 
     public function profil_kp4()

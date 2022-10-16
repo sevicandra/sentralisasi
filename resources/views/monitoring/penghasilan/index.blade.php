@@ -11,7 +11,7 @@
                     <div class="col-lg-5">
                         <form action="" method="get">
                             <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="nama atau nip">
+                                <input type="text" name="search" class="form-control" placeholder="Kode atau Nama Satker">
                                 <button class="btn btn-sm btn-outline-secondary" type="submit">Cari</button>
                             </div>
                         </form>
@@ -31,7 +31,7 @@
                 <thead class="text-center">
                     <tr class="align-middle">
                         <th>No</th>
-                        <th>NIP</th>
+                        <th>Kode</th>
                         <th>Nama</th>
                         <th>Detail</th>
                     </tr>
@@ -43,11 +43,7 @@
                             <td></td>
                             <td class="pb-0 pr-0">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="{{ Request::url() }}/profil" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Profil</a>
-                                    <a href="{{ Request::url() }}/pph-pasal-21" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">PPh Pasal 21</a>
-                                    <a href="{{ Request::url() }}/pph-pasal-21-final" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">PPh Pasal 21 Final</a>
-                                    <a href="{{ Request::url() }}/penghasilan-tahunan" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Penghasilan Tahunan</a>
-                                    {{-- <a href="/monitoring/laporan/dokumen-perubahan" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Dokumen Perubahan</a> --}}
+                                    <a href="/monitoring/penghasilan/satker" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Pegawai</a>
                                 </div>
                             </td>
                         </tr>

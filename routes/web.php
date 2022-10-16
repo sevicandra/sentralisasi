@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\MonitoringLaporanController;
+use App\Http\Controllers\MonitoringPenghasilanController;
 use App\Http\Controllers\MonitoringRincianController;
 
 /*
@@ -22,7 +23,7 @@ Route::get('/', function () {
 
 Route::controller(MonitoringController::class)->group(function(){
     Route::get('/monitoring', 'index');
-    Route::get('/monitoring/daftar', 'daftar');
+    Route::get('/monitoring/detail', 'detail');
 });
 
 Route::controller(MonitoringRincianController::class)->group(function(){
@@ -48,4 +49,11 @@ Route::controller(MonitoringLaporanController::class)->group(function(){
     Route::get('/monitoring/laporan/pph-pasal-21-final/cetak', 'pph_pasal_21_final_cetak');
     Route::get('/monitoring/laporan/penghasilan-tahunan', 'penghasilan_tahunan');
     // Route::get('/monitoring/laporan/dokumen-perubahan', 'dokumen_perubahan');
+});
+
+Route::controller(MonitoringPenghasilanController::class)->group(function(){
+    Route::get('monitoring/penghasilan', 'index');
+    Route::get('monitoring/penghasilan/satker', 'satker');
+    Route::get('monitoring/penghasilan/satker/penghasilan', 'satker_penghasilan');
+
 });

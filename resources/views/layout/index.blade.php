@@ -9,12 +9,12 @@
     @section('head')
         
     @show
-    <title>Monitoring</title>
+    <title>SENTRALISASI</title>
 </head>
 <body>
     <header class="header">
         <div class="title">
-            <span>ALIKA MONITORING</span>
+            <span>ALIKA SENTRALISASI</span>
         </div>
         <div class="profil dropdown">
             <img src="/img/profil.jpg" alt="" class="" style="border-radius: 50%; height:40px; width: 40px; object-fit:cover">

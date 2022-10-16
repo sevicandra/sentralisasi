@@ -13,6 +13,11 @@
         <div class="content-aside-toggle" id="content-toggle">
             <img id="content-aside-toggle-ico" src="/img/ico/toggle-inactive.png" alt="" style="height: 30px">
         </div>
+        @if (isset($pageTitle))
+        <div id="page-title">
+            <h1 class="h3">{{ $pageTitle }}</h1>
+        </div>   
+        @endif
     </nav>
     <aside>
         <div class="content-aside aside-menu">

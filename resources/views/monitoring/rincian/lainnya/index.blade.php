@@ -30,7 +30,7 @@
                 <tbody>
                         <tr>
                             <td class="text-center"></td>
-                            <td><a href="/monitoring/rincian/lainnya/detail">Januari</a>
+                            <td><a href="{{ Request::url() }}/detail">Januari</a>
                             </td>
                             <td class="text-right">
                             </td>

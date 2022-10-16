@@ -1,4 +1,4 @@
-@extends('monitoring.beranda.layout')
+@extends('monitoring.beranda.detail.layout')
 @section('beranda_content')
 <table class="table table-bordered table-hover">
     <thead class="text-center">

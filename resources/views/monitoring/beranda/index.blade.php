@@ -23,7 +23,7 @@
             <td class="text-right"></td>
             <td class="pb-0 pt-0">
                 <div class="btn-group btn-group-sm" role="group">
-                    <a href="" class="btn btn-sm btn-outline-success pt-0 pb-0" target="_blank">Daftar</a>
+                    <a href="{{ Request::url() }}/detail?jns={{ request('jns') }}" class="btn btn-sm btn-outline-success pt-0 pb-0" target="_blank">Detail</a>
                 </div>
             </td>
         </tr>
