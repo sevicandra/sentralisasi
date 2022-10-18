@@ -14,12 +14,12 @@
             <span>Monitoring</span>
         </div>
     </a>
-    <a href="/tukin" class="main-menu"> 
+    <a href="/pembayaran" class="main-menu"> 
         <div class="content">
             <div>
                 <img src="" alt="" style="max-height: 100%; width:auto">
             </div>
-            <span>Tunjangan Kinerja</span>
+            <span>Pembayaran</span>
         </div>
     </a>
     <a href="/admin" class="main-menu"> 
