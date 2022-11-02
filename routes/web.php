@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminRoleController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\AdminSatkerController;
 use App\Http\Controllers\MonitoringLaporanController;
 use App\Http\Controllers\MonitoringRincianController;
 use App\Http\Controllers\MonitoringPelaporanController;
@@ -118,4 +121,32 @@ Route::controller(PembayaranDokumenUangLemburController::class)->group(function(
 
 Route::controller(AdminController::class)->group(function(){
     Route::get('/admin', 'index');
+});
+
+Route::controller(AdminUserController::class)->group(function(){
+    Route::get('/admin/user', 'index');
+    Route::get('/admin/user/create', 'create');
+    Route::get('/admin/user/{user:nip}/edit', 'edit');
+    Route::post('/admin/user/store', 'store');
+    Route::patch('/admin/user/{user:nip}/update', 'update');
+    Route::delete('/admin/user/{user:nip}', 'delete');
+    Route::get('/admin/user/{user:nip}/role', 'role');
+    Route::get('/admin/user/{user:nip}/role/create', 'role_create');
+    Route::post('/admin/user/{user:nip}/role/{role}', 'role_store');
+    Route::delete('/admin/user/{user:nip}/role/{role}', 'role_delete');
+});
+
+Route::controller(AdminRoleController::class)->group(function(){
+    Route::get('/admin/role', 'index');
+    Route::get('/admin/role/create', 'create');
+    Route::post('/admin/role/store', 'store');
+});
+
+Route::controller(AdminSatkerController::class)->group(function(){
+    Route::get('/admin/satker', 'index');
+    Route::get('/admin/satker/create', 'create');
+    Route::post('/admin/satker/store', 'store');
+    Route::get('/admin/satker/{satker:kdsatker}/edit', 'edit');
+    Route::patch('/admin/satker/{satker:kdsatker}', 'update');
+    
 });

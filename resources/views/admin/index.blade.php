@@ -1,6 +1,6 @@
 @extends('layout.main')
 @section('aside-menu')
-    @include('monitoring.sidemenu')
+    @include('admin.sidemenu')
 @endsection         
 @section('main-content')
 

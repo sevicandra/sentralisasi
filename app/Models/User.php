@@ -20,8 +20,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'no_hp',
+        'nama',
+        'nip',
+        'nohp',
+        'kdsatker',
     ];
 
     /**
@@ -33,4 +35,9 @@ class User extends Authenticatable
         'id',
         'remember_token',
     ];
+
+    public function role()
+    {
+        return $this->belongsToMany(role::class);
+    }
 }

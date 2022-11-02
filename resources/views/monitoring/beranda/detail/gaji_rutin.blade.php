@@ -35,52 +35,118 @@
         </tr>
     </thead>
     <tbody>
+        @foreach ($data as $item)            
             <tr class="align-middle">
+                @php
+                    $no = 1;
+                    $j1 = 0;
+                    $j2 = 0;
+                    $j3 = 0;
+                    $j4 = 0;
+                    $j5 = 0;
+                    $j6 = 0;
+                    $j7 = 0;
+                    $j8 = 0;
+                    $j9 = 0;
+                    $j10 = 0;
+                    $j11 = 0;
+                    $j12 = 0;
+                    $j13 = 0;
+                    $j14 = 0;
+                    $j15 = 0;
+                    $j16 = 0;
+                    $j17 = 0;
+                    $j18 = 0;
+                @endphp
+                
                 <td class="text-center"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right"></td>
+                <td>{{$item->nama}}</td>
+                <td>{{$item->nip}}</td>
+                <td>{{$item->kdkawin}}</td>
+                <td>{{$item->kdgapok}}</td>
+                <td>{{$item->kdjab}}</td>
+
+                @php
+                    $gapok = $item->gapok;
+                    $tistri = $item->tistri;
+                    $tanak = $item->tanak;
+                    $tumum = $item->tumum + $item->ttambumum;
+                    $tstruktur = $item->tstruktur + $item->tfungsi;
+                    $bulat = $item->bulat;
+                    $tberas = $item->tberas;
+                    $tpajak = $item->tpajak;
+                    $bruto = $gapok + $tistri + $tanak + $tumum + $tstruktur + $bulat + $tberas + $tpajak;
+                    $iwp = $item->iwp;
+                    $pph = $item->pph;
+                    $sewarmh = $item->sewarmh;
+                    $tlain = $item->tpapua + $item->tpencil + $item->tlain;
+                    $potlain = $item->pberas + $item->tunggakan + $item->utanglebih + $item->potlain;
+                    $taperum = $item->taperum;
+                    $bpjs = $item->bpjs;
+                    $potongan = $iwp + $pph + $sewarmh + $potlain + $taperum + $bpjs;
+                    $netto = $bruto - $potongan;
+                @endphp
+
+                <td class="text-right"><?= number_format($gapok, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($tistri, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($tanak, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($tumum, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($tstruktur, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($bulat, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($tberas, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($tpajak, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($tlain, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($bruto, 0, ',', '.'); ?>
+                <td class="text-right"><?= number_format($iwp, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($pph, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($sewarmh, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($potlain, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($taperum, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($bpjs, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($potongan, 0, ',', '.'); ?></td>
+                <td class="text-right"><?= number_format($netto, 0, ',', '.'); ?></td>
             </tr>
+            @php
+                $j1 += $gapok;
+                $j2 += $tistri;
+                $j3 += $tanak;
+                $j4 += $tumum;
+                $j5 += $tstruktur;
+                $j6 += $bulat;
+                $j7 += $tberas;
+                $j8 += $tpajak;
+                $j9 += $tlain;
+                $j10 += $bruto;
+                $j11 += $iwp;
+                $j12 += $pph;
+                $j13 += $sewarmh;
+                $j14 += $potlain;
+                $j15 += $taperum;
+                $j16 += $bpjs;
+                $j17 += $potongan;
+                $j18 += $netto;
+            @endphp
+        @endforeach
         <tr class="align-middle">
             <th colspan="6" class="text-center">Jumlah</th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
+            <th class="text-right"><?= number_format($j1, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j2, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j3, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j4, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j5, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j6, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j7, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j8, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j9, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j10, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j11, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j12, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j13, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j14, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j15, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j16, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j17, 0, ',', '.'); ?></th>
+            <th class="text-right"><?= number_format($j18, 0, ',', '.'); ?></th>
         </tr>
     </tbody>
 </table>

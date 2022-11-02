@@ -13,21 +13,27 @@
         </tr>
     </thead>
     <tbody>
-        @for ($i = 0; $i < 100; $i++)
+        @php
+            $i=1;
+        @endphp
+        @foreach ($data as $item)
         <tr>
-            <td class="text-center"></td>
-            <td></td>
-            <td class="text-right"></td>
-            <td class="text-right"></td>
-            <td class="text-right"></td>
-            <td class="text-right"></td>
+            <td class="text-center"> {{$i}} </td>
+            <td> {{$item->nmbulan}} </td>
+            <td class="text-right">{{number_format($item->peg, 0, ',', '.')}}</td>
+            <td class="text-right">{{number_format($item->bruto, 0, ',', '.')}}</td>
+            <td class="text-right">{{number_format($item->potongan, 0, ',', '.')}}</td>
+            <td class="text-right">{{number_format($item->netto, 0, ',', '.')}}</td>
             <td class="pb-0 pt-0">
                 <div class="btn-group btn-group-sm" role="group">
-                    <a href="{{ Request::url() }}/detail?jns={{ request('jns') }}" class="btn btn-sm btn-outline-success pt-0 pb-0" target="_blank">Detail</a>
+                    <a href="{{ Request::url() }}/detail?jns={{ request('jns') }}&thn={{request('thn')}}&bln={{$item->bulan}}" class="btn btn-sm btn-outline-success pt-0 pb-0" target="_blank">Detail</a>
                 </div>
             </td>
         </tr>
-        @endfor
+        @php
+            $i++
+        @endphp
+        @endforeach
     </tbody>
 </table>
 @endsection
