@@ -18,7 +18,7 @@
         </div>
     </div>
     <div id="paginator">
-        {{-- {{$data->links()}} --}}
+        {{$data->links()}}
     </div>
 
 

@@ -9,14 +9,14 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/gaji/{{ $item->tahun }}/{{ $jns }}" class="btn btn-sm btn-outline-success @if (Request('thn') === null && $item->tahun === date('Y') || $item->tahun === request('thn'))active @endif ml-1 mt-1 mb-1">{{ $item->tahun }}</a>
+                        <a href="{{ config('app.url') }}/monitoring/penghasilan/{{ $satker->kdsatker }}/{{ $nip }}/gaji/{{ $item->tahun }}/{{ $jns }}" class="btn btn-sm btn-outline-success @if (Request('thn') === null && $item->tahun === date('Y') || $item->tahun === request('thn'))active @endif ml-1 mt-1 mb-1">{{ $item->tahun }}</a>
                         @endforeach
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/gaji/{{ $thn }}/rutin" class="btn btn-sm btn-outline-success @if ($jns === "rutin" || $jns === null ) active @endif ml-1 mt-1 mb-1">Rutin</a>
-                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/gaji/{{ $thn }}/kekurangan" class="btn btn-sm btn-outline-success @if ($jns === "kekurangan") active @endif ml-1 mt-1 mb-1">Kekurangan</a>
+                        <a href="{{ config('app.url') }}/monitoring/penghasilan/{{ $satker->kdsatker }}/{{ $nip }}/gaji/{{ $thn }}/rutin" class="btn btn-sm btn-outline-success @if ($jns === "rutin" || $jns === null ) active @endif ml-1 mt-1 mb-1">Rutin</a>
+                        <a href="{{ config('app.url') }}/monitoring/penghasilan/{{ $satker->kdsatker }}/{{ $nip }}/gaji/{{ $thn }}/kekurangan" class="btn btn-sm btn-outline-success @if ($jns === "kekurangan") active @endif ml-1 mt-1 mb-1">Kekurangan</a>
                     </div>
                 </div>
             </div>

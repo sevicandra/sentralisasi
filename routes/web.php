@@ -38,55 +38,68 @@ Route::controller(MonitoringController::class)->group(function(){
 
 Route::controller(MonitoringRincianController::class)->group(function(){
     Route::get('/monitoring/rincian', 'index');
-    Route::get('/monitoring/rincian/penghasilan', 'penghasilan');
-    Route::get('/monitoring/rincian/gaji', 'gaji');
-    Route::get('/monitoring/rincian/uang-makan', 'uang_makan');
-    Route::get('/monitoring/rincian/uang-lembur', 'uang_lembur');
-    Route::get('/monitoring/rincian/tunjangan-kinerja', 'tunjangan_kinerja');
-    Route::get('/monitoring/rincian/lainnya', 'lainnya');
-    Route::get('/monitoring/rincian/lainnya/detail', 'lainnya_detail');
-    Route::get('/monitoring/rincian/penghasilan/daftar', 'penghasilan_daftar');
-    Route::get('/monitoring/rincian/penghasilan/surat', 'penghasilan_surat');
+    Route::get('/monitoring/rincian/{nip}/penghasilan', 'penghasilan');
+    Route::get('/monitoring/rincian/{nip}/penghasilan/{thn}', 'penghasilan');
+    Route::get('/monitoring/rincian/{nip}/gaji', 'gaji');
+    Route::get('/monitoring/rincian/{nip}/gaji/{thn}', 'gaji');
+    Route::get('/monitoring/rincian/{nip}/gaji/{thn}/{jns}', 'gaji');
+    Route::get('/monitoring/rincian/{nip}/uang-makan', 'uang_makan');
+    Route::get('/monitoring/rincian/{nip}/uang-makan/{thn}', 'uang_makan');
+    Route::get('/monitoring/rincian/{nip}/uang-lembur', 'uang_lembur');
+    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja', 'tunjangan_kinerja');
+    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}', 'tunjangan_kinerja');
+    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}/{jns}', 'tunjangan_kinerja');
+    Route::get('/monitoring/rincian/{nip}/lainnya', 'lainnya');
+    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}', 'lainnya');
+    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}', 'lainnya');
+    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'lainnya_detail');
+    // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/daftar', 'penghasilan_daftar');
+    // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/surat', 'penghasilan_surat');
 });
 
-Route::controller(MonitoringLaporanController::class)->group(function(){
-    Route::get('/monitoring/laporan', 'index');
-    Route::get('/monitoring/laporan/profil', 'profil');
-    Route::get('/monitoring/laporan/profil/kp4', 'profil_kp4');
-    Route::get('/monitoring/laporan/pph-pasal-21', 'pph_pasal_21');
-    Route::get('/monitoring/laporan/pph-pasal-21/cetak', 'pph_pasal_21_cetak');
-    Route::get('/monitoring/laporan/pph-pasal-21-final', 'pph_pasal_21_final');
-    Route::get('/monitoring/laporan/pph-pasal-21-final/cetak', 'pph_pasal_21_final_cetak');
-    Route::get('/monitoring/laporan/penghasilan-tahunan', 'penghasilan_tahunan');
-    // Route::get('/monitoring/laporan/dokumen-perubahan', 'dokumen_perubahan');
-});
+// Route::controller(MonitoringLaporanController::class)->group(function(){
+//     Route::get('/monitoring/laporan', 'index');
+//     Route::get('/monitoring/laporan/profil', 'profil');
+//     Route::get('/monitoring/laporan/profil/kp4', 'profil_kp4');
+//     Route::get('/monitoring/laporan/pph-pasal-21', 'pph_pasal_21');
+//     Route::get('/monitoring/laporan/pph-pasal-21/cetak', 'pph_pasal_21_cetak');
+//     Route::get('/monitoring/laporan/pph-pasal-21-final', 'pph_pasal_21_final');
+//     Route::get('/monitoring/laporan/pph-pasal-21-final/cetak', 'pph_pasal_21_final_cetak');
+//     Route::get('/monitoring/laporan/penghasilan-tahunan', 'penghasilan_tahunan');
+//     // Route::get('/monitoring/laporan/dokumen-perubahan', 'dokumen_perubahan');
+// });
 
 Route::controller(MonitoringPenghasilanController::class)->group(function(){
-    Route::get('monitoring/penghasilan', 'index');
-    Route::get('monitoring/penghasilan/satker', 'satker');
-    Route::get('monitoring/penghasilan/satker/penghasilan', 'satker_penghasilan');
-    Route::get('/monitoring/penghasilan/satker/gaji', 'satker_gaji');
-    Route::get('/monitoring/penghasilan/satker/uang-makan', 'satker_uang_makan');
-    Route::get('/monitoring/penghasilan/satker/uang-lembur', 'satker_uang_lembur');
-    Route::get('/monitoring/penghasilan/satker/tunjangan-kinerja', 'satker_tunjangan_kinerja');
-    Route::get('/monitoring/penghasilan/satker/lainnya', 'satker_lainnya');
-    Route::get('/monitoring/penghasilan/satker/lainnya/detail', 'satker_lainnya_detail');
-    Route::get('/monitoring/penghasilan/satker/penghasilan/daftar', 'satker_penghasilan_daftar');
-    Route::get('/monitoring/penghasilan/satker/penghasilan/surat', 'satker_penghasilan_surat');
+    Route::get('/monitoring/penghasilan', 'index');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}', 'satker');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/penghasilan', 'satker_penghasilan');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji', 'satker_gaji');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}', 'satker_gaji');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}/{jns}', 'satker_gaji');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-makan', 'satker_uang_makan');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-makan/{thn}', 'satker_uang_makan');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-lembur', 'satker_uang_lembur');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja', 'satker_tunjangan_kinerja');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja/{thn}', 'satker_tunjangan_kinerja');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja/{thn}/{jns}', 'satker_tunjangan_kinerja');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya', 'satker_lainnya');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}', 'satker_lainnya');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}', 'satker_lainnya');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'satker_lainnya_detail');
 
 });
 
-Route::controller(MonitoringPelaporanController::class)->group(function(){
-    Route::get('/monitoring/pelaporan', 'index');
-    Route::get('/monitoring/pelaporan/satker', 'satker');
-    Route::get('/monitoring/pelaporan/satker/profil', 'satker_profil');
-    Route::get('/monitoring/pelaporan/satker/profil/kp4', 'satker_profil_kp4');
-    Route::get('/monitoring/pelaporan/satker/pph-pasal-21', 'satker_pph_pasal_21');
-    Route::get('/monitoring/pelaporan/satker/pph-pasal-21/cetak', 'satker_pph_pasal_21_cetak');
-    Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final', 'satker_pph_pasal_21_final');
-    Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final/cetak', 'satker_pph_pasal_21_final_cetak');
-    Route::get('/monitoring/pelaporan/satker/penghasilan-tahunan', 'satker_penghasilan_tahunan');
-});
+// Route::controller(MonitoringPelaporanController::class)->group(function(){
+//     Route::get('/monitoring/pelaporan', 'index');
+//     Route::get('/monitoring/pelaporan/satker', 'satker');
+//     Route::get('/monitoring/pelaporan/satker/profil', 'satker_profil');
+//     Route::get('/monitoring/pelaporan/satker/profil/kp4', 'satker_profil_kp4');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21', 'satker_pph_pasal_21');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21/cetak', 'satker_pph_pasal_21_cetak');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final', 'satker_pph_pasal_21_final');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final/cetak', 'satker_pph_pasal_21_final_cetak');
+//     Route::get('/monitoring/pelaporan/satker/penghasilan-tahunan', 'satker_penghasilan_tahunan');
+// });
 
 Route::controller(PembayaranController::class)->group(function(){
     Route::get('/pembayaran', 'index');

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class MonitoringController extends Controller
 {
@@ -111,56 +114,63 @@ class MonitoringController extends Controller
             'kdsatker' => 411792,
             'X-API-KEY' => config('alika.key')
         ]);
-
+        $data = $this->paginate(json_decode($response, false), 10, request('page'),['path'=>'detail'])->withQueryString();
         switch (request('jns')) {
             case 'gaji-rutin':
 
                 return view('monitoring.beranda.detail.gaji_rutin',[
                     'pageTitle'=> 'Detail Gaji Rutin',
-                    'data'=>json_decode($response, false)
+                    'data'=>$data
                 ]);                
                 break;
 
             case 'kekurangan-gaji':
                 return view('monitoring.beranda.detail.kekurangan_gaji',[
                     'pageTitle'=> 'Detail Kekurangan Gaji',
-                    'data'=>json_decode($response, false)
+                    'data'=>$data
                 ]);
                 break;
 
             case 'uang-makan':
                 return view('monitoring.beranda.detail.uang_makan',[
                     'pageTitle'=> 'Detail Uang Makan',
-                    'data'=>json_decode($response, false)
+                    'data'=>$data
                 ]);
                 break;
                 
             case 'uang-lembur':
                 return view('monitoring.beranda.detail.uang_lembur',[
                     'pageTitle'=> 'Detail Uang Lembur',
-                    'data'=>json_decode($response, false)
+                    'data'=>$data
                 ]);
                 break;
                 
             case 'tukin-rutin':
                 return view('monitoring.beranda.detail.tukin_rutin',[
                     'pageTitle'=> 'Detail Tukin Rutin',
-                    'data'=>json_decode($response, false)
+                    'data'=>$data
                 ]);
                 break;
                 
             case 'kekurangan-tukin':
                 return view('monitoring.beranda.detail.kekurangan_tukin',[
                     'pageTitle'=> 'Detail Kekurangan Tukin',
-                    'data'=>json_decode($response, false)
+                    'data'=>$data
                 ]);
                 break;
             default:
                 return view('monitoring.beranda.detail.gaji_rutin',[
                     'pageTitle'=> 'Detail Gaji Rutin',
-                    'data'=>json_decode($response, false)
+                    'data'=>$data
                 ]);
                 break;
         }
+    }
+    
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

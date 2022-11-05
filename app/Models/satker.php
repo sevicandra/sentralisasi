@@ -16,5 +16,11 @@ class satker extends Model
         'kdkoordinator',
     ];
 
+    public function scopeSearch()
+    {
+        if (request('search')) {
+            return $this->where('kdsatker', 'LIKE','%'.request('search').'%')->orWhere('nmsatker','LIKE', '%'.request('search').'%');
+        }
+    }
 
 }
