@@ -12,11 +12,14 @@
               <div class="card">
                 <form action="" method="post">
                   <div class="card-header">
-                      <a href="" class="btn btn-outline-secondary active mr-1">2022</a>
+                    @foreach ($tahun as $item)
+                      <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-makan/{{ $item }}" class="btn btn-outline-secondary @if ($item === $thn) active @endif mr-1">{{ $item }}</a>
+                    @endforeach
                   </div>
                   <div class=" card-body">
-                      <a href="" class="btn btn-outline-secondary active mb-3 mr-1">1</a>
-      
+                    @foreach ($bulan as $item)
+                      <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-makan/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
+                    @endforeach
                     <div class="table-responsive">
                       <table class="table table-sm table-bordered table-hover">
                         <thead>
@@ -31,28 +34,39 @@
                           </tr>
                         </thead>
                         <tbody>
+                          @php
+                              $i =1;
+                              $totpeg=0;
+                          @endphp
+                          @foreach ($data as $item)
                             <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td><a href="/pembayaran/dokumen-uang-lembur/detail"><i class="bi bi-filetype-pdf"></i></a></td>
+                              <td>{{ $i++ }}</td>
+                              <td>{{ $item->kdsatker }}</td>
+                              <td>{{ $item->nmsatker }}</td>
+                              <td>{{ $item->dokumenUangMakan($thn, $bln)->count() }}</td>
+                              <td>{{ $item->dokumenUangMakan($thn, $bln)->sum('jmlpegawai') }}</td>
+                              @php
+                                  $totpeg += $item->dokumenUangMakan($thn, $bln)->sum('jmlpegawai');
+                              @endphp
                               <td>
-                                <?php if (isset($q)) : ?>
-                                  <?php if ($q['sts'] == '1') : ?>
-                                    <span class="text-primary">terkirim</span>
-                                  <?php else : ?>
-                                    <span class="text-primary"></span>
-                                  <?php endif; ?>
-                                <?php endif; ?>
+                                @if ($item->dokumenUangMakan($thn, $bln)->count()>0)
+                                <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-makan/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
+                                @endif
+                              </td>
+                              <td>
+                                @if ($item->dokumenUangMakan($thn, $bln)->avg('terkirim') === 1)
+                                  <span class="text-primary">terkirim</span>
+                                @else
+                                  <span class="text-primary"></span>
+                                @endif
                               </td>
                             </tr>
+                          @endforeach
                         </tbody>
                         <thead>
                           <tr>
                             <th colspan="4">Jumlah</th>
-                            <th></th>
+                            <th>{{ $totpeg }}</th>
                             <th></th>
                             <th></th>
                           </tr>

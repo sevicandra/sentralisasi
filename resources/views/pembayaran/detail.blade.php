@@ -6,6 +6,9 @@
 
     <div id="main-content-header">
         <div class="row">
+            <div class="col-lg-12">
+                <a href="/pembayaran/index/{{ $thn }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
+            </div>
         </div>
     </div>
     <div id="main-content">
@@ -25,14 +28,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 0; $i < 100; $i++)
-                        <tr class="align-middle">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        @endfor
+                        @php
+                            $i=1;
+                        @endphp
+                        @foreach ($data as $item)
+                            <tr class="align-middle">
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $item->keterangan }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>
+                                    <a href="{{ Storage::url($item->file) }}" target="_blank" class="btn btn-sm btn-outline-primary pt-0 pb-0">
+                                        <i class="bi bi-filetype-pdf"></i>
+                                    </a>    
+                                </td>
+                            </tr>
+                        @endforeach
+                        
                     </tbody>
                 </table>
         </div>

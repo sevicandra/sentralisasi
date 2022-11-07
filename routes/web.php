@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminBulanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminRoleController;
@@ -103,19 +104,28 @@ Route::controller(MonitoringPenghasilanController::class)->group(function(){
 
 Route::controller(PembayaranController::class)->group(function(){
     Route::get('/pembayaran', 'index');
-    Route::get('/pembayaran/detail', 'detail');
+    Route::get('/pembayaran/index', 'index');
+    Route::get('/pembayaran/index/{thn}', 'index');
+    Route::get('/pembayaran/uang-makan/{thn}/{bln}/detail', 'detailUM');
+    Route::get('/pembayaran/uang-lembur/{thn}/{bln}/detail', 'detailUL');
 });
 
 Route::controller(PembayaranUangMakanController::class)->group(function(){
     Route::get('/pembayaran/uang-makan', 'index');
+    Route::get('/pembayaran/uang-makan/index', 'index');
+    Route::get('/pembayaran/uang-makan/index/{thn}', 'index');
     Route::get('/pembayaran/uang-makan/create', 'create');
     Route::post('/pembayaran/uang-makan/store', 'store');
-    Route::get('/pembayaran/uang-makan/edit', 'edit');
-    Route::patch('/pembayaran/uang-makan/update', 'update');
+    Route::get('/pembayaran/uang-makan/{dokumenUangMakan}/edit', 'edit');
+    Route::patch('/pembayaran/uang-makan/{dokumenUangMakan}/update', 'update');
+    Route::delete('/pembayaran/uang-makan/{dokumenUangMakan}/delete', 'delete');
+    Route::get('/pembayaran/uang-makan/{dokumenUangMakan}/kirim', 'kirim');
 });
 
 Route::controller(PembayaranUangLemburController::class)->group(function(){
     Route::get('/pembayaran/uang-lembur', 'index');
+    Route::get('/pembayaran/uang-lembur/index', 'index');
+    Route::get('/pembayaran/uang-lembur/index/{thn}', 'index');
     Route::get('/pembayaran/uang-lembur/create', 'create');
     Route::post('/pembayaran/uang-lembur/store', 'store');
     Route::get('/pembayaran/uang-lembur/edit', 'edit');
@@ -124,12 +134,19 @@ Route::controller(PembayaranUangLemburController::class)->group(function(){
 
 Route::controller(PembayaranDokumenUangMakanController::class)->group(function(){
     Route::get('/pembayaran/dokumen-uang-makan', 'index');
-    Route::get('/pembayaran/dokumen-uang-makan/detail', 'detail');
+    Route::get('/pembayaran/dokumen-uang-makan/{thn}', 'index');
+    Route::get('/pembayaran/dokumen-uang-makan/{thn}/{bln}', 'index');
+    Route::get('/pembayaran/dokumen-uang-makan/{thn}/{bln}/detail', 'detail');
+    Route::delete('/pembayaran/dokumen-uang-makan/{dokumenUangMakan}', 'reject');
 });
 
 Route::controller(PembayaranDokumenUangLemburController::class)->group(function(){
     Route::get('/pembayaran/dokumen-uang-lembur', 'index');
-    Route::get('/pembayaran/dokumen-uang-lembur/detail', 'detail');
+    Route::get('/pembayaran/dokumen-uang-lembur/{thn}', 'index');
+    Route::get('/pembayaran/dokumen-uang-lembur/{thn}/{bln}', 'index');
+    Route::get('/pembayaran/dokumen-uang-lembur/{thn}/{bln}/detail', 'detail');
+    Route::delete('/pembayaran/dokumen-uang-lembur/{dokumenUangLembur}', 'reject');
+
 });
 
 Route::controller(AdminController::class)->group(function(){
@@ -162,4 +179,12 @@ Route::controller(AdminSatkerController::class)->group(function(){
     Route::get('/admin/satker/{satker:kdsatker}/edit', 'edit');
     Route::patch('/admin/satker/{satker:kdsatker}', 'update');
     
+});
+
+Route::controller(AdminBulanController::class)->group(function(){
+    Route::get('admin/bulan', 'index');
+    Route::get('admin/bulan/create', 'create');
+    Route::post('admin/bulan/store', 'store');
+    Route::get('admin/bulan/{bulan}/edit', 'edit');
+    Route::patch('admin/bulan/{bulan}/update', 'update');
 });

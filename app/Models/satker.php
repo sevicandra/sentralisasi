@@ -23,4 +23,18 @@ class satker extends Model
         }
     }
 
+    public function satker()
+    {
+        return $this->hasMany(User::class, 'kdsatker', 'kdkoordinator');
+    }
+
+    public function dokumenUangMakan($thn, $bln)
+    {
+        return $this->hasMany(dokumenUangMakan::class, 'kdsatker', 'kdsatker')->where('tahun', $thn)->where('bulan', $bln)->get();
+    }
+
+    public function dokumenUangLembur($thn, $bln)
+    {
+        return $this->hasMany(dokumenUangLembur::class, 'kdsatker', 'kdsatker')->where('tahun', $thn)->where('bulan', $bln)->get();
+    }
 }

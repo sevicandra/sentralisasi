@@ -10,9 +10,9 @@
         <div class="row">
           <div class="col-xxl-8">
             <div class="card">
-              <form action="/pembayaran/uang-makan/update" method="post" enctype="multipart/form-data" autocomplete="off">
-                @method('PATCH')
+              <form action="/pembayaran/uang-makan/{{ $data->id }}/update" method="post" enctype="multipart/form-data" autocomplete="off">
                 @csrf
+                @method('PATCH')
                 <div class="card-header">
                   <div class="card-text">
                     <p></p>
@@ -25,46 +25,55 @@
                       <div class="form-group">
                         <label for="">Bulan:</label>
                         <select name="bulan" class="form-control">
-                          <option value=""></option>
+                          @foreach ($bulan as $item)
+                          <option value="{{ $item->bulan }}" @if ($data->bulan === $item->bulan)selected @endif>{{ $item->nmbulan }}</option>
+                          @endforeach
                         </select>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group">
-                        <label for="jumlah">Jumlah Pegawai:</label>
-                        <input type="text" name="jumlah" class="form-control is-invalid" value="">
+                        <label for="jmlpegawai">Jumlah Pegawai:</label>
+                        <input type="text" name="jmlpegawai" class="form-control @error('jmlpegawai') is-invalid @enderror" value="{{ $data->jmlpegawai }}">
+                        @error('jmlpegawai')
                         <div class="invalid-feedback">
-                          invalid
+                          {{ $message }}
                         </div>
+                        @enderror
                       </div>
                     </div>
                   </div>
-    
+                  
                   <div class="row">
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label for="">Upload File :</label>
                         <div class="custom-file">
-                          <input type="file" class="form-control custom" name="file" required>
+                          <input type="file" class="form-control custom @error('file') is-invalid @enderror" name="file">
+                          @error('file')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
                         </div>
-                        <span><small class="text-muted">file dengan format .pdf, ukuran maksimal 10 Mb</small></span>
+                        <span><small class="text-muted ">file dengan format .pdf, ukuran maksimal 10 Mb</small></span>
                       </div>
                     </div>
                     <div class="col-lg-8">
                       <div class="form-group">
-                        <label for="ket">Keterangan:</label>
-                        <input type="text" name="ket" class="form-control is-invalid" value="">
+                        <label for="keterangan">Keterangan:</label>
+                        <input type="text" name="keterangan" class="form-control @error('keterangan') is-invalid @enderror" value="{{ $data->keterangan }}">
+                        @error('keterangan')
                         <div class="invalid-feedback">
-                          invalid
+                          {{ $message }}
                         </div>
+                        @enderror
                       </div>
                     </div>
                   </div>
-    
-    
                 </div>
                 <div class="card-footer">
-                  <a href="/pembayaran/uang-makan" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
+                  <a href="/pembayaran/uang-makan/index" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
                   <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i> Simpan</button>
                 </div>
               </form>

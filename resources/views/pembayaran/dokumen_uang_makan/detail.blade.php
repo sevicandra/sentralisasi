@@ -4,13 +4,19 @@
 @endsection         
 @section('main-content')
     <div id="main-content-header">
-      @include('layout.flashmessage')
+      <div class="row">
+        <div class="col-lg-12">
+          <a href="/pembayaran/dokumen-uang-makan/{{ $thn }}/{{ $bln }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
+        </div>
+        @include('layout.flashmessage')
+      </div>
     </div>
     <div id="main-content">
       <div class="row">
         <div class="col-lg-8">
           <div class="card">
               <div class="card-header">
+                Kantor Pusat
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -18,34 +24,52 @@
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Bulan</th>
                         <th>Jml Pegawai</th>
                         <th>Ket</th>
                         <th>File</th>
                         <th>#</th>
                         <th>Tgl Upload</th>
                         <th>Tgl Kirim</th>
+                        <th>Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
+                      @php
+                          $i=1;
+                      @endphp
+                      @foreach ($data as $item)
                         <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td><a href="" download="download">
-                              <i class="fa fa-file-pdf-o"></i>
-                            </a></td>
+                          <td>{{ $i++ }}</td>
+                          <td>{{ $item->jmlpegawai }}</td>
+                          <td>{{ $item->keterangan }}</td>
                           <td>
-                            <?php if (false) : ?>
-                              <span class="text-primary">terkirim</span>
-                            <?php else : ?>
-                              <span class="text-primary">draft</span>
-                            <?php endif; ?>
+                            <a href="{{ Storage::url($item->file) }}" target="_blank" class="btn btn-sm btn-outline-primary pt-0 pb-0">
+                              <i class="bi bi-filetype-pdf"></i>
+                            </a>    
+                          <td>
+                            @if ($item->terkirim)
+                            <span class="text-primary">terkirim</span>
+                            @else
+                            <span class="text-primary">draft</span>
+                            @endif
                           </td>
-                          <td></td>
-                          <td></td>
+                          <td>{{ $item->created_at }}</td>
+                          <td>
+                            @if ($item->terkirim)
+                                {{ $item->updated_at }}
+                            @endif
+                          </td>
+                          <td>
+                            @if ($item->terkirim)
+                            <form action="/pembayaran/dokumen-uang-makan/{{ $item->id }}" method="post">
+                              @csrf
+                              @method('DELETE')
+                              <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0"><i class="bi bi-send-x"></i></button>
+                            </form>
+                            @endif
+                          </td>
                         </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </div>

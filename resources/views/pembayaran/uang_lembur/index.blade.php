@@ -12,7 +12,9 @@
               <div class="card">
                   <div class="card-header" style="display: flex; justify-content:space-between">
                     <div>
-                        <a href="" class="btn btn-outline-secondary  mr-1">2022</a>
+                        @foreach ($tahun as $item)
+                          <a href="{{ config('app.url') }}/pembayaran/uang-lembur/index/{{ $item }}" class="btn btn-outline-secondary @if (!$thn && $item === date('Y') || $item === $thn) active @endif mr-1">{{ $item }}</a>
+                        @endforeach
                     </div>
                     <a href="/pembayaran/uang-lembur/create" class="btn btn-outline-secondary mr-2" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="bi bi-plus"></i></a>
                   </div>
@@ -30,24 +32,33 @@
                           </tr>
                         </thead>
                         <tbody>
+                          @php
+                              $i=1;
+                          @endphp
+                          @foreach ($data as $item)
                             <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td><a href="" download="download">
-                                  <i class="bi bi-file-pdf-o"></i>
+                              <td>{{ $i++ }}</td>
+                              <td>{{ $item->nmbulan }}</td>
+                              <td>{{ $item->jmlpegawai }}</td>
+                              <td>{{ $item->keterangan }}</td>
+                              <td><a href="{{ Storage::url($item->file) }}" target="_blank" class="btn btn-sm btn-outline-primary pt-0 pb-0">
+                                <i class="bi bi-filetype-pdf"></i>
                                 </a></td>
                               <td>
-                                <?php if (false) : ?>
+                                <?php if ($item->terkirim) : ?>
                                   <span class="text-primary">terkirim</span>
                                 <?php else : ?>
-                                  <a href="/pembayaran/uang-lembur/edit" data-toggle="tooltip" data-placement="bottom" title="Ubah"><i class="nav-icon bi bi-pencil-square ml-1"></i></a>
-                                  <a href="" data-toggle="tooltip" data-placement="bottom" title="Hapus" onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');"><i class="nav-icon bi bi-trash ml-1"></i></a>
-                                  <a href="" data-toggle="tooltip" data-placement="bottom" title="Kirim" onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');"><i class="nav-icon bi bi-send ml-1"></i></a>
+                                <form action="/pembayaran/uang-lembur/{{ $item->id }}/delete" method="post">
+                                  @csrf
+                                  @method('DELETE')
+                                  <a href="/pembayaran/uang-lembur/{{ $item->id }}/edit" data-toggle="tooltip" data-placement="bottom" title="Ubah" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-pencil-square"></i></a>
+                                  <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-trash"></i></button>
+                                  <a href="/pembayaran/uang-lembur/{{ $item->id }}/kirim" data-toggle="tooltip" data-placement="bottom" title="Kirim" onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-send"></i></a>
+                                </form>
                                 <?php endif; ?>
                               </td>
                             </tr>
+                          @endforeach
                         </tbody>
                       </table>
                     </div>

@@ -39,14 +39,14 @@
                             <td> {{$item->nip}} </td>
                             <td> {{$item->kdsatker}} </td>
                             <td> {{$item->nohp}} </td>
-                            <form action="/admin/user/{{$item->nip}}" method="post" onsubmit="return confirm('Apakah Anda yakin akan Menghapus data ini?');">
+                            <form action="/admin/user/{{$item->nip}}" method="post">
                                 <td class="pb-0 pr-0">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="/admin/user/{{$item->nip}}/role" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Role</a>
                                         <a href="/admin/user/{{$item->nip}}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Ubah</a>
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0" >Hapus</button>
+                                        <button onsubmit="return confirm('Apakah Anda yakin akan Menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0" >Hapus</button>
                                     </div>
                                 </td>
                             </form>

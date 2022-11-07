@@ -2,17 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\satker;
 use Illuminate\Http\Request;
+use App\Models\dokumenUangLembur;
+use Illuminate\Support\Facades\Redirect;
 
 class PembayaranDokumenUangLemburController extends Controller
 {
-    public function index()
+    public function index($thn=null, $bln=null)
     {
-        return view('pembayaran.dokumen_uang_lembur.index');
+        if (!$thn) {
+            $thn=date('Y');
+        }
+
+        if (!$bln) {
+            $bln=date('m');
+        }
+        $tahun = dokumenUangLembur::tahun();
+        $bulan = dokumenUangLembur::bulan($thn);
+        return view('pembayaran.dokumen_uang_lembur.index',[
+            'data'=>satker::orderBy('jnssatker')->get(),
+            'thn'=>$thn,
+            'bln'=>$bln,
+            'tahun'=>$tahun,
+            'bulan'=>$bulan,
+        ]);
     }
 
-    public function detail()
+    public function detail($thn, $bln)
     {
-        return view('pembayaran.dokumen_uang_lembur.detail');
+        $kdsatker=411792;
+        $data = dokumenUangLembur::uangLembur($kdsatker, $thn, $bln)->get();
+        return view('pembayaran.dokumen_uang_lembur.detail',[
+            'data'=>$data,
+            'thn'=>$thn,
+            'bln'=>$bln,
+        ]);
+    }
+
+    public function reject(dokumenUangLembur $dokumenUangLembur)
+    {
+        if (!$dokumenUangLembur->terkirim) {
+            return abort(403);
+        }
+        $dokumenUangLembur->update(['terkirim'=>false]);
+        return Redirect()->back()->with('berhasil', 'Data berhasil dikembalikan.');
     }
 }

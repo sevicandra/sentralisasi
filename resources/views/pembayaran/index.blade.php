@@ -9,7 +9,9 @@
             <div class="row">
                 <div class="row">
                     <div class="col-lg-12">
-                            <a href="" class="btn btn-sm btn-outline-success active ml-1 mt-1 mb-1">2022</a>
+                        @foreach ($tahun as $item)
+                            <a href="{{ config('app.url') }}/pembayaran/index/{{ $item }}" class="btn btn-sm btn-outline-success @if ($item === $thn) active @endif ml-1 mt-1 mb-1">{{ $item }}</a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -31,12 +33,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @for ($i = 0; $i < 12; $i++)
+                                    @for ($i = 1; $i <= 12; $i++)
                                     <tr>
-                                        <td>{{ $i+1 }}</td>
-                                        <td></td>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $uangMakan->where('bulan', $i)->count() }}</td>
                                         <td>
-                                            <a href="/pembayaran/detail"><i class="bi bi-search"></i></a>
+                                            @if ($uangMakan->where('bulan', $i)->count() > 0)
+                                            <a href="/pembayaran/uang-makan/{{ $thn }}/{{ $uangMakan->where('bulan', $i)->first()->bulan }}/detail"><i class="bi bi-search"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endfor
@@ -60,12 +64,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @for ($i = 0; $i < 12; $i++)
+                                    @for ($i = 1; $i <= 12; $i++)
                                     <tr>
-                                        <td>{{ $i+1 }}</td>
-                                        <td></td>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $uangLembur->where('bulan', $i)->count() }}</td>
                                         <td>
-                                            <a href="/pembayaran/detail"><i class="bi bi-search"></i></a>
+                                            @if ($uangLembur->where('bulan', $i)->count() > 0)
+                                            <a href="/pembayaran/uang-lembur/{{ $thn }}/{{ $uangLembur->where('bulan', $i)->first()->bulan }}/detail"><i class="bi bi-search"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endfor
