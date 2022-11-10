@@ -7,7 +7,8 @@
         <span>User</span>
     </a>
 </div>
-
+@if (Auth::guard('web')->check())
+@can('sys_admin', auth()->user()->id)
 <span>
     Referensi
 </span>
@@ -24,8 +25,17 @@
     </a>
 </div>
 <div>
+    <a href="/admin/admin-satker">
+        <span></span>
+        <span>Admin Satker</span>
+    </a>
+</div>
+<div>
     <a href="/admin/bulan">
         <span></span>
         <span>Bulan</span>
     </a>
 </div>
+    
+@endcan
+@endif

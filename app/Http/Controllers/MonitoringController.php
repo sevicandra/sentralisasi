@@ -3,15 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class MonitoringController extends Controller
 {
     public function index()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['plt_admin_satker', 'opr_monitoring'];
+            $gate2=['sys_admin'];
+        }else{
+            $gate=['admin_satker'];
+            $gate2=[];
+
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any($gate2, auth()->user()->id)) {
+                abort(403);
+            }
+            return Redirect('/monitoring/penghasilan');
+        }
+        
         switch (request('jns')) {
             case 'gaji-rutin':
                 $endpoint= "gaji-rutin";
@@ -49,12 +67,12 @@ class MonitoringController extends Controller
 
         $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').$endpoint,[
             'tahun' => $tahun,
-            'kdsatker' => 411792,
+            'kdsatker' => auth()->user()->kdsatker,
             'X-API-KEY' => config('alika.key')
         ]);
 
         $thnsatker = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'tahun-satker',[
-            'kdsatker' => 411792,
+            'kdsatker' => auth()->user()->kdsatker,
             'X-API-KEY' => 'hGfdg456ghD4f566afjh6Fg@hgb#jijk'
         ]);
 
@@ -63,10 +81,27 @@ class MonitoringController extends Controller
             'data'=>json_decode($response, false),
             'tahun'=>json_decode($thnsatker,false)
         ]);
+
     }
     
     public function detail()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['plt_admin_satker', 'opr_monitoring'];
+            $gate2=['sys_admin'];
+        }else{
+            $gate=['admin_satker'];
+            $gate2=[];
+
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any($gate2, auth()->user()->id)) {
+                abort(403);
+            }
+            return Redirect('/monitoring/penghasilan');
+        }
+        
         switch (request('jns')) {
             case 'gaji-rutin':
                 $endpoint= "detail-gaji-rutin";
@@ -111,7 +146,7 @@ class MonitoringController extends Controller
         $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').$endpoint,[
             'bulan' => $bulan,
             'tahun' => $tahun,
-            'kdsatker' => 411792,
+            'kdsatker' => auth()->user()->kdsatker,
             'X-API-KEY' => config('alika.key')
         ]);
         $data = $this->paginate(json_decode($response, false), 10, request('page'),['path'=>'detail'])->withQueryString();

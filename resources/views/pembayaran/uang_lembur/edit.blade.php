@@ -10,7 +10,7 @@
         <div class="row">
           <div class="col-xxl-8">
             <div class="card">
-              <form action="/pembayaran/uang-lembur/{{ $data->id }}/update" method="post" enctype="multipart/form-data" autocomplete="off">
+              <form action="/belanja-51/uang-lembur/{{ $data->id }}/update" method="post" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 @method('PATCH')
                 <div class="card-header">
@@ -73,7 +73,7 @@
                   </div>
                 </div>
                 <div class="card-footer">
-                  <a href="/pembayaran/uang-lembur/index" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
+                  <a href="/belanja-51/uang-lembur/index" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
                   <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i> Simpan</button>
                 </div>
               </form>

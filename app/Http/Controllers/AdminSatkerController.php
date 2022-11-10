@@ -4,12 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\satker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminSatkerController extends Controller
 {
     public function index()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         return view('admin.satker.index',[
             'data'=>satker::all()
         ]);
@@ -17,11 +28,29 @@ class AdminSatkerController extends Controller
 
     public function create()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         return view('admin.satker.create');
     }
 
     public function store(Request $request)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         if ($request->jnssatker === "3") {
             $request->validate([
                 'nmsatker'=>'required',
@@ -69,6 +98,15 @@ class AdminSatkerController extends Controller
 
     public function edit(satker $satker)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         return view('admin.satker.edit',[
             'data'=>$satker
         ]);
@@ -76,6 +114,15 @@ class AdminSatkerController extends Controller
 
     public function update(Request $request,satker $satker)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         if ($request->jnssatker === "3") {
             if ($request->kdsatker === $satker->kdsatker) {
                 $request->validate([

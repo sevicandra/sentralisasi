@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdminBulanController;
+use App\Http\Controllers\AdminAdminSatkerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SsoController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminRoleController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminBulanController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
@@ -28,163 +31,188 @@ use App\Http\Controllers\PembayaranDokumenUangLemburController;
 |
 */
 
+Route::get('/api/sso', [SsoController::class, 'sign_in'])->middleware('guest:web,admin');
+
+Route::get('/sso', [SsoController::class, 'sso'])->middleware('guest:web,admin');
+
 Route::get('/', function () {
     return view('index');
+})->middleware('auth:web,admin');
+
+Route::get('/login', function () {
+    return view('welcome');
+})->name('sign-in')->middleware('guest:web,admin');
+
+Route::controller(LoginController::class)->group(function(){
+    Route::get('/logout', 'logout')->middleware('auth:web,admin');
 });
 
 Route::controller(MonitoringController::class)->group(function(){
-    Route::get('/monitoring', 'index');
-    Route::get('/monitoring/detail', 'detail');
+    Route::get('/monitoring', 'index')->middleware('auth:web,admin');
+    Route::get('/monitoring/detail', 'detail')->middleware('auth:web,admin');
 });
 
 Route::controller(MonitoringRincianController::class)->group(function(){
-    Route::get('/monitoring/rincian', 'index');
-    Route::get('/monitoring/rincian/{nip}/penghasilan', 'penghasilan');
-    Route::get('/monitoring/rincian/{nip}/penghasilan/{thn}', 'penghasilan');
-    Route::get('/monitoring/rincian/{nip}/gaji', 'gaji');
-    Route::get('/monitoring/rincian/{nip}/gaji/{thn}', 'gaji');
-    Route::get('/monitoring/rincian/{nip}/gaji/{thn}/{jns}', 'gaji');
-    Route::get('/monitoring/rincian/{nip}/uang-makan', 'uang_makan');
-    Route::get('/monitoring/rincian/{nip}/uang-makan/{thn}', 'uang_makan');
-    Route::get('/monitoring/rincian/{nip}/uang-lembur', 'uang_lembur');
-    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja', 'tunjangan_kinerja');
-    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}', 'tunjangan_kinerja');
-    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}/{jns}', 'tunjangan_kinerja');
-    Route::get('/monitoring/rincian/{nip}/lainnya', 'lainnya');
-    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}', 'lainnya');
-    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}', 'lainnya');
-    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'lainnya_detail');
-    // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/daftar', 'penghasilan_daftar');
-    // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/surat', 'penghasilan_surat');
+    Route::get('/monitoring/rincian', 'index')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/penghasilan', 'penghasilan')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/penghasilan/{thn}', 'penghasilan')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/gaji', 'gaji')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/gaji/{thn}', 'gaji')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/gaji/{thn}/{jns}', 'gaji')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/uang-makan', 'uang_makan')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/uang-makan/{thn}', 'uang_makan')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/uang-lembur', 'uang_lembur')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja', 'tunjangan_kinerja')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}', 'tunjangan_kinerja')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}/{jns}', 'tunjangan_kinerja')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/lainnya', 'lainnya')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}', 'lainnya')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}', 'lainnya')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'lainnya_detail')->middleware('auth:web,admin');
+    // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/daftar', 'penghasilan_daftar')->middleware('auth:web,admin');
+    // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/surat', 'penghasilan_surat')->middleware('auth:web,admin');
 });
 
 // Route::controller(MonitoringLaporanController::class)->group(function(){
-//     Route::get('/monitoring/laporan', 'index');
-//     Route::get('/monitoring/laporan/profil', 'profil');
-//     Route::get('/monitoring/laporan/profil/kp4', 'profil_kp4');
-//     Route::get('/monitoring/laporan/pph-pasal-21', 'pph_pasal_21');
-//     Route::get('/monitoring/laporan/pph-pasal-21/cetak', 'pph_pasal_21_cetak');
-//     Route::get('/monitoring/laporan/pph-pasal-21-final', 'pph_pasal_21_final');
-//     Route::get('/monitoring/laporan/pph-pasal-21-final/cetak', 'pph_pasal_21_final_cetak');
-//     Route::get('/monitoring/laporan/penghasilan-tahunan', 'penghasilan_tahunan');
-//     // Route::get('/monitoring/laporan/dokumen-perubahan', 'dokumen_perubahan');
+//     Route::get('/monitoring/laporan', 'index')->middleware('auth:web,admin');
+//     Route::get('/monitoring/laporan/profil', 'profil')->middleware('auth:web,admin');
+//     Route::get('/monitoring/laporan/profil/kp4', 'profil_kp4')->middleware('auth:web,admin');
+//     Route::get('/monitoring/laporan/pph-pasal-21', 'pph_pasal_21')->middleware('auth:web,admin');
+//     Route::get('/monitoring/laporan/pph-pasal-21/cetak', 'pph_pasal_21_cetak')->middleware('auth:web,admin');
+//     Route::get('/monitoring/laporan/pph-pasal-21-final', 'pph_pasal_21_final')->middleware('auth:web,admin');
+//     Route::get('/monitoring/laporan/pph-pasal-21-final/cetak', 'pph_pasal_21_final_cetak')->middleware('auth:web,admin');
+//     Route::get('/monitoring/laporan/penghasilan-tahunan', 'penghasilan_tahunan')->middleware('auth:web,admin');
+//     // Route::get('/monitoring/laporan/dokumen-perubahan', 'dokumen_perubahan')->middleware('auth:web,admin');
 // });
 
 Route::controller(MonitoringPenghasilanController::class)->group(function(){
-    Route::get('/monitoring/penghasilan', 'index');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}', 'satker');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/penghasilan', 'satker_penghasilan');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji', 'satker_gaji');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}', 'satker_gaji');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}/{jns}', 'satker_gaji');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-makan', 'satker_uang_makan');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-makan/{thn}', 'satker_uang_makan');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-lembur', 'satker_uang_lembur');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja', 'satker_tunjangan_kinerja');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja/{thn}', 'satker_tunjangan_kinerja');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja/{thn}/{jns}', 'satker_tunjangan_kinerja');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya', 'satker_lainnya');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}', 'satker_lainnya');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}', 'satker_lainnya');
-    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'satker_lainnya_detail');
+    Route::get('/monitoring/penghasilan', 'index')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/penghasilan', 'satker_penghasilan')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji', 'satker_gaji')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}', 'satker_gaji')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}/{jns}', 'satker_gaji')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-makan', 'satker_uang_makan')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-makan/{thn}', 'satker_uang_makan')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/uang-lembur', 'satker_uang_lembur')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja', 'satker_tunjangan_kinerja')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja/{thn}', 'satker_tunjangan_kinerja')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/tunjangan-kinerja/{thn}/{jns}', 'satker_tunjangan_kinerja')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya', 'satker_lainnya')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}', 'satker_lainnya')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}', 'satker_lainnya')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'satker_lainnya_detail')->middleware('auth:web,admin');
 
 });
 
 // Route::controller(MonitoringPelaporanController::class)->group(function(){
-//     Route::get('/monitoring/pelaporan', 'index');
-//     Route::get('/monitoring/pelaporan/satker', 'satker');
-//     Route::get('/monitoring/pelaporan/satker/profil', 'satker_profil');
-//     Route::get('/monitoring/pelaporan/satker/profil/kp4', 'satker_profil_kp4');
-//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21', 'satker_pph_pasal_21');
-//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21/cetak', 'satker_pph_pasal_21_cetak');
-//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final', 'satker_pph_pasal_21_final');
-//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final/cetak', 'satker_pph_pasal_21_final_cetak');
-//     Route::get('/monitoring/pelaporan/satker/penghasilan-tahunan', 'satker_penghasilan_tahunan');
+//     Route::get('/monitoring/pelaporan', 'index')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker', 'satker')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker/profil', 'satker_profil')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker/profil/kp4', 'satker_profil_kp4')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21', 'satker_pph_pasal_21')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21/cetak', 'satker_pph_pasal_21_cetak')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final', 'satker_pph_pasal_21_final')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker/pph-pasal-21-final/cetak', 'satker_pph_pasal_21_final_cetak')->middleware('auth:web,admin');
+//     Route::get('/monitoring/pelaporan/satker/penghasilan-tahunan', 'satker_penghasilan_tahunan')->middleware('auth:web,admin');
 // });
 
 Route::controller(PembayaranController::class)->group(function(){
-    Route::get('/pembayaran', 'index');
-    Route::get('/pembayaran/index', 'index');
-    Route::get('/pembayaran/index/{thn}', 'index');
-    Route::get('/pembayaran/uang-makan/{thn}/{bln}/detail', 'detailUM');
-    Route::get('/pembayaran/uang-lembur/{thn}/{bln}/detail', 'detailUL');
+    Route::get('/belanja-51', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/index', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/index/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-makan/{thn}/{bln}/detail', 'detailUM')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-lembur/{thn}/{bln}/detail', 'detailUL')->middleware('auth:web,admin');
 });
 
 Route::controller(PembayaranUangMakanController::class)->group(function(){
-    Route::get('/pembayaran/uang-makan', 'index');
-    Route::get('/pembayaran/uang-makan/index', 'index');
-    Route::get('/pembayaran/uang-makan/index/{thn}', 'index');
-    Route::get('/pembayaran/uang-makan/create', 'create');
-    Route::post('/pembayaran/uang-makan/store', 'store');
-    Route::get('/pembayaran/uang-makan/{dokumenUangMakan}/edit', 'edit');
-    Route::patch('/pembayaran/uang-makan/{dokumenUangMakan}/update', 'update');
-    Route::delete('/pembayaran/uang-makan/{dokumenUangMakan}/delete', 'delete');
-    Route::get('/pembayaran/uang-makan/{dokumenUangMakan}/kirim', 'kirim');
+    Route::get('/belanja-51/uang-makan', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-makan/index', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-makan/index/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-makan/create', 'create')->middleware('auth:web,admin');
+    Route::post('/belanja-51/uang-makan/store', 'store')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-makan/{dokumenUangMakan}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/uang-makan/{dokumenUangMakan}/update', 'update')->middleware('auth:web,admin');
+    Route::delete('/belanja-51/uang-makan/{dokumenUangMakan}/delete', 'delete')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-makan/{dokumenUangMakan}/kirim', 'kirim')->middleware('auth:web,admin');
 });
 
 Route::controller(PembayaranUangLemburController::class)->group(function(){
-    Route::get('/pembayaran/uang-lembur', 'index');
-    Route::get('/pembayaran/uang-lembur/index', 'index');
-    Route::get('/pembayaran/uang-lembur/index/{thn}', 'index');
-    Route::get('/pembayaran/uang-lembur/create', 'create');
-    Route::post('/pembayaran/uang-lembur/store', 'store');
-    Route::get('/pembayaran/uang-lembur/edit', 'edit');
-    Route::patch('/pembayaran/uang-lembur/update', 'update');
+    Route::get('/belanja-51/uang-lembur', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-lembur/index', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-lembur/index/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-lembur/create', 'create')->middleware('auth:web,admin');
+    Route::post('/belanja-51/uang-lembur/store', 'store')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-lembur/{dokumenUangLembur}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/uang-lembur/{dokumenUangLembur}/update', 'update')->middleware('auth:web,admin');
+    Route::delete('/belanja-51/uang-lembur/{dokumenUangLembur}/delete', 'delete')->middleware('auth:web,admin');
+    Route::get('/belanja-51/uang-lembur/{dokumenUangLembur}/kirim', 'kirim')->middleware('auth:web,admin');
 });
 
 Route::controller(PembayaranDokumenUangMakanController::class)->group(function(){
-    Route::get('/pembayaran/dokumen-uang-makan', 'index');
-    Route::get('/pembayaran/dokumen-uang-makan/{thn}', 'index');
-    Route::get('/pembayaran/dokumen-uang-makan/{thn}/{bln}', 'index');
-    Route::get('/pembayaran/dokumen-uang-makan/{thn}/{bln}/detail', 'detail');
-    Route::delete('/pembayaran/dokumen-uang-makan/{dokumenUangMakan}', 'reject');
+    Route::get('/belanja-51/dokumen-uang-makan', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-makan/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-makan/{thn}/{bln}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-makan/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
+    Route::delete('/belanja-51/dokumen-uang-makan/{dokumenUangMakan}', 'reject')->middleware('auth:web,admin');
 });
 
 Route::controller(PembayaranDokumenUangLemburController::class)->group(function(){
-    Route::get('/pembayaran/dokumen-uang-lembur', 'index');
-    Route::get('/pembayaran/dokumen-uang-lembur/{thn}', 'index');
-    Route::get('/pembayaran/dokumen-uang-lembur/{thn}/{bln}', 'index');
-    Route::get('/pembayaran/dokumen-uang-lembur/{thn}/{bln}/detail', 'detail');
-    Route::delete('/pembayaran/dokumen-uang-lembur/{dokumenUangLembur}', 'reject');
+    Route::get('/belanja-51/dokumen-uang-lembur', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-lembur/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-lembur/{thn}/{bln}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-lembur/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
+    Route::delete('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}', 'reject')->middleware('auth:web,admin');
 
 });
 
 Route::controller(AdminController::class)->group(function(){
-    Route::get('/admin', 'index');
+    Route::get('/admin', 'index')->middleware('auth:web,admin');
 });
 
 Route::controller(AdminUserController::class)->group(function(){
-    Route::get('/admin/user', 'index');
-    Route::get('/admin/user/create', 'create');
-    Route::get('/admin/user/{user:nip}/edit', 'edit');
-    Route::post('/admin/user/store', 'store');
-    Route::patch('/admin/user/{user:nip}/update', 'update');
-    Route::delete('/admin/user/{user:nip}', 'delete');
-    Route::get('/admin/user/{user:nip}/role', 'role');
-    Route::get('/admin/user/{user:nip}/role/create', 'role_create');
-    Route::post('/admin/user/{user:nip}/role/{role}', 'role_store');
-    Route::delete('/admin/user/{user:nip}/role/{role}', 'role_delete');
+    Route::get('/admin/user', 'index')->middleware('auth:web,admin');
+    Route::get('/admin/user/create', 'create')->middleware('auth:web,admin');
+    Route::get('/admin/user/{user:nip}/edit', 'edit')->middleware('auth:web,admin');
+    Route::post('/admin/user/store', 'store')->middleware('auth:web,admin');
+    Route::patch('/admin/user/{user:nip}/update', 'update')->middleware('auth:web,admin');
+    Route::delete('/admin/user/{user:nip}', 'delete')->middleware('auth:web,admin');
+    Route::get('/admin/user/{user:nip}/role', 'role')->middleware('auth:web,admin');
+    Route::get('/admin/user/{user:nip}/role/create', 'role_create')->middleware('auth:web,admin');
+    Route::post('/admin/user/{user:nip}/role/{role}', 'role_store')->middleware('auth:web,admin');
+    Route::delete('/admin/user/{user:nip}/role/{role}', 'role_delete')->middleware('auth:web,admin');
 });
 
 Route::controller(AdminRoleController::class)->group(function(){
-    Route::get('/admin/role', 'index');
-    Route::get('/admin/role/create', 'create');
-    Route::post('/admin/role/store', 'store');
+    Route::get('/admin/role', 'index')->middleware('auth:web,admin');
+    Route::get('/admin/role/create', 'create')->middleware('auth:web,admin');
+    Route::post('/admin/role/store', 'store')->middleware('auth:web,admin');
+    Route::get('/admin/role/{role}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/admin/role/{role}', 'update')->middleware('auth:web,admin');
 });
 
 Route::controller(AdminSatkerController::class)->group(function(){
-    Route::get('/admin/satker', 'index');
-    Route::get('/admin/satker/create', 'create');
-    Route::post('/admin/satker/store', 'store');
-    Route::get('/admin/satker/{satker:kdsatker}/edit', 'edit');
-    Route::patch('/admin/satker/{satker:kdsatker}', 'update');
+    Route::get('/admin/satker', 'index')->middleware('auth:web,admin');
+    Route::get('/admin/satker/create', 'create')->middleware('auth:web,admin');
+    Route::post('/admin/satker/store', 'store')->middleware('auth:web,admin');
+    Route::get('/admin/satker/{satker:kdsatker}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/admin/satker/{satker:kdsatker}', 'update')->middleware('auth:web,admin');
     
 });
 
 Route::controller(AdminBulanController::class)->group(function(){
-    Route::get('admin/bulan', 'index');
-    Route::get('admin/bulan/create', 'create');
-    Route::post('admin/bulan/store', 'store');
-    Route::get('admin/bulan/{bulan}/edit', 'edit');
-    Route::patch('admin/bulan/{bulan}/update', 'update');
+    Route::get('admin/bulan', 'index')->middleware('auth:web,admin');
+    Route::get('admin/bulan/create', 'create')->middleware('auth:web,admin');
+    Route::post('admin/bulan/store', 'store')->middleware('auth:web,admin');
+    Route::get('admin/bulan/{bulan}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('admin/bulan/{bulan}/update', 'update')->middleware('auth:web,admin');
+});
+
+Route::controller(AdminAdminSatkerController::class)->group(function(){
+    Route::get('admin/admin-satker', 'index')->middleware('auth:web,admin');
+    Route::get('admin/admin-satker/create', 'create')->middleware('auth:web,admin');
+    Route::post('admin/admin-satker', 'store')->middleware('auth:web,admin');
+    Route::get('admin/admin-satker/{adminSatker}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('admin/admin-satker/{adminSatker}', 'update')->middleware('auth:web,admin');
+    Route::delete('admin/admin-satker/{adminSatker}', 'delete')->middleware('auth:web,admin');
 });

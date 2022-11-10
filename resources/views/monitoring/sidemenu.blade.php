@@ -1,3 +1,15 @@
+@if (Auth::guard('web')->check())
+    @php
+        $gate=['plt_admin_satker', 'opr_monitoring']
+    @endphp
+@else
+    @php
+    $gate=['admin_satker']
+    @endphp
+@endif
+
+@canany($gate, auth()->user()->id)
+    
 <span>
     Halaman Utama
 </span>
@@ -19,6 +31,11 @@
         <span>Laporan</span>
     </a>
 </div> --}}
+@endcan
+    
+
+@if (Auth::guard('web')->check())
+@can('sys_admin', auth()->user()->id)
 <span>
     Monitoring Pusat
 </span>
@@ -34,3 +51,5 @@
     <span>Pelaporan</span>
 </a>
 </div> --}}
+@endcan    
+@endif

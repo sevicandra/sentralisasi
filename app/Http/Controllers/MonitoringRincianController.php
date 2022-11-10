@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spipu\Html2Pdf\Html2Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -12,19 +14,28 @@ class MonitoringRincianController extends Controller
 
     public function index()
     {
-        $token= Http::asForm()->post('https://sso.kemenkeu.go.id/connect/token',[
-            'client_secret'=>'90bf0617c2fd45d5a35b288002fc9ece',
-            'client_id' =>'alika.djkn',
-            'grant_type'=>'client_credentials'
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
         ]);
         $accesstoken = json_decode($token, false)->access_token;
 
         if (request('search')) {
-            $pegawai = Http::withToken($accesstoken)->get('https://service.kemenkeu.go.id/hris/profil/Pegawai/GetByNip/'.request('search'));
-            $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->where('KdSatker', 411792);
+            $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.request('search'));
+            $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->where('KdSatker', auth()->user()->kdsatker);
         }else{
-            $pegawai = Http::withToken($accesstoken)->get('https://service.kemenkeu.go.id/hris/profil/pegawai/getByKodeSatker',[
-                "kdSatker"=>411792,
+            $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/pegawai/getByKodeSatker',[
+                "kdSatker"=>auth()->user()->kdsatker,
             ]);
             $pegawai_Collection = Collect(json_decode($pegawai, false)->Data)->where('StatusPegawai','Aktif')->sortBy([['Grading', 'desc'],['KodeOrganisasi', 'asc']])->values();
         };
@@ -38,6 +49,32 @@ class MonitoringRincianController extends Controller
 
     public function penghasilan($nip=null, $thn=null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
+        ]);
+        $accesstoken = json_decode($token, false)->access_token;
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
+        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
+            return abort(403);
+        }
+
         if ($thn) {
             $thn = $thn;
         }else{
@@ -56,7 +93,7 @@ class MonitoringRincianController extends Controller
         ]);
 
         return view('monitoring.rincian.penghasilan.index',[
-            "pageTitle"=>"Penghasilan",
+            "pageTitle"=>"Penghasilan ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
             "data"=>collect(json_decode($data, false)),
             "tahun"=>json_decode($tahun, false),
             'nip'=>$nip,
@@ -66,6 +103,32 @@ class MonitoringRincianController extends Controller
 
     public function gaji($nip=null, $thn=null, $jns=null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
+        ]);
+        $accesstoken = json_decode($token, false)->access_token;
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
+        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
+            return abort(403);
+        }
+
         if (!$thn) {
             $thn= date('Y');
         }
@@ -101,7 +164,7 @@ class MonitoringRincianController extends Controller
         ]);
 
         return view('monitoring.rincian.gaji',[
-            "pageTitle"=>"Gaji",
+            "pageTitle"=>"Gaji ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
             "tahun"=>json_decode($tahun. false),
             "data"=>collect(json_decode($data, false)),
             "thn"=>$thn,
@@ -112,6 +175,32 @@ class MonitoringRincianController extends Controller
 
     public function uang_makan($nip = null, $thn = null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
+        ]);
+        $accesstoken = json_decode($token, false)->access_token;
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
+        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
+            return abort(403);
+        }
+
         if (!$thn) {
             $thn=date('Y');
         }
@@ -128,7 +217,7 @@ class MonitoringRincianController extends Controller
         ]);
 
         return view('monitoring.rincian.uang_makan',[
-            "pageTitle"=>"Uang Makan",
+            "pageTitle"=>"Uang Makan ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
             'data'=> collect(json_decode($data), false),
             'nip'=>$nip,
             'thn'=>$thn,
@@ -138,6 +227,32 @@ class MonitoringRincianController extends Controller
 
     public function uang_lembur($nip = null, $thn = null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
+        ]);
+        $accesstoken = json_decode($token, false)->access_token;
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
+        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
+            return abort(403);
+        }
+
         if (!$thn) {
             $thn=date('Y');
         }
@@ -153,7 +268,7 @@ class MonitoringRincianController extends Controller
             'X-API-KEY' => config('alika.key')
         ]);
         return view('monitoring.rincian.uang_lembur',[
-            "pageTitle"=>"Uang Lembur",
+            "pageTitle"=>"Uang Lembur ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
             'data'=> collect(json_decode($data), false),
             'nip'=>$nip,
             'thn'=>$thn,
@@ -163,6 +278,32 @@ class MonitoringRincianController extends Controller
 
     public function tunjangan_kinerja($nip = null, $thn = null, $jns = null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
+        ]);
+        $accesstoken = json_decode($token, false)->access_token;
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
+        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
+            return abort(403);
+        }
+
         switch ($jns) {
             case 'rutin':
                 $jenis=0;
@@ -194,7 +335,7 @@ class MonitoringRincianController extends Controller
         ]);
 
         return view('monitoring.rincian.tunjangan_kinerja',[
-            "pageTitle"=>"Tunjangan Kinerja",
+            "pageTitle"=>"Tunjangan Kinerja ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
             'tahun'=>json_decode($tahun,false),
             'data'=>collect(json_decode($data,false)),
             'nip'=>$nip,
@@ -205,6 +346,32 @@ class MonitoringRincianController extends Controller
 
     public function lainnya($nip = null, $thn = null, $jns = null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
+        ]);
+        $accesstoken = json_decode($token, false)->access_token;
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
+        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
+            return abort(403);
+        }
+
         if (!$thn) {
             $thn=date('Y');
         }
@@ -233,7 +400,7 @@ class MonitoringRincianController extends Controller
         ]);
 
         return view('monitoring.rincian.lainnya.index',[
-            "pageTitle"=>"Lainnya",
+            "pageTitle"=>"Lainnya ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
             'tahun'=>json_decode($tahun, false),
             'jenis'=>json_decode($jenis, false),
             'data'=>collect(json_decode($data, false)),
@@ -245,6 +412,32 @@ class MonitoringRincianController extends Controller
 
     public function lainnya_detail($nip, $thn, $jns, $bln)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        $token= Http::asForm()->post(config('hris.token_uri'),[
+            'client_secret'=>config('hris.secret'),
+            'client_id' =>config('hris.id'),
+            'grant_type'=>config('hris.grant')
+        ]);
+        $accesstoken = json_decode($token, false)->access_token;
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
+        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
+            return abort(403);
+        }
+        
         $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-detail-lain',[
             'nip' => $nip,
             'thn'=>$thn,
@@ -254,7 +447,7 @@ class MonitoringRincianController extends Controller
         ]);
 
         return view('monitoring.rincian.lainnya.detail',[
-            "pageTitle"=>"Detail",
+            "pageTitle"=>"Detail ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
             'data'=>collect(json_decode($data, false)),
             'nip' => $nip,
             'thn'=>$thn,
@@ -264,6 +457,15 @@ class MonitoringRincianController extends Controller
 
     public function penghasilan_daftar()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         ob_start();
         $html = ob_get_clean();
         $html2pdf = new Html2Pdf('L', 'A4', 'en', false, 'UTF-8', array(10, 10, 10, 10));
@@ -275,6 +477,15 @@ class MonitoringRincianController extends Controller
 
     public function penghasilan_surat()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['opr_monitoring', 'plt_admin_satker'];
+        }else{
+            $gate=['admin_satker'];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         ob_start();
         $html = ob_get_clean();
         $html2pdf = new Html2Pdf('P', 'A4', 'en', false, 'UTF-8', array(10, 10, 10, 10));

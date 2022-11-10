@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\User;
+use App\Models\adminSatker;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +30,25 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('admin_satker', function (adminSatker $user) {
+            return true ;
+        });
+        
+        Gate::define('sys_admin', function (User $user) {
+            return $user->is('01') === true && $user->kdsatker === '411792';
+        });
+        
+        
+        Gate::define('plt_admin_satker', function (User $user) {
+            return $user->is('02');
+        });
+
+        Gate::define('opr_monitoring', function (User $user) {
+            return $user->is('03');
+        });
+
+        Gate::define('opr_belanja_51', function (User $user) {
+            return $user->is('04');
+        });
     }
 }

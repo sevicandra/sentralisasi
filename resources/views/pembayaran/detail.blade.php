@@ -7,7 +7,7 @@
     <div id="main-content-header">
         <div class="row">
             <div class="col-lg-12">
-                <a href="/pembayaran/index/{{ $thn }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
+                <a href="/belanja-51/index/{{ $thn }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
             </div>
         </div>
     </div>

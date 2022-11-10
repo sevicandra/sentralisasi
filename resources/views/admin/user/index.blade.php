@@ -46,7 +46,7 @@
                                         <a href="/admin/user/{{$item->nip}}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Ubah</a>
                                         @csrf
                                         @method('DELETE')
-                                        <button onsubmit="return confirm('Apakah Anda yakin akan Menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0" >Hapus</button>
+                                        <button onclick="return confirm('Apakah Anda yakin akan Menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0" >Hapus</button>
                                     </div>
                                 </td>
                             </form>

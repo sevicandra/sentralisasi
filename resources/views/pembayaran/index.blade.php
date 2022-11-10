@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @foreach ($tahun as $item)
-                            <a href="{{ config('app.url') }}/pembayaran/index/{{ $item }}" class="btn btn-sm btn-outline-success @if ($item === $thn) active @endif ml-1 mt-1 mb-1">{{ $item }}</a>
+                            <a href="{{ config('app.url') }}/belanja-51/index/{{ $item }}" class="btn btn-sm btn-outline-success @if ($item === $thn) active @endif ml-1 mt-1 mb-1">{{ $item }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                                         <td>{{ $uangMakan->where('bulan', $i)->count() }}</td>
                                         <td>
                                             @if ($uangMakan->where('bulan', $i)->count() > 0)
-                                            <a href="/pembayaran/uang-makan/{{ $thn }}/{{ $uangMakan->where('bulan', $i)->first()->bulan }}/detail"><i class="bi bi-search"></i></a>
+                                            <a href="/belanja-51/uang-makan/{{ $thn }}/{{ $uangMakan->where('bulan', $i)->first()->bulan }}/detail"><i class="bi bi-search"></i></a>
                                             @endif
                                         </td>
                                     </tr>
@@ -70,7 +70,7 @@
                                         <td>{{ $uangLembur->where('bulan', $i)->count() }}</td>
                                         <td>
                                             @if ($uangLembur->where('bulan', $i)->count() > 0)
-                                            <a href="/pembayaran/uang-lembur/{{ $thn }}/{{ $uangLembur->where('bulan', $i)->first()->bulan }}/detail"><i class="bi bi-search"></i></a>
+                                            <a href="/belanja-51/uang-lembur/{{ $thn }}/{{ $uangLembur->where('bulan', $i)->first()->bulan }}/detail"><i class="bi bi-search"></i></a>
                                             @endif
                                         </td>
                                     </tr>

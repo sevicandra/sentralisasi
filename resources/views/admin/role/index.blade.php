@@ -37,7 +37,7 @@
                             <td> {{$item->role}} </td>
                             <td class="pb-0 pr-0">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="" class="btn btn-sm btn-outline-secondary pt-0 pb-0">ubah</a>
+                                    <a href="{{ config('app.url') }}/admin/role/{{ $item->id }}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">ubah</a>
                                 </div>
                             </td>
                         </tr>

@@ -15,13 +15,15 @@
 <body>
     <header class="header">
         <div class="title">
-            <span>ALIKA SENTRALISASI</span>
+            <a style="text-decoration: none;color:white" href="{{ config('app.url') }}">
+                <span>ALIKA SENTRALISASI</span>
+            </a>
         </div>
         <div class="profil dropdown">
-            <img src="/img/profil.jpg" alt="" class="" style="border-radius: 50%; height:40px; width: 40px; object-fit:cover">
-            <span class="profil-name">SEVI CANDRA SUNARSO</span>
+            <img src="{{ session()->get('gravatar') }}" alt="" class="" style="border-radius: 50%; height:40px; width: 40px; object-fit:cover">
+            <span class="profil-name">{{ session()->get('name') }}</span>
             <div class="dropdown-content">
-                <a href="#">
+                <a href="{{ config('app.url') }}/logout">
                     <img src="/img/ico/logout.png" alt="" height="25px">
                     <span>Logout</span>
                 </a>

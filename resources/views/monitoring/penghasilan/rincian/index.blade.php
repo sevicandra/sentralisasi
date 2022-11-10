@@ -37,9 +37,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $i=1;
+                    @endphp
+                    @if (request('page'))
+                        @php
+                            $i=(request('page')-1)*15+1
+                        @endphp
+                    @endif
                     @foreach ($data as $item)
                     <tr>
-                        <td></td>
+                        <td>{{ $i++ }}</td>
                         <td>{{ $item->Nip18 }}</td>
                         <td>{{ $item->Nama }}</td>
                         <td class="pb-0 pr-0">

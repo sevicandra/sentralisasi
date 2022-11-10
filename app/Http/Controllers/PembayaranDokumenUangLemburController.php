@@ -4,13 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\satker;
 use Illuminate\Http\Request;
+
 use App\Models\dokumenUangLembur;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
 class PembayaranDokumenUangLemburController extends Controller
 {
     public function index($thn=null, $bln=null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         if (!$thn) {
             $thn=date('Y');
         }
@@ -29,10 +41,20 @@ class PembayaranDokumenUangLemburController extends Controller
         ]);
     }
 
-    public function detail($thn, $bln)
+    public function detail($kdsatker, $thn, $bln)
     {
-        $kdsatker=411792;
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
         $data = dokumenUangLembur::uangLembur($kdsatker, $thn, $bln)->get();
+
         return view('pembayaran.dokumen_uang_lembur.detail',[
             'data'=>$data,
             'thn'=>$thn,
@@ -42,6 +64,15 @@ class PembayaranDokumenUangLemburController extends Controller
 
     public function reject(dokumenUangLembur $dokumenUangLembur)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         if (!$dokumenUangLembur->terkirim) {
             return abort(403);
         }

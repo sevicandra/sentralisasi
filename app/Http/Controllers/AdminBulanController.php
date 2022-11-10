@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\bulan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 class AdminBulanController extends Controller
 {
     public function index()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         return view('admin.bulan.index',[
             'data'=>bulan::orderBy('bulan')->get()
         ]);
@@ -16,11 +28,29 @@ class AdminBulanController extends Controller
 
     public function create()
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         return view('admin.bulan.create');
     }
 
     public function store(Request $request)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         $request->validate([
             'bulan'=>'required|numeric',
             'nmbulan'=>'required'
@@ -34,6 +64,15 @@ class AdminBulanController extends Controller
 
     public function edit(bulan $bulan)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         return view('admin.bulan.edit',[
             'data'=>$bulan
         ]);
@@ -41,6 +80,15 @@ class AdminBulanController extends Controller
 
     public function update(Request $request, bulan $bulan)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin', 'plt_admin_satker'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         $request->validate([
             'bulan'=>'required|numeric',
             'nmbulan'=>'required'

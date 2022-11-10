@@ -44,19 +44,24 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-12 ">
-                      <div class="form-group">
-                        <label for="jumlah">Kode Satker:</label>
-                        <input type="text" name="kdsatker" class="form-control @error('nip') is-invalid @enderror" value="{{ old('kdsatker') }}">
-                        @error('kdsatker')
-                          <div class="invalid-feedback">
-                            {{$message}}
+                  @if (Auth::guard('web')->check())
+                      @can('sys_admin', auth()->user()->id)
+                      <div class="row">
+                        <div class="col-lg-12 ">
+                          <div class="form-group">
+                            <label for="jumlah">Kode Satker:</label>
+                            <input type="text" name="kdsatker" class="form-control @error('nip') is-invalid @enderror" value="{{ old('kdsatker') }}">
+                            @error('kdsatker')
+                              <div class="invalid-feedback">
+                                {{$message}}
+                              </div>
+                            @enderror
                           </div>
-                        @enderror
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                      @endcan
+                  @endif
+                  
                   <div class="row">
                     <div class="col-lg-12 ">
                       <div class="form-group">

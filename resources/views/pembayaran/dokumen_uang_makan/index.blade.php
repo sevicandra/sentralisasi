@@ -13,12 +13,12 @@
                 <form action="" method="post">
                   <div class="card-header">
                     @foreach ($tahun as $item)
-                      <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-makan/{{ $item }}" class="btn btn-outline-secondary @if ($item === $thn) active @endif mr-1">{{ $item }}</a>
+                      <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item }}" class="btn btn-outline-secondary @if ($item === $thn) active @endif mr-1">{{ $item }}</a>
                     @endforeach
                   </div>
                   <div class=" card-body">
                     @foreach ($bulan as $item)
-                      <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-makan/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
+                      <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
                     @endforeach
                     <div class="table-responsive">
                       <table class="table table-sm table-bordered table-hover">
@@ -50,7 +50,7 @@
                               @endphp
                               <td>
                                 @if ($item->dokumenUangMakan($thn, $bln)->count()>0)
-                                <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-makan/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
+                                <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
                                 @endif
                               </td>
                               <td>

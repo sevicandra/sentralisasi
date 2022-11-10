@@ -13,10 +13,10 @@
                   <div class="card-header" style="display: flex; justify-content:space-between">
                     <div>
                         @foreach ($tahun as $item)
-                          <a href="{{ config('app.url') }}/pembayaran/uang-lembur/index/{{ $item }}" class="btn btn-outline-secondary @if (!$thn && $item === date('Y') || $item === $thn) active @endif mr-1">{{ $item }}</a>
+                          <a href="{{ config('app.url') }}/belanja-51/uang-lembur/index/{{ $item }}" class="btn btn-outline-secondary @if (!$thn && $item === date('Y') || $item === $thn) active @endif mr-1">{{ $item }}</a>
                         @endforeach
                     </div>
-                    <a href="/pembayaran/uang-lembur/create" class="btn btn-outline-secondary mr-2" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="bi bi-plus"></i></a>
+                    <a href="/belanja-51/uang-lembur/create" class="btn btn-outline-secondary mr-2" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="bi bi-plus"></i></a>
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">
@@ -48,12 +48,12 @@
                                 <?php if ($item->terkirim) : ?>
                                   <span class="text-primary">terkirim</span>
                                 <?php else : ?>
-                                <form action="/pembayaran/uang-lembur/{{ $item->id }}/delete" method="post">
+                                <form action="/belanja-51/uang-lembur/{{ $item->id }}/delete" method="post">
                                   @csrf
                                   @method('DELETE')
-                                  <a href="/pembayaran/uang-lembur/{{ $item->id }}/edit" data-toggle="tooltip" data-placement="bottom" title="Ubah" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-pencil-square"></i></a>
+                                  <a href="/belanja-51/uang-lembur/{{ $item->id }}/edit" data-toggle="tooltip" data-placement="bottom" title="Ubah" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-pencil-square"></i></a>
                                   <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-trash"></i></button>
-                                  <a href="/pembayaran/uang-lembur/{{ $item->id }}/kirim" data-toggle="tooltip" data-placement="bottom" title="Kirim" onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-send"></i></a>
+                                  <a href="/belanja-51/uang-lembur/{{ $item->id }}/kirim" data-toggle="tooltip" data-placement="bottom" title="Kirim" onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');" class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="nav-icon bi bi-send"></i></a>
                                 </form>
                                 <?php endif; ?>
                               </td>

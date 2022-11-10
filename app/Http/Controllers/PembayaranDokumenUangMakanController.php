@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\satker;
 use Illuminate\Http\Request;
 use App\Models\dokumenUangMakan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PembayaranDokumenUangMakanController extends Controller
 {
     public function index($thn=null, $bln=null)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         if (!$thn) {
             $thn=date('Y');
         }
@@ -28,9 +39,18 @@ class PembayaranDokumenUangMakanController extends Controller
         ]);
     }
 
-    public function detail($thn, $bln)
+    public function detail($kdsatker, $thn, $bln)
     {
-        $kdsatker=411792;
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
         $data = dokumenUangMakan::uangMakan($kdsatker, $thn, $bln)->get();
         return view('pembayaran.dokumen_uang_makan.detail',[
             'data'=>$data,
@@ -41,6 +61,15 @@ class PembayaranDokumenUangMakanController extends Controller
 
     public function reject(dokumenUangMakan $dokumenUangMakan)
     {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
         if (!$dokumenUangMakan->terkirim) {
             return abort(403);
         }

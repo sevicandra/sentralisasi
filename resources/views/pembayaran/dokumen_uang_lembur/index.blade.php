@@ -13,12 +13,12 @@
                 <form action="" method="post">
                   <div class="card-header">
                     @foreach ($tahun as $item)
-                    <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-lembur/{{ $item }}" class="btn btn-outline-secondary @if ($item === $thn) active @endif mr-1">{{ $item }}</a>
+                    <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $item }}" class="btn btn-outline-secondary @if ($item === $thn) active @endif mr-1">{{ $item }}</a>
                   @endforeach
                   </div>
                   <div class=" card-body">
                     @foreach ($bulan as $item)
-                      <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-lembur/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
+                      <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
                     @endforeach
                     <div class="table-responsive">
                       <table class="table table-sm table-bordered table-hover">
@@ -46,11 +46,11 @@
                               <td>{{ $item->dokumenUangLembur($thn, $bln)->count() }}</td>
                               <td>{{ $item->dokumenUangLembur($thn, $bln)->sum('jmlpegawai') }}</td>
                               @php
-                                $totpeg += $item->dokumenUangMakan($thn, $bln)->sum('jmlpegawai');
+                                $totpeg += $item->dokumenUangLembur($thn, $bln)->sum('jmlpegawai');
                               @endphp
                               <td>
-                                @if ($item->dokumenUangMakan($thn, $bln)->count()>0)
-                                  <a href="{{ config('app.url') }}/pembayaran/dokumen-uang-lembur/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
+                                @if ($item->dokumenUangLembur($thn, $bln)->count()>0)
+                                  <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
                                 @endif
                               </td>
                               <td>

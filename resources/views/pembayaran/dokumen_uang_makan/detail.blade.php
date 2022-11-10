@@ -6,7 +6,7 @@
     <div id="main-content-header">
       <div class="row">
         <div class="col-lg-12">
-          <a href="/pembayaran/dokumen-uang-makan/{{ $thn }}/{{ $bln }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
+          <a href="/belanja-51/dokumen-uang-makan/{{ $thn }}/{{ $bln }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
         </div>
         @include('layout.flashmessage')
       </div>
@@ -61,7 +61,7 @@
                           </td>
                           <td>
                             @if ($item->terkirim)
-                            <form action="/pembayaran/dokumen-uang-makan/{{ $item->id }}" method="post">
+                            <form action="/belanja-51/dokumen-uang-makan/{{ $item->id }}" method="post">
                               @csrf
                               @method('DELETE')
                               <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0"><i class="bi bi-send-x"></i></button>
