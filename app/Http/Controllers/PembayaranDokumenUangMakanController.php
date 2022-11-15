@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\dokumenUangMakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class PembayaranDokumenUangMakanController extends Controller
 {
@@ -75,5 +76,23 @@ class PembayaranDokumenUangMakanController extends Controller
         }
         $dokumenUangMakan->update(['terkirim'=>false]);
         return Redirect()->back()->with('berhasil', 'Data berhasil dikembalikan.');
+    }
+
+    public function dokumen(dokumenUangMakan $dokumenUangMakan)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        
+        return response()->file(Storage::path($dokumenUangMakan->file),[
+            'Content-Type' => 'application/pdf',
+        ]);
+
     }
 }

@@ -245,4 +245,31 @@ class PembayaranUangMakanController extends Controller
         ]);
         return Redirect('/belanja-51/uang-makan/index')->with('berhasil', 'data berhasil di kirim');
     }
+
+    public function dokumen(dokumenUangMakan $dokumenUangMakan)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate2=['sys_admin'];
+        }else{
+            $gate=['admin_satker'];
+            $gate2=[];
+
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any($gate2, auth()->user()->id)) {
+                abort(403);
+            }
+            return Redirect('/belanja-51/dokumen-uang-makan');
+        }
+
+        if ($dokumenUangMakan->kdsatker != auth()->user()->kdsatker) {
+            abort(403);
+        }
+        
+        return response()->file(Storage::path($dokumenUangMakan->file),[
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
 }

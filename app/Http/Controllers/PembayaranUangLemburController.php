@@ -249,4 +249,32 @@ class PembayaranUangLemburController extends Controller
         ]);
         return Redirect('/belanja-51/uang-lembur/index')->with('berhasil', 'data berhasil di kirim');
     }
+
+    public function dokumen(dokumenUangLembur $dokumenUangLembur)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate2=['sys_admin'];
+        }else{
+            $gate=['admin_satker'];
+            $gate2=[];
+
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any($gate2, auth()->user()->id)) {
+                abort(403);
+            }
+            return Redirect('/monitoring/dokumen-uang-makan');
+        }
+
+        if ($dokumenUangLembur->kdsatker != auth()->user()->kdsatker) {
+            abort(403);
+        }
+        
+        return response()->file(Storage::path($dokumenUangLembur->file),[
+            'Content-Type' => 'application/pdf',
+        ]);
+
+    }
 }

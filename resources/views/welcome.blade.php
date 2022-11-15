@@ -35,8 +35,8 @@
 	<main>
 		<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center">
 			<div class="col-md-6 p-lg-5 mx-auto my-5">
-				<h1 class="display-4 font-weight-normal">Hai!, Selamat Datang di Monev Tagihan.</h1>
-				<p class="font-weight-light mt-4">Dengan alat bantu monev perbendaharaan, kami hadirkan kemudahan dalam mengakses informasi pelaksanaan anggaran di layar Anda.</p>
+				<h1 class="display-4 font-weight-normal">Hai!, Selamat Datang di Alika Sentralisasi.</h1>
+				<p class="font-weight-light mt-4">Dengan alat bantu sentalisasi, kami hadirkan kemudahan dalam mengakses informasi pelaksanaan belanja pegawai.</p>
 				@include('layout.flashmessage')
 				<a class="btn btn-outline-primary mb-3" href="/sso">Login Menggunakan Kemenkeu ID</a>
 			</div>

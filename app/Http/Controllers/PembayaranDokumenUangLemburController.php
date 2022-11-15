@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\dokumenUangLembur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
 class PembayaranDokumenUangLemburController extends Controller
@@ -78,5 +79,24 @@ class PembayaranDokumenUangLemburController extends Controller
         }
         $dokumenUangLembur->update(['terkirim'=>false]);
         return Redirect()->back()->with('berhasil', 'Data berhasil dikembalikan.');
+    }
+
+    public function dokumen(dokumenUangLembur $dokumenUangLembur)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+
+        
+        return response()->file(Storage::path($dokumenUangLembur->file),[
+            'Content-Type' => 'application/pdf',
+        ]);
+
     }
 }

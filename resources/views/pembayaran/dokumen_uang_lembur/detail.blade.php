@@ -43,9 +43,14 @@
                           <td>{{ $item->jmlpegawai }}</td>
                           <td>{{ $item->keterangan }}</td>
                           <td>
-                            <a href="{{ Storage::url($item->file) }}" target="_blank" class="btn btn-sm btn-outline-primary pt-0 pb-0">
+                            <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen" method="post" target="_blank">
+                              @csrf
+                              @method('patch')
+                              <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
+                            </form>
+                            {{-- <a href="" target="_blank" class="btn btn-sm btn-outline-primary pt-0 pb-0">
                               <i class="bi bi-filetype-pdf"></i>
-                            </a>    
+                            </a>     --}}
                           <td>
                             @if ($item->terkirim)
                             <span class="text-primary">terkirim</span>
@@ -64,7 +69,7 @@
                             <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}" method="post">
                               @csrf
                               @method('DELETE')
-                              <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0"><i class="bi bi-send-x"></i></button>
+                              <button onclick="return confirm('Apakah Anda yakin akan menolak data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0"><i class="bi bi-send-x"></i></button>
                             </form>ß
                             @endif
                           </td>
