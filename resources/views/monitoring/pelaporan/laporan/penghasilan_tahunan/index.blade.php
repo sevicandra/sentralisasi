@@ -10,7 +10,7 @@
                 <div class="row mb-3">
                     <div class="col-lg-8">
                         @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/laporan/penghasilan-tahunan/{{ $nip }}/{{ $item->tahun }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1 @if ($thn === $item->tahun) active @endif">{{ $item->tahun }}</a>
+                        <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/penghasilan-tahunan/{{ $nip }}/{{ $item->tahun }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1 @if ($thn === $item->tahun) active @endif">{{ $item->tahun }}</a>
                         @endforeach
                     </div>
                 </div>

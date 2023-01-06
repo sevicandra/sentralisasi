@@ -25,12 +25,12 @@
     <span>Rincian</span>
 </a>
 </div>
-{{-- <div>
+<div>
     <a href="/monitoring/laporan">
         <span></span>
         <span>Laporan</span>
     </a>
-</div> --}}
+</div>
 @endcan
     
 
@@ -45,11 +45,11 @@
         <span>Penghasilan</span>
     </a>
 </div>
-{{-- <div>
+<div>
 <a href="/monitoring/pelaporan">
     <span></span>
     <span>Pelaporan</span>
 </a>
-</div> --}}
+</div>
 @endcan    
 @endif

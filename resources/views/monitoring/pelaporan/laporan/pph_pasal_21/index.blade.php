@@ -10,13 +10,13 @@
                 <div class="row mb-3">
                     <div class="col-lg-8">
                         @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/laporan/pph-pasal-21/{{ $nip }}/{{ $item->tahun }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1 @if ($thn === $item->tahun) active @endif">{{ $item->tahun }}</a>
+                        <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21/{{ $nip }}/{{ $item->tahun }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1 @if ($thn === $item->tahun) active @endif">{{ $item->tahun }}</a>
                         @endforeach
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-lg-8">
-                        <a href="{{ config('app.url') }}/monitoring/laporan/pph-pasal-21/{{ $nip }}/{{ $thn }}/cetak" class="btn btn-sm btn-outline-success">Download Form 1721-A2</a>
+                        <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21/{{ $nip }}/{{ $thn }}/cetak" class="btn btn-sm btn-outline-success">Download Form 1721-A2</a>
                     </div>
                 </div>
             </div>

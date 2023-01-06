@@ -37,22 +37,27 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $i=1;
+                    @endphp
+                    @foreach ($data as $item)
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $i++ }}</td>
+                            <td>{{ $item->kdsatker }}</td>
+                            <td>{{ $item->nmsatker }}</td>
                             <td class="pb-0 pr-0">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="/monitoring/pelaporan/satker" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Pegawai</a>
+                                    <a href="/monitoring/pelaporan/{{ $item->kdsatker }}" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Pegawai</a>
                                 </div>
                             </td>
                         </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
     <div id="paginator">
-        {{-- {{$data->links()}} --}}
+        {{$data->links()}}
     </div>
 
 

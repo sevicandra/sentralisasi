@@ -10,7 +10,7 @@
                 <div class="row mb-3">
                     <div class="col-lg-8">
                         @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/laporan/pph-pasal-21-final/{{ $nip }}/{{ $item->tahun }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1 @if ($thn === $item->tahun) active @endif">{{ $item->tahun }}</a>
+                        <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21-final/{{ $nip }}/{{ $item->tahun }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1 @if ($thn === $item->tahun) active @endif">{{ $item->tahun }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                             @endforeach
                             <tr>
                                 <td colspan="2">
-                                    <a href="{{ config('app.url') }}/monitoring/laporan/pph-pasal-21-final/{{ $nip }}/{{ $thn }}/cetak" class="btn btn-sm btn-outline-success">Download Form 1721-VII</a>
+                                    <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21-final/{{ $nip }}/{{ $thn }}/cetak" class="btn btn-sm btn-outline-success">Download Form 1721-VII</a>
                                 </td>
                                 <td class="text-right">{{ number_format($makan->jumlah_bruto + $lembur->jumlah_bruto+$j1, 0, ',', '.') }}</td>
                                 <td class="text-right">{{ number_format($makan->jumlah_pph +  $lembur->jumlah_pph+$j2, 0, ',', '.')}}</td>
