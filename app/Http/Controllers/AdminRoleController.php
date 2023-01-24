@@ -14,7 +14,7 @@ class AdminRoleController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -30,7 +30,7 @@ class AdminRoleController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -44,7 +44,7 @@ class AdminRoleController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -68,7 +68,7 @@ class AdminRoleController extends Controller
     public function edit(role $role)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -84,7 +84,7 @@ class AdminRoleController extends Controller
     public function update(Request $request, role $role)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }

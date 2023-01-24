@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/layout.css">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="/img/alika.png" type=" image/x-icon">
     @section('head')
         
     @show

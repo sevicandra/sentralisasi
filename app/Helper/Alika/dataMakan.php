@@ -5,7 +5,7 @@ namespace App\Helper\Alika;
 use Illuminate\Support\Facades\Http;
 
 
-class DataMakan
+class dataMakan
 {
     public static function getPph($nip, $thn)
     {

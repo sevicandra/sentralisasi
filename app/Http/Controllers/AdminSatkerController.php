@@ -13,7 +13,7 @@ class AdminSatkerController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -29,7 +29,7 @@ class AdminSatkerController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -43,7 +43,7 @@ class AdminSatkerController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -99,7 +99,7 @@ class AdminSatkerController extends Controller
     public function edit(satker $satker)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -115,7 +115,7 @@ class AdminSatkerController extends Controller
     public function update(Request $request,satker $satker)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin'];
         }else{
             $gate=[];
         }
@@ -203,5 +203,20 @@ class AdminSatkerController extends Controller
             }
             return Redirect('/admin/satker')->with('berhasil', 'data berhasil ditambah');
         }
+    }
+
+    public function delete(satker $satker)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        $satker->delete();
+        return redirect('/admin/satker')->with('berhasil', 'data berhasil dihapus');
     }
 }

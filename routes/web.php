@@ -92,6 +92,8 @@ Route::controller(MonitoringPenghasilanController::class)->group(function(){
     Route::get('/monitoring/penghasilan', 'index')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/penghasilan', 'satker_penghasilan')->middleware('auth:web,admin');
+    Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/penghasilan/{thn}', 'satker_penghasilan')->middleware('auth:web,admin');
+    // Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/penghasilan/{nip}/{thn}', 'satker_penghasilan')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji', 'satker_gaji')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}', 'satker_gaji')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/gaji/{thn}/{jns}', 'satker_gaji')->middleware('auth:web,admin');
@@ -209,6 +211,7 @@ Route::controller(AdminSatkerController::class)->group(function(){
     Route::post('/admin/satker/store', 'store')->middleware('auth:web,admin');
     Route::get('/admin/satker/{satker:kdsatker}/edit', 'edit')->middleware('auth:web,admin');
     Route::patch('/admin/satker/{satker:kdsatker}', 'update')->middleware('auth:web,admin');
+    Route::delete('/admin/satker/{satker:kdsatker}', 'delete')->middleware('auth:web,admin');
     
 });
 
@@ -228,3 +231,4 @@ Route::controller(AdminAdminSatkerController::class)->group(function(){
     Route::patch('admin/admin-satker/{adminSatker}', 'update')->middleware('auth:web,admin');
     Route::delete('admin/admin-satker/{adminSatker}', 'delete')->middleware('auth:web,admin');
 });
+

@@ -5,7 +5,7 @@ namespace App\Helper\Alika;
 use Illuminate\Support\Facades\Http;
 
 
-class DataLembur
+class dataLembur
 {
     public static function getPph($nip, $thn)
     {

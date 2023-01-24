@@ -4,7 +4,7 @@ namespace App\Helper\Alika;
 
 use Illuminate\Support\Facades\Http;
 
-class Gaji
+class gaji
 {
     public static function getGaji($nip, $thn)
     {

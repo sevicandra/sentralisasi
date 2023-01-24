@@ -39,7 +39,14 @@
                             <td> {{$item->kdkoordinator}} </td>
                             <td class="pb-0 pr-0">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="/admin/satker/{{$item->kdsatker}}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Ubah</a>
+                                    <div>
+                                        <a href="/admin/satker/{{$item->kdsatker}}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Ubah</a>
+                                    </div>
+                                    <form action="/admin/satker/{{$item->kdsatker}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">Hapus</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

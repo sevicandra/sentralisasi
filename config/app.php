@@ -212,4 +212,5 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'version'=>env('ENV_VERSION', '1.0.1')
 ];

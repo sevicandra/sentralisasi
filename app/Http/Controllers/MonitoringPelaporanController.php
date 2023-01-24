@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Helper\hris;
 use App\Models\satker;
 use App\Helper\Alika\spt;
-use Illuminate\Http\Request;
 use Spipu\Html2Pdf\Html2Pdf;
 use App\Helper\Alika\dataLain;
 use App\Helper\Alika\dataMakan;
@@ -15,7 +14,6 @@ use App\Helper\Alika\penghasilan;
 use App\Helper\Alika\satkerAlika;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class MonitoringPelaporanController extends Controller

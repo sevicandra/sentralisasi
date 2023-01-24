@@ -63,7 +63,7 @@
                           </td>
                           <td>
                             @if ($item->terkirim)
-                            <form action="/belanja-51/dokumen-uang-makan/dokumen/{{ $item->id }}" method="post">
+                            <form action="/belanja-51/dokumen-uang-makan/{{ $item->id }}" method="post">
                               @csrf
                               @method('DELETE')
                               <button onclick="return confirm('Apakah Anda yakin akan menolak data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0"><i class="bi bi-send-x"></i></button>
