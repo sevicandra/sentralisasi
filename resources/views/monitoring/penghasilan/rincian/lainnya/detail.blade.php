@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="row">
                     <div class="col-lg-12">
-                        <a href="/monitoring/rincian/{{ $nip }}/lainnya/{{ $thn }}/{{ $jns }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
+                        <a href="/monitoring/penghasilan/{{ $satker->kdsatker }}/{{ $nip }}/lainnya/{{ $thn }}/{{ $jns }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
                     </div>
                 </div>
             </div>
