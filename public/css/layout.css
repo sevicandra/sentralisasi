@@ -43,6 +43,12 @@ header{
     align-items: center;
 }
 
+.mobile-title{
+    font-size: 24px;
+    display: none;
+    align-items: center;
+}
+
 .header{
     display: flex;
     align-items: stretch;
@@ -132,8 +138,8 @@ header{
     .title{
         display: none;
     }
-    .header{
-        flex-direction: row-reverse;
+    .mobile-title{
+        display: flex;
     }
     #search-input{
         width: 150px;

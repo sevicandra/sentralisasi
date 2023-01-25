@@ -20,6 +20,11 @@
                 <span>ALIKA SENTRALISASI</span>
             </a>
         </div>
+        <div class="mobile-title">
+            <a style="text-decoration: none;color:white" href="{{ config('app.url') }}">
+                <img src="/img/alika.png" alt="logo alika" height="24px">
+            </a>
+        </div>
         <div class="profil dropdown">
             <img src="{{ session()->get('gravatar') }}" alt="" class="" style="border-radius: 50%; height:40px; width: 40px; object-fit:cover">
             <span class="profil-name">{{ session()->get('name') }}</span>
