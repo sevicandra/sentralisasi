@@ -38,7 +38,6 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is('01') === true && $user->kdsatker === '411792';
         });
         
-        
         Gate::define('plt_admin_satker', function (User $user) {
             return $user->is('02');
         });

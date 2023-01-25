@@ -36,6 +36,7 @@ class role extends Model
             if (! Gate::allows('sys_admin', auth()->user()->id)) {
                 return  $data->where('kode', '!=', '02')->where('kode', '!=', '01');
             }
+            return  $data;
         }
         return  $data->where('kode', '!=', '02')->where('kode', '!=', '01');
     }
