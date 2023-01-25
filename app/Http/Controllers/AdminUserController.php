@@ -285,7 +285,7 @@ class AdminUserController extends Controller
         }
         return view('admin.user.role.index',[
             'data'=>$user,
-            'role'=>$user->role
+            'role'=>$user->role()->sysAdmin()->get(),
         ]);
     }
 
@@ -316,13 +316,13 @@ class AdminUserController extends Controller
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                 abort(403);
             }
         }
@@ -336,13 +336,13 @@ class AdminUserController extends Controller
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                 abort(403);
             }
         }
