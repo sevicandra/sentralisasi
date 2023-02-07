@@ -49,5 +49,13 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('opr_belanja_51', function (User $user) {
             return $user->is('04');
         });
+
+        Gate::define('opr_honor', function (User $user) {
+            return $user->is('05');
+        });
+
+        Gate::define('adm_server', function (User $user) {
+            return $user->is('06') && $user->is('01') === true && $user->kdsatker === '411792';
+        });
     }
 }

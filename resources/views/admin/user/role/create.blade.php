@@ -21,7 +21,6 @@
                 <thead class="text-center">
                     <tr class="align-middle">
                         <th>No</th>
-                        <th>Kode Role</th>
                         <th>Role</th>
                         <th>Aksi</th>
                     </tr>
@@ -33,7 +32,6 @@
                     @foreach ($role as $item)
                         <tr>
                             <td> {{$i}} </td>
-                            <td> {{$item->kode}} </td>
                             <td> {{$item->role}} </td>
                             <form action="/admin/user/{{$data->nip}}/role/{{$item->id}}" method="post" onsubmit="return confirm('Apakah Anda yakin akan menambah role ini?');">
                                 <td class="pb-0 pr-0">

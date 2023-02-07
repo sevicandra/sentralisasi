@@ -208,11 +208,11 @@
                 <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ $kdgol == 'III' ? '5%' : ($kdgol == 'IV' ? '15%' : '0%')}}</td>
                 <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($item->jumlah_pph, 0, ',', '.')}}</td>
             </tr>
-        @endforeach
         @php
             $j1 += $item->jumlah_bruto;
             $j2 += $item->jumlah_pph;
         @endphp
+        @endforeach
         <tr>
             <td class="angka" style="padding-left:15px; padding-top:10px;"><span style="margin-left:12px;"></span>
             </td>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -30,58 +29,58 @@ class MonitoringController extends Controller
             return Redirect('/monitoring/penghasilan');
         }
         
-        switch (request('jns')) {
-            case 'gaji-rutin':
-                $endpoint= "gaji-rutin";
-                break;
+        // switch (request('jns')) {
+        //     case 'gaji-rutin':
+        //         $endpoint= "gaji-rutin";
+        //         break;
 
-            case 'kekurangan-gaji':
-                $endpoint= "kekurangan-gaji";
-                break;
+        //     case 'kekurangan-gaji':
+        //         $endpoint= "kekurangan-gaji";
+        //         break;
 
-            case 'uang-makan':
-                $endpoint= "uang-makan";
-                break;
+        //     case 'uang-makan':
+        //         $endpoint= "uang-makan";
+        //         break;
                 
-            case 'uang-lembur':
-                $endpoint= "uang-lembur";
-                break;
+        //     case 'uang-lembur':
+        //         $endpoint= "uang-lembur";
+        //         break;
                 
-            case 'tukin-rutin':
-                $endpoint= "tukin-rutin";
-                break;
+        //     case 'tukin-rutin':
+        //         $endpoint= "tukin-rutin";
+        //         break;
                 
-            case 'kekurangan-tukin':
-                $endpoint= "kekurangan-tukin";
-                break;
-            default:
-                $endpoint= "gaji-rutin";
-                break;
-        }
+        //     case 'kekurangan-tukin':
+        //         $endpoint= "kekurangan-tukin";
+        //         break;
+        //     default:
+        //         $endpoint= "gaji-rutin";
+        //         break;
+        // }
 
-        if (request('thn') != null) {
-            $tahun = request('thn');
-        }else{
-            $tahun = date('Y');
-        }
+        // if (request('thn') != null) {
+        //     $tahun = request('thn');
+        // }else{
+        //     $tahun = date('Y');
+        // }
 
-        $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').$endpoint,[
-            'tahun' => $tahun,
-            'kdsatker' => auth()->user()->kdsatker,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        // $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').$endpoint,[
+        //     'tahun' => $tahun,
+        //     'kdsatker' => auth()->user()->kdsatker,
+        //     'X-API-KEY' => config('alika.key')
+        // ]);
 
-        $thnsatker = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'tahun-satker',[
-            'kdsatker' => auth()->user()->kdsatker,
-            'X-API-KEY' => 'hGfdg456ghD4f566afjh6Fg@hgb#jijk'
-        ]);
+        // $thnsatker = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'tahun-satker',[
+        //     'kdsatker' => auth()->user()->kdsatker,
+        //     'X-API-KEY' => 'hGfdg456ghD4f566afjh6Fg@hgb#jijk'
+        // ]);
 
-        return view('monitoring.beranda.index',[
-            'pageTitle'=> 'Beranda',
-            'data'=>json_decode($response, false),
-            'tahun'=>json_decode($thnsatker,false)
-        ]);
-
+        // return view('monitoring.beranda.index',[
+        //     'pageTitle'=> 'Beranda',
+        //     'data'=>json_decode($response, false),
+        //     'tahun'=>json_decode($thnsatker,false)
+        // ]);
+        return redirect('/monitoring/rincian');
     }
     
     public function detail()
@@ -143,7 +142,7 @@ class MonitoringController extends Controller
             $bulan = date('mm');
         }
 
-        $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').$endpoint,[
+        $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').$endpoint,[
             'bulan' => $bulan,
             'tahun' => $tahun,
             'kdsatker' => auth()->user()->kdsatker,

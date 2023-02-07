@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Helper\hris;
 use App\Models\satker;
-use App\Helper\Alika\spt;
+use App\Helper\Alika\API3\spt;
 use Spipu\Html2Pdf\Html2Pdf;
-use App\Helper\Alika\dataLain;
-use App\Helper\Alika\dataMakan;
-use App\Helper\Alika\dataLembur;
-use App\Helper\Alika\detailLain;
-use App\Helper\Alika\penghasilan;
-use App\Helper\Alika\satkerAlika;
+use App\Helper\Alika\API3\dataLain;
+use App\Helper\Alika\API3\dataMakan;
+use App\Helper\Alika\API3\dataLembur;
+use App\Helper\Alika\API3\detailLain;
+use App\Helper\Alika\API3\penghasilan;
+use App\Helper\Alika\API3\satkerAlika;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -249,8 +249,8 @@ class MonitoringPelaporanController extends Controller
             "tukin"=>spt::getViewTukin($nip, $thn),
             "rapel"=>spt::getViewRapel($nip, $thn),
             "tarif"=>detailLain::getTarif($thn),
-            "profil"=>detailLain::getProfil($pegawai_Collection->KdSatker, $thn),
-            "satker"=>satkerAlika::getDetailSatker($pegawai_Collection->KdSatker),
+            "profil"=>detailLain::getProfil(spt::getSptPegawai($nip, $thn)->kdsatker, $thn),
+            "satker"=>satkerAlika::getDetailSatker(spt::getSptPegawai($nip, $thn)->kdsatker),
             "pegawai"=>$pegawai_Collection
         ]));
         $html2pdf->output('1721A2-' . $nip . '.pdf', 'D');
@@ -289,8 +289,8 @@ class MonitoringPelaporanController extends Controller
             "makan"=>dataMakan::getPph($nip, $thn),
             "lembur"=>dataLembur::getPph($nip, $thn),
             'lain'=>dataLain::getPph($nip, $thn),
-            "profil"=>detailLain::getProfil($pegawai_Collection->KdSatker, $thn),
-            "satker"=>satkerAlika::getDetailSatker($pegawai_Collection->KdSatker),
+            "profil"=>detailLain::getProfil(spt::getSptPegawai($nip, $thn)->kdsatker, $thn),
+            "satker"=>satkerAlika::getDetailSatker(spt::getSptPegawai($nip, $thn)->kdsatker),
             "pegawai"=>$pegawai_Collection
         ]));
         $html2pdf->output('1721VII-' . $nip . '.pdf', 'D');

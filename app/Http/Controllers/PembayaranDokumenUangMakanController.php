@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\satker;
-use Illuminate\Http\Request;
 use App\Models\dokumenUangMakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -37,6 +36,7 @@ class PembayaranDokumenUangMakanController extends Controller
             'bln'=>$bln,
             'tahun'=>$tahun,
             'bulan'=>$bulan,
+            "pageTitle"=>"Dokumen Uang Makan",
         ]);
     }
 

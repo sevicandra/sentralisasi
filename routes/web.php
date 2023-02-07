@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminAdminSatkerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SsoController;
 use App\Http\Controllers\AdminController;
@@ -8,9 +7,17 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminRoleController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminBulanController;
+use App\Http\Controllers\HonorariumController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
+use App\Http\Controllers\DataPaymentController;
+use App\Http\Controllers\AdminAdminSatkerController;
+use App\Http\Controllers\DataPaymentHonorariumController;
+use App\Http\Controllers\DataPaymentLainController;
+use App\Http\Controllers\DataPaymentServerController;
+use App\Http\Controllers\DataPaymentUploadHonorariumController;
+use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringLaporanController;
 use App\Http\Controllers\MonitoringRincianController;
 use App\Http\Controllers\MonitoringPelaporanController;
@@ -177,7 +184,6 @@ Route::controller(PembayaranDokumenUangLemburController::class)->group(function(
     Route::get('/belanja-51/dokumen-uang-lembur/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
     Route::delete('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}', 'reject')->middleware('auth:web,admin');
     Route::patch('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}/dokumen', 'dokumen')->middleware('auth:web,admin');
-
 });
 
 Route::controller(AdminController::class)->group(function(){
@@ -212,7 +218,6 @@ Route::controller(AdminSatkerController::class)->group(function(){
     Route::get('/admin/satker/{satker:kdsatker}/edit', 'edit')->middleware('auth:web,admin');
     Route::patch('/admin/satker/{satker:kdsatker}', 'update')->middleware('auth:web,admin');
     Route::delete('/admin/satker/{satker:kdsatker}', 'delete')->middleware('auth:web,admin');
-    
 });
 
 Route::controller(AdminBulanController::class)->group(function(){
@@ -232,3 +237,68 @@ Route::controller(AdminAdminSatkerController::class)->group(function(){
     Route::delete('admin/admin-satker/{adminSatker}', 'delete')->middleware('auth:web,admin');
 });
 
+Route::controller(HonorariumController::class)->group(function(){
+    Route::get('honorarium', 'index')->middleware('auth:web,admin');
+    Route::get('honorarium/create', 'create')->middleware('auth:web,admin');
+    Route::post('honorarium/import', 'import')->middleware('auth:web,admin');
+    Route::get('honorarium/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('honorarium/{file}/detail', 'detail')->middleware('auth:web,admin');
+    Route::get('honorarium/{file}/kirim', 'kirim')->middleware('auth:web,admin');
+    Route::patch('honorarium/{file}/dokumen', 'dokumen')->middleware('auth:web,admin');
+    Route::patch('honorarium/{file}/update', 'update')->middleware('auth:web,admin');
+    Route::get('honorarium/{dataHonorarium:file}/edit', 'edit')->middleware('auth:web,admin');
+    Route::delete('honorarium/{file}', 'delete')->middleware('auth:web,admin');
+    Route::get('honorarium/edit-detail/{dataHonorarium}', 'editDetail')->middleware('auth:web,admin');
+    Route::get('honorarium/kirim-detail/{dataHonorarium}', 'kirimDetail')->middleware('auth:web,admin');
+    Route::delete('honorarium/hapus-detail/{dataHonorarium}', 'deleteDetail')->middleware('auth:web,admin');
+    Route::patch('honorarium/{dataHonorarium}/update-detail', 'updateDetail')->middleware('auth:web,admin');
+});
+
+Route::controller(DataPaymentController::class)->group(function(){
+    Route::get('data-payment', 'index')->middleware('auth:web,admin');
+});
+
+Route::controller(DataPaymentServerController::class)->group(function(){
+    Route::get('data-payment/server', 'index')->middleware('auth:web,admin');
+    Route::get('data-payment/server/{id}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('data-payment/server/{id}', 'update')->middleware('auth:web,admin');
+    Route::delete('data-payment/server/{id}', 'delete')->middleware('auth:web,admin');
+});
+
+Route::controller(DataPaymentHonorariumController::class)->group(function(){
+    Route::get('data-payment/honorarium', 'index')->middleware('auth:web,admin');
+    Route::get('data-payment/honorarium/{file}/detail', 'detail')->middleware('auth:web,admin');
+    Route::patch('data-payment/honorarium/{file}/dokumen', 'dokumen')->middleware('auth:web,admin');
+    Route::get('data-payment/honorarium/{file}/upload', 'upload')->middleware('auth:web,admin');
+    Route::get('data-payment/honorarium/{dataHonorarium}/upload-detail', 'uploadDetail')->middleware('auth:web,admin');
+    Route::delete('data-payment/honorarium/{file}', 'tolak')->middleware('auth:web,admin');
+    Route::delete('data-payment/honorarium/{dataHonorarium}/detail', 'tolakDetail')->middleware('auth:web,admin');
+});
+
+Route::controller(DataPaymentLainController::class)->group(function(){
+    Route::get('/data-payment/lain', 'index')->middleware('auth:web,admin');
+    Route::get('/data-payment/lain/create', 'create')->middleware('auth:web,admin');
+    Route::post('/data-payment/lain', 'impor')->middleware('auth:web,admin');
+    Route::delete('/data-payment/lain/{kdsatker}/{jenis}/{thn}/{bln}', 'delete')->middleware('auth:web,admin');
+    Route::post('/data-payment/lain/{kdsatker}/{jenis}/{thn}/{bln}', 'upload')->middleware('auth:web,admin');
+    Route::get('/data-payment/lain/{kdsatker}/{jenis}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
+    Route::get('/data-payment/lain/{dataPembayaranLainnya}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/data-payment/lain/{dataPembayaranLainnya}', 'update')->middleware('auth:web,admin');
+    Route::delete('/data-payment/lain/{dataPembayaranLainnya}', 'deletedetail')->middleware('auth:web,admin');
+    Route::post('/data-payment/lain/{dataPembayaranLainnya}', 'uploaddetail')->middleware('auth:web,admin');
+});
+
+Route::controller(DataPaymentUploadHonorariumController::class)->group(function(){
+    Route::get('/data-payment/upload/honorarium', 'index')->middleware('auth:web,admin');
+    Route::get('/data-payment/upload/honorarium/{file}/dokumen', 'dokumen')->middleware('auth:web,admin');
+    Route::delete('/data-payment/upload/honorarium/{file}', 'drop')->middleware('auth:web,admin');
+    Route::get('/data-payment/upload/honorarium/{file}/detail', 'detail')->middleware('auth:web,admin');
+    Route::delete('/data-payment/upload/honorarium/{dataHonorarium}/detail', 'dropDetail')->middleware('auth:web,admin');
+});
+
+Route::controller(DataPaymentUploadLainController::class)->group(function(){
+    Route::get('/data-payment/upload/lain', 'index')->middleware('auth:web,admin');
+    Route::delete('/data-payment/upload/lain/{kdsatker}/{jenis}/{thn}/{bln}', 'drop')->middleware('auth:web,admin');
+    Route::get('/data-payment/upload/lain/{kdsatker}/{jenis}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
+    Route::delete('/data-payment/upload/lain/{dataPembayaranLainnya}/detail', 'dropDetail')->middleware('auth:web,admin');
+});

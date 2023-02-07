@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Helper\hris;
-use App\Helper\Alika\spt;
-use Illuminate\Http\Request;
+use App\Helper\Alika\API3\spt;
 use Spipu\Html2Pdf\Html2Pdf;
-use App\Helper\Alika\dataLain;
-use App\Helper\Alika\dataMakan;
-use App\Helper\Alika\dataLembur;
-use App\Helper\Alika\detailLain;
-use App\Helper\Alika\penghasilan;
-use App\Helper\Alika\satkerAlika;
+use App\Helper\Alika\API3\dataLain;
+use App\Helper\Alika\API3\dataMakan;
+use App\Helper\Alika\API3\dataLembur;
+use App\Helper\Alika\API3\detailLain;
+use App\Helper\Alika\API3\penghasilan;
+use App\Helper\Alika\API3\satkerAlika;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class MonitoringLaporanController extends Controller

@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\satker;
-use Illuminate\Http\Request;
-
 use App\Models\dokumenUangLembur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Redirect;
 
 class PembayaranDokumenUangLemburController extends Controller
 {
@@ -39,6 +36,7 @@ class PembayaranDokumenUangLemburController extends Controller
             'bln'=>$bln,
             'tahun'=>$tahun,
             'bulan'=>$bulan,
+            "pageTitle"=>"Dokumen Uang Lembur",
         ]);
     }
 

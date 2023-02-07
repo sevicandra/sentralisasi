@@ -68,13 +68,4 @@ class SsoController extends Controller
             redirect('/login')->with('gagal','Request Error');
         }
     }
-
-    public function adminlogin(Request $request)
-    {
-        Auth::guard('admin')->loginUsingId('71d4407a-5f2e-11ed-b379-a2b8e55bdcc1');
-        $request->session()->regenerate();
-        $request->session()->put('gravatar', '/');
-        $request->session()->put('name', 'admin');
-        return redirect()->intended('/');
-    }
 }

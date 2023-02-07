@@ -17,12 +17,13 @@
     <header class="header">
         <div class="title">
             <a style="text-decoration: none;color:white" href="{{ config('app.url') }}">
+                <span><img src="/img/alika.png" alt="logo alika" height="30px" width="30px"></span>
                 <span>ALIKA SENTRALISASI</span>
             </a>
         </div>
         <div class="mobile-title">
             <a style="text-decoration: none;color:white" href="{{ config('app.url') }}">
-                <img src="/img/alika.png" alt="logo alika" height="24px">
+                <img src="/img/alika.png" alt="logo alika" height="24px" width="24px">
             </a>
         </div>
         <div class="profil dropdown">
@@ -30,7 +31,7 @@
             <span class="profil-name">{{ session()->get('name') }}</span>
             <div class="dropdown-content">
                 <a href="{{ config('app.url') }}/logout">
-                    <img src="/img/ico/logout.png" alt="" height="25px">
+                    <img src="/img/ico/logout.png" alt="" height="25px" width="25px">
                     <span>Logout</span>
                 </a>
             </div>

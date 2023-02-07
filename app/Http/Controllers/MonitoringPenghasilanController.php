@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\satker;
-use Illuminate\Http\Request;
 use Spipu\Html2Pdf\Html2Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -98,13 +97,13 @@ class MonitoringPenghasilanController extends Controller
             return abort(403);
         }
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-penghasilan',[
+        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-penghasilan',[
             'nip' => $nip,
             'thn' => $thn,
             'X-API-KEY' => config('alika.key')
         ]);
 
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-tahun-penghasilan',[
+        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-penghasilan',[
             'nip' => $nip,
             'X-API-KEY' => config('alika.key')
         ]);
@@ -152,7 +151,7 @@ class MonitoringPenghasilanController extends Controller
         }
         switch ($jns) {
             case 'rutin':
-                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-gaji',[
+                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-gaji',[
                     'nip' => $nip,
                     'thn' => $thn,
                     'X-API-KEY' => config('alika.key')
@@ -160,7 +159,7 @@ class MonitoringPenghasilanController extends Controller
                 break;
             
             case 'kekurangan':
-                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-kurang',[
+                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-kurang',[
                     'nip' => $nip,
                     'thn' => $thn,
                     'X-API-KEY' => config('alika.key')
@@ -168,7 +167,7 @@ class MonitoringPenghasilanController extends Controller
                 break;
             
             default:
-                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-gaji',[
+                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-gaji',[
                     'nip' => $nip,
                     'thn' => $thn,
                     'X-API-KEY' => config('alika.key')
@@ -176,7 +175,7 @@ class MonitoringPenghasilanController extends Controller
                 break;
         }
 
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-tahun-gaji',[
+        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-gaji',[
             'nip' => $nip,
             'X-API-KEY' => config('alika.key')
         ]);
@@ -223,12 +222,12 @@ class MonitoringPenghasilanController extends Controller
             $thn=date('Y');
         }
         
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-tahun-makan',[
+        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-makan',[
             'nip' => $nip,
             'X-API-KEY' => config('alika.key')
         ]);
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-makan',[
+        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-makan',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
@@ -275,12 +274,12 @@ class MonitoringPenghasilanController extends Controller
             $thn=date('Y');
         }
         
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-tahun-lembur',[
+        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-lembur',[
             'nip' => $nip,
             'X-API-KEY' => config('alika.key')
         ]);
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-lembur',[
+        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-lembur',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
@@ -340,12 +339,12 @@ class MonitoringPenghasilanController extends Controller
             $thn=date('Y');
         }
         
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-tahun-tukin',[
+        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-tukin',[
             'nip' => $nip,
             'X-API-KEY' => config('alika.key')
         ]);
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-tukin',[
+        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tukin',[
             'nip' => $nip,
             'thn'=>$thn,
             'jns'=>$jenis,
@@ -399,19 +398,19 @@ class MonitoringPenghasilanController extends Controller
             $jns='perjadin';
         }
 
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-tahun-lain',[
+        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-lain',[
             'nip' => $nip,
             'X-API-KEY' => config('alika.key')
         ]);
 
-        $jenis=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-jenis-lain',[
+        $jenis=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-jenis-lain',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
         ]);
         
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-lain',[
+        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-lain',[
             'nip' => $nip,
             'thn'=>$thn,
             'jns'=>$jns,
@@ -457,7 +456,7 @@ class MonitoringPenghasilanController extends Controller
             return abort(403);
         }
         
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri').'data-detail-lain',[
+        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-detail-lain',[
             'nip' => $nip,
             'thn'=>$thn,
             'jns'=>$jns,

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Helper\Alika;
+namespace App\Helper\Alika\API3;
 
 use Illuminate\Support\Facades\Http;
 
 class spt{
     public static function getSptPegawai($nip, $thn)
     {
-        $peg = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').'data-spt-pegawai',[
+        $peg = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').'data-spt-pegawai',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
@@ -16,7 +16,7 @@ class spt{
     }
 
     public static function getViewGaji($nip, $thn){
-        $gaji = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').'data-view-gaji',[
+        $gaji = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').'data-view-gaji',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
@@ -26,7 +26,7 @@ class spt{
 
     public static function getViewKurang($nip, $thn)
     {
-        $kurang = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').'data-view-kurang',[
+        $kurang = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').'data-view-kurang',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
@@ -36,7 +36,7 @@ class spt{
 
     public static function getViewTukin($nip, $thn)
     {
-        $tukin = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').'data-view-tukin',[
+        $tukin = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').'data-view-tukin',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
@@ -47,7 +47,7 @@ class spt{
 
     public static function getViewRapel($nip, $thn)
     {
-        $rapel = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').'data-view-rapel',[
+        $rapel = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').'data-view-rapel',[
             'nip' => $nip,
             'thn'=>$thn,
             'X-API-KEY' => config('alika.key')
@@ -57,7 +57,7 @@ class spt{
 
     public static function getTahun($nip)
     {
-        $tahun = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri').'data-tahun-spt',[
+        $tahun = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').'data-tahun-spt',[
             'nip' => $nip,
             'X-API-KEY' => config('alika.key')
         ]);

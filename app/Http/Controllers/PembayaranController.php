@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\dokumenUangMakan;
 use App\Models\dokumenUangLembur;
 use Illuminate\Support\Facades\Auth;
