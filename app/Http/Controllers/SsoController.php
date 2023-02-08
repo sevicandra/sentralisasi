@@ -19,7 +19,7 @@ class SsoController extends Controller
         session()->regenerate();
         if ($request->code) {
             // Get Token
-
+            
             $response = Http::asForm()->post(config('sso.base_uri').config('sso.token')['endpoint'],[
                 'client_id' => config('sso.authorize')['client_id'],
                 'grant_type' => config('sso.authorize')['grant_type'],
@@ -29,13 +29,15 @@ class SsoController extends Controller
             ]);
 
             $token =  json_decode($response->getBody()->getContents(), true);
-            // Get User Info
+            if(!isset($token['access_token'])){
+                return redirect('/sso');
+            }
             $access_token = $token['access_token'];
             if ($access_token) {
                 $response2 = Http::asForm()->post(config('sso.base_uri').config('sso.userinfo')['endpoint'],[
                     'access_token' => $access_token
                 ]);
-
+                
                 if ($response2) {
                     $userinfo =  json_decode($response2->getBody()->getContents(), false);
                     $nip = $userinfo->nip;
