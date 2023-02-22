@@ -35,10 +35,12 @@
         </tr>
     </thead>
     <tbody>
+        @php
+            $i=1;
+        @endphp
         @foreach ($data as $item)            
             <tr class="align-middle">
                 @php
-                    $no = 1;
                     $j1 = 0;
                     $j2 = 0;
                     $j3 = 0;
@@ -59,7 +61,7 @@
                     $j18 = 0;
                 @endphp
                 
-                <td class="text-center"></td>
+                <td class="text-center">{{ $i++ }}</td>
                 <td>{{$item->nama}}</td>
                 <td>{{$item->nip}}</td>
                 <td>{{$item->kdkawin}}</td>

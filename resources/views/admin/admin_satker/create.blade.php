@@ -24,9 +24,11 @@
                         <label for="">Kode Satker:</label>
                         <input type="text" name="kdsatker" class="form-control @error('kdsatker') is-invalid @enderror" value="{{ old('kdsatker') }}">
                         @error('kdsatker')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -37,9 +39,11 @@
                         <label for="jumlah">Kode Unit:</label>
                         <input type="text" name="kdunit" class="form-control @error('kdunit') is-invalid @enderror" value="{{ old('kdunit') }}">
                         @error('kdunit')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -50,9 +54,11 @@
                         <label for="jumlah">Nama Jabatan:</label>
                         <input type="text" name="nmjabatan" class="form-control @error('nip') is-invalid @enderror" value="{{ old('nmjabatan') }}">
                         @error('nmjabatan')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>

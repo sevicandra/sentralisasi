@@ -31,7 +31,7 @@ class PembayaranDokumenUangMakanController extends Controller
         $tahun = dokumenUangMakan::tahun();
         $bulan = dokumenUangMakan::bulan($thn);
         return view('pembayaran.dokumen_uang_makan.index',[
-            'data'=>satker::orderBy('jnssatker')->get(),
+            'data'=>satker::order()->get(),
             'thn'=>$thn,
             'bln'=>$bln,
             'tahun'=>$tahun,

@@ -34,7 +34,7 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{$i}}</td>
-                            <td> {{$item->kdsatker}} </td>
+                            <td> {{$item->nmsatker}} </td>
                             <td> {{$item->kdunit}} </td>
                             <td> {{$item->nmjabatan}} </td>
                             <form action="/admin/admin-satker/{{$item->id}}" method="post">

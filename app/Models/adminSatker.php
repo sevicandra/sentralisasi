@@ -23,7 +23,16 @@ class adminSatker extends Authenticatable
         'id',
         'remember_token',
     ];
-    
+
+    public function scopeSatker()
+    {
+        return $this    ->join('satkers', 'admin_satkers.kdsatker', '=', 'satkers.kdsatker')
+                        ->select('admin_satkers.*', 'satkers.nmsatker');
+    }
+    public function scopeOrder($data)
+    {
+        return $data    ->orderBy('kdunit');
+    }
     public function role()
     {
         return $this->belongsTo(role::class, 'role', 'kode');

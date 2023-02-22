@@ -32,7 +32,7 @@ class MonitoringPelaporanController extends Controller
 
         return view('monitoring.pelaporan.index',[
             'pageTitle'=>'Pelaporan',
-            'data'=>satker::orderBy('jnssatker')->search()->paginate(15)->withQueryString(),
+            'data'=>satker::search()->order()->paginate(15)->withQueryString(),
         ]);
     }
 

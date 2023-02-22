@@ -18,8 +18,8 @@
         </div>
     </div>
     <div id="main-content">
-        <div class="row">
-            <div class="col">
+        <div class="card">
+            <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead class="text-center">

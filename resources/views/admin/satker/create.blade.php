@@ -24,9 +24,11 @@
                         <label for="">Nama Satker:</label>
                         <input type="text" name="nmsatker" class="form-control @error('nmsatker') is-invalid @enderror" value="{{ old('nmsatker') }}">
                         @error('nmsatker')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -37,9 +39,11 @@
                         <label for="jumlah">Kode Satker:</label>
                         <input type="text" name="kdsatker" class="form-control @error('kdsatker') is-invalid @enderror" value="{{ old('kdsatker') }}">
                         @error('kdsatker')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -62,9 +66,26 @@
                         <label for="jumlah">Kode Satker Koordinator:</label>
                         <input type="text" name="kdkoordinator" class="form-control @error('kdsatker') is-invalid @enderror" value="{{ old('kdkoordinator') }}">
                         @error('kdkoordinator')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                        @enderror
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" id="order">
+                    <div class="col-lg-12 ">
+                      <div class="form-group">
+                        <label for="jumlah">Order:</label>
+                        <input type="text" name="order" class="form-control @error('kdsatker') is-invalid @enderror" value="{{ old('order') }}">
+                        @error('order')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>

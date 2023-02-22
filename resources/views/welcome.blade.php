@@ -1,11 +1,10 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
+	<meta name="description" content="Dengan Alika Sentralisasi, kami hadirkan pengalaman terbaik pelaksanaan sentralisasi belanja pegawai di layar Anda">
 	<title>Sentralisasi</title>
 	<link rel="shortcut icon" href="/img/alika.png" type=" image/x-icon">
 	<link href="/css/bootstrap.min.css" rel="stylesheet">

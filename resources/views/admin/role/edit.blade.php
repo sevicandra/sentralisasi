@@ -25,9 +25,11 @@
                         <label for="">Kode:</label>
                         <input type="text" name="kode" class="form-control @error('kode') is-invalid @enderror" value="{{ $data->kode }}">
                         @error('kode')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -38,9 +40,11 @@
                         <label for="jumlah">Role:</label>
                         <input type="text" name="role" class="form-control @error('role') is-invalid @enderror" value="{{ $data->role }}">
                         @error('role')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>

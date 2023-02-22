@@ -22,7 +22,7 @@ class AdminRoleController extends Controller
             abort(403);
         }
         return view('admin.role.index',[
-            'data'=>role::all()
+            'data'=>role::orderBy('kode')->get()
         ]);
     }
 

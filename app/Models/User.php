@@ -38,6 +38,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function scopeSatker(){
+        return $this    ->join('satkers', 'users.kdsatker', '=','satkers.kdsatker')
+                        ->select('users.*', 'satkers.nmsatker', 'satkers.order')
+        ;
+    }
+
     public function role()
     {
         return $this->belongsToMany(role::class);
@@ -61,5 +67,15 @@ class User extends Authenticatable
             return $data;
         }
         return $data->where('kdsatker', auth()->user()->kdsatker);
+    }
+
+    public function scopeSearch($data)
+    {
+        if(request('search')){
+            return $data    ->where('nama', 'LIKE', '%'.request('search').'%')
+                            ->orwhere('nip', 'LIKE', '%'.request('search').'%')
+                            ->orwhere('users.kdsatker', 'LIKE', '%'.request('search').'%')
+                            ->orwhere('nmsatker', 'LIKE', '%'.request('search').'%');
+        }
     }
 }

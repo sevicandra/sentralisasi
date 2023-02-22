@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nmsatker');
             $table->string('kdsatker', '6');
             $table->string('kdkoordinator', '6');
+            $table->string('order', '2')->nullable();
             $table->enum('jnssatker', ['1', '2', '3']);
             $table->timestamps();
         });

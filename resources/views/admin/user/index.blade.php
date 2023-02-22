@@ -5,7 +5,18 @@
 @section('main-content')
 
     <div id="main-content-header">
-
+        <div class="row">
+            <div class="row">
+                <div class="col-lg-5">
+                    <form action="" method="get">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="" value="{{ request('search') }}">
+                            <button class="btn btn-sm btn-outline-secondary" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="main-content">
         <div>
@@ -37,7 +48,7 @@
                             <td>{{$i}}</td>
                             <td> {{$item->nama}} </td>
                             <td> {{$item->nip}} </td>
-                            <td> {{$item->kdsatker}} </td>
+                            <td> {{$item->nmsatker}} </td>
                             <td> {{$item->nohp}} </td>
                             <form action="/admin/user/{{$item->nip}}" method="post">
                                 <td class="pb-0 pr-0">
@@ -60,7 +71,7 @@
         </div>
     </div>
     <div id="paginator">
-        {{-- {{$data->links()}} --}}
+        {{$data->links()}}
     </div>
 
 

@@ -38,7 +38,7 @@
         @endphp
         @foreach ($data as $item)
             <tr class="align-middle">
-                <td class="text-center">{{ $no }}</td>
+                <td class="text-center">{{ $no++ }}</td>
                 <td>{{ $item->nama }}</td>
                 <td>{{ $item->nip }}</td>
                 <td class="text-center">{{ $item->grade }}</td>

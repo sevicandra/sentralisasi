@@ -25,9 +25,11 @@
                         <label for="">Nama:</label>
                         <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" value="{{$data->nama}}">
                         @error('nama')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -38,9 +40,11 @@
                         <label for="jumlah">NIP:</label>
                         <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{$data->nip}}">
                         @error('nip')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -68,9 +72,11 @@
                         <label for="jumlah">Nomor HP:</label>
                         <input type="text" name="nohp" class="form-control @error('nohp') is-invalid @enderror" value="{{$data->nohp}}">
                         @error('nohp')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>

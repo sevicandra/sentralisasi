@@ -21,7 +21,7 @@ class AdminSatkerController extends Controller
             abort(403);
         }
         return view('admin.satker.index',[
-            'data'=>satker::all()
+            'data'=>satker::search()->order()->paginate(15)->withQueryString()
         ]);
     }
 
@@ -56,26 +56,31 @@ class AdminSatkerController extends Controller
                 'kdsatker'=>'required|min:6|max:6|unique:satkers,kdsatker',
                 'jnssatker'=>'required',
                 'kdkoordinator'=>'required|min:6|max:6',
+                'order'=>'required|min:2|max:4',
             ]); 
             $request->validate([
                 'kdkoordinator'=>'numeric',
                 'kdsatker'=>'numeric',
+                'order'=>'numeric',
             ]);
             satker::create([
                 'nmsatker'=> $request->nmsatker,
                 'kdsatker'=> $request->kdsatker,
                 'jnssatker'=> $request->jnssatker,
                 'kdkoordinator'=> $request->kdkoordinator,
+                'order'=> $request->order,
             ]);
             return Redirect('/admin/satker')->with('berhasil', 'data berhasil ditambah');
         }else{
             $request->validate([
                 'nmsatker'=>'required',
                 'kdsatker'=>'required|min:6|max:6|unique:satkers,kdsatker',
-                'jnssatker'=>'required'
+                'jnssatker'=>'required',
+                'order'=>'required|min:2|max:4',
             ]);
             $request->validate([
                 'kdsatker'=>'numeric',
+                'order'=>'numeric',
             ]);
             if ($request->jnssatker === "2") {
                 satker::create([
@@ -83,12 +88,25 @@ class AdminSatkerController extends Controller
                     'kdsatker'=> $request->kdsatker,
                     'jnssatker'=> $request->jnssatker,
                     'kdkoordinator'=> '411792',
+                    'order'=> $request->order,
                 ]);
             }else{
+                $request->validate([
+                    'nmsatker'=>'required',
+                    'kdsatker'=>'required|min:6|max:6|unique:satkers,kdsatker',
+                    'jnssatker'=>'required',
+                    'order'=>'required|min:2|max:4',
+                    'order'=>'numeric',
+                ]);
+                $request->validate([
+                    'kdsatker'=>'numeric',
+                    'order'=>'numeric',
+                ]);
                 satker::create([
                     'nmsatker'=> $request->nmsatker,
                     'kdsatker'=> $request->kdsatker,
                     'jnssatker'=> $request->jnssatker,
+                    'order'=> $request->order,
                 ]);
             }
             return Redirect('/admin/satker')->with('berhasil', 'data berhasil ditambah');
@@ -128,14 +146,17 @@ class AdminSatkerController extends Controller
                     'nmsatker'=>'required',
                     'jnssatker'=>'required',
                     'kdkoordinator'=>'required|min:6|max:6',
+                    'order'=>'required|min:2|max:4',
                 ]); 
                 $request->validate([
                     'kdkoordinator'=>'numeric',
+                    'order'=>'numeric',
                 ]);
                 $satker->update([
                     'nmsatker'=> $request->nmsatker,
                     'jnssatker'=> $request->jnssatker,
                     'kdkoordinator'=> $request->kdkoordinator,
+                    'order'=>$request->order,
                 ]);
             }else{
                 $request->validate([
@@ -143,16 +164,19 @@ class AdminSatkerController extends Controller
                     'kdsatker'=>'required|min:6|max:6|unique:satkers,kdsatker',
                     'jnssatker'=>'required',
                     'kdkoordinator'=>'required|min:6|max:6',
+                    'order'=>'required|min:2|max:4',
                 ]); 
                 $request->validate([
                     'kdkoordinator'=>'numeric',
                     'kdsatker'=>'numeric',
+                    'order'=>'numeric',
                 ]);
                 $satker->update([
                     'nmsatker'=> $request->nmsatker,
                     'kdsatker'=> $request->kdsatker,
                     'jnssatker'=> $request->jnssatker,
                     'kdkoordinator'=> $request->kdkoordinator,
+                    'order'=>$request->order
                 ]);
             }
 
@@ -161,42 +185,50 @@ class AdminSatkerController extends Controller
             if ($request->kdsatker === $satker->kdsatker) {
                 $request->validate([
                     'nmsatker'=>'required',
-                    'jnssatker'=>'required'
+                    'jnssatker'=>'required',
+                    'order'=>'required|min:2|max:4',
                 ]);
                 $request->validate([
                     'kdsatker'=>'numeric',
+                    'order'=>'numeric',
                 ]);
                 if ($request->jnssatker === "2") {
                     $satker->update([
                         'nmsatker'=> $request->nmsatker,
                         'jnssatker'=> $request->jnssatker,
+                        'order'=>$request->order,
                     ]);
                 }else{
                     $satker->update([
                         'nmsatker'=> $request->nmsatker,
                         'jnssatker'=> $request->jnssatker,
+                        'order'=>$request->order,
                     ]);
                 }
             }else{
                 $request->validate([
                     'nmsatker'=>'required',
                     'kdsatker'=>'required|min:6|max:6|unique:satkers,kdsatker',
-                    'jnssatker'=>'required'
+                    'jnssatker'=>'required',
+                    'order'=>'required|min:2|max:4',
                 ]);
                 $request->validate([
                     'kdsatker'=>'numeric',
+                    'order'=>'numeric',
                 ]);
                 if ($request->jnssatker === "2") {
                     $satker->update([
                         'nmsatker'=> $request->nmsatker,
                         'kdsatker'=> $request->kdsatker,
                         'jnssatker'=> $request->jnssatker,
+                        'order'=>$request->order,
                     ]);
                 }else{
                     $satker->update([
                         'nmsatker'=> $request->nmsatker,
                         'kdsatker'=> $request->kdsatker,
                         'jnssatker'=> $request->jnssatker,
+                        'order'=>$request->order,
                     ]);
                 }
             }

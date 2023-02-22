@@ -245,7 +245,7 @@
         $pengurangan = $jml_iuran_pensiun + $total_biaya_jabatan;
         $netto = $bruto - $pengurangan;
         $setahun = $setahun < 1 ? 1 : $setahun;
-        $disetahun = ROUND($netto / $setahun * 12, -3, PHP_ROUND_HALF_UP);
+        $disetahun = floor(($netto / $setahun * 12)/1000)*1000;
         $peg_wp = intval(substr($peg->kdkawin, 0, 1));
         $peg_istri = intval(substr($peg->kdkawin, 1, 1));
         $peg_anak = intval(substr($peg->kdkawin, 2, 2));

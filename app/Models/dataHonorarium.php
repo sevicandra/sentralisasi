@@ -28,6 +28,12 @@ class dataHonorarium extends Model
         'sts'
     ];
 
+    public function scopeSatker(){
+        return $this    ->join('satkers', 'data_honorariums.kdsatker', '=','satkers.kdsatker')
+                        ->orderBy('satkers.order')
+        ;
+    }
+
     public function scopeTahun($data ,$kdsatkr=null)
     {
         if ($kdsatkr) {
@@ -65,8 +71,8 @@ class dataHonorarium extends Model
         return $data    ->where('sts', '1')
                         ->orderBy('tahun', 'DESC')
                         ->orderBy('bulan')
-                        ->groupBy('tahun', 'bulan', 'nmbulan', 'kdsatker','file')
-                        ->selectRaw('tahun, bulan, nmbulan, kdsatker, file, COUNT(nip) as jmh, SUM(bruto) as bruto, SUM(pph) as pph')->get();
+                        ->groupBy('tahun', 'bulan', 'nmbulan', 'nmsatker','file')
+                        ->selectRaw('tahun, bulan, nmbulan, nmsatker, file, COUNT(nip) as jmh, SUM(bruto) as bruto, SUM(pph) as pph')->get();
     }
 
     public function scopeDataPendingDetail($data, $file)
@@ -79,9 +85,8 @@ class dataHonorarium extends Model
         return $data    ->where('sts', '2')
                         ->where('tahun', $thn)
                         ->where('bulan', $bln)
-                        ->orderBy('kdsatker')
-                        ->groupBy('kdsatker','file')
-                        ->selectRaw('kdsatker, file, COUNT(nip) as jmh, SUM(bruto) as bruto, SUM(pph) as pph')->get();
+                        ->groupBy('nmsatker','file')
+                        ->selectRaw('nmsatker, file, COUNT(nip) as jmh, SUM(bruto) as bruto, SUM(pph) as pph')->get();
     }
 
     public function scopeUploadDetail($data, $file)

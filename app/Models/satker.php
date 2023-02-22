@@ -14,6 +14,7 @@ class satker extends Model
         'kdsatker',
         'nmsatker',
         'kdkoordinator',
+        'order',
     ];
 
     public function scopeSearch()
@@ -21,6 +22,10 @@ class satker extends Model
         if (request('search')) {
             return $this->where('kdsatker', 'LIKE','%'.request('search').'%')->orWhere('nmsatker','LIKE', '%'.request('search').'%');
         }
+    }
+
+    public function scopeOrder($data){
+        return $data->orderby('order');
     }
 
     public function satker()
@@ -36,5 +41,9 @@ class satker extends Model
     public function dokumenUangLembur($thn, $bln)
     {
         return $this->hasMany(dokumenUangLembur::class, 'kdsatker', 'kdsatker')->where('tahun', $thn)->where('bulan', $bln)->get();
+    }
+
+    public function user(){
+        return $this->hasMany(User::class, 'kdsatker', 'kdsatker');
     }
 }

@@ -31,7 +31,7 @@ class PembayaranDokumenUangLemburController extends Controller
         $tahun = dokumenUangLembur::tahun();
         $bulan = dokumenUangLembur::bulan($thn);
         return view('pembayaran.dokumen_uang_lembur.index',[
-            'data'=>satker::orderBy('jnssatker')->get(),
+            'data'=>satker::order()->get(),
             'thn'=>$thn,
             'bln'=>$bln,
             'tahun'=>$tahun,

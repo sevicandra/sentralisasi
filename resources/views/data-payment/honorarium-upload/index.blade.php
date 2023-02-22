@@ -37,7 +37,7 @@
                         <thead>
                           <tr class="text-center">
                             <th>No</th>
-                            <th>Kode Satker</th>
+                            <th>Satker</th>
                             <th>Jml Pegawai</th>
                             <th>Bruto</th>
                             <th>PPh</th>
@@ -53,7 +53,7 @@
                           @foreach ($data as $item)
                             <tr>
                               <td class="text-center">{{ $i++ }}</td>
-                              <td class="text-center">{{ $item->kdsatker }}</td>
+                              <td class="text-center">{{ $item->nmsatker }}</td>
                               <td class="text-center">{{ $item->jmh }}</td>
                               <td class="text-right">{{ number_format($item->bruto,2, ',', '.') }}</td>
                               <td class="text-right">{{ number_format($item->pph,2, ',', '.') }}</td>

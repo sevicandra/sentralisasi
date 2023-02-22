@@ -20,7 +20,7 @@
                             <th>No</th>
                             <th>Tahun</th>
                             <th>Bulan</th>
-                            <th>Kode Satker</th>
+                            <th>Satker</th>
                             <th>Jml Pegawai</th>
                             <th>Bruto</th>
                             <th>PPh</th>
@@ -38,7 +38,7 @@
                               <td class="text-center">{{ $i++ }}</td>
                               <td>{{ $item->tahun }}</td>
                               <td>{{ $item->nmbulan }}</td>
-                              <td class="text-center">{{ $item->kdsatker }}</td>
+                              <td class="text-center">{{ $item->nmsatker }}</td>
                               <td class="text-center">{{ $item->jmh }}</td>
                               <td class="text-right">{{ number_format($item->bruto,2, ',', '.') }}</td>
                               <td class="text-right">{{ number_format($item->pph,2, ',', '.') }}</td>

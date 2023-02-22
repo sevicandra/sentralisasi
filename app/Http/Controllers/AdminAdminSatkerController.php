@@ -24,7 +24,7 @@ class AdminAdminSatkerController extends Controller
         }
 
         return view('admin.admin_satker.index',[
-            'data'=>adminSatker::all()
+            'data'=>adminSatker::satker()->order()->get()
         ]);
     }
 

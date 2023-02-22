@@ -23,7 +23,7 @@ class DataPaymentHonorariumController extends Controller
         }
 
         return view('data-payment.honorarium.index',[
-            'data'=>dataHonorarium::pending(),
+            'data'=>dataHonorarium::satker()->pending(),
             'pageTitle'=>'Data Honorarium Pending'
         ]);
     }

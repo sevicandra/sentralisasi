@@ -24,9 +24,11 @@
                         <label for="">Bulan:</label>
                         <input type="text" name="bulan" class="form-control @error('bulan') is-invalid @enderror" value="{{ old('bulan') }}">
                         @error('bulan')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
@@ -37,9 +39,11 @@
                         <label for="jumlah">Nama Bulan:</label>
                         <input type="text" name="nmbulan" class="form-control @error('nmbulan') is-invalid @enderror" value="{{ old('nmbulan') }}">
                         @error('nmbulan')
-                          <div class="invalid-feedback">
-                            {{$message}}
-                          </div>
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
                         @enderror
                       </div>
                     </div>
