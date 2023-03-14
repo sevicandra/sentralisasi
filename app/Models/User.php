@@ -78,4 +78,9 @@ class User extends Authenticatable
                             ->orwhere('nmsatker', 'LIKE', '%'.request('search').'%');
         }
     }
+
+    public function scopeOrder($data)
+    {
+        $data->orderBy('order')->orderBy('nip');
+    }
 }

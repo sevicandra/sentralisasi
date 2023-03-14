@@ -23,7 +23,7 @@ class AdminUserController extends Controller
         }
 
         return view('admin.user.index',[
-            'data'=>User::sysAdmin()->satker()->search()->paginate(15)->withQueryString()
+            'data'=>User::sysAdmin()->satker()->search()->order()->paginate(15)->withQueryString()
         ]);
     }
 
