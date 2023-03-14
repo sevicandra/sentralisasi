@@ -11,7 +11,7 @@
                     <div class="col-lg-5">
                         <form action="" method="get">
                             <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="nama atau nip">
+                                <input type="text" name="search" class="form-control" placeholder="nip">
                                 <button class="btn btn-sm btn-outline-secondary" type="submit">Cari</button>
                             </div>
                         </form>

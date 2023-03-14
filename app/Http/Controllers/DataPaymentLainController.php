@@ -46,7 +46,7 @@ class DataPaymentLainController extends Controller
         }
 
         return view('data-payment.pembayaran-lain.index',[
-            'data'=>dataPembayaranLainnya::satkerPending($thn, $bln)->get(),
+            'data'=>dataPembayaranLainnya::satker()->satkerPending($thn, $bln)->get(),
             'tahun'=>$tahun,
             'bulan'=>$bulan,
             'thn'=>$thn,

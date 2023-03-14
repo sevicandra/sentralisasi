@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bulan;
 use Illuminate\Http\Request;
 use App\Models\dokumenUangMakan;
+use App\Models\dokumenUangLembur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,8 @@ class PembayaranUangMakanController extends Controller
             'tahun'=>$tahun,
             'thn'=>$thn,
             "pageTitle"=>"Uang Makan",
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
@@ -126,7 +129,9 @@ class PembayaranUangMakanController extends Controller
         }
         return view('Pembayaran.Uang_makan.edit',[
             'data'=>$dokumenUangMakan,
-            'bulan'=>bulan::orderBy('bulan')->get()
+            'bulan'=>bulan::orderBy('bulan')->get(),
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 

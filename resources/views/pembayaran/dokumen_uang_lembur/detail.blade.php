@@ -65,12 +65,19 @@
                             @endif
                           </td>
                           <td>
-                            @if ($item->terkirim)
+                            @if ($item->terkirim !=0)
                             <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}" method="post">
                               @csrf
                               @method('DELETE')
                               <button onclick="return confirm('Apakah Anda yakin akan menolak data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0"><i class="bi bi-send-x"></i></button>
-                            </form>ß
+                            </form>
+                            @endif
+                            @if ($item->terkirim === 1)
+                            <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/approve" method="post">
+                              @csrf
+                              @method('PATCH')
+                              <button onclick="return confirm('Apakah Anda yakin akan menyimpan data ini?');" type="submit" class="btn btn-sm btn-outline-primary pt-0 pb-0">approve</button>
+                            </form>
                             @endif
                           </td>
                         </tr>

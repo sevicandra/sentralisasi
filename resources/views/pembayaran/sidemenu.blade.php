@@ -40,14 +40,31 @@
     <div>
         <a href="/belanja-51/dokumen-uang-makan">
             <span></span>
-            <span>Dokumen Uang Makan</span>
+            <span>Dokumen Uang Makan
+                @if ($uangMakanKirim >0)
+                <span class="position-relative">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ $uangMakanKirim }}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </span>
+                @endif
+            </span>
         </a>
     </div>
-
     <div>
         <a href="/belanja-51/dokumen-uang-lembur">
             <span></span>
-            <span>Dokumen Uang Lembur</span>
+            <span>Dokumen Uang Lembur
+                @if ($uangLemburKirim >0)
+                <span class="position-relative">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ $uangLemburKirim }}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </span>
+                @endif
+            </span>
         </a>
     </div>
 @endcan    

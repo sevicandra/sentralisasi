@@ -26,6 +26,12 @@ class dataPembayaranLainnya extends Model
         'sts'
     ];
 
+    public function scopeSatker(){
+        return $this    ->join('satkers', 'data_pembayaran_lainnyas.kdsatker', '=','satkers.kdsatker')
+                        ->orderBy('satkers.order')
+        ;
+    }
+
     public function scopeTahunPending($data)
     {
         return $data->where('sts', '0')->select('tahun')->orderBy('tahun', 'desc')->distinct()->get();
@@ -41,8 +47,8 @@ class dataPembayaranLainnya extends Model
         return $data    ->where('tahun', $tahun)
                         ->where('bulan', $bulan)
                         ->where('sts', '0')
-                        ->groupBy('kdsatker', 'jenis')
-                        ->selectRaw('kdsatker, jenis, COUNT(nip) as jml, SUM(bruto) as bruto, SUM(pph) as pph');
+                        ->groupBy('nmsatker', 'jenis')
+                        ->selectRaw('nmsatker, jenis, COUNT(nip) as jml, SUM(bruto) as bruto, SUM(pph) as pph');
     }
 
     public function scopeDetailPaymentPending($data, $kdsatker, $jenis, $thn, $bln)
@@ -79,8 +85,8 @@ class dataPembayaranLainnya extends Model
         return $data    ->where('tahun', $tahun)
                         ->where('bulan', $bulan)
                         ->where('sts', '1')
-                        ->groupBy('kdsatker', 'jenis')
-                        ->selectRaw('kdsatker, jenis, COUNT(nip) as jml, SUM(bruto) as bruto, SUM(pph) as pph');
+                        ->groupBy('nmsatker', 'jenis')
+                        ->selectRaw('nmsatker, jenis, COUNT(nip) as jml, SUM(bruto) as bruto, SUM(pph) as pph');
     }
 
     public function scopeDetailPaymentUpload($data, $kdsatker, $jenis, $thn, $bln)

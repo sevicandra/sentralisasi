@@ -57,4 +57,8 @@ class dokumenUangMakan extends Model
         }
         return $bulan;
     }
+    public function scopeSend($data)
+    {
+        return $data->where('terkirim', 1)->count();
+    }
 }

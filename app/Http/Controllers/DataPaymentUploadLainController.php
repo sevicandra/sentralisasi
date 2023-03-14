@@ -42,7 +42,7 @@ class DataPaymentUploadLainController extends Controller
         }
         
         return view('data-payment.pembayaran-lain-upload.index',[
-            'data'=>dataPembayaranLainnya::satkerUpload($thn, $bln)->paginate(15)->withQueryString(),
+            'data'=>dataPembayaranLainnya::satker()->satkerUpload($thn, $bln)->paginate(15)->withQueryString(),
             'tahun'=>$tahun,
             'bulan'=>$bulan,
             'thn'=>$thn,

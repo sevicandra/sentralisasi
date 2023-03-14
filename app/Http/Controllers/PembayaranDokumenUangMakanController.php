@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\satker;
 use App\Models\dokumenUangMakan;
+use App\Models\dokumenUangLembur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -37,6 +38,8 @@ class PembayaranDokumenUangMakanController extends Controller
             'tahun'=>$tahun,
             'bulan'=>$bulan,
             "pageTitle"=>"Dokumen Uang Makan",
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
@@ -57,6 +60,8 @@ class PembayaranDokumenUangMakanController extends Controller
             'data'=>$data,
             'thn'=>$thn,
             'bln'=>$bln,
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
@@ -94,5 +99,24 @@ class PembayaranDokumenUangMakanController extends Controller
             'Content-Type' => 'application/pdf',
         ]);
 
+    }
+
+    public function approve(dokumenUangMakan $dokumenUangMakan)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        if (!$dokumenUangMakan->terkirim) {
+            return abort(403);
+        }
+
+        $dokumenUangMakan->update(['terkirim'=>2]);
+        return Redirect()->back()->with('berhasil', 'Data berhasil di simpan.');
     }
 }

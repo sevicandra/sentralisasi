@@ -13,73 +13,73 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_monitoring'];
-            $gate2=['sys_admin'];
-        }else{
-            $gate=['admin_satker'];
-            $gate2=[];
-
-        }
-
-        if (! Gate::any($gate, auth()->user()->id)) {
-            if (! Gate::any($gate2, auth()->user()->id)) {
-                abort(403);
-            }
-            return Redirect('/monitoring/penghasilan');
-        }
-        
-        // switch (request('jns')) {
-        //     case 'gaji-rutin':
-        //         $endpoint= "gaji-rutin";
-        //         break;
-
-        //     case 'kekurangan-gaji':
-        //         $endpoint= "kekurangan-gaji";
-        //         break;
-
-        //     case 'uang-makan':
-        //         $endpoint= "uang-makan";
-        //         break;
-                
-        //     case 'uang-lembur':
-        //         $endpoint= "uang-lembur";
-        //         break;
-                
-        //     case 'tukin-rutin':
-        //         $endpoint= "tukin-rutin";
-        //         break;
-                
-        //     case 'kekurangan-tukin':
-        //         $endpoint= "kekurangan-tukin";
-        //         break;
-        //     default:
-        //         $endpoint= "gaji-rutin";
-        //         break;
-        // }
-
-        // if (request('thn') != null) {
-        //     $tahun = request('thn');
+        // if (Auth::guard('web')->check()) {
+        //     $gate=['plt_admin_satker', 'opr_monitoring'];
+        //     $gate2=['sys_admin'];
         // }else{
-        //     $tahun = date('Y');
+        //     $gate=['admin_satker'];
+        //     $gate2=[];
+
         // }
 
-        // $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').$endpoint,[
-        //     'tahun' => $tahun,
-        //     'kdsatker' => auth()->user()->kdsatker,
-        //     'X-API-KEY' => config('alika.key')
-        // ]);
+        // if (! Gate::any($gate, auth()->user()->id)) {
+        //     if (! Gate::any($gate2, auth()->user()->id)) {
+        //         abort(403);
+        //     }
+        //     return Redirect('/monitoring/penghasilan');
+        // }
+        
+        switch (request('jns')) {
+            case 'gaji-rutin':
+                $endpoint= "gaji-rutin";
+                break;
 
-        // $thnsatker = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'tahun-satker',[
-        //     'kdsatker' => auth()->user()->kdsatker,
-        //     'X-API-KEY' => 'hGfdg456ghD4f566afjh6Fg@hgb#jijk'
-        // ]);
+            case 'kekurangan-gaji':
+                $endpoint= "kekurangan-gaji";
+                break;
 
-        // return view('monitoring.beranda.index',[
-        //     'pageTitle'=> 'Beranda',
-        //     'data'=>json_decode($response, false),
-        //     'tahun'=>json_decode($thnsatker,false)
-        // ]);
+            case 'uang-makan':
+                $endpoint= "uang-makan";
+                break;
+                
+            case 'uang-lembur':
+                $endpoint= "uang-lembur";
+                break;
+                
+            case 'tukin-rutin':
+                $endpoint= "tukin-rutin";
+                break;
+                
+            case 'kekurangan-tukin':
+                $endpoint= "kekurangan-tukin";
+                break;
+            default:
+                $endpoint= "gaji-rutin";
+                break;
+        }
+
+        if (request('thn') != null) {
+            $tahun = request('thn');
+        }else{
+            $tahun = date('Y');
+        }
+
+        $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get( config('alika.uri3').$endpoint,[
+            'tahun' => $tahun,
+            'kdsatker' => auth()->user()->kdsatker,
+            'X-API-KEY' => config('alika.key')
+        ]);
+
+        $thnsatker = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'tahun-satker',[
+            'kdsatker' => auth()->user()->kdsatker,
+            'X-API-KEY' => 'hGfdg456ghD4f566afjh6Fg@hgb#jijk'
+        ]);
+
+        return view('monitoring.beranda.index',[
+            'pageTitle'=> 'Beranda',
+            'data'=>json_decode($response, false),
+            'tahun'=>json_decode($thnsatker,false)
+        ]);
         return redirect('/monitoring/rincian');
     }
     

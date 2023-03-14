@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SsoController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminRoleController;
@@ -12,19 +14,19 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
 use App\Http\Controllers\DataPaymentController;
-use App\Http\Controllers\AdminAdminSatkerController;
-use App\Http\Controllers\DataPaymentHonorariumController;
 use App\Http\Controllers\DataPaymentLainController;
+use App\Http\Controllers\AdminAdminSatkerController;
 use App\Http\Controllers\DataPaymentServerController;
-use App\Http\Controllers\DataPaymentUploadHonorariumController;
-use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringLaporanController;
 use App\Http\Controllers\MonitoringRincianController;
 use App\Http\Controllers\MonitoringPelaporanController;
 use App\Http\Controllers\PembayaranUangMakanController;
 use App\Http\Controllers\PembayaranUangLemburController;
+use App\Http\Controllers\DataPaymentHonorariumController;
+use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringPenghasilanController;
 use App\Http\Controllers\PembayaranDokumenUangMakanController;
+use App\Http\Controllers\DataPaymentUploadHonorariumController;
 use App\Http\Controllers\PembayaranDokumenUangLemburController;
 
 /*
@@ -42,9 +44,7 @@ Route::get('/api/sso', [SsoController::class, 'sign_in'])->middleware('guest:web
 
 Route::get('/sso', [SsoController::class, 'sso'])->middleware('guest:web,admin');
 
-Route::get('/', function () {
-    return view('index');
-})->middleware('auth:web,admin');
+Route::get('/', [HomeController::class, 'index'])->middleware('auth:web,admin');
 
 Route::get('/login', function () {
     return view('welcome');
@@ -175,6 +175,7 @@ Route::controller(PembayaranDokumenUangMakanController::class)->group(function()
     Route::get('/belanja-51/dokumen-uang-makan/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
     Route::delete('/belanja-51/dokumen-uang-makan/{dokumenUangMakan}', 'reject')->middleware('auth:web,admin');
     Route::patch('/belanja-51/dokumen-uang-makan/{dokumenUangMakan}/dokumen', 'dokumen')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/dokumen-uang-makan/{dokumenUangMakan}/approve', 'approve')->middleware('auth:web,admin');
 });
 
 Route::controller(PembayaranDokumenUangLemburController::class)->group(function(){
@@ -184,6 +185,7 @@ Route::controller(PembayaranDokumenUangLemburController::class)->group(function(
     Route::get('/belanja-51/dokumen-uang-lembur/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
     Route::delete('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}', 'reject')->middleware('auth:web,admin');
     Route::patch('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}/dokumen', 'dokumen')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/dokumen-uang-lembur/{dokumenUangMakan}/approve', 'approve')->middleware('auth:web,admin');
 });
 
 Route::controller(AdminController::class)->group(function(){

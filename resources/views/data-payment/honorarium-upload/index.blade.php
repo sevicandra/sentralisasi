@@ -59,9 +59,8 @@
                               <td class="text-right">{{ number_format($item->pph,2, ',', '.') }}</td>
                               <td class="text-right">{{ number_format($item->bruto-$item->pph,2, ',', '.') }}</td>
                               <td class="text-center">
-                                <form action="/data-payment/upload/honorarium/{{$item->file}}/dokumen" method="post" target="_blank">
+                                <form action="/data-payment/upload/honorarium/{{$item->file}}/dokumen" method="get" target="_blank">
                                   @csrf
-                                  @method('patch')
                                   <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
                                 </form>
                               </td>
@@ -85,7 +84,7 @@
 
     </div>
     <div id="paginator">
-        {{-- {{$data->links()}} --}}
+        {{$data->links()}}
     </div>
 
 

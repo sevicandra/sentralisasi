@@ -43,7 +43,7 @@ class DataPaymentUploadHonorariumController extends Controller
         }
 
         return view('data-payment.honorarium-upload.index',[
-            'data'=>dataHonorarium::satker()->upload($thn, $bln),
+            'data'=>dataHonorarium::satker()->upload($thn, $bln)->paginate(15)->withQueryString(),
             'tahun'=>$tahun,
             'bulan'=>$bulan,
             'thn'=>$thn,

@@ -86,7 +86,7 @@ class dataHonorarium extends Model
                         ->where('tahun', $thn)
                         ->where('bulan', $bln)
                         ->groupBy('nmsatker','file')
-                        ->selectRaw('nmsatker, file, COUNT(nip) as jmh, SUM(bruto) as bruto, SUM(pph) as pph')->get();
+                        ->selectRaw('nmsatker, file, COUNT(nip) as jmh, SUM(bruto) as bruto, SUM(pph) as pph');
     }
 
     public function scopeUploadDetail($data, $file)

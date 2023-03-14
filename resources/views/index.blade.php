@@ -14,13 +14,24 @@
             <span>Monitoring</span>
         </div>
     </a>
-    <a href="/belanja-51" class="main-menu" style="text-decoration: none; color:#555555"> 
+    <a href="/belanja-51" class="main-menu position-relative" style="text-decoration: none; color:#555555"> 
         <div class="content">
             <div>
                 <img src="/img/ico/belanja_51.png" alt=" Belanja 51 Icon" style="max-height: 100%; width:auto">
             </div>
             <span>Belanja 51</span>
         </div>
+        @if (Auth::guard('web')->check())
+        @can('sys_admin', auth()->user()->id)
+            @if ($uangLemburKirim+$uangMakanKirim > 0)
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ $uangLemburKirim+$uangMakanKirim }}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+                
+            @endif
+        @endcan
+        @endif
     </a>
     <a href="/honorarium" class="main-menu" style="text-decoration: none; color:#555555"> 
         <div class="content">

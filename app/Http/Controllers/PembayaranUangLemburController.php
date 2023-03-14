@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\bulan;
 use Illuminate\Http\Request;
+use App\Models\dokumenUangMakan;
 use App\Models\dokumenUangLembur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -39,6 +40,8 @@ class PembayaranUangLemburController extends Controller
             'tahun'=>$tahun,
             'thn'=>$thn,
             "pageTitle"=>"Uang Lembur",
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
@@ -62,6 +65,8 @@ class PembayaranUangLemburController extends Controller
         return view('Pembayaran.Uang_lembur.create',[
             'bulan'=>bulan::orderBy('bulan')->get(),
             "pageTitle"=>"Uang Lembur",
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
@@ -131,6 +136,8 @@ class PembayaranUangLemburController extends Controller
             'data'=>$dokumenUangLembur,
             'bulan'=>bulan::orderBy('bulan')->get(),
             "pageTitle"=>"Uang Lembur",
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 

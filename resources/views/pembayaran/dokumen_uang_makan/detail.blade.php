@@ -13,7 +13,7 @@
     </div>
     <div id="main-content">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="card">
               <div class="card-header">
                 Kantor Pusat
@@ -49,11 +49,18 @@
                               <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
                             </form>
                           <td>
-                            @if ($item->terkirim)
-                            <span class="text-primary">terkirim</span>
-                            @else
-                            <span class="text-primary">draft</span>
-                            @endif
+                            @switch($item->terkirim)
+                                @case(0)
+                                  <span class="text-primary">draft</span>
+                                    @break
+                                @case(1)
+                                  <span class="text-primary">terkirim</span>
+                                    @break
+                                @case(2)
+                                  <span class="text-primary">approve</span>
+                                    @break
+                                @default
+                            @endswitch
                           </td>
                           <td>{{ $item->created_at }}</td>
                           <td>
@@ -62,11 +69,18 @@
                             @endif
                           </td>
                           <td>
-                            @if ($item->terkirim)
+                            @if ($item->terkirim != 0)
                             <form action="/belanja-51/dokumen-uang-makan/{{ $item->id }}" method="post">
                               @csrf
                               @method('DELETE')
-                              <button onclick="return confirm('Apakah Anda yakin akan menolak data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0"><i class="bi bi-send-x"></i></button>
+                              <button onclick="return confirm('Apakah Anda yakin akan menolak data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">tolak</button>
+                            </form>
+                            @endif
+                            @if ($item->terkirim === 1)
+                            <form action="/belanja-51/dokumen-uang-makan/{{ $item->id }}/approve" method="post">
+                              @csrf
+                              @method('PATCH')
+                              <button onclick="return confirm('Apakah Anda yakin akan menyimpan data ini?');" type="submit" class="btn btn-sm btn-outline-primary pt-0 pb-0">approve</button>
                             </form>
                             @endif
                           </td>

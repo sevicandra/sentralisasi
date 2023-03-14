@@ -13,12 +13,12 @@
 <span>
     Halaman Utama
 </span>
-{{-- <div>
+<div>
     <a href="/monitoring">
         <span></span>
         <span>Beranda</span>
     </a>
-</div> --}}
+</div>
 <div>
 <a href="/monitoring/rincian">
     <span></span>

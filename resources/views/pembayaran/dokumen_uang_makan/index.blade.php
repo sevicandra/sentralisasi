@@ -54,8 +54,10 @@
                                 @endif
                               </td>
                               <td>
-                                @if ($item->dokumenUangMakan($thn, $bln)->avg('terkirim') === 1)
+                                @if ($item->dokumenUangMakan($thn, $bln)->min('terkirim') === 1)
                                   <span class="text-primary">terkirim</span>
+                                @elseif($item->dokumenUangMakan($thn, $bln)->min('terkirim') === 0)
+                                  <span class="text-danger">draft</span>
                                 @else
                                   <span class="text-primary"></span>
                                 @endif

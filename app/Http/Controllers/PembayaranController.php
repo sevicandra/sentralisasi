@@ -43,7 +43,9 @@ class PembayaranController extends Controller
             'tahun'=>collect($thn_merged)->unique()->sortDesc(),
             'uangMakan'=>$um,
             'uangLembur'=>$ul,
-            'thn'=>$thn
+            'thn'=>$thn,
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
@@ -69,7 +71,9 @@ class PembayaranController extends Controller
         return view('pembayaran.detail',[
             'data'=>$data,
             'thn'=>$thn,
-            'jns'=>'uang-makan'
+            'jns'=>'uang-makan',
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
@@ -95,7 +99,9 @@ class PembayaranController extends Controller
         return view('pembayaran.detail',[
             'data'=>$data,
             'thn'=>$thn,
-            'jns'=>'uang-lembur'
+            'jns'=>'uang-lembur',
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
