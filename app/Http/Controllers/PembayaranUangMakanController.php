@@ -63,7 +63,9 @@ class PembayaranUangMakanController extends Controller
             return Redirect('/belanja-51/dokumen-uang-makan');
         }
         return view('Pembayaran.Uang_makan.create',[
-            'bulan'=>bulan::orderBy('bulan')->get()  
+            'bulan'=>bulan::orderBy('bulan')->get(),
+            'uangLemburKirim'=>dokumenUangLembur::send(),
+            'uangMakanKirim'=>dokumenUangMakan::send()
         ]);
     }
 
