@@ -185,7 +185,7 @@ Route::controller(PembayaranDokumenUangLemburController::class)->group(function(
     Route::get('/belanja-51/dokumen-uang-lembur/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
     Route::delete('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}', 'reject')->middleware('auth:web,admin');
     Route::patch('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}/dokumen', 'dokumen')->middleware('auth:web,admin');
-    Route::patch('/belanja-51/dokumen-uang-lembur/{dokumenUangMakan}/approve', 'approve')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}/approve', 'approve')->middleware('auth:web,admin');
 });
 
 Route::controller(AdminController::class)->group(function(){
