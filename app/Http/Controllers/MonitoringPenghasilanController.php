@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\hris;
 use App\Models\satker;
 use Spipu\Html2Pdf\Html2Pdf;
 use Illuminate\Support\Facades\Auth;
@@ -41,26 +42,51 @@ class MonitoringPenghasilanController extends Controller
             abort(403);
         }
 
-        $token= Http::asForm()->post(config('hris.token_uri'),[
-            'client_secret'=>config('hris.secret'),
-            'client_id' =>config('hris.id'),
-            'grant_type'=>config('hris.grant')
-        ]);
-        $accesstoken = json_decode($token, false)->access_token;
-
-        if (request('search')) {
-            $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.request('search'));
-            $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->where('KdSatker', $satker->kdsatker);
+        $pegawai = hris::getPegawaiBySatker(auth()->user()->kdsatker);
+        $status = $pegawai->unique('StatusPegawai')->pluck('StatusPegawai');
+        $search = request('search');
+        if (request('status')) {
+            $pegawai_Collection = Collect($pegawai, false)->map(function($data){
+                return(object)[
+                    'Nama'=>$data->Nama,
+                    'Nip18'=>$data->Nip18,
+                    'StatusPegawai'=>$data->StatusPegawai,
+                    'Grading'=>$data->Grading,
+                    'KodeOrganisasi'=>$data->KodeOrganisasi,
+                ];
+            })->where('StatusPegawai',request('status'))->filter(function ($value) use ($search) {
+                foreach ($value as $field) {
+                    if (preg_match('/' . $search . '/i', $field)) {
+                        return true;
+                    }
+                }
+                return false;
+            })->sortBy([['Grading', 'desc'],['KodeoOrganisasi', 'asc']])->values();
         }else{
-            $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/pegawai/getByKodeSatker',[
-                "kdSatker"=>$satker->kdsatker,
-            ]);
-            $pegawai_Collection = Collect(json_decode($pegawai, false)->Data)->where('StatusPegawai','Aktif')->sortBy([['Grading', 'desc'],['KodeOrganisasi', 'asc']])->values();
-        };
-        $data = $this->paginate($pegawai_Collection, 15, request('page'), ['path'=>' ']);
+            $pegawai_Collection = Collect($pegawai, false)->map(function($data){
+                return (object)[
+                    'Nama'=>$data->Nama,
+                    'Nip18'=>$data->Nip18,
+                    'StatusPegawai'=>$data->StatusPegawai,
+                    'Grading'=>$data->Grading,
+                    'KodeOrganisasi'=>$data->KodeOrganisasi,
+                ];
+            })->where('StatusPegawai','Aktif')->filter(function ($value) use ($search) {
+                foreach ($value as $field) {
+                    if (preg_match('/' . $search . '/i', $field)) {
+                        return true;
+                    }
+                }
+                return false;
+            })->sortBy([['Grading', 'desc'],['KodeOrganisasi', 'asc']])->values();
+        }
+
+        $data = $this->paginate($pegawai_Collection, 15, request('page'), ['path'=>' '])->withQueryString();
         return view('monitoring.penghasilan.rincian.index',[
             "pageTitle"=>"Rincian ".$satker->nmsatker,
-            "data"=>$data
+            "data"=>$data,
+            "satker"=>$satker,
+            "status"=>$status
         ]);
     }
 

@@ -92,12 +92,26 @@ class PembayaranUangLemburController extends Controller
             'bulan'=>'required',
             'jmlpegawai'=>'required|numeric',
             'keterangan'=>'required',
+            'tahun'=>'required|max_digits:4|min_digits:4',
             'file'=>'mimetypes:application/pdf|file|max:10240'
+        ],[
+            'bulan.required'=>'bulan wajib di isi.',
+            'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+            'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+            'keterangan.required'=>'keterangan wajib di isi.',
+            'tahun.required'=>'tahun wajib di isi.',
+            'tahun.max_digits'=>'tahun harus 4 karakter',
+            'tahun.min_digits'=>'tahun harus 4 karakter',
+            'tahun.required'=>'tahun wajib di isi.',
+            'file.required'=>'file wajib di isi.',
+            'file.mimetypes'=>'file harus berupa pdf.',
+            'file.max'=>'ukuran maksimal file 10MB',
         ]);
+
         $path = $request->file('file')->store('uang-lembur');
         $nmbulan = bulan::nmBulan($request->bulan);
         dokumenUangLembur::create([
-            'tahun'=>date('Y'),
+            'tahun'=>$request->tahun,
             'bulan'=>$request->bulan,
             'jmlpegawai'=>$request->jmlpegawai,
             'keterangan'=>$request->keterangan,
@@ -169,13 +183,27 @@ class PembayaranUangLemburController extends Controller
                 'bulan'=>'required',
                 'jmlpegawai'=>'required|numeric',
                 'keterangan'=>'required',
+                'tahun'=>'required|max_digits:4|min_digits:4',
                 'file'=>'mimetypes:application/pdf|file|max:10240'
-            ]);
+            ],[
+            'bulan.required'=>'bulan wajib di isi.',
+            'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+            'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+            'keterangan.required'=>'keterangan wajib di isi.',
+            'tahun.required'=>'tahun wajib di isi.',
+            'tahun.max_digits'=>'tahun harus 4 karakter',
+            'tahun.min_digits'=>'tahun harus 4 karakter',
+            'tahun.required'=>'tahun wajib di isi.',
+            'file.required'=>'file wajib di isi.',
+            'file.mimetypes'=>'file harus berupa pdf.',
+            'file.max'=>'ukuran maksimal file 10MB',
+        ]);
             $path = $request->file('file')->store('uang-lembur');
             $oldfile=$dokumenUangLembur->file;
             $nmbulan = bulan::nmBulan($request->bulan);
             $dokumenUangLembur->update([
                 'bulan'=>$request->bulan,
+                'tahun'=>$request->tahun,
                 'jmlpegawai'=>$request->jmlpegawai,
                 'keterangan'=>$request->keterangan,
                 'file'=>$path,
@@ -188,10 +216,24 @@ class PembayaranUangLemburController extends Controller
                 'bulan'=>'required',
                 'jmlpegawai'=>'required|numeric',
                 'keterangan'=>'required',
+                'tahun'=>'required|max_digits:4|min_digits:4',
+            ],[
+                'bulan.required'=>'bulan wajib di isi.',
+                'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+                'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+                'keterangan.required'=>'keterangan wajib di isi.',
+                'tahun.required'=>'tahun wajib di isi.',
+                'tahun.max_digits'=>'tahun harus 4 karakter',
+                'tahun.min_digits'=>'tahun harus 4 karakter',
+                'tahun.required'=>'tahun wajib di isi.',
+                'file.required'=>'file wajib di isi.',
+                'file.mimetypes'=>'file harus berupa pdf.',
+                'file.max'=>'ukuran maksimal file 10MB',
             ]);
             $nmbulan = bulan::nmBulan($request->bulan);
             $dokumenUangLembur->update([
                 'bulan'=>$request->bulan,
+                'tahun'=>$request->tahun,
                 'jmlpegawai'=>$request->jmlpegawai,
                 'keterangan'=>$request->keterangan,
                 'nmbulan'=>$nmbulan

@@ -20,7 +20,7 @@
                 <div class="card-body">
     
                   <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-4">
                       <div class="form-group">
                         <label for="">Bulan:</label>
                         <select name="bulan" class="form-control">
@@ -28,6 +28,17 @@
                           <option value="{{ $item->bulan }}" @if (old('bulan') === $item->bulan)selected @endif>{{ $item->nmbulan }}</option>
                           @endforeach
                         </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                          <label for="">Tahun:</label>
+                          <input type="text" name="tahun" class="form-control @error('tahun') is-invalid @enderror" @if (old('tahun')) value="{{ old('tahun') }}" @else value="{{ date('Y') }}" @endif>
+                          @error('tahun')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
                       </div>
                     </div>
                     <div class="col-lg-4">

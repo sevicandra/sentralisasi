@@ -8,10 +8,22 @@
         <div class="row">
             <div class="row">
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="col-md-5">
+                        <select class="form-control" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                            @foreach ($status as $item)
+                            <option value="?status={{ $item }} @if (request('search'))&search={{ request('search') }} @endif" @if (request('status') === $item) selected  @endif>
+                                {{ $item }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-5">
                         <form action="" method="get">
+                            @if (request('status'))
+                                <input type="text" name="status" class="form-control" hidden value="{{ request('status') }}">
+                            @endif
                             <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="nip">
+                                <input type="text" name="search" class="form-control" placeholder="Nama/NIP">
                                 <button class="btn btn-sm btn-outline-secondary" type="submit">Cari</button>
                             </div>
                         </form>

@@ -48,19 +48,51 @@ class MonitoringPelaporanController extends Controller
             abort(403);
         }
 
-        if (request('search')) {
-            $pegawai = hris::getPegawai(request('search'));
-            $pegawai_Collection = collect($pegawai)->where('KdSatker', $satker->kdsatker);
+        $pegawai = hris::getPegawaiBySatker(auth()->user()->kdsatker);
+        $status = $pegawai->unique('StatusPegawai')->pluck('StatusPegawai');
+        $search = request('search');
+        if (request('status')) {
+            $pegawai_Collection = Collect($pegawai, false)->map(function($data){
+                return(object)[
+                    'Nama'=>$data->Nama,
+                    'Nip18'=>$data->Nip18,
+                    'StatusPegawai'=>$data->StatusPegawai,
+                    'Grading'=>$data->Grading,
+                    'KodeOrganisasi'=>$data->KodeOrganisasi,
+                ];
+            })->where('StatusPegawai',request('status'))->filter(function ($value) use ($search) {
+                foreach ($value as $field) {
+                    if (preg_match('/' . $search . '/i', $field)) {
+                        return true;
+                    }
+                }
+                return false;
+            })->sortBy([['Grading', 'desc'],['KodeoOrganisasi', 'asc']])->values();
         }else{
-            $pegawai = hris::getPegawaiBySatker($satker->kdsatker);
-            $pegawai_Collection = Collect($pegawai, false)->where('StatusPegawai','Aktif')->sortBy([['Grading', 'desc'],['KodeOrganisasi', 'asc']])->values();
-        };
+            $pegawai_Collection = Collect($pegawai, false)->map(function($data){
+                return (object)[
+                    'Nama'=>$data->Nama,
+                    'Nip18'=>$data->Nip18,
+                    'StatusPegawai'=>$data->StatusPegawai,
+                    'Grading'=>$data->Grading,
+                    'KodeOrganisasi'=>$data->KodeOrganisasi,
+                ];
+            })->where('StatusPegawai','Aktif')->filter(function ($value) use ($search) {
+                foreach ($value as $field) {
+                    if (preg_match('/' . $search . '/i', $field)) {
+                        return true;
+                    }
+                }
+                return false;
+            })->sortBy([['Grading', 'desc'],['KodeOrganisasi', 'asc']])->values();
+        }
 
-        $data = $this->paginate($pegawai_Collection, 15, request('page'), ['path'=>' ']);
+        $data = $this->paginate($pegawai_Collection, 15, request('page'), ['path'=>' '])->withQueryString();
         return view('monitoring.pelaporan.laporan.index',[
             "pageTitle"=>"Laporan ".$satker->nmsatker,
             "data"=>$data,
-            "satker"=>$satker
+            "satker"=>$satker,
+            "status"=>$status
         ]);
     }
     

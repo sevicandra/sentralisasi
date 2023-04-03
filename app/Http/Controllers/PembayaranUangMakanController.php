@@ -42,6 +42,18 @@ class PembayaranUangMakanController extends Controller
             "pageTitle"=>"Uang Makan",
             'uangLemburKirim'=>dokumenUangLembur::send(),
             'uangMakanKirim'=>dokumenUangMakan::send()
+        ],[
+            'bulan.required'=>'bulan wajib di isi.',
+            'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+            'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+            'keterangan.required'=>'keterangan wajib di isi.',
+            'tahun.required'=>'tahun wajib di isi.',
+            'tahun.max_digits'=>'tahun harus 4 karakter',
+            'tahun.min_digits'=>'tahun harus 4 karakter',
+            'tahun.required'=>'tahun wajib di isi.',
+            'file.required'=>'file wajib di isi.',
+            'file.mimetypes'=>'file harus berupa pdf.',
+            'file.max'=>'ukuran maksimal file 10MB',
         ]);
     }
 
@@ -90,18 +102,43 @@ class PembayaranUangMakanController extends Controller
             'bulan'=>'required',
             'jmlpegawai'=>'required|numeric',
             'keterangan'=>'required',
+            'tahun'=>'required|max_digits:4|min_digits:4',
             'file'=>'mimetypes:application/pdf|file|max:10240'
+        ],[
+            'bulan.required'=>'bulan wajib di isi.',
+            'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+            'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+            'keterangan.required'=>'keterangan wajib di isi.',
+            'tahun.required'=>'tahun wajib di isi.',
+            'tahun.max_digits'=>'tahun harus 4 karakter',
+            'tahun.min_digits'=>'tahun harus 4 karakter',
+            'tahun.required'=>'tahun wajib di isi.',
+            'file.required'=>'file wajib di isi.',
+            'file.mimetypes'=>'file harus berupa pdf.',
+            'file.max'=>'ukuran maksimal file 10MB',
         ]);
         $path = $request->file('file')->store('uang-makan');
         $nmbulan = bulan::nmBulan($request->bulan);
         dokumenUangMakan::create([
-            'tahun'=>date('Y'),
+            'tahun'=>$request->tahun,
             'bulan'=>$request->bulan,
             'jmlpegawai'=>$request->jmlpegawai,
             'keterangan'=>$request->keterangan,
             'kdsatker'=>auth()->user()->kdsatker,
             'file'=>$path,
             'nmbulan'=>$nmbulan
+        ],[
+            'bulan.required'=>'bulan wajib di isi.',
+            'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+            'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+            'keterangan.required'=>'keterangan wajib di isi.',
+            'tahun.required'=>'tahun wajib di isi.',
+            'tahun.max_digits'=>'tahun harus 4 karakter',
+            'tahun.min_digits'=>'tahun harus 4 karakter',
+            'tahun.required'=>'tahun wajib di isi.',
+            'file.required'=>'file wajib di isi.',
+            'file.mimetypes'=>'file harus berupa pdf.',
+            'file.max'=>'ukuran maksimal file 10MB',
         ]);
         return Redirect('/belanja-51/uang-makan/index')->with('berhasil', 'data berhasil ditambahkan');
     }
@@ -165,13 +202,27 @@ class PembayaranUangMakanController extends Controller
                 'bulan'=>'required',
                 'jmlpegawai'=>'required|numeric',
                 'keterangan'=>'required',
+                'tahun'=>'required|max_digits:4|min_digits:4',
                 'file'=>'mimetypes:application/pdf|file|max:10240'
+            ],[
+                'bulan.required'=>'bulan wajib di isi.',
+                'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+                'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+                'keterangan.required'=>'keterangan wajib di isi.',
+                'tahun.required'=>'tahun wajib di isi.',
+                'tahun.max_digits'=>'tahun harus 4 karakter',
+                'tahun.min_digits'=>'tahun harus 4 karakter',
+                'tahun.required'=>'tahun wajib di isi.',
+                'file.required'=>'file wajib di isi.',
+                'file.mimetypes'=>'file harus berupa pdf.',
+                'file.max'=>'ukuran maksimal file 10MB',
             ]);
             $path = $request->file('file')->store('uang-makan');
             $oldfile=$dokumenUangMakan->file;
             $nmbulan = bulan::nmBulan($request->bulan);
             $dokumenUangMakan->update([
                 'bulan'=>$request->bulan,
+                'tahun'=>$request->tahun,
                 'jmlpegawai'=>$request->jmlpegawai,
                 'keterangan'=>$request->keterangan,
                 'file'=>$path,
@@ -183,11 +234,25 @@ class PembayaranUangMakanController extends Controller
             $request->validate([
                 'bulan'=>'required',
                 'jmlpegawai'=>'required|numeric',
+                'tahun'=>'required|max_digits:4|min_digits:4',
                 'keterangan'=>'required',
+            ],[
+                'bulan.required'=>'bulan wajib di isi.',
+                'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
+                'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
+                'keterangan.required'=>'keterangan wajib di isi.',
+                'tahun.required'=>'tahun wajib di isi.',
+                'tahun.max_digits'=>'tahun harus 4 karakter',
+                'tahun.min_digits'=>'tahun harus 4 karakter',
+                'tahun.required'=>'tahun wajib di isi.',
+                'file.required'=>'file wajib di isi.',
+                'file.mimetypes'=>'file harus berupa pdf.',
+                'file.max'=>'ukuran maksimal file 10MB',
             ]);
             $nmbulan = bulan::nmBulan($request->bulan);
             $dokumenUangMakan->update([
                 'bulan'=>$request->bulan,
+                'tahun'=>$request->tahun,
                 'jmlpegawai'=>$request->jmlpegawai,
                 'keterangan'=>$request->keterangan,
                 'nmbulan'=>$nmbulan
