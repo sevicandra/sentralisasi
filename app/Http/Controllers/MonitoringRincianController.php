@@ -147,7 +147,7 @@ class MonitoringRincianController extends Controller
                 break;
         }
 
-        $tahun=gaji::getTahunGaji($thn);
+        $tahun=gaji::getTahunGaji($nip);
 
         return view('monitoring.rincian.gaji',[
             "pageTitle"=>"Gaji ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
