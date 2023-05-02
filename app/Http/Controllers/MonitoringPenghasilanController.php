@@ -42,7 +42,7 @@ class MonitoringPenghasilanController extends Controller
             abort(403);
         }
 
-        $pegawai = hris::getPegawaiBySatker(auth()->user()->kdsatker);
+        $pegawai = hris::getPegawaiBySatker($satker->kdsatker);
         $status = $pegawai->unique('StatusPegawai')->pluck('StatusPegawai');
         $search = request('search');
         if (request('status')) {
