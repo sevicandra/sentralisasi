@@ -12,7 +12,9 @@ class HomeController extends Controller
     {   
         return view('index',[
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 }

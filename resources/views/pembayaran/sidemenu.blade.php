@@ -1,6 +1,6 @@
 @if (Auth::guard('web')->check())
     @php
-        $gate=['plt_admin_satker', 'opr_monitoring']
+        $gate=['plt_admin_satker', 'opr_belanja_51']
     @endphp
 @else
     @php
@@ -21,14 +21,32 @@
 <div>
     <a href="/belanja-51/uang-makan">
         <span></span>
-        <span>Uang Makan</span>
+        <span>Uang Makan
+            @if ($uangMakanDraft >0)
+            <span class="position-relative">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $uangMakanDraft }}
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </span>
+            @endif
+        </span>
     </a>
 </div>
 
 <div>
     <a href="/belanja-51/uang-lembur">
         <span></span>
-        <span>Uang Lembur</span>
+        <span>Uang Lembur
+            @if ($uangLemburDraft >0)
+            <span class="position-relative">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $uangLemburDraft }}
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </span>
+            @endif
+        </span>
     </a>
 </div>
 @endcan

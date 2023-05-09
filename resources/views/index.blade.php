@@ -22,15 +22,33 @@
             <span>Belanja 51</span>
         </div>
         @if (Auth::guard('web')->check())
-        @can('sys_admin', auth()->user()->id)
-            @if ($uangLemburKirim+$uangMakanKirim > 0)
+            @canany(['plt_admin_satker', 'opr_belanja_51', 'sys_admin'], auth()->user()->id)
+                @php
+                    $notif = 0;
+                    $notif += $uangLemburDraft;
+                    $notif += $uangMakanDraft;
+                @endphp
+                @can('sys_admin', auth()->user()->id)
+                @php
+                    $notif += $uangLemburKirim;
+                    $notif += $uangMakanKirim;
+                @endphp
+                @endcan
+
+                @if ($notif > 0)
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ $notif }}
+                <span class="visually-hidden">unread messages</span>
+                </span>
+                @endif
+            @endcan
+        @else
+            @if ($uangLemburDraft+$uangMakanDraft > 0)
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {{ $uangLemburKirim+$uangMakanKirim }}
-              <span class="visually-hidden">unread messages</span>
+            {{ $uangLemburDraft+$uangMakanDraft }}
+            <span class="visually-hidden">unread messages</span>
             </span>
-                
             @endif
-        @endcan
         @endif
     </a>
     <a href="/honorarium" class="main-menu" style="text-decoration: none; color:#555555"> 

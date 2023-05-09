@@ -170,6 +170,7 @@ Route::controller(PembayaranUangLemburController::class)->group(function(){
 
 Route::controller(PembayaranDokumenUangMakanController::class)->group(function(){
     Route::get('/belanja-51/dokumen-uang-makan', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-makan/rekap', 'rekap')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-makan/{thn}', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-makan/{thn}/{bln}', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-makan/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
@@ -180,6 +181,7 @@ Route::controller(PembayaranDokumenUangMakanController::class)->group(function()
 
 Route::controller(PembayaranDokumenUangLemburController::class)->group(function(){
     Route::get('/belanja-51/dokumen-uang-lembur', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/dokumen-uang-lembur/rekap', 'rekap')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-lembur/{thn}', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-lembur/{thn}/{bln}', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-lembur/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');

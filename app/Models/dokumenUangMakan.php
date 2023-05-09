@@ -57,8 +57,15 @@ class dokumenUangMakan extends Model
         }
         return $bulan;
     }
+
     public function scopeSend($data)
     {
         return $data->where('terkirim', 1)->count();
+    }
+
+    public function scopeDraft($data)
+    {
+        return  $data   ->where('kdsatker', auth()->user()->kdsatker)
+                        ->where('terkirim', 0)->count();
     }
 }

@@ -17,9 +17,16 @@
                   @endforeach
                   </div>
                   <div class=" card-body">
-                    @foreach ($bulan as $item)
-                      <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
-                    @endforeach
+                    <div>
+                      @foreach ($bulan as $item)
+                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
+                      @endforeach
+                    </div>
+                    <div>
+                      @if ($thn && $bln)
+                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/rekap?thn={{ $thn }}&bln={{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">Download Rekap</a>
+                      @endif
+                    </div>
                     <div class="table-responsive">
                       <table class="table table-sm table-bordered table-hover">
                         <thead>

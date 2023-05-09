@@ -45,7 +45,9 @@ class PembayaranController extends Controller
             'uangLembur'=>$ul,
             'thn'=>$thn,
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 
@@ -73,7 +75,9 @@ class PembayaranController extends Controller
             'thn'=>$thn,
             'jns'=>'uang-makan',
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 
@@ -101,7 +105,9 @@ class PembayaranController extends Controller
             'thn'=>$thn,
             'jns'=>'uang-lembur',
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 

@@ -41,7 +41,9 @@ class PembayaranUangLemburController extends Controller
             'thn'=>$thn,
             "pageTitle"=>"Uang Lembur",
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 
@@ -66,7 +68,9 @@ class PembayaranUangLemburController extends Controller
             'bulan'=>bulan::orderBy('bulan')->get(),
             "pageTitle"=>"Uang Lembur",
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 
@@ -151,7 +155,9 @@ class PembayaranUangLemburController extends Controller
             'bulan'=>bulan::orderBy('bulan')->get(),
             "pageTitle"=>"Uang Lembur",
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 

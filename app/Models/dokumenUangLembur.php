@@ -67,4 +67,10 @@ class dokumenUangLembur extends Model
     {
         return $data->where('terkirim', 1)->count();
     }
+
+    public function scopeDraft($data)
+    {
+        return  $data   ->where('kdsatker', auth()->user()->kdsatker)
+                        ->where('terkirim', 0)->count();
+    }
 }

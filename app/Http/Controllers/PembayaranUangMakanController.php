@@ -41,19 +41,9 @@ class PembayaranUangMakanController extends Controller
             'thn'=>$thn,
             "pageTitle"=>"Uang Makan",
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
-        ],[
-            'bulan.required'=>'bulan wajib di isi.',
-            'jmlpegawai.required'=>'jumlah pegawai wajib di isi.',
-            'jmlpegawai.numeric'=>'jumlah pegawai harus berupa angka.',
-            'keterangan.required'=>'keterangan wajib di isi.',
-            'tahun.required'=>'tahun wajib di isi.',
-            'tahun.max_digits'=>'tahun harus 4 karakter',
-            'tahun.min_digits'=>'tahun harus 4 karakter',
-            'tahun.required'=>'tahun wajib di isi.',
-            'file.required'=>'file wajib di isi.',
-            'file.mimetypes'=>'file harus berupa pdf.',
-            'file.max'=>'ukuran maksimal file 10MB',
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 
@@ -77,7 +67,9 @@ class PembayaranUangMakanController extends Controller
         return view('Pembayaran.Uang_makan.create',[
             'bulan'=>bulan::orderBy('bulan')->get(),
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 
@@ -170,7 +162,9 @@ class PembayaranUangMakanController extends Controller
             'data'=>$dokumenUangMakan,
             'bulan'=>bulan::orderBy('bulan')->get(),
             'uangLemburKirim'=>dokumenUangLembur::send(),
-            'uangMakanKirim'=>dokumenUangMakan::send()
+            'uangMakanKirim'=>dokumenUangMakan::send(),
+            'uangLemburDraft'=>dokumenUangLembur::draft(),
+            'uangMakanDraft'=>dokumenUangMakan::draft(),
         ]);
     }
 
