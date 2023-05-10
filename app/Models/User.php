@@ -39,7 +39,7 @@ class User extends Authenticatable
     ];
 
     public function scopeSatker(){
-        return $this    ->join('satkers', 'users.kdsatker', '=','satkers.kdsatker')
+        return $this    ->leftJoin('satkers', 'users.kdsatker', '=','satkers.kdsatker')
                         ->select('users.*', 'satkers.nmsatker', 'satkers.order')
         ;
     }
@@ -62,11 +62,11 @@ class User extends Authenticatable
     {
         if (Auth::guard('web')->check()) {
             if (! Gate::allows('sys_admin', auth()->user()->id)) {
-                return $data->where('kdsatker', auth()->user()->kdsatker);
+                return $data->where('users.kdsatker', auth()->user()->kdsatker);
             }
             return $data;
         }
-        return $data->where('kdsatker', auth()->user()->kdsatker);
+        return $data->where('users.kdsatker', auth()->user()->kdsatker);
     }
 
     public function scopeSearch($data)
