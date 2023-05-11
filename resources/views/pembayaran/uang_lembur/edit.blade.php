@@ -23,11 +23,16 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label for="">Bulan:</label>
-                        <select name="bulan" class="form-control">
+                        <select name="bulan" class="form-control @error('bulan') is-invalid @enderror">
                           @foreach ($bulan as $item)
                           <option value="{{ $item->bulan }}" @if ($data->bulan === $item->bulan)selected @endif>{{ $item->nmbulan }}</option>
                           @endforeach
                         </select>
+                        @error('bulan')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                        @enderror
                       </div>
                     </div>
                     <div class="col-lg-4">
