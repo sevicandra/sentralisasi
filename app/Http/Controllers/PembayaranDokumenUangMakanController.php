@@ -25,15 +25,17 @@ class PembayaranDokumenUangMakanController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
+
+        $tahun = dokumenUangMakan::tahun();
         if (!$thn) {
-            $thn=date('Y');
+            $thn=$tahun[0];
         }
 
-        if (!$bln) {
-            $bln=date('m');
-        }
-        $tahun = dokumenUangMakan::tahun();
         $bulan = dokumenUangMakan::bulan($thn);
+        if (!$bln) {
+            $bln=end($bulan);
+        }
+        
         return view('pembayaran.dokumen_uang_makan.index',[
             'data'=>satker::order()->get(),
             'thn'=>$thn,

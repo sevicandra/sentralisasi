@@ -25,15 +25,16 @@ class PembayaranDokumenUangLemburController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
+        $tahun = dokumenUangLembur::tahun();
         if (!$thn) {
-            $thn=date('Y');
+            $thn=$tahun[0];
         }
 
-        if (!$bln) {
-            $bln=date('m');
-        }
-        $tahun = dokumenUangLembur::tahun();
         $bulan = dokumenUangLembur::bulan($thn);
+
+        if (!$bln) {
+            $bln=end($bulan);
+        }
         return view('pembayaran.dokumen_uang_lembur.index',[
             'data'=>satker::order()->get(),
             'thn'=>$thn,

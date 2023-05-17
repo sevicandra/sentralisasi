@@ -38,6 +38,7 @@ class HonorariumController extends Controller
             'tahun'=>$tahun,
             'thn'=>$thn,
             "pageTitle"=>"Honorarium",
+            'honorariumDraft'=>dataHonorarium::draft(),
         ]);
     }
 
@@ -54,6 +55,7 @@ class HonorariumController extends Controller
         }
         return view('honorarium.create',[
             "pageTitle"=>"Import Honorarium",
+            'honorariumDraft'=>dataHonorarium::draft(),
         ]);
     }
 
@@ -179,7 +181,8 @@ class HonorariumController extends Controller
         }
         return view('honorarium.edit',[
             'data'=>$dataHonorarium,
-            'pageTitle'=>'Edit Honorarium'
+            'pageTitle'=>'Edit Honorarium',
+            'honorariumDraft'=>dataHonorarium::draft(),
         ]);
     }
 
@@ -254,6 +257,7 @@ class HonorariumController extends Controller
         return view('honorarium.detail.index',[
             'data'=>dataHonorarium::honorDetail($kdsatker, $file)->paginate(15),
             "pageTitle"=>"Detail Honorarium",
+            'honorariumDraft'=>dataHonorarium::draft(),
         ]);
     }
 
@@ -274,7 +278,8 @@ class HonorariumController extends Controller
         }
         return view('honorarium.detail.edit',[
             'data'=>$dataHonorarium,
-            'pageTitle'=>'Edit Honorarium'
+            'pageTitle'=>'Edit Honorarium',
+            'honorariumDraft'=>dataHonorarium::draft(),
         ]);
     }
 

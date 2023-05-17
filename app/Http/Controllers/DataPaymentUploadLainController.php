@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\dataHonorarium;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
@@ -47,7 +48,9 @@ class DataPaymentUploadLainController extends Controller
             'bulan'=>$bulan,
             'thn'=>$thn,
             'bln'=>$bln,
-            'pageTitle'=>'Data Pembayaran Lainnya Uploaded'
+            'pageTitle'=>'Data Pembayaran Lainnya Uploaded',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 
@@ -64,7 +67,9 @@ class DataPaymentUploadLainController extends Controller
         }
         return view('data-payment.pembayaran-lain-upload.detail',[
             'data'=> dataPembayaranLainnya::detailPaymentUpload($kdsatker, $jenis, $thn, $bln)->paginate('15'),
-            'pageTitle'=>'Detail Pembayaran Lainnya Uploaded'
+            'pageTitle'=>'Detail Pembayaran Lainnya Uploaded',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 

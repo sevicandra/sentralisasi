@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\dataHonorarium;
 use App\Helper\Alika\API2\dataLain;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Models\dataPembayaranLainnya;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
@@ -39,7 +41,9 @@ class DataPaymentServerController extends Controller
 
         return view('data-payment.server.index',[
             'data' =>$data,
-            'pageTitle'=>'Data Server'
+            'pageTitle'=>'Data Server',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 
@@ -57,7 +61,9 @@ class DataPaymentServerController extends Controller
 
         return view('data-payment.server.edit',[
             'data'=>dataLain::get($id),
-            'pageTitle'=>'Edit Data Server'
+            'pageTitle'=>'Edit Data Server',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 

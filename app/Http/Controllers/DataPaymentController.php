@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\dataHonorarium;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Models\dataPembayaranLainnya;
 
 class DataPaymentController extends Controller
 {
@@ -19,6 +21,9 @@ class DataPaymentController extends Controller
             abort(403);
         }
         return redirect('/data-payment/server');
-        return view('data-payment.index');
+        return view('data-payment.index',[
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
+        ]);
     }
 }

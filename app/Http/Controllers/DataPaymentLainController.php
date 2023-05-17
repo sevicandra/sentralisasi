@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bulan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\dataHonorarium;
 use Illuminate\Support\Carbon;
 use App\Helper\Alika\API2\dataLain;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,9 @@ class DataPaymentLainController extends Controller
             'bulan'=>$bulan,
             'thn'=>$thn,
             'bln'=>$bln,
-            'pageTitle'=>'Data Pembayaran Lainnya'
+            'pageTitle'=>'Data Pembayaran Lainnya',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 
@@ -69,7 +72,9 @@ class DataPaymentLainController extends Controller
             abort(403);
         }
         return view('data-payment.pembayaran-lain.create',[
-            'pageTitle'=>'Impor Pembayaran Lainnya'
+            'pageTitle'=>'Impor Pembayaran Lainnya',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 
@@ -130,7 +135,9 @@ class DataPaymentLainController extends Controller
         }
         return view('data-payment.pembayaran-lain.detail.index',[
             'data'=> dataPembayaranLainnya::detailPaymentPending($kdsatker, $jenis, $thn, $bln)->paginate('15'),
-            'pageTitle'=>'Detail Pembayaran Lainnya'
+            'pageTitle'=>'Detail Pembayaran Lainnya',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 
@@ -150,7 +157,9 @@ class DataPaymentLainController extends Controller
         }
         return view('data-payment.pembayaran-lain.detail.edit',[
             'data'=>$dataPembayaranLainnya,
-            'pageTitle'=>'Edit Pembayaran Lainnya'
+            'pageTitle'=>'Edit Pembayaran Lainnya',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 

@@ -257,7 +257,7 @@ class PembayaranUangLemburController extends Controller
             Storage::delete($oldfile);
         }else{
             $request->validate([
-                'bulan'=>'required',
+                'bulan'=>'required|numeric',
                 'jmlpegawai'=>'required|numeric',
                 'keterangan'=>'required',
                 'tahun'=>'required|max_digits:4|min_digits:4',
@@ -274,6 +274,24 @@ class PembayaranUangLemburController extends Controller
                 'file.mimetypes'=>'file harus berupa pdf.',
                 'file.max'=>'ukuran maksimal file 10MB',
             ]);
+            if ($request->tahun === date('Y')) {
+                $max = date('m')-1;
+                $request->validate([
+                    'bulan'=>"numeric|max:$max"
+                ],[
+                    'bulan.max'=>'periode pembayaran belum di buka'
+                ]);
+            }elseif($request->tahun > date('Y')){
+                $max_tahun=date('Y');
+                $max_bulan=0;
+                $request->validate([
+                    'tahun'=>"numeric|max:$max_tahun",
+                    'bulan'=>"numeric|max:$max_bulan"
+                ],[
+                    'tahun.max'=>'periode pembayaran belum di buka',
+                    'bulan.max'=>'periode pembayaran belum di buka'
+                ]);
+            }
             $nmbulan = bulan::nmBulan($request->bulan);
             $dokumenUangLembur->update([
                 'bulan'=>$request->bulan,

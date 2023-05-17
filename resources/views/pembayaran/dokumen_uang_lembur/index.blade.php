@@ -24,7 +24,7 @@
                     </div>
                     <div>
                       @if ($thn && $bln)
-                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/rekap?thn={{ $thn }}&bln={{ $bln }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">Download Rekap</a>
+                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/rekap?thn={{ $thn }}&bln={{ $bln }}" class="btn btn-outline-secondary mb-3 mr-1">Download Rekap</a>
                       @endif
                     </div>
                     <div class="table-responsive">

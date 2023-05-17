@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Traits\Uuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class dataHonorarium extends Model
 {
@@ -102,6 +104,37 @@ class dataHonorarium extends Model
     public function scopeBulanUpload($data, $tahun)
     {
         return $data->where('tahun', $tahun)->where('sts', '2')->select('bulan')->orderBy('bulan')->distinct()->get();
+    }
+
+    public function scopeSend($data)
+    {
+        if (Auth::guard('web')->check()) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return  $data   ->where('sts', '1')
+                                ->count();
+            }
+            return 0;
+        }
+        return 0;
+    }
+
+    public function scopeDraft($data)
+    {
+        if (Auth::guard('web')->check()) {
+            if (Gate::any(['plt_admin_satker', 'opr_honor'], auth()->user()->id)) {
+                return  $data   ->where('kdsatker', auth()->user()->kdsatker)
+                                ->where('sts', '0')
+                                ->count();
+            }
+            return 0;
+        }else{
+            if (Gate::any(['admin_satker'], auth()->user()->id)) {
+                return  $data   ->where('kdsatker', auth()->user()->kdsatker)
+                                ->where('sts', '0')
+                                ->count();
+            }
+            return 0;
+        }
     }
     
 }

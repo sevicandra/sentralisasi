@@ -7,6 +7,7 @@ use App\Models\dataHonorarium;
 use App\Helper\Alika\API2\dataLain;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Models\dataPembayaranLainnya;
 use Illuminate\Support\Facades\Storage;
 
 class DataPaymentHonorariumController extends Controller
@@ -25,7 +26,9 @@ class DataPaymentHonorariumController extends Controller
 
         return view('data-payment.honorarium.index',[
             'data'=>dataHonorarium::satker()->pending(),
-            'pageTitle'=>'Data Honorarium Pending'
+            'pageTitle'=>'Data Honorarium Pending',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 
@@ -43,7 +46,9 @@ class DataPaymentHonorariumController extends Controller
 
         return view('data-payment.honorarium.detail',[
             'data'=>dataHonorarium::dataPendingDetail($file)->paginate(15),
-            'pageTitle'=>'Detail Honorarium Pending'
+            'pageTitle'=>'Detail Honorarium Pending',
+            'honorariumKirim'=>dataHonorarium::send(),
+            'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
         ]);
     }
 

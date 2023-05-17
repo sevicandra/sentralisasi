@@ -21,13 +21,31 @@
 <div>
     <a href="/data-payment/honorarium">
         <span></span>
-        <span>Honorarium</span>
+        <span>Honorarium
+            @if ($honorariumKirim >0)
+            <span class="position-relative">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $honorariumKirim }}
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </span>
+            @endif
+        </span>
     </a>
 </div>
 <div>
     <a href="/data-payment/lain">
         <span></span>
-        <span>Pembayaran Lainnya</span>
+        <span>Pembayaran Lainnya
+            @if ($dataPembayaranLainnyaDraft >0)
+            <span class="position-relative">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $dataPembayaranLainnyaDraft }}
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </span>
+            @endif
+        </span>
     </a>
 </div>
 <span>
