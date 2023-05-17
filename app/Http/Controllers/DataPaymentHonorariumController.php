@@ -136,7 +136,7 @@ class DataPaymentHonorariumController extends Controller
         Storage::put($filename, $data);
         $response=dataLain::postMasal(Storage::path($filename), 'data.json');
 
-        if (json_decode($response)->status === false) {
+        if (json_decode($response)->status != true) {
             dataHonorarium::dataPendingDetail($file)->limit(json_decode($response)->count)
             ->update([
                 'sts'=>'2'                
