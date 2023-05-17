@@ -59,7 +59,7 @@
                             <td>{{ $item->Nama }}</td>
                             <td class="pb-0 pr-0">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    {{-- <a href="{{ Request::url() }}/profil" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Profil</a> --}}
+                                    <a href="{{ config('app.url') }}/monitoring/laporan/profil/{{ $item->Nip18 }}" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Profil</a>
                                     <a href="{{ config('app.url') }}/monitoring/laporan/pph-pasal-21/{{ $item->Nip18 }}" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">PPh Pasal 21</a>
                                     <a href="{{ config('app.url') }}/monitoring/laporan/pph-pasal-21-final/{{ $item->Nip18 }}" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">PPh Pasal 21 Final</a>
                                     <a href="{{ config('app.url') }}/monitoring/laporan/penghasilan-tahunan/{{ $item->Nip18 }}" class="btn btn-sm btn-outline-secondary pt-0 pb-0" target="_blank">Penghasilan Tahunan</a>

@@ -31,4 +31,18 @@ class hris
         ]);
         return collect(json_decode($pegawai, false)->Data);
     }
+
+    public static function getKeluarga($nip)
+    {
+        $accesstoken = self::token();
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'keluarga/Riwayat/GetKeluargaByNip/'.$nip);
+        return collect([json_decode($pegawai, false)->Data]);
+    }
+
+    public static function getRekening($nip)
+    {
+        $accesstoken = self::token();
+        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'rekening/Riwayat/GetRekeningByNip/'.$nip);
+        return collect([json_decode($pegawai, false)->Data]);
+    }
 }

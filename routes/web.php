@@ -81,7 +81,7 @@ Route::controller(MonitoringRincianController::class)->group(function(){
 
 Route::controller(MonitoringLaporanController::class)->group(function(){
     Route::get('/monitoring/laporan', 'index')->middleware('auth:web,admin');
-    // Route::get('/monitoring/laporan/profil', 'profil')->middleware('auth:web,admin');
+    Route::get('/monitoring/laporan/profil/{nip}', 'profil')->middleware('auth:web,admin');
     // Route::get('/monitoring/laporan/profil/kp4', 'profil_kp4')->middleware('auth:web,admin');
     Route::get('/monitoring/laporan/pph-pasal-21/{nip}', 'pph_pasal_21')->middleware('auth:web,admin');
     Route::get('/monitoring/laporan/pph-pasal-21/{nip}/{thn}', 'pph_pasal_21')->middleware('auth:web,admin');
@@ -119,7 +119,7 @@ Route::controller(MonitoringPenghasilanController::class)->group(function(){
 Route::controller(MonitoringPelaporanController::class)->group(function(){
     Route::get('/monitoring/pelaporan', 'index')->middleware('auth:web,admin');
     Route::get('/monitoring/pelaporan/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
-    // Route::get('/monitoring/pelaporan/satker/profil', 'satker_profil')->middleware('auth:web,admin');
+    Route::get('/monitoring/pelaporan/{satker:kdsatker}/profil/{nip}', 'satker_profil')->middleware('auth:web,admin');
     // Route::get('/monitoring/pelaporan/satker/profil/kp4', 'satker_profil_kp4')->middleware('auth:web,admin');
     Route::get('/monitoring/pelaporan/{satker:kdsatker}/pph-pasal-21/{nip}', 'satker_pph_pasal_21')->middleware('auth:web,admin');
     Route::get('/monitoring/pelaporan/{satker:kdsatker}/pph-pasal-21/{nip}/{thn}', 'satker_pph_pasal_21')->middleware('auth:web,admin');

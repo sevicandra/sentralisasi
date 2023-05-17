@@ -96,10 +96,34 @@ class MonitoringPelaporanController extends Controller
         ]);
     }
     
-    public function satker_profil()
+    public function satker_profil(satker $satker, $nip)
     {
-        return view('monitoring.laporan.profil.index',[
-            "pageTitle"=>"Profil"
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        
+        $pegawai_Collection = hris::getPegawai($nip)->first();
+        $keluarga = hris::getKeluarga($nip)->first();
+        $rekenig = hris::getRekening($nip)->first();
+
+        if (!$pegawai_Collection) {
+            return abort(404);
+        }
+        if ($pegawai_Collection->KdSatker != $satker->kdsatker) {
+            return abort(403);
+        }
+
+        return view('monitoring.pelaporan.laporan.profil.index',[
+            "pageTitle"=>"Profil ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
+            "pegawai"=>$pegawai_Collection,
+            "keluarga"=>collect($keluarga)->sortBy('TanggalLahir'),
+            "rekening"=>$rekenig
         ]);
     }
 
