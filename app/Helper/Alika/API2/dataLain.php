@@ -56,6 +56,16 @@ class dataLain
         return $response;
     }
 
+    public static function postMasal($path, $name)
+    {
+        $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->attach(
+            'json', file_get_contents($path), $name
+        )->post(config('alika.uri2').'data-lain',[
+            'X-API-KEY' => config('alika.key')
+        ]);
+        return $response;
+    }
+
     public static function patch($data)
     {
         $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->asForm()->put(config('alika.uri2').'data-lain',[

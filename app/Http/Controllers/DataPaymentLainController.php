@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\bulan;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Helper\Alika\API2\dataLain;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
+use Illuminate\Support\Facades\Storage;
 
 class DataPaymentLainController extends Controller
 {
@@ -237,34 +239,38 @@ class DataPaymentLainController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
+
+        $filename='data-payment-lain/'.Str::uuid().'.json';
+        $data= collect();
         foreach (dataPembayaranLainnya::paymentPending($kdsatker, $jenis, $thn, $bln)->get() as $item) {
-            try {
-                $response=dataLain::post([
-                    'bulan' => $item->bulan,
-                    'tahun' => $item->tahun,
-                    'kdsatker' => $item->kdsatker,
-                    'nip' => $item->nip,
-                    'bruto' => $item->bruto,
-                    'pph' => $item->pph,
-                    'netto' => $item->bruto-$item->pph,
-                    'jenis' => $item->jenis,
-                    'uraian' => $item->uraian,
-                    'tanggal' => $item->tanggal,
-                    'nospm' => '',
-                ]);
-                
-                if ($response->getStatusCode() != 200) {
-                    throw new \Exception($response);
-                }
-                dataPembayaranLainnya::where('id', $item->id)->update([
-                    'sts'=>'1'
-                ]);
-            } catch (\Exception $e) {
-                return redirect('/data-payment/lain?thn='.$thn.'&bln='.$bln)->with('gagal', $e->getMessage());
-            }
-            
+            $data->push((object)[
+                'bulan' => $item->bulan,
+                'tahun' => $item->tahun,
+                'kdsatker' => $item->kdsatker,
+                'nip' => $item->nip,
+                'bruto' => $item->bruto,
+                'pph' => $item->pph,
+                'jenis' => $item->jenis,
+                'uraian' => $item->uraian,
+                'tanggal' => $item->tanggal,
+                'nospm' => '',
+            ]);
         }
-        return redirect('/data-payment/lain?thn='.$thn.'&bln='.$bln)->with('berhasil', 'data berhasil di Upload');
+        Storage::put($filename, $data);
+        $response=dataLain::postMasal(Storage::path($filename), 'data.json');
+
+        if (json_decode($response)->status === false) {
+            dataPembayaranLainnya::paymentPending($kdsatker, $jenis, $thn, $bln)->limit(json_decode($response)->count)
+            ->update([
+                'sts'=>'1'                
+            ]);
+            return redirect('/data-payment/lain?thn='.$thn.'&bln='.$bln)->with('pesan', json_decode($response)->count. json_decode($response)->message);
+        }
+        dataPembayaranLainnya::paymentPending($kdsatker, $jenis, $thn, $bln)->update([
+            'sts'=>'1'
+        ]);
+        Storage::delete($filename);
+        return redirect('/data-payment/lain?thn='.$thn.'&bln='.$bln)->with('berhasil', json_decode($response)->count. json_decode($response)->message);
     }
 
     public function uploaddetail(dataPembayaranLainnya $dataPembayaranLainnya)

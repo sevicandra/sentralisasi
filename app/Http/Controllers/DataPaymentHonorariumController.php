@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\dataHonorarium;
 use App\Helper\Alika\API2\dataLain;
 use Illuminate\Support\Facades\Auth;
@@ -110,34 +111,38 @@ class DataPaymentHonorariumController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
+
+        $filename='data-payment-honorarium/'.Str::uuid().'.json';
+        $data= collect();
         foreach (dataHonorarium::dataPendingDetail($file)->get() as $item) {
-            try {
-                $response=dataLain::post([
-                    'bulan' => $item->bulan,
-                    'tahun' => $item->tahun,
-                    'kdsatker' => $item->kdsatker,
-                    'nip' => $item->nip,
-                    'bruto' => $item->bruto,
-                    'pph' => $item->pph,
-                    'netto' => $item->bruto-$item->pph,
-                    'jenis' => 'honorarium',
-                    'uraian' => $item->uraian,
-                    'tanggal' => $item->tanggal,
-                    'nospm' => $item->nospm,
-                ]);
-                
-                if ($response->getStatusCode() != 200) {
-                    throw new \Exception($response);
-                }
-                dataHonorarium::where('id', $item->id)->update([
-                    'sts'=>'2'
-                ]);
-            } catch (\Exception $e) {
-                return redirect('/data-payment/honorarium')->with('gagal', $e->getMessage());
-            }
-            
+            $data->push((object)[
+                'bulan' => $item->bulan,
+                'tahun' => $item->tahun,
+                'kdsatker' => $item->kdsatker,
+                'nip' => $item->nip,
+                'bruto' => $item->bruto,
+                'pph' => $item->pph,
+                'jenis' => 'honorarium',
+                'uraian' => $item->uraian,
+                'tanggal' => $item->tanggal,
+                'nospm' => $item->nospm,
+            ]);
         }
-        return redirect('/data-payment/honorarium')->with('berhasil', 'data berhasil di Upload');
+        Storage::put($filename, $data);
+        $response=dataLain::postMasal(Storage::path($filename), 'data.json');
+
+        if (json_decode($response)->status === false) {
+            dataHonorarium::dataPendingDetail($file)->limit(json_decode($response)->count)
+            ->update([
+                'sts'=>'2'                
+            ]);
+            return redirect('/data-payment/honorarium')->with('pesan', json_decode($response)->count. json_decode($response)->message);
+        }
+        dataHonorarium::dataPendingDetail($file)->update([
+            'sts'=>'2'
+        ]);
+        Storage::delete($filename);
+        return redirect('/data-payment/honorarium')->with('berhasil', json_decode($response)->count. json_decode($response)->message);
     }
 
     public function uploadDetail(dataHonorarium $dataHonorarium)
