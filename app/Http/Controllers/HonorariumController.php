@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\bulan;
 use Illuminate\Http\Request;
 use App\Models\dataHonorarium;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -98,6 +99,11 @@ class HonorariumController extends Controller
                 break;
             }
             $date = Carbon::createFromFormat('d-m-Y', $item[6])->timestamp;
+            if ($item[4] === null) {
+                $pph    =   0;
+            }else{
+                $pph    =   $item[4];
+            }
             dataHonorarium::create([
                 'bulan'=>$request->bulan,
                 'nmbulan'=>bulan::nmbulan($request->bulan),
@@ -106,7 +112,7 @@ class HonorariumController extends Controller
                 'nama'=>$item[1],
                 'nip'=>$item[2],
                 'bruto'=>$item[3],
-                'pph'=>$item[4],
+                'pph'=>$pph,
                 'uraian'=>$item[5],
                 'tanggal'=>$date,
                 'file'=>$file_name[0]

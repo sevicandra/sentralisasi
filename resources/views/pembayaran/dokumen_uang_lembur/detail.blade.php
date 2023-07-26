@@ -42,15 +42,21 @@
                           <td>{{ $i++ }}</td>
                           <td>{{ $item->jmlpegawai }}</td>
                           <td>{{ $item->keterangan }}</td>
-                          <td>
-                            <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen" method="post" target="_blank">
-                              @csrf
-                              @method('patch')
-                              <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
-                            </form>
-                            {{-- <a href="" target="_blank" class="btn btn-sm btn-outline-primary pt-0 pb-0">
-                              <i class="bi bi-filetype-pdf"></i>
-                            </a>     --}}
+                          <td class="d-flex">
+                            <div class="px-1">
+                              <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen" method="post" target="_blank">
+                                @csrf
+                                @method('patch')
+                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
+                              </form>
+                            </div>
+                            <div class="px-1">
+                              <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen-excel" method="post" target="_blank">
+                                @csrf
+                                @method('patch')
+                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-xls"></i></button>
+                              </form>
+                            </div>
                           <td>
                             @if ($item->terkirim)
                             <span class="text-primary">terkirim</span>

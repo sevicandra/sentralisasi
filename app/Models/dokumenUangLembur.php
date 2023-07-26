@@ -18,6 +18,7 @@ class dokumenUangLembur extends Model
         'bulan',
         'tahun',
         'keterangan',
+        'file_excel',
         'file',
         'nmbulan',
         'jmlpegawai',

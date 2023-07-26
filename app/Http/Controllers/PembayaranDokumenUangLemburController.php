@@ -161,6 +161,23 @@ class PembayaranDokumenUangLemburController extends Controller
 
     }
 
+    public function dokumen_excel(dokumenUangLembur $dokumenUangLembur)
+    {
+
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        
+        $name = $dokumenUangLembur->kdsatker. "-" .$dokumenUangLembur->nmbulan .".". explode('.', $dokumenUangLembur->file_excel)[1];
+        return Storage::download($dokumenUangLembur->file_excel, $name);
+    }
+
     public function approve(dokumenUangLembur $dokumenUangLembur)
     {
         if (Auth::guard('web')->check()) {

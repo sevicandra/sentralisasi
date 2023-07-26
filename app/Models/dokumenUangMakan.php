@@ -19,6 +19,7 @@ class dokumenUangMakan extends Model
         'tahun',
         'keterangan',
         'file',
+        'file_excel',
         'nmbulan',
         'jmlpegawai',
         'terkirim'

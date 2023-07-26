@@ -61,20 +61,36 @@
                   </div>
                   
                   <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                       <div class="form-group">
                         <label for="">Upload File :</label>
                         <div class="custom-file">
-                          <input type="file" class="form-control custom @error('file') is-invalid @enderror" name="file">
+                          <input type="file" class="form-control custom @error('file') is-invalid @enderror" name="file" required>
                           @error('file')
                           <div class="invalid-feedback">
                             {{ $message }}
                           </div>
                           @enderror
                         </div>
-                        <span><small class="text-muted ">file dengan format .pdf, ukuran maksimal 10 Mb</small></span>
+                        <span><small class="text-muted ">file yang telah ditandatangani atau TTE dengan format .pdf, ukuran maksimal 10 Mb</small></span>
                       </div>
                     </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label for="">Upload File Excel:</label>
+                        <div class="custom-file">
+                          <input type="file" class="form-control custom @error('file_excel') is-invalid @enderror" name="file_excel" required>
+                          @error('file_excel')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+                        <span><small class="text-muted ">file dengan format .xls atau .xlsx, ukuran maksimal 10 Mb</small></span>
+                      </div>
+                    </div>
+                    
                     <div class="col-lg-8">
                       <div class="form-group">
                         <label for="keterangan">Keterangan:</label>

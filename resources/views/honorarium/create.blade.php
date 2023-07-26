@@ -22,7 +22,7 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label for="">Bulan:</label>
-                        <input type="text" name="bulan" class="form-control @error('bulan') is-invalid @enderror" value="{{ old('bulan') }}">
+                        <input type="text" name="bulan" class="form-control @error('bulan') is-invalid @enderror" value="{{ old('bulan') }}" placeholder="01 - 12">
                         @error('bulan')
                         <div class="text-danger">
                           <small>

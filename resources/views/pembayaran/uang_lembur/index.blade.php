@@ -41,12 +41,21 @@
                               <td>{{ $item->nmbulan }}</td>
                               <td>{{ $item->jmlpegawai }}</td>
                               <td>{{ $item->keterangan }}</td>
-                              <td>
-                                <form action="/belanja-51/uang-lembur/{{$item->id}}/dokumen" method="post" target="_blank">
-                                  @csrf
-                                  @method('patch')
-                                  <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
-                                </form>
+                              <td class="d-flex">
+                                <div class="px-1">
+                                  <form action="/belanja-51/uang-lembur/{{$item->id}}/dokumen" method="post" target="_blank">
+                                    @csrf
+                                    @method('patch')
+                                    <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
+                                  </form>
+                                </div>
+                                <div class="px-1">
+                                  <form action="/belanja-51/uang-lembur/{{$item->id}}/dokumen-excel" method="post" target="_blank">
+                                    @csrf
+                                    @method('patch')
+                                    <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-xls"></i></button>
+                                  </form>
+                                </div>
                               </td>
                               <td>
                                 <?php if ($item->terkirim) : ?>

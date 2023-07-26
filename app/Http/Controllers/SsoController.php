@@ -42,13 +42,6 @@ class SsoController extends Controller
                     $userinfo =  json_decode($response2->getBody()->getContents(), false);
                     $nip = $userinfo->nip;
                     $user=User::where('nip', $nip)->first();
-                    if (isset($user->id)) {
-                        Auth::guard('web')->loginUsingId($user->id);
-                        $request->session()->regenerate();
-                        $request->session()->put('gravatar', $userinfo->gravatar);
-                        $request->session()->put('name', $userinfo->name);
-                        return redirect()->intended('/');
-                    }
                     if ($userinfo->jabatan === 'Kepala Subbagian') {
                         $admin=adminSatker::where('kdunit', $userinfo->kode_organisasi)->first();
                         if (isset($admin->id)) {
@@ -58,6 +51,13 @@ class SsoController extends Controller
                             $request->session()->put('name', $userinfo->name);
                             return redirect()->intended('/');
                         }
+                    }
+                    if (isset($user->id)) {
+                        Auth::guard('web')->loginUsingId($user->id);
+                        $request->session()->regenerate();
+                        $request->session()->put('gravatar', $userinfo->gravatar);
+                        $request->session()->put('name', $userinfo->name);
+                        return redirect()->intended('/');
                     }
                     return redirect('/login')->with('gagal','Pengguna tidak terdaftar');
                 } else {

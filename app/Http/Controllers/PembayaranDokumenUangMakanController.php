@@ -160,6 +160,23 @@ class PembayaranDokumenUangMakanController extends Controller
 
     }
 
+    public function dokumen_excel(dokumenUangMakan $dokumenUangMakan)
+    {
+
+        if (Auth::guard('web')->check()) {
+            $gate=['sys_admin'];
+        }else{
+            $gate=[];
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        
+        $name = $dokumenUangMakan->kdsatker. "-" .$dokumenUangMakan->nmbulan .".". explode('.', $dokumenUangMakan->file_excel)[1];
+        return Storage::download($dokumenUangMakan->file_excel, $name);
+    }
+
     public function approve(dokumenUangMakan $dokumenUangMakan)
     {
         if (Auth::guard('web')->check()) {
