@@ -271,6 +271,22 @@ class SptController extends Controller
     }
 
     public function importAlika(Request $request){
+        if (Auth::guard('web')->check()) {
+            $gate=['plt_admin_satker', 'opr_spt'];
+            $gate2=['sys_admin'];
+        }else{
+            $gate=['admin_satker'];
+            $gate2=[];
+
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any($gate2, auth()->user()->id)) {
+                abort(403);
+            }
+            return Redirect('/spt-monitoring');
+        }
+        
         $request->validate([
             'file_excel'=>'required|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ],[
