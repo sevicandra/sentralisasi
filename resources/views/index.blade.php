@@ -10,6 +10,7 @@
     @include('module.belanja51')
     @include('module.honorarium')
     @include('module.dataPayment')
+    @include('module.spt')
     @include('module.admin')
 </div>
 @endsection

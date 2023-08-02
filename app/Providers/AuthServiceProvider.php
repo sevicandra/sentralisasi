@@ -57,5 +57,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('adm_server', function (User $user) {
             return $user->is('06') && $user->is('01') === true && $user->kdsatker === '411792';
         });
+
+        Gate::define('opr_spt', function (User $user) {
+            return $user->is('07');
+        });
     }
 }

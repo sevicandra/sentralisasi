@@ -27,6 +27,8 @@ use App\Http\Controllers\MonitoringPenghasilanController;
 use App\Http\Controllers\PembayaranDokumenUangMakanController;
 use App\Http\Controllers\DataPaymentUploadHonorariumController;
 use App\Http\Controllers\PembayaranDokumenUangLemburController;
+use App\Http\Controllers\SptController;
+use App\Http\Controllers\SptMonitoringController;
 
 /*
 |--------------------------------------------------------------------------
@@ -308,4 +310,20 @@ Route::controller(DataPaymentUploadLainController::class)->group(function(){
     Route::delete('/data-payment/upload/lain/{kdsatker}/{jenis}/{thn}/{bln}', 'drop')->middleware('auth:web,admin');
     Route::get('/data-payment/upload/lain/{kdsatker}/{jenis}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
     Route::delete('/data-payment/upload/lain/{dataPembayaranLainnya}/detail', 'dropDetail')->middleware('auth:web,admin');
+});
+
+Route::controller(SptController::class)->group(function(){
+    Route::get('/spt', 'index')->middleware('auth:web,admin');
+    Route::get('/spt/create', 'create')->middleware('auth:web,admin');
+    Route::get('/spt/import', 'import')->middleware('auth:web,admin');
+    Route::post('/spt/import', 'importAlika')->middleware('auth:web,admin');
+    Route::post('/spt/create', 'store')->middleware('auth:web,admin');
+    Route::get('/spt/{id}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/spt/{id}', 'update')->middleware('auth:web,admin');
+    Route::delete('/spt/{id}', 'delete')->middleware('auth:web,admin');
+});
+
+Route::controller(SptMonitoringController::class)->group(function(){
+    Route::get('/spt-monitoring', 'index')->middleware('auth:web,admin');
+    Route::get('/spt-monitoring/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
 });
