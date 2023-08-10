@@ -61,5 +61,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('opr_spt', function (User $user) {
             return $user->is('07');
         });
+
+        Gate::define('opr_rumdin', function (User $user) {
+            return $user->is('08');
+        });
     }
 }

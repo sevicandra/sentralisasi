@@ -11,6 +11,7 @@
     @include('module.honorarium')
     @include('module.dataPayment')
     @include('module.spt')
+    @include('module.rumdin')
     @include('module.admin')
 </div>
 @endsection

@@ -13,7 +13,7 @@
         <div>
             <img src="/img/ico/spt.png" alt="monitoring icon" style="max-height: 100%; width:auto">
         </div>
-        <span>Monitoring</span>
+        <span>SPT</span>
     </div>
 </a>
     

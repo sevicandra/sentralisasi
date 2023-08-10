@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SptController;
 use App\Http\Controllers\SsoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
@@ -13,6 +14,8 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
 use App\Http\Controllers\DataPaymentController;
+use App\Http\Controllers\SptMonitoringController;
+use App\Http\Controllers\SewaRumahDinasController;
 use App\Http\Controllers\DataPaymentLainController;
 use App\Http\Controllers\AdminAdminSatkerController;
 use App\Http\Controllers\DataPaymentServerController;
@@ -21,14 +24,17 @@ use App\Http\Controllers\MonitoringRincianController;
 use App\Http\Controllers\MonitoringPelaporanController;
 use App\Http\Controllers\PembayaranUangMakanController;
 use App\Http\Controllers\PembayaranUangLemburController;
+use App\Http\Controllers\SewaRumahDinasRejectController;
+use App\Http\Controllers\SewaRumahDinasUsulanController;
 use App\Http\Controllers\DataPaymentHonorariumController;
 use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringPenghasilanController;
+use App\Http\Controllers\SewaRumahDinasNonAktifController;
+use App\Http\Controllers\SewaRumahDinasPenghentianController;
 use App\Http\Controllers\PembayaranDokumenUangMakanController;
 use App\Http\Controllers\DataPaymentUploadHonorariumController;
 use App\Http\Controllers\PembayaranDokumenUangLemburController;
-use App\Http\Controllers\SptController;
-use App\Http\Controllers\SptMonitoringController;
+use App\Http\Controllers\SewaRumahDinasMonitoringController;
 
 /*
 |--------------------------------------------------------------------------
@@ -326,4 +332,50 @@ Route::controller(SptController::class)->group(function(){
 Route::controller(SptMonitoringController::class)->group(function(){
     Route::get('/spt-monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/spt-monitoring/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
+});
+
+Route::controller(SewaRumahDinasController::class)->group(function(){
+    Route::get('/sewa-rumdin', 'index')->middleware('auth:web,admin');
+    Route::get('/sewa-rumdin/create', 'create')->middleware('auth:web,admin');
+    Route::post('/sewa-rumdin/create', 'store')->middleware('auth:web,admin');
+    Route::get('/sewa-rumdin/{sewaRumahDinas}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/{sewaRumahDinas}/edit', 'update')->middleware('auth:web,admin');
+    Route::delete('/sewa-rumdin/{sewaRumahDinas}/delete', 'delete')->middleware('auth:web,admin');
+    Route::get('/sewa-rumdin/{sewaRumahDinas}/kirim', 'kirim')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/{sewaRumahDinas}/non-aktif', 'nonAktif')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
+});
+
+Route::controller(SewaRumahDinasRejectController::class)->group(function(){
+    Route::get('/sewa-rumdin/reject', 'index')->middleware('auth:web,admin');
+    Route::get('/sewa-rumdin/reject/{sewaRumahDinas}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/reject/{sewaRumahDinas}/edit', 'update')->middleware('auth:web,admin');
+    Route::delete('/sewa-rumdin/reject/{sewaRumahDinas}/delete', 'delete')->middleware('auth:web,admin');
+    Route::get('/sewa-rumdin/reject/{sewaRumahDinas}/kirim', 'kirim')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/reject/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
+});
+
+Route::controller(SewaRumahDinasUsulanController::class)->group(function(){
+    Route::get('/sewa-rumdin/usulan', 'index')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/usulan/{sewaRumahDinas}/tolak', 'tolak')->middleware('auth:web,admin'); 
+    Route::patch('/sewa-rumdin/usulan/{sewaRumahDinas}/approve', 'approve')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/usulan/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
+
+});
+
+Route::controller(SewaRumahDinasPenghentianController::class)->group(function(){
+    Route::get('/sewa-rumdin/penghentian', 'index')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/penghentian/{sewaRumahDinas}/approve', 'approve')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/penghentian/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
+
+});
+
+Route::controller(SewaRumahDinasNonAktifController::class)->group(function(){
+    Route::get('/sewa-rumdin/non-aktif', 'index')->middleware('auth:web,admin');
+});
+
+ROute::controller(SewaRumahDinasMonitoringController::class)->group(function(){
+    Route::get('/sewa-rumdin/monitoring', 'index')->middleware('auth:web,admin');
+    Route::get('/sewa-rumdin/monitoring/{kdsatker}', 'detail')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/monitoring/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });

@@ -6,6 +6,7 @@ use App\Models\dataHonorarium;
 use App\Models\dataPembayaranLainnya;
 use App\Models\dokumenUangMakan;
 use App\Models\dokumenUangLembur;
+use App\Models\sewaRumahDinas;
 
 class HomeController extends Controller
 {
@@ -19,6 +20,9 @@ class HomeController extends Controller
             'honorariumDraft'=>dataHonorarium::draft(),
             'honorariumKirim'=>dataHonorarium::send(),
             'dataPembayaranLainnyaDraft'=>dataPembayaranLainnya::draft(),
+            'rumdinReject'=>sewaRumahDinas::countReject(),
+            'rumdinUsulan'=>sewaRumahDinas::countUsulan(),
+            'rumdinPenghentian'=>sewaRumahDinas::countPenghentian(),
         ]);
     }
 }
