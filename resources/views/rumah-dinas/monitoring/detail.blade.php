@@ -40,13 +40,15 @@
                             <td class="text-center">{{ $item->tmt }}</td>
                             <td class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</td>
                             <td>
-                                <form action="/sewa-rumdin/monitoring/{{ $item->id }}/dokumen" method="post"
-                                    target="_blank">
-                                    @csrf
-                                    @method('patch')
-                                    <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i
-                                            class="bi bi-filetype-pdf"></i></button>
-                                </form>
+                                @if ($item->file)
+                                    <form action="/sewa-rumdin/monitoring/{{ $item->id }}/dokumen" method="post"
+                                        target="_blank">
+                                        @csrf
+                                        @method('patch')
+                                        <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i
+                                                class="bi bi-filetype-pdf"></i></button>
+                                    </form>
+                                @endif
                             </td>
                             <td class="text-center">{{ str_replace('_', ' ',  $item->status) }}</td>
                         </tr>

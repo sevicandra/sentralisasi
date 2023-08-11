@@ -41,6 +41,7 @@
                             <td class="text-center">{{ $item->tmt }}</td>
                             <td class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</td>
                             <td>
+                                @if ($item->file)
                                 <form action="/sewa-rumdin/reject/{{ $item->id }}/dokumen" method="post"
                                     target="_blank">
                                     @csrf
@@ -48,6 +49,7 @@
                                     <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i
                                             class="bi bi-filetype-pdf"></i></button>
                                 </form>
+                                @endif
                             </td>
                             <td class="text-center">{{ $item->catatan }}</td>
                             <td>
