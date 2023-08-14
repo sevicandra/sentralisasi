@@ -4,6 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\role;
 use App\Models\User;
 use App\Models\adminSatker;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +65,26 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('opr_rumdin', function (User $user) {
             return $user->is('08');
+        });
+
+        Gate::define('monitoring', function(){
+            return role::active('03');
+        });
+
+        Gate::define('belanja_51', function(){
+            return role::active('04');
+        });
+
+        Gate::define('honorarium', function(){
+            return role::active('05');
+        });
+
+        Gate::define('spt', function(){
+            return role::active('07');
+        });
+
+        Gate::define('rumdin', function(){
+            return role::active('08');
         });
     }
 }

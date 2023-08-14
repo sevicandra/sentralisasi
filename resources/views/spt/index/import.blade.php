@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                  <a href="/honorarium" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
+                  <a href="/spt" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
                   <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i> Simpan</button>
                 </div>
               </form>

@@ -6,12 +6,22 @@
 
 @section('content')
 <div class="main-content-warper">
-    @include('module.monitoring')
-    @include('module.belanja51')
-    @include('module.honorarium')
-    @include('module.dataPayment')
-    @include('module.spt')
-    @include('module.rumdin')
+    @can('monitoring')
+        @include('module.monitoring')
+    @endcan
+    @can('belanja_51')
+        @include('module.belanja51')
+    @endcan
+    @can('honorarium')
+        @include('module.honorarium')
+    @endcan
+        @include('module.dataPayment')
+    @can('spt')
+        @include('module.spt')
+    @endcan
+    @can('rumdin')
+        @include('module.rumdin')
+    @endcan
     @include('module.admin')
 </div>
 @endsection

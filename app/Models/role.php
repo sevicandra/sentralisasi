@@ -40,4 +40,14 @@ class role extends Model
         }
         return  $data->where('kode', '!=', '02')->where('kode', '!=', '01')->where('kode', '!=', '06');
     }
+
+    public function scopeActive($data, $val)
+    {
+        foreach($this->get() as $item){
+            if ($item->kode === $val) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
