@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $satker->kdsatker }}/{{ $nip }}/uang-makan/{{ $item->tahun }}" class="btn btn-sm btn-outline-success @if (Request('thn') === null && $item->tahun === date('Y') || $item->tahun === request('thn'))active @endif ml-1 mt-1 mb-1">{{ $item->tahun }}</a>
+                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $satker->kdsatker }}/{{ $nip }}/uang-lembur/{{ $item->tahun }}" class="btn btn-sm btn-outline-success @if (Request('thn') === null && $item->tahun === date('Y') || $item->tahun === request('thn'))active @endif ml-1 mt-1 mb-1">{{ $item->tahun }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     <tr class="align-middle">
                         <th>Hari Kerja</th>
                         <th>Hari Libur</th>
-                        <th>Uang Makan</th>
+                        <th>Hari Uang Makan</th>
                         <th>Uang Lembur</th>
                         <th>Uang Makan</th>
                         <th>Jumlah</th>

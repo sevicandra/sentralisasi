@@ -14,6 +14,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
 use App\Http\Controllers\DataPaymentController;
+use App\Http\Controllers\AdminPenandatanganController;
 use App\Http\Controllers\SptMonitoringController;
 use App\Http\Controllers\SewaRumahDinasController;
 use App\Http\Controllers\DataPaymentLainController;
@@ -35,6 +36,7 @@ use App\Http\Controllers\SewaRumahDinasPenghentianController;
 use App\Http\Controllers\PembayaranDokumenUangMakanController;
 use App\Http\Controllers\DataPaymentUploadHonorariumController;
 use App\Http\Controllers\PembayaranDokumenUangLemburController;
+use App\Http\Controllers\AdminRefPenandatanganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -378,4 +380,21 @@ Route::controller(SewaRumahDinasMonitoringController::class)->middleware('can:ru
     Route::get('/sewa-rumdin/monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/monitoring/{kdsatker}', 'detail')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/monitoring/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
+});
+
+Route::controller(AdminPenandatanganController::class)->group(function(){
+    Route::get('admin/penandatangan', 'index')->middleware('auth:web,admin');
+    Route::get('admin/penandatangan/create', 'create')->middleware('auth:web,admin');
+    Route::post('admin/penandatangan/create', 'store')->middleware('auth:web,admin');
+    Route::get('admin/penandatangan/{id}', 'edit')->middleware('auth:web,admin');
+    Route::patch('admin/penandatangan/{id}', 'update')->middleware('auth:web,admin');
+});
+
+Route::controller(AdminRefPenandatanganController::class)->group(function(){
+    Route::get('admin/ref-penandatangan', 'index')->middleware('auth:web,admin');
+    Route::get('admin/ref-penandatangan/{kdsatker}', 'satker')->middleware('auth:web,admin');
+    Route::get('admin/ref-penandatangan/{kdsatker}/create', 'create')->middleware('auth:web,admin');
+    Route::post('admin/ref-penandatangan/{kdsatker}/create', 'store')->middleware('auth:web,admin');
+    Route::get('admin/ref-penandatangan/{kdsatker}/{id}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('admin/ref-penandatangan/{kdsatker}/{id}/edit', 'update')->middleware('auth:web,admin');
 });

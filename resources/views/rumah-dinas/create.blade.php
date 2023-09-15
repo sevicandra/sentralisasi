@@ -125,7 +125,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="/belanja-51/uang-lembur/index" class="btn btn-sm btn-secondary float-left"><i
+                            <a href="/sewa-rumdin" class="btn btn-sm btn-secondary float-left"><i
                                     class="fa fa-undo"></i> Kembali</a>
                             <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i>
                                 Simpan</button>
