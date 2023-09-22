@@ -36,7 +36,7 @@
                             <td class="text-center">{{ $i++ }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->nip }}</td>
-                            <td>{{ $item->kdsatker }}</td>
+                            <td>{{ $item->nmsatker }}</td>
                             <td>{{ $item->nomor_sip }}</td>
                             <td class="text-center">{{ $item->tanggal_sip }}</td>
                             <td class="text-center">{{ $item->tmt }}</td>

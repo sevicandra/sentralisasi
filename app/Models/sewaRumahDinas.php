@@ -40,6 +40,8 @@ class sewaRumahDinas extends Model
     public function scopeUsulan(){
         return $this    ->where('status', 'pengajuan')
                         ->where('catatan' , null)
+                        ->leftJoin('satkers', 'sewa_rumah_dinas.kdsatker', '=', 'satkers.kdsatker')
+                        ->select(['sewa_rumah_dinas.*', 'satkers.nmsatker'])
                         ->orderBy('updated_at', 'desc')
         ;
     }
@@ -55,6 +57,8 @@ class sewaRumahDinas extends Model
     public function scopePenghentian(){
         return $this    ->where('status', 'usulan_non_aktif')
                         ->where('catatan' , null)
+                        ->leftJoin('satkers', 'sewa_rumah_dinas.kdsatker', '=', 'satkers.kdsatker')
+                        ->select(['sewa_rumah_dinas.*', 'satkers.nmsatker'])
                         ->orderBy('updated_at', 'desc')
         ;
     }
