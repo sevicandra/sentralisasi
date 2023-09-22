@@ -20,7 +20,6 @@ class PembayaranUangLemburController extends Controller
         }else{
             $gate=['admin_satker'];
             $gate2=[];
-
         }
 
         if (! Gate::any($gate, auth()->user()->id)) {

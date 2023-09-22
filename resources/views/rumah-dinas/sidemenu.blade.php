@@ -45,7 +45,17 @@
 </div>
 
 @endcan
-    
+
+
+<span>
+    Monitoring Wilayah
+</span>
+<div>
+    <a href="/sewa-rumdin/wilayah/monitoring">
+        <span></span>
+        <span>Monitoring</span>
+    </a>
+</div>    
 
 @if (Auth::guard('web')->check())
 @can('sys_admin', auth()->user()->id)

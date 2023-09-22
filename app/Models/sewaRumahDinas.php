@@ -80,6 +80,21 @@ class sewaRumahDinas extends Model
                 ->selectRaw('satkers.kdsatker, satkers.nmsatker, count(sewa_rumah_dinas.id) as total');
     }
 
+    public function scopeMonitoringWilayah($data, $kdsatker){
+        return  DB::table('satkers')
+                ->where('satkers.kdkoordinator', $kdsatker)
+                ->Leftjoin('sewa_rumah_dinas', function(JoinClause $join){
+                    $join->on('satkers.kdsatker', '=', 'sewa_rumah_dinas.kdsatker')
+                        ->where('status', '!=', 'draft')
+                        ->where('status', '!=', 'non_aktif')
+                        ->where('status', '!=', 'pengajuan')
+                    ;
+                })
+                ->groupBy('satkers.kdsatker')
+                ->orderBy('satkers.order')
+                ->selectRaw('satkers.kdsatker, satkers.nmsatker, count(sewa_rumah_dinas.id) as total');
+    }
+
     public function scopeMonitoringDetail($data, $kdsatker){
         return $data    ->where('kdsatker', $kdsatker)
                         ->where('status', '!=' ,'non_aktif')
