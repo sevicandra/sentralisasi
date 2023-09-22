@@ -14,7 +14,6 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
 use App\Http\Controllers\DataPaymentController;
-use App\Http\Controllers\AdminPenandatanganController;
 use App\Http\Controllers\SptMonitoringController;
 use App\Http\Controllers\SewaRumahDinasController;
 use App\Http\Controllers\DataPaymentLainController;
@@ -22,11 +21,13 @@ use App\Http\Controllers\AdminAdminSatkerController;
 use App\Http\Controllers\DataPaymentServerController;
 use App\Http\Controllers\MonitoringLaporanController;
 use App\Http\Controllers\MonitoringRincianController;
+use App\Http\Controllers\AdminPenandatanganController;
 use App\Http\Controllers\MonitoringPelaporanController;
 use App\Http\Controllers\PembayaranUangMakanController;
 use App\Http\Controllers\PembayaranUangLemburController;
 use App\Http\Controllers\SewaRumahDinasRejectController;
 use App\Http\Controllers\SewaRumahDinasUsulanController;
+use App\Http\Controllers\AdminRefPenandatanganController;
 use App\Http\Controllers\DataPaymentHonorariumController;
 use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringPenghasilanController;
@@ -34,9 +35,10 @@ use App\Http\Controllers\SewaRumahDinasNonAktifController;
 use App\Http\Controllers\SewaRumahDinasMonitoringController;
 use App\Http\Controllers\SewaRumahDinasPenghentianController;
 use App\Http\Controllers\PembayaranDokumenUangMakanController;
+use App\Http\Controllers\PembayaranUangMakanWilayahController;
 use App\Http\Controllers\DataPaymentUploadHonorariumController;
 use App\Http\Controllers\PembayaranDokumenUangLemburController;
-use App\Http\Controllers\AdminRefPenandatanganController;
+use App\Http\Controllers\PembayaranUangLemburWilayahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -177,6 +179,24 @@ Route::controller(PembayaranUangLemburController::class)->middleware('can:belanj
     Route::get('/belanja-51/uang-lembur/{dokumenUangLembur}/kirim', 'kirim')->middleware('auth:web,admin');
     Route::patch('/belanja-51/uang-lembur/{dokumenUangLembur}/dokumen', 'kirim')->middleware('auth:web,admin');
     Route::patch('/belanja-51/uang-lembur/{dokumenUangLembur}/dokumen-excel', 'dokumen_excel')->middleware('auth:web,admin');
+});
+
+Route::controller(PembayaranUangMakanWilayahController::class)->middleware('can:belanja_51')->group(function(){
+    Route::get('/belanja-51/wilayah/uang-makan', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/wilayah/uang-makan/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/wilayah/uang-makan/{thn}/{bln}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/wilayah/uang-makan/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/wilayah/uang-makan/{dokumenUangMakan}/dokumen', 'dokumen')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/wilayah/uang-makan/{dokumenUangMakan}/dokumen-excel', 'dokumen_excel')->middleware('auth:web,admin');
+});
+
+Route::controller(PembayaranUangLemburWilayahController::class)->middleware('can:belanja_51')->group(function(){
+    Route::get('/belanja-51/wilayah/uang-lembur', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/wilayah/uang-lembur/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/wilayah/uang-lembur/{thn}/{bln}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51/wilayah/uang-lembur/{kdsatker}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/wilayah/uang-lembur/{dokumenUangLembur}/dokumen', 'dokumen')->middleware('auth:web,admin');
+    Route::patch('/belanja-51/wilayah/uang-lembur/{dokumenUangLembur}/dokumen-excel', 'dokumen_excel')->middleware('auth:web,admin');
 });
 
 Route::controller(PembayaranDokumenUangMakanController::class)->middleware('can:belanja_51')->group(function(){

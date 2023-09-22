@@ -50,10 +50,30 @@
     </a>
 </div>
 @endcan
+
+@can('wilayah', [auth()->user()->kdsatker])
+    <span>
+        Monitoring Wilayah
+    </span>
+    <div>
+        <a href="/belanja-51/wilayah/uang-makan">
+            <span></span>
+            <span>Dokumen Uang Makan</span>
+        </a>
+    </div>
+    <div>
+        <a href="/belanja-51/wilayah/uang-lembur">
+            <span></span>
+            <span>Dokumen Uang Lembur</span>
+        </a>
+    </div>
+@endcan
+
+
 @if (Auth::guard('web')->check())
 @can('sys_admin', auth()->user()->id)
     <span>
-        Monitoring
+        Monitoring Pusat
     </span>
     <div>
         <a href="/belanja-51/dokumen-uang-makan">

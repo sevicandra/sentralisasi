@@ -25,15 +25,15 @@ class PembayaranDokumenUangLemburController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $tahun = dokumenUangLembur::tahun();
+        $tahun = dokumenUangLembur::MonitoringPusatTahun();
         if (!$thn) {
-            $thn=$tahun[0];
+            $thn=$tahun->first()->tahun;
         }
 
-        $bulan = dokumenUangLembur::bulan($thn);
+        $bulan = dokumenUangLembur::MonitoringPusatBulan($thn);
 
         if (!$bln) {
-            $bln=end($bulan);
+            $bln=$bulan->last()->bulan;
         }
         return view('pembayaran.dokumen_uang_lembur.index',[
             'data'=>satker::order()->get(),
@@ -138,7 +138,7 @@ class PembayaranDokumenUangLemburController extends Controller
         if (!$dokumenUangLembur->terkirim) {
             return abort(403);
         }
-        $dokumenUangLembur->update(['terkirim'=>false]);
+        $dokumenUangLembur->update(['terkirim'=>0]);
         return Redirect()->back()->with('berhasil', 'Data berhasil dikembalikan.');
     }
 

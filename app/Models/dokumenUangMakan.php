@@ -47,6 +47,10 @@ class dokumenUangMakan extends Model
         return $tahun;
     }
 
+    public function scopeMonitoringPusatTahun(){
+        return $this->selectRaw('tahun, count(CASE WHEN terkirim = 1 THEN 1 ELSE NULL END) as pending')->groupBy('tahun')->orderBy('tahun', 'desc')->get();
+    }
+
     public function scopeBulan($data , $thn, $kdsatkr=null)
     {
         if ($kdsatkr) {
@@ -59,6 +63,10 @@ class dokumenUangMakan extends Model
             $bulan[]= $value->bulan;
         }
         return $bulan;
+    }
+
+    public function scopeMonitoringPusatBulan($data, $thn){
+        return $this->where('tahun', $thn)->selectRaw('bulan, count(CASE WHEN terkirim = 1 THEN 1 ELSE NULL END) as pending')->groupBy('bulan')->orderBy('bulan')->get();
     }
 
     public function scopeSend($data)

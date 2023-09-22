@@ -31,7 +31,7 @@ class SptController extends Controller
         }
 
         if (!request('thn')) {
-            $tahun = date('Y');
+            $tahun = date('Y')-1;
         }else{
             $tahun = request('thn');
         };

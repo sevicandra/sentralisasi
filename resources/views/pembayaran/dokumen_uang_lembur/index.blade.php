@@ -10,16 +10,23 @@
         <div class="row">
             <div class="col">
               <div class="card">
-                <form action="" method="post">
                   <div class="card-header">
                     @foreach ($tahun as $item)
-                    <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $item }}" class="btn btn-outline-secondary @if ($item === $thn) active @endif mr-1">{{ $item }}</a>
-                  @endforeach
+                      <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $item->tahun }}" class="btn btn-outline-secondary position-relative @if ($item->tahun === $thn) active @endif mr-1">{{ $item->tahun }}
+                        @if ($item->pending > 0 && $item->tahun != $thn)
+                          <span class="spinner-grow position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle" style="width: 1rem; height: 1rem;"></span>
+                        @endif
+                      </a>
+                    @endforeach
                   </div>
                   <div class=" card-body">
                     <div>
                       @foreach ($bulan as $item)
-                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
+                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-lembur/{{ $thn }}/{{ $item->bulan }}" class="btn btn-outline-secondary position-relative @if ($item->bulan === $bln) active @endif mb-3 mr-1">{{ $item->bulan }}
+                          @if ($item->pending > 0)
+                            <span class="spinner-grow position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle" style="width: 1rem; height: 1rem;"></span>
+                          @endif
+                        </a>
                       @endforeach
                     </div>
                     <div>
@@ -84,7 +91,6 @@
                     </div>
       
                   </div>
-                </form>
               </div>
             </div>
           </div>

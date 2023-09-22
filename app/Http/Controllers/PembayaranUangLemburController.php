@@ -475,7 +475,7 @@ class PembayaranUangLemburController extends Controller
             return abort(403);
         }
         $dokumenUangLembur->update([
-            'terkirim'=>true
+            'terkirim'=>1
         ]);
         return Redirect('/belanja-51/uang-lembur/index')->with('berhasil', 'data berhasil di kirim');
     }

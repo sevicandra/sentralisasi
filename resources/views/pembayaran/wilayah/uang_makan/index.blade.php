@@ -10,29 +10,17 @@
         <div class="row">
             <div class="col">
               <div class="card">
+                <form action="" method="post">
                   <div class="card-header">
                     @foreach ($tahun as $item)
-                      <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->tahun }}" class="btn btn-outline-secondary position-relative @if ($item->tahun === $thn) active @endif mr-1">{{ $item->tahun }}
-                        @if ($item->pending > 0 && $item->tahun != $thn)
-                          <span class="spinner-grow position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle" style="width: 1rem; height: 1rem;"></span>
-                        @endif
-                      </a>
+                      <a href="{{ config('app.url') }}/belanja-51/wilayah/uang-makan/{{ $item }}" class="btn btn-outline-secondary @if ($item === $thn) active @endif mr-1">{{ $item }}</a>
                     @endforeach
                   </div>
                   <div class=" card-body">
                     <div>
                       @foreach ($bulan as $item)
-                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $thn }}/{{ $item->bulan }}" class="btn btn-outline-secondary position-relative @if ($item->bulan === $bln) active @endif mb-3 mr-1">{{ $item->bulan }}
-                          @if ($item->pending > 0)
-                            <span class="spinner-grow position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle" style="width: 1rem; height: 1rem;"></span>
-                          @endif
-                        </a>
+                        <a href="{{ config('app.url') }}/belanja-51/wilayah/uang-makan/{{ $thn }}/{{ $item }}" class="btn btn-outline-secondary @if ($item === $bln) active @endif mb-3 mr-1">{{ $item }}</a>
                       @endforeach
-                    </div>
-                    <div>
-                      @if ($thn && $bln)
-                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/rekap?thn={{ $thn }}&bln={{ $bln }}" class="btn btn-outline-secondary mb-3 mr-1">Download Rekap</a>
-                      @endif
                     </div>
                     <div class="table-responsive">
                       <table class="table table-sm table-bordered table-hover">
@@ -64,7 +52,7 @@
                               @endphp
                               <td>
                                 @if ($item->dokumenUangMakan($thn, $bln)->count()>0)
-                                <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
+                                <a href="{{ config('app.url') }}/belanja-51/wilayah/uang-makan/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
                                 @endif
                               </td>
                               <td>
@@ -91,6 +79,7 @@
                     </div>
       
                   </div>
+                </form>
               </div>
             </div>
           </div>

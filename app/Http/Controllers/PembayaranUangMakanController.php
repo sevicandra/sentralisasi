@@ -472,7 +472,7 @@ class PembayaranUangMakanController extends Controller
             return abort(403);
         }
         $dokumenUangMakan->update([
-            'terkirim'=>true
+            'terkirim'=>1
         ]);
         return Redirect('/belanja-51/uang-makan/index')->with('berhasil', 'data berhasil di kirim');
     }

@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Models\role;
 use App\Models\User;
 use App\Models\adminSatker;
+use App\Models\satker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -85,6 +86,13 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('rumdin', function(){
             return role::active('08');
+        });
+
+        Gate::define('wilayah', function($user, $kdsatker){
+            $satker = satker::where('kdsatker', $kdsatker)->first();
+            if($satker->jnssatker === '2'){
+                return true;
+            };
         });
     }
 }

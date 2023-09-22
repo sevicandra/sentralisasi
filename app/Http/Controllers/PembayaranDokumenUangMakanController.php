@@ -26,14 +26,14 @@ class PembayaranDokumenUangMakanController extends Controller
             abort(403);
         }
 
-        $tahun = dokumenUangMakan::tahun();
+        $tahun = dokumenUangMakan::MonitoringPusatTahun();
         if (!$thn) {
-            $thn=$tahun[0];
+            $thn=$tahun->first()->tahun;
         }
 
-        $bulan = dokumenUangMakan::bulan($thn);
+        $bulan = dokumenUangMakan::MonitoringPusatBulan($thn);
         if (!$bln) {
-            $bln=end($bulan);
+            $bln=$bulan->last()->bulan;
         }
         
         return view('pembayaran.dokumen_uang_makan.index',[
@@ -138,7 +138,7 @@ class PembayaranDokumenUangMakanController extends Controller
         if (!$dokumenUangMakan->terkirim) {
             return abort(403);
         }
-        $dokumenUangMakan->update(['terkirim'=>false]);
+        $dokumenUangMakan->update(['terkirim'=>0]);
         return Redirect()->back()->with('berhasil', 'Data berhasil dikembalikan.');
     }
 

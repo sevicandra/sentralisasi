@@ -30,7 +30,7 @@ class satker extends Model
 
     public function satker()
     {
-        return $this->hasMany(User::class, 'kdsatker', 'kdkoordinator');
+        return $this->hasMany(User::class, 'kdsatker', 'kdsatker');
     }
 
     public function dokumenUangMakan($thn, $bln)
@@ -45,5 +45,17 @@ class satker extends Model
 
     public function user(){
         return $this->hasMany(User::class, 'kdsatker', 'kdsatker');
+    }
+
+    public function scopeVertikal($data, $kdsatker){
+        return $this->where('kdkoordinator', $kdsatker);
+    }
+
+    public function scopeKoordinator($data, $kdsatker, $kdkoordinator){;
+        if ($this->where('kdsatker', $kdsatker)->first()->kdkoordinator === $kdkoordinator) {
+            return true;
+        }else{
+            return false;
+        }
     }
 }
