@@ -46,16 +46,17 @@
 
 @endcan
 
-
-<span>
-    Monitoring Wilayah
-</span>
-<div>
-    <a href="/sewa-rumdin/wilayah/monitoring">
-        <span></span>
-        <span>Monitoring</span>
-    </a>
-</div>    
+@can('wilayah', [auth()->user()->kdsatker])
+    <span>
+        Monitoring Wilayah
+    </span>
+    <div>
+        <a href="/sewa-rumdin/wilayah/monitoring">
+            <span></span>
+            <span>Monitoring</span>
+        </a>
+    </div>    
+@endcan
 
 @if (Auth::guard('web')->check())
 @can('sys_admin', auth()->user()->id)
