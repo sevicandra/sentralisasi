@@ -50,6 +50,7 @@
                         <th>Lain2</th>
                         <th>Taperum</th>
                         <th>BPJS</th>
+                        <th>BPJS Kel. Lainnya</th>
                         <th>Jumlah</th>
                     </tr>
                 </thead>
@@ -77,8 +78,9 @@
                             <td class="text-right">{{ number_format($item->pberas + $item->tunggakan + $item->utanglebih + $item->potlain, 0, ',', '.') }}</td>
                             <td class="text-right">{{ number_format($item->taperum, 0, ',', '.') }}</td>
                             <td class="text-right">{{ number_format($item->bpjs, 0, ',', '.') }}</td>
-                            <td class="text-right">{{ number_format($item->iwp + $item->pph + $item->sewarmh + $item->pberas + $item->tunggakan + $item->utanglebih + $item->potlain + $item->taperum + $item->bpjs, 0, ',', '.') }}</td>
-                            <td class="text-right">{{ number_format($item->gapok + $item->tistri +$item->tanak+$item->tumum + $item->ttambumum+$item->tstruktur + $item->tfungsi+$item->bulat+$item->tberas+$item->tpajak+$item->tpapua + $item->tpencil + $item->tlain -($item->iwp + $item->pph + $item->sewarmh + $item->pberas + $item->tunggakan + $item->utanglebih + $item->potlain + $item->taperum + $item->bpjs), 0, ',', '.') }}</td>
+                            <td class="text-right">{{ number_format($item->bpjs2, 0, ',', '.') }}</td>
+                            <td class="text-right">{{ number_format($item->iwp + $item->pph + $item->sewarmh + $item->pberas + $item->tunggakan + $item->utanglebih + $item->potlain + $item->taperum + $item->bpjs + $item->bpjs2, 0, ',', '.') }}</td>
+                            <td class="text-right">{{ number_format($item->gapok + $item->tistri +$item->tanak+$item->tumum + $item->ttambumum+$item->tstruktur + $item->tfungsi+$item->bulat+$item->tberas+$item->tpajak+$item->tpapua + $item->tpencil + $item->tlain -($item->iwp + $item->pph + $item->sewarmh + $item->pberas + $item->tunggakan + $item->utanglebih + $item->potlain + $item->taperum + $item->bpjs + $item->bpjs2), 0, ',', '.') }}</td>
                         </tr>
                     @endforeach
                     <tr class="align-middle">
@@ -99,8 +101,8 @@
                         <td class="text-right">{{ number_format($data->sum('pberas') + $data->sum('tunggakan') + $data->sum('utanglebih') + $data->sum('potlain'), 0, ',', '.') }}</td>
                         <td class="text-right">{{ number_format($data->sum('taperum'), 0, ',', '.') }}</td>
                         <td class="text-right">{{ number_format($data->sum('bpjs'), 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($data->sum('iwp') + $data->sum('pph') + $data->sum('sewarmh') + $data->sum('pberas') + $data->sum('tunggakan') + $data->sum('utanglebih') + $data->sum('potlain') + $data->sum('taperum') + $data->sum('bpjs'), 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($data->sum('gapok') + $data->sum('tistri') +$data->sum('tanak')+$data->sum('tumum') + $data->sum('ttambumum')+$data->sum('tstruktur') + $data->sum('tfungsi')+$data->sum('bulat')+$data->sum('tberas')+$data->sum('tpajak')+$data->sum('tpapua') + $data->sum('tpencil') + $data->sum('tlain') -($data->sum('iwp') + $data->sum('pph') + $data->sum('sewarmh') + $data->sum('pberas') + $data->sum('tunggakan') + $data->sum('utanglebih') + $data->sum('potlain') + $data->sum('taperum') + $data->sum('bpjs')), 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($data->sum('iwp') + $data->sum('pph') + $data->sum('sewarmh') + $data->sum('pberas') + $data->sum('tunggakan') + $data->sum('utanglebih') + $data->sum('potlain') + $data->sum('taperum') + $data->sum('bpjs') + $data->sum('bpjs2'), 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($data->sum('gapok') + $data->sum('tistri') +$data->sum('tanak')+$data->sum('tumum') + $data->sum('ttambumum')+$data->sum('tstruktur') + $data->sum('tfungsi')+$data->sum('bulat')+$data->sum('tberas')+$data->sum('tpajak')+$data->sum('tpapua') + $data->sum('tpencil') + $data->sum('tlain') -($data->sum('iwp') + $data->sum('pph') + $data->sum('sewarmh') + $data->sum('pberas') + $data->sum('tunggakan') + $data->sum('utanglebih') + $data->sum('potlain') + $data->sum('taperum') + $data->sum('bpjs') + $data->sum('bpjs2')), 0, ',', '.') }}</td>
                     </tr>
                 </tbody>
             </table>

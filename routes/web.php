@@ -366,6 +366,8 @@ Route::controller(SewaRumahDinasController::class)->middleware('can:rumdin')->gr
     Route::delete('/sewa-rumdin/{sewaRumahDinas}/delete', 'delete')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/{sewaRumahDinas}/kirim', 'kirim')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/{sewaRumahDinas}/non-aktif', 'nonAktif')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/{sewaRumahDinas}/cancel-pengajuan', 'cancelPengajuan')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/{sewaRumahDinas}/cancel-non-aktif', 'cancelNonAktif')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });
 

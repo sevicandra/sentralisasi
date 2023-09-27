@@ -274,6 +274,34 @@ class SewaRumahDinasController extends Controller
         return redirect('/sewa-rumdin')->with('berhasil','Data berhasil dikirim.');
     }
 
+    public function cancelPengajuan(sewaRumahDinas $sewaRumahDinas)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate2=['sys_admin'];
+        }else{
+            $gate=['admin_satker'];
+            $gate2=[];
+
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any($gate2, auth()->user()->id)) {
+                abort(403);
+            }
+            return Redirect('');
+        }
+
+        if ($sewaRumahDinas->kdsatker != auth()->user()->kdsatker && $sewaRumahDinas->status != 'pengajuan') {
+            abort(403);
+        }
+
+        $sewaRumahDinas->update([
+            'status'=>'draft',
+        ]);
+        return redirect('/sewa-rumdin')->with('berhasil','Perhononan berhasil dibatalkan.');
+    }
+
     public function dokumen(sewaRumahDinas $sewaRumahDinas)
     {
         
@@ -340,6 +368,37 @@ class SewaRumahDinasController extends Controller
             'tanggal_selesai'=>$request->tanggal_selesai,
         ]);
 
-        return redirect('/sewa-rumdin')->with('berhasil','Data berhasil dikirim.');
+        return redirect('/sewa-rumdin')->with('berhasil','Permohonan berhasil dikirim.');
+    }
+
+    public function cancelNonAktif(sewaRumahDinas $sewaRumahDinas)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate2=['sys_admin'];
+        }else{
+            $gate=['admin_satker'];
+            $gate2=[];
+
+        }
+
+        if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any($gate2, auth()->user()->id)) {
+                abort(403);
+            }
+            return Redirect('');
+        }
+
+        if ($sewaRumahDinas->kdsatker != auth()->user()->kdsatker || $sewaRumahDinas->status != 'usulan_non_aktif') {
+            abort(403);
+        }
+
+        $sewaRumahDinas->update([
+            'status'=>'aktif',
+            'alasan_penghentian'=>NULL,
+            'tanggal_selesai'=>NULL,
+        ]);
+
+        return redirect('/sewa-rumdin')->with('berhasil','Perhononan berhasil dibatalkan.');
     }
 }

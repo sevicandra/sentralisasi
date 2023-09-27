@@ -84,11 +84,32 @@
                                     <button
                                         type="button"
                                         value="{{ $item->id }}"
-                                        
                                         class="btn btn-sm btn-outline-danger pt-0 pb-0 non-aktif-btn"
                                     >
                                         Non Aktif
                                     </button>
+                                @elseif($item->status === 'usulan_non_aktif')
+                                    <form action="sewa-rumdin/{{ $item->id }}/cancel-non-aktif" method="post" onsubmit="return confirm('Apakah Anda yakin akan membatalkan usulan ini?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-danger pt-0 pb-0"
+                                        >
+                                            batal
+                                        </button>
+                                    </form>
+                                @elseif($item->status === 'pengajuan')
+                                    <form action="sewa-rumdin/{{ $item->id }}/cancel-pengajuan" method="post" onsubmit="return confirm('Apakah Anda yakin akan membatalkan usulan ini?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-danger pt-0 pb-0"
+                                        >
+                                            batal
+                                        </button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>

@@ -28,6 +28,7 @@
             <th>Lain2</th>
             <th>Taperum</th>
             <th>BPJS</th>
+            <th>BPJS Kel. Lainnya</th>
             <th>Jumlah</th>
         </tr>
     </thead>
@@ -52,6 +53,7 @@
             $j16 = 0;
             $j17 = 0;
             $j18 = 0;
+            $j19 = 0;
         @endphp
         @foreach ($data as $item)
         <tr class="align-middle">
@@ -75,7 +77,8 @@
             $potlain = $item->pberas + $item->tunggakan + $item->utanglebih + $item->potlain;
             $taperum = $item->taperum;
             $bpjs = $item->bpjs;
-            $potongan = $iwp + $pph + $sewarmh + $potlain + $taperum + $bpjs;
+            $bpjs2 = $item->bpjs2;
+            $potongan = $iwp + $pph + $sewarmh + $potlain + $taperum + $bpjs + $bpjs2; 
             $netto = $bruto - $potongan;
             ?>
             <td class="text-right">{{ number_format($gapok, 0, ',', '.')}}</td>
@@ -94,6 +97,7 @@
             <td class="text-right">{{ number_format($potlain, 0, ',', '.')}}</td>
             <td class="text-right">{{ number_format($taperum, 0, ',', '.')}}</td>
             <td class="text-right">{{ number_format($bpjs, 0, ',', '.')}}</td>
+            <td class="text-right">{{ number_format($bpjs2, 0, ',', '.')}}</td>
             <td class="text-right">{{ number_format($potongan, 0, ',', '.')}}</td>
             <td class="text-right">{{ number_format($netto, 0, ',', '.')}}</td>
         </tr>
@@ -116,6 +120,7 @@
             $j16 += $bpjs;
             $j17 += $potongan;
             $j18 += $netto;
+            $j19 += $bpjs2;
         @endphp
         @endforeach
         <tr class="align-middle">
@@ -136,6 +141,7 @@
             <th class="text-right">{{ number_format($j14, 0, ',', '.')}}</th>
             <th class="text-right">{{ number_format($j15, 0, ',', '.')}}</th>
             <th class="text-right">{{ number_format($j16, 0, ',', '.')}}</th>
+            <th class="text-right">{{ number_format($j19, 0, ',', '.')}}</th>
             <th class="text-right">{{ number_format($j17, 0, ',', '.')}}</th>
             <th class="text-right">{{ number_format($j18, 0, ',', '.')}}</th>
         </tr>
