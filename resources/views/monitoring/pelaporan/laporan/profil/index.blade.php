@@ -104,7 +104,7 @@
                                             <td>{{ $item->Nama }}</td>
                                             <td>{{ $item->TempatLahir . ', ' . date('d-m-Y', strtotime($item->TanggalLahir))}}</td>
                                             <td>{{ $item->Hubungan }}</td>
-                                            <td>{{ $item->Pekerjaan }}</td>
+                                            <td>{{ $item->StatusTanggungan }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
