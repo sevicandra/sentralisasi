@@ -355,6 +355,9 @@ Route::controller(SptController::class)->middleware('can:spt')->group(function()
 Route::controller(SptMonitoringController::class)->middleware('can:spt')->group(function(){
     Route::get('/spt-monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/spt-monitoring/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
+    Route::get('/spt-monitoring/{kdsatker}/{id}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/spt-monitoring/{kdsatker}/{id}', 'update')->middleware('auth:web,admin');
+    Route::delete('/spt-monitoring/{kdsatker}/{id}', 'delete')->middleware('auth:web,admin');
 });
 
 Route::controller(SewaRumahDinasController::class)->middleware('can:rumdin')->group(function(){

@@ -52,11 +52,11 @@
                         <td class="text-center">{{ $item->kdkawin }}</td>
                         <td>{{ $item->nm_jabatan }}</td>
                         <td>
-                            <form action="spt/{{ $item->id }}" method="post" onsubmit="return confirm('Apakah Anda yakin akan menghapus data ini?');">
+                            <form action="/spt-monitoring/{{ $kdsatker }}/{{ $item->id }}" method="post" onsubmit="return confirm('Apakah Anda yakin akan menghapus data ini?');">
                                 @csrf
                                 @method('DELETE')
                                 <div class="btn-group">
-                                    <a href="spt/{{ $item->id }}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Ubah</a>
+                                    <a href="/spt-monitoring/{{ $kdsatker }}/{{ $item->id }}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Ubah</a>
                                     <button type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">Hapus</button>
                                 </div>
                             </form>

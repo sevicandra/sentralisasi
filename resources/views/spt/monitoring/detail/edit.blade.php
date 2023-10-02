@@ -1,0 +1,134 @@
+@extends('layout.main')
+@section('aside-menu')
+    @include('spt.sidemenu')
+@endsection         
+@section('main-content')
+<div id="main-content-header">
+    <div class="row">
+        <div class="row">
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="/spt-monitoring/{{ $data->kdsatker }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1">
+                        Kembali
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main-content" class="container-fluid">
+    <form action="/spt-monitoring/{{ $data->kdsatker }}/{{ $data->id }}" method="post">
+        @method('PATCH')
+        @csrf
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group mb-2">
+                    <label for="">tahun:</label>
+                    <input type="text" name="tahun" class="form-control @error('tahun') is-invalid @enderror" value="{{ $data->tahun }}">
+                    @error('tahun')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
+                    <label for="">nip:</label>
+                    <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{ $data->nip }}">
+                    @error('nip')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
+                    <label for="">npwp:</label>
+                    <input type="text" name="npwp" class="form-control @error('npwp') is-invalid @enderror" value="{{ $data->npwp }}">
+                    @error('npwp')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-lg-3">
+    
+                <div class="form-group mb-2">
+                    <label for="">kdgol:</label>
+                    <select name="kdgol" class="form-control @error('kdgol') is-invalid @enderror">
+                        @foreach ($refPang as $item)
+                            <option value="{{ $item->kdgol }}" @if ($data->kdgol == $item->kdgol) selected @endif>{{ $item->nmgol }}</option>
+                        @endforeach
+                    </select>
+                    @error('kdgol')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
+                    <label for="">alamat:</label>
+                    <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{ $data->alamat }}">
+                    @error('alamat')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group mb-2">
+                    <label for="">kdkawin:</label>
+                    <select name="kdkawin" id="" class="form-control @error('kdkawin') is-invalid @enderror">
+                        <option value="1000" @if ($data->kdkawin == '1000') selected @endif>TK/0</option>
+                        <option value="1100" @if ($data->kdkawin == '1100') selected @endif>K/0</option>
+                        <option value="1101" @if ($data->kdkawin == '1101') selected @endif>K/1</option>
+                        <option value="1102" @if ($data->kdkawin == '1102') selected @endif>K/2</option>
+                        <option value="1103" @if ($data->kdkawin == '1103') selected @endif>K/3</option>
+                    </select>
+                    @error('kdkawin')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
+                    <label for="">kdjab:</label>
+                    <select name="kdjab" class="form-control @error('kdjab') is-invalid @enderror">
+                        @foreach ($refJab as $item)
+                            <option value="{{ $item->kode }}" @if ($data->kdjab == $item->kode) selected @endif>{{ $item->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('kdjab')
+                        <div class="text-danger">
+                            <small>
+                                {{ $message }}
+                            </small>
+                        </div>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="paginator">
+
+</div>
+
+@endsection
