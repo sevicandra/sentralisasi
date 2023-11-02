@@ -241,9 +241,9 @@ class SptController extends Controller
         if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
-        
+
         dataSpt::delete($id);
-        return redirect('/spt'); 
+        return redirect('/spt?thn='.$data->tahun);
     }
 
     public function paginate($items, $perPage = 15, $page = null, $options = [])
@@ -407,7 +407,7 @@ class SptController extends Controller
             }
         }
 
-        if ($errors->count() === 0) {
+        if ($errors->min('status') === TRUE) {
             foreach ($slicedSheet as $item){
                 if ($item[0] === null) {
                     break;

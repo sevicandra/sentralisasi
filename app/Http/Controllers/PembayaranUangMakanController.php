@@ -115,7 +115,11 @@ class PembayaranUangMakanController extends Controller
         ]);
 
         if ($request->tahun === date('Y')) {
-            $max = date('m')-1;
+            if (date('m') === 12) {
+                $max = date('m');
+            }else{
+                $max = date('m')-1;
+            }
             $request->validate([
                 'bulan'=>"numeric|max:$max"
             ],[
@@ -231,7 +235,11 @@ class PembayaranUangMakanController extends Controller
             ]);
 
             if ($request->tahun === date('Y')) {
-                $max = date('m')-1;
+                if (date('m') === 12) {
+                    $max = date('m');
+                }else{
+                    $max = date('m')-1;
+                }
                 $request->validate([
                     'bulan'=>"numeric|max:$max"
                 ],[
@@ -289,7 +297,11 @@ class PembayaranUangMakanController extends Controller
             ]);
 
             if ($request->tahun === date('Y')) {
-                $max = date('m')-1;
+                if (date('m') === 12) {
+                    $max = date('m');
+                }else{
+                    $max = date('m')-1;
+                }
                 $request->validate([
                     'bulan'=>"numeric|max:$max"
                 ],[
@@ -342,7 +354,11 @@ class PembayaranUangMakanController extends Controller
             ]);
 
             if ($request->tahun === date('Y')) {
-                $max = date('m')-1;
+                if (date('m') === 12) {
+                    $max = date('m');
+                }else{
+                    $max = date('m')-1;
+                }
                 $request->validate([
                     'bulan'=>"numeric|max:$max"
                 ],[
@@ -390,7 +406,11 @@ class PembayaranUangMakanController extends Controller
                 'tahun.required'=>'tahun wajib di isi.',
             ]);
             if ($request->tahun === date('Y')) {
-                $max = date('m')-1;
+                if (date('m') === 12) {
+                    $max = date('m');
+                }else{
+                    $max = date('m')-1;
+                }
                 $request->validate([
                     'bulan'=>"numeric|max:$max"
                 ],[

@@ -164,7 +164,6 @@
     <script>
         $(document).ready(function(){
             $(".non-aktif-btn").click(function(){
-                console.log($(this).val());
                 const action = "/sewa-rumdin/"+ $(this).val() +"/non-aktif"
                 $("#form-non-aktif").attr("action", action);
                 $("#myModal").modal('toggle');
