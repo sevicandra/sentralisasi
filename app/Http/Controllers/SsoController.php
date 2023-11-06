@@ -49,6 +49,7 @@ class SsoController extends Controller
                             $request->session()->regenerate();
                             $request->session()->put('gravatar', $userinfo->gravatar);
                             $request->session()->put('name', $userinfo->name);
+                            $request->session()->put('id_token', $token['id_token']);
                             return redirect()->intended('/');
                         }
                     }
@@ -57,6 +58,7 @@ class SsoController extends Controller
                         $request->session()->regenerate();
                         $request->session()->put('gravatar', $userinfo->gravatar);
                         $request->session()->put('name', $userinfo->name);
+                        $request->session()->put('id_token', $token['id_token']);
                         return redirect()->intended('/');
                     }
                     return redirect('/login')->with('gagal','Pengguna tidak terdaftar');
