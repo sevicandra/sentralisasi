@@ -115,7 +115,7 @@ class PembayaranUangMakanController extends Controller
         ]);
 
         if ($request->tahun === date('Y')) {
-            if (date('m') === 12) {
+            if (date('m') === "12") {
                 $max = date('m');
             }else{
                 $max = date('m')-1;
@@ -235,7 +235,7 @@ class PembayaranUangMakanController extends Controller
             ]);
 
             if ($request->tahun === date('Y')) {
-                if (date('m') === 12) {
+                if (date('m') === "12") {
                     $max = date('m');
                 }else{
                     $max = date('m')-1;
@@ -297,7 +297,7 @@ class PembayaranUangMakanController extends Controller
             ]);
 
             if ($request->tahun === date('Y')) {
-                if (date('m') === 12) {
+                if (date('m') === "12") {
                     $max = date('m');
                 }else{
                     $max = date('m')-1;
@@ -354,7 +354,7 @@ class PembayaranUangMakanController extends Controller
             ]);
 
             if ($request->tahun === date('Y')) {
-                if (date('m') === 12) {
+                if (date('m') === "12") {
                     $max = date('m');
                 }else{
                     $max = date('m')-1;
@@ -406,7 +406,7 @@ class PembayaranUangMakanController extends Controller
                 'tahun.required'=>'tahun wajib di isi.',
             ]);
             if ($request->tahun === date('Y')) {
-                if (date('m') === 12) {
+                if (date('m') === "12") {
                     $max = date('m');
                 }else{
                     $max = date('m')-1;
