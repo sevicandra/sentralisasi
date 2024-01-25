@@ -32,6 +32,7 @@
                         <th>Nomor SIP</th>
                         <th>Tanggal SIP</th>
                         <th>TMT</th>
+                        <th>Tanggal Kirim</th>
                         <th>Nilai Sewa</th>
                         <th>file</th>
                         <th>Status</th>
@@ -50,19 +51,19 @@
                             <td>{{ $item->nomor_sip }}</td>
                             <td class="text-center">{{ $item->tanggal_sip }}</td>
                             <td class="text-center">{{ $item->tmt }}</td>
+                            <td class="text-center">{{ $item->tanggal_kirim }}</td>
                             <td class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</td>
                             <td>
-                                @if ($item->file)       
-                                <form action="/sewa-rumdin/{{ $item->id }}/dokumen" method="post"
-                                    target="_blank">
-                                    @csrf
-                                    @method('patch')
-                                    <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i
-                                            class="bi bi-filetype-pdf"></i></button>
-                                </form>
+                                @if ($item->file)
+                                    <form action="/sewa-rumdin/{{ $item->id }}/dokumen" method="post" target="_blank">
+                                        @csrf
+                                        @method('patch')
+                                        <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i
+                                                class="bi bi-filetype-pdf"></i></button>
+                                    </form>
                                 @endif
                             </td>
-                            <td class="text-center">{{ str_replace('_', ' ',  $item->status) }}</td>
+                            <td class="text-center">{{ str_replace('_', ' ', $item->status) }}</td>
                             <td>
                                 @if ($item->status === 'draft')
                                     <form action="sewa-rumdin/{{ $item->id }}/delete" method="post"
@@ -76,37 +77,29 @@
                                                 class="btn btn-sm btn-outline-danger pt-0 pb-0">Hapus</button>
                                             <a href="sewa-rumdin/{{ $item->id }}/kirim"
                                                 class="btn btn-sm btn-outline-success pt-0 pb-0"
-                                                onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');"
-                                                >Kirim</a>
+                                                onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');">Kirim</a>
                                         </div>
                                     </form>
                                 @elseif($item->status === 'aktif')
-                                    <button
-                                        type="button"
-                                        value="{{ $item->id }}"
-                                        class="btn btn-sm btn-outline-danger pt-0 pb-0 non-aktif-btn"
-                                    >
+                                    <button type="button" value="{{ $item->id }}"
+                                        class="btn btn-sm btn-outline-danger pt-0 pb-0 non-aktif-btn">
                                         Non Aktif
                                     </button>
                                 @elseif($item->status === 'usulan_non_aktif')
-                                    <form action="sewa-rumdin/{{ $item->id }}/cancel-non-aktif" method="post" onsubmit="return confirm('Apakah Anda yakin akan membatalkan usulan ini?');">
+                                    <form action="sewa-rumdin/{{ $item->id }}/cancel-non-aktif" method="post"
+                                        onsubmit="return confirm('Apakah Anda yakin akan membatalkan usulan ini?');">
                                         @csrf
                                         @method('PATCH')
-                                        <button
-                                            type="submit"
-                                            class="btn btn-sm btn-outline-danger pt-0 pb-0"
-                                        >
+                                        <button type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">
                                             batal
                                         </button>
                                     </form>
                                 @elseif($item->status === 'pengajuan')
-                                    <form action="sewa-rumdin/{{ $item->id }}/cancel-pengajuan" method="post" onsubmit="return confirm('Apakah Anda yakin akan membatalkan usulan ini?');">
+                                    <form action="sewa-rumdin/{{ $item->id }}/cancel-pengajuan" method="post"
+                                        onsubmit="return confirm('Apakah Anda yakin akan membatalkan usulan ini?');">
                                         @csrf
                                         @method('PATCH')
-                                        <button
-                                            type="submit"
-                                            class="btn btn-sm btn-outline-danger pt-0 pb-0"
-                                        >
+                                        <button type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">
                                             batal
                                         </button>
                                     </form>
@@ -119,52 +112,45 @@
         </div>
     </div>
     <div id="paginator">
-        {{$data->links()}}
+        {{ $data->links() }}
     </div>
-    <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
+    <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="myModal" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-                <form action="" method="POST" id="form-non-aktif">
-                    @csrf
-                    @method('PATCH')
-                    <div class="row mb-2">
-                        <div class="form-group">
-                            <label for="">Alasan Penghentian:</label>
-                            <input type="text"
-                                class="form-control"
-                                name="alasan_penghentian" required
-                            >
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="" method="POST" id="form-non-aktif">
+                        @csrf
+                        @method('PATCH')
+                        <div class="row mb-2">
+                            <div class="form-group">
+                                <label for="">Alasan Penghentian:</label>
+                                <input type="text" class="form-control" name="alasan_penghentian" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="form-group">
-                            <label for="">TMT Penghentian:</label>
-                            <input type="date"
-                                class="form-control"
-                                name="tanggal_selesai" required
-                            >
+                        <div class="row mb-2">
+                            <div class="form-group">
+                                <label for="">TMT Penghentian:</label>
+                                <input type="date" class="form-control" name="tanggal_selesai" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div>
-                            <button
-                                class="btn btn-sm btn-outline-danger"
-                            >Kirim</button>
+                        <div class="row">
+                            <div>
+                                <button class="btn btn-sm btn-outline-danger">Kirim</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
     </div>
 @endsection
 
 @section('main-footer')
     <script>
-        $(document).ready(function(){
-            $(".non-aktif-btn").click(function(){
-                const action = "/sewa-rumdin/"+ $(this).val() +"/non-aktif"
+        $(document).ready(function() {
+            $(".non-aktif-btn").click(function() {
+                const action = "/sewa-rumdin/" + $(this).val() + "/non-aktif"
                 $("#form-non-aktif").attr("action", action);
                 $("#myModal").modal('toggle');
             });

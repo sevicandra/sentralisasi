@@ -21,6 +21,8 @@
                         <th>Nomor SIP</th>
                         <th>Tanggal SIP</th>
                         <th>TMT</th>
+                        <th>Tanggal Kirim</th>
+                        <th>Tanggal Approve</th>
                         <th>Nilai Sewa</th>
                         <th>file</th>
                         <th>Status</th>
@@ -38,6 +40,8 @@
                             <td>{{ $item->nomor_sip }}</td>
                             <td class="text-center">{{ $item->tanggal_sip }}</td>
                             <td class="text-center">{{ $item->tmt }}</td>
+                            <td class="text-center">{{ $item->tanggal_kirim }}</td>
+                            <td class="text-center">{{ $item->tanggal_approve }}</td>
                             <td class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</td>
                             <td>
                                 @if ($item->file)

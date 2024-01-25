@@ -22,7 +22,9 @@
                         <th>Nomor SIP</th>
                         <th>Tanggal SIP</th>
                         <th>TMT</th>
+                        <th>Tanggal Kirim</th>
                         <th>TMT Penghentian</th>
+                        <th>Tanggal Usulan Non Aktif</th>
                         <th>Alasan Penghentian</th>
                         <th>Nilai Sewa</th>
                         <th>file</th>
@@ -40,7 +42,9 @@
                             <td>{{ $item->nomor_sip }}</td>
                             <td class="text-center">{{ $item->tanggal_sip }}</td>
                             <td class="text-center">{{ $item->tmt }}</td>
+                            <td class="text-center">{{ $item->tanggal_kirim }}</td>
                             <td class="text-center">{{ $item->tanggal_selesai }}</td>
+                            <td class="text-center">{{ $item->tanggal_usulan_non_aktif }}</td>
                             <td class="text-center">{{ $item->alasan_penghentian }}</td>
                             <td class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</td>
                             <td>

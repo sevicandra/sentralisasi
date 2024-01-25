@@ -40,6 +40,7 @@ use App\Http\Controllers\DataPaymentUploadHonorariumController;
 use App\Http\Controllers\PembayaranDokumenUangLemburController;
 use App\Http\Controllers\PembayaranUangLemburWilayahController;
 use App\Http\Controllers\SewaRumahDinasMonitoringWilayahController;
+use App\Http\Controllers\SewaRumahDinasMonitoringNonAktifController;
 
 /*
 |--------------------------------------------------------------------------
@@ -406,6 +407,12 @@ Route::controller(SewaRumahDinasMonitoringController::class)->middleware('can:ru
     Route::get('/sewa-rumdin/monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/monitoring/{kdsatker}', 'detail')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/monitoring/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
+});
+
+Route::controller(SewaRumahDinasMonitoringNonAktifController::class)->middleware('can:rumdin')->group(function(){
+    Route::get('/sewa-rumdin/monitoring-nonaktif', 'index')->middleware('auth:web,admin');
+    Route::get('/sewa-rumdin/monitoring-nonaktif/{kdsatker}', 'detail')->middleware('auth:web,admin');
+    Route::patch('/sewa-rumdin/monitoring-nonaktif/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });
 
 Route::controller(SewaRumahDinasMonitoringWilayahController::class)->middleware('can:rumdin')->group(function(){

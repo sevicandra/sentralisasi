@@ -185,7 +185,8 @@ class SewaRumahDinasRejectController extends Controller
 
         $sewaRumahDinas->update([
             'status'=>'pengajuan',
-            'catatan'=>null
+            'catatan'=>null,
+            'tanggal_kirim'=>date('Y-m-d'),
         ]);
         return redirect('/sewa-rumdin/reject')->with('berhasil','Data berhasil dikirim.');
     }

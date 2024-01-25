@@ -70,6 +70,12 @@
     </a>
 </div>
 <div>
+    <a href="/sewa-rumdin/monitoring-nonaktif">
+        <span></span>
+        <span>Monitoring Non Aktif</span>
+    </a>
+</div>
+<div>
     <a href="/sewa-rumdin/usulan">
         <span></span>
         <span>Usulan Potongan

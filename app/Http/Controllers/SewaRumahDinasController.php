@@ -270,6 +270,7 @@ class SewaRumahDinasController extends Controller
 
         $sewaRumahDinas->update([
             'status'=>'pengajuan',
+            'tanggal_kirim'=>date('Y-m-d'),
         ]);
         return redirect('/sewa-rumdin')->with('berhasil','Data berhasil dikirim.');
     }
@@ -298,6 +299,7 @@ class SewaRumahDinasController extends Controller
 
         $sewaRumahDinas->update([
             'status'=>'draft',
+            'tanggal_kirim'=>null,
         ]);
         return redirect('/sewa-rumdin')->with('berhasil','Perhononan berhasil dibatalkan.');
     }
@@ -366,6 +368,7 @@ class SewaRumahDinasController extends Controller
             'status'=>'usulan_non_aktif',
             'alasan_penghentian'=>$request->alasan_penghentian,
             'tanggal_selesai'=>$request->tanggal_selesai,
+            'tanggal_usulan_non_aktif'=>date('Y-m-d'),
         ]);
 
         return redirect('/sewa-rumdin')->with('berhasil','Permohonan berhasil dikirim.');
@@ -397,6 +400,7 @@ class SewaRumahDinasController extends Controller
             'status'=>'aktif',
             'alasan_penghentian'=>NULL,
             'tanggal_selesai'=>NULL,
+            'tanggal_usulan_non_aktif'=>NULL,
         ]);
 
         return redirect('/sewa-rumdin')->with('berhasil','Perhononan berhasil dibatalkan.');

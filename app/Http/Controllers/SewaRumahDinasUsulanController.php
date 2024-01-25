@@ -57,7 +57,8 @@ class SewaRumahDinasUsulanController extends Controller
 
         $sewaRumahDinas->update([
             'catatan'=>$request->catatan,
-            'status'=>'draft'
+            'status'=>'draft',
+            'tanggal_kirim'=>null
         ]);
 
         return back()->with('berhasil','Data berhasil di tolak');
@@ -80,7 +81,8 @@ class SewaRumahDinasUsulanController extends Controller
         }
 
         $sewaRumahDinas->update([
-            'status'=>'aktif'
+            'status'=>'aktif',
+            'tanggal_approve'=>date('Y-m-d')
         ]);
 
         return back()->with('berhasil','Data berhasil di update');

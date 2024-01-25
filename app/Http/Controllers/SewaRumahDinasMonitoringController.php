@@ -58,9 +58,6 @@ class SewaRumahDinasMonitoringController extends Controller
             abort(403);
         }
 
-        if ($sewaRumahDinas->status === 'draft' || $sewaRumahDinas->status === 'pengajuan') {
-            abort(403);
-        }
         
         return response()->file(Storage::path($sewaRumahDinas->file),[
             'Content-Type' => 'application/pdf',

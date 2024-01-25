@@ -26,7 +26,10 @@ class sewaRumahDinas extends Model
         'file',
         'tanggal_selesai',
         'catatan',
-        'alasan_penghentian'
+        'alasan_penghentian',
+        'tanggal_kirim',
+        'tanggal_approve',
+        'tanggal_usulan_non_aktif'
     ];
 
     public function scopeDashboardSatker(){
@@ -84,6 +87,18 @@ class sewaRumahDinas extends Model
                 ->selectRaw('satkers.kdsatker, satkers.nmsatker, count(sewa_rumah_dinas.id) as total');
     }
 
+    public function scopeMonitoringNonAktif(){
+        return  DB::table('satkers')
+                ->Leftjoin('sewa_rumah_dinas', function(JoinClause $join){
+                    $join->on('satkers.kdsatker', '=', 'sewa_rumah_dinas.kdsatker')
+                        ->where('status', '=', 'non_aktif')
+                    ;
+                })
+                ->groupBy('satkers.kdsatker')
+                ->orderBy('satkers.order')
+                ->selectRaw('satkers.kdsatker, satkers.nmsatker, count(sewa_rumah_dinas.id) as total');
+    }
+
     public function scopeMonitoringWilayah($data, $kdsatker){
         return  DB::table('satkers')
                 ->where('satkers.kdkoordinator', $kdsatker)
@@ -102,6 +117,14 @@ class sewaRumahDinas extends Model
     public function scopeMonitoringDetail($data, $kdsatker){
         return $data    ->where('kdsatker', $kdsatker)
                         ->where('status', '!=' ,'non_aktif')
+                        ->where('catatan' , null)
+                        ->orderBy('tmt', 'desc')
+        ;
+    }
+
+    public function scopeMonitorinNonAktifDetail($data, $kdsatker){
+        return $data    ->where('kdsatker', $kdsatker)
+                        ->where('status', '=' ,'non_aktif')
                         ->where('catatan' , null)
                         ->orderBy('tmt', 'desc')
         ;
