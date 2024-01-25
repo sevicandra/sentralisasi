@@ -21,6 +21,7 @@
                         <th>Satker</th>
                         <th>Nomor SIP</th>
                         <th>TMT Penghentian</th>
+                        <th>Tanggal Usulan Penghentian</th>
                         <th>Alasan Penghentian</th>
                         <th>Nilai Sewa</th>
                         <th>file</th>
@@ -39,7 +40,8 @@
                             <td>{{ $item->nmsatker }}</td>
                             <td>{{ $item->nomor_sip }}</td>
                             <td class="text-center">{{ $item->tanggal_selesai }}</td>
-                            <td class="text-center">{{ $item->alasan_penghentian }}</td>
+                            <td class="text-center">{{ $item->tanggal_usulan_ }}</td>
+                            <td class="text-center">{{ $item->tanggal_usulan_non_aktif }}</td>
                             <td class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</td>
                             <td>
                                 @if ($item->file)
