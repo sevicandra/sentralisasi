@@ -125,7 +125,7 @@
                 <strong>KEMENTERIAN KEUANGAN RI</strong><br>
                 <strong>DIREKTORAT JENDERAL PAJAK</strong>
             </td>
-            <td class="angka" style="text-align:center; font-size: 10px; padding-top:2px; padding-bottom:2px; border-bottom:none;">Nomor : <span style="margin-left: 5px; margin-right: 5px;">1</span>/1721-A2/2022</td>
+            <td class="angka" style="text-align:center; font-size: 10px; padding-top:2px; padding-bottom:2px; border-bottom:none;">Nomor : <span style="margin-left: 5px; margin-right: 5px;">1</span></td>
         </tr>
     </table>
 

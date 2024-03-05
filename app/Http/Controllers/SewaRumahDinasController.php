@@ -102,6 +102,10 @@ class SewaRumahDinasController extends Controller
             'file.mimetypes'=>'file harus berupa pdf.',
             'file.max'=>'ukuran maksimal file 10MB',
         ]);
+        $statusAktif = sewaRumahDinas::PotonganAktif($request->nip)->first();
+        if ($statusAktif != null) {
+            return redirect('/sewa-rumdin')->with('gagal','Data Potongan Masih Aktif di Satker '. $statusAktif->nmsatker .'.' );
+        }
 
         $path = $request->file('file')->store('sip');
         
