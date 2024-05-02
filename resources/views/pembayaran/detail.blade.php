@@ -40,7 +40,7 @@
                                     <form action="/belanja-51/{{$jns}}/{{$item->id}}/dokumen" method="post" target="_blank">
                                         @csrf
                                         @method('patch')
-                                        <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
+                                        <button class="btn btn-sm btn-outline-primary pt-0 pb-0">pdf</button>
                                     </form> 
                                 </td>
                             </tr>

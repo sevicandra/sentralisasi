@@ -46,14 +46,14 @@
                               <form action="/belanja-51/wilayah/uang-lembur/{{ $item->id }}/dokumen" method="post" target="_blank">
                                 @csrf
                                 @method('patch')
-                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
+                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0">pdf</i></button>
                               </form>
                             </div>
                             <div class="px-1">
                               <form action="/belanja-51/wilayah/uang-lembur/{{ $item->id }}/dokumen-excel" method="post" target="_blank">
                                 @csrf
                                 @method('patch')
-                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-xls"></i></button>
+                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0">excel</i></button>
                               </form>
                             </div>
                           <td>

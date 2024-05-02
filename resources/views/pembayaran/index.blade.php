@@ -39,7 +39,7 @@
                                         <td>{{ $uangMakan->where('bulan', $i)->count() }}</td>
                                         <td>
                                             @if ($uangMakan->where('bulan', $i)->count() > 0)
-                                            <a href="/belanja-51/uang-makan/{{ $thn }}/{{ $uangMakan->where('bulan', $i)->first()->bulan }}/detail"><i class="bi bi-search"></i></a>
+                                            <a href="/belanja-51/uang-makan/{{ $thn }}/{{ $uangMakan->where('bulan', $i)->first()->bulan }}/detail">detail</a>
                                             @endif
                                         </td>
                                     </tr>

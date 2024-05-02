@@ -16,7 +16,7 @@
                           <a href="{{ config('app.url') }}/belanja-51/uang-lembur/index/{{ $item }}" class="btn btn-outline-secondary @if (!$thn && $item === date('Y') || $item === $thn) active @endif mr-1">{{ $item }}</a>
                         @endforeach
                     </div>
-                    <a href="/belanja-51/uang-lembur/create" class="btn btn-outline-secondary mr-2" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="bi bi-plus"></i></a>
+                    <a href="/belanja-51/uang-lembur/create" class="btn btn-sm btn-outline-secondary" >Tambah</a>
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">

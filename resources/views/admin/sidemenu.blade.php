@@ -51,7 +51,7 @@
 </div>
     
 <div class="position-fixed bottom-0 end-0 p-3 text-white">
-    V.1.6
+    V.1.6.1
 </div>
 @endcan
 @endif

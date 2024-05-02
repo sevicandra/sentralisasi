@@ -64,7 +64,7 @@
                               @endphp
                               <td>
                                 @if ($item->dokumenUangMakan($thn, $bln)->count()>0)
-                                <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail"><i class="bi bi-filetype-pdf"></i></a>
+                                <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail">file</a>
                                 @endif
                               </td>
                               <td>
