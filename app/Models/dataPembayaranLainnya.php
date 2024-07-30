@@ -25,7 +25,8 @@ class dataPembayaranLainnya extends Model
         'pph',
         'uraian',
         'tanggal',
-        'sts'
+        'sts',
+        'server_id'
     ];
 
     public function scopeSatker(){
@@ -98,7 +99,7 @@ class dataPembayaranLainnya extends Model
                         ->where('jenis', $jenis)
                         ->where('tahun', $thn)
                         ->where('bulan', $bln)
-                        ->select('id','nip', 'nama', 'pph', 'bruto');
+                        ->select('id','nip', 'nama', 'pph', 'bruto', 'server_id');
     }
 
     public function scopePaymentUpload($data, $kdsatker, $jenis, $thn, $bln)

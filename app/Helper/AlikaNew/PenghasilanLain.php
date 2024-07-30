@@ -51,7 +51,6 @@ class PenghasilanLain
         }
         return $value;
     }
-
     public static function tahun($nip)
     {
         try {
@@ -66,7 +65,6 @@ class PenghasilanLain
             return null;
         }
     }
-
     public static function jenis($nip, $tahun)
     {
         try {
@@ -83,7 +81,6 @@ class PenghasilanLain
             return null;
         }
     }
-
     public static function pph($nip, $tahun)
     {
         try {
@@ -97,6 +94,86 @@ class PenghasilanLain
             return $value;
         } catch (\Throwable $th) {
             Cache::forget('alikaPenghasilanLainPph_' . $nip . '_' . $tahun);
+            return null;
+        }
+    }
+    public static function getAll($nip = null, $thn = null, $limit = null, $offset = null)
+    {
+        try {
+            $token = Token::get();
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->get(config('alikaNew.url') . '/api/PenghasilanLain/', [
+                'nip' => $nip,
+                'tahun' => $thn,
+                'limit' => $limit,
+                'offset' => $offset
+            ]);
+            return json_decode($response, false);
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+    public static function count($nip = null, $thn = null)
+    {
+        try {
+            $token = Token::get();
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->get(config('alikaNew.url') . '/api/PenghasilanLain/Count', [
+                'nip' => $nip,
+                'tahun' => $thn
+            ]);
+            return json_decode($response, false);
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+    public static function getById($id)
+    {
+        try {
+            $token = Token::get();
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->get(config('alikaNew.url') . '/api/PenghasilanLain/', ['id' => $id]);
+            return json_decode($response, false);
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+    public static function put($id, $data)
+    {
+        try {
+            $token = Token::get();
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->put(config('alikaNew.url') . '/api/PenghasilanLain/' . $id, $data);
+            return $response;
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+    public static function post($data)
+    {
+        try {
+            $token = Token::get();
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->post(config('alikaNew.url') . '/api/PenghasilanLain', $data);
+            return $response;
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+    public static function destroy($id)
+    {
+        try {
+            $token = Token::get();
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->delete(config('alikaNew.url') . '/api/PenghasilanLain/' . $id);
+            return $response;
+        } catch (\Throwable $th) {
             return null;
         }
     }

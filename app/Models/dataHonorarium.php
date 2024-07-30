@@ -27,7 +27,8 @@ class dataHonorarium extends Model
         'uraian',
         'tanggal',
         'file',
-        'sts'
+        'sts',
+        'server_id',
     ];
 
     public function scopeSatker(){
