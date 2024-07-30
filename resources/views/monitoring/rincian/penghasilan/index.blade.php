@@ -39,11 +39,11 @@
                         <tr class="align-middle">
                             <td class="text-center">{{ $i++ }}</td>
                             <td>{{ $item->bulan }}</td>
-                            <td class="text-right">{{ number_format($item->netto1 + $item->netto2, 0, ',', '.') }}</td>
-                            <td class="text-right">{{ number_format($item->netto3, 0, ',', '.') }}</td>
-                            <td class="text-right">{{ number_format($item->netto4, 0, ',', '.') }}</td>
-                            <td class="text-right">{{ number_format($item->netto5 +$item->netto6, 0, ',', '.') }}</td>
-                            <td class="text-right">{{ number_format($item->netto1 + $item->netto2 + $item->netto3 + $item->netto4 +$item->netto5 +$item->netto6, 0, ',', '.')}}</td>
+                            <td class="text-right">{{ number_format($item->gaji->netto + $item->kekuranganGaji->netto, 0, ',', '.') }}</td>
+                            <td class="text-right">{{ number_format($item->makan->netto, 0, ',', '.') }}</td>
+                            <td class="text-right">{{ number_format($item->lembur->netto, 0, ',', '.') }}</td>
+                            <td class="text-right">{{ number_format($item->tukin->netto +$item->kekuranganTukin->netto, 0, ',', '.') }}</td>
+                            <td class="text-right">{{ number_format($item->gaji->netto + $item->kekuranganGaji->netto + $item->makan->netto + $item->lembur->netto + $item->tukin->netto +$item->kekuranganTukin->netto, 0, ',', '.')}}</td>
                             {{-- <td class="pb-0 pt-0">
                                 <div class="btn-group btn-group-sm" role="group">
                                     <a href="{{ Request::url() }}/{{ $nip }}/{{ $item->bulan }}/{{ request('thn') }}/surat" class="btn btn-sm btn-outline-success pt-0 pb-0">Surat</a>
@@ -54,11 +54,11 @@
                     @endforeach
                     <tr>
                         <th colspan="2" class="text-center">Jumlah</th>
-                        <th class="text-right">{{ number_format($data->sum('netto1') + $data->sum('netto2'), 0, ',', '.') }}</th>
-                        <th class="text-right">{{ number_format($data->sum('netto3'), 0, ',', '.') }}</th>
-                        <th class="text-right">{{ number_format($data->sum('netto4'), 0, ',', '.') }}</th>
-                        <th class="text-right">{{ number_format($data->sum('netto5') + $data->sum('netto6'), 0, ',', '.') }}</th>
-                        <th class="text-right">{{ number_format($data->sum('netto1') + $data->sum('netto2') + $data->sum('netto3') + $data->sum('netto4') +$data->sum('netto5') +$data->sum('netto6'), 0, ',', '.') }}</th>
+                        <th class="text-right">{{ number_format($data->sum('gaji.netto') + $data->sum('kekuranganGaji.netto'), 0, ',', '.') }}</th>
+                        <th class="text-right">{{ number_format($data->sum('makan.netto'), 0, ',', '.') }}</th>
+                        <th class="text-right">{{ number_format($data->sum('lembur.netto'), 0, ',', '.') }}</th>
+                        <th class="text-right">{{ number_format($data->sum('tukin.netto') + $data->sum('kekuranganTukin.netto'), 0, ',', '.') }}</th>
+                        <th class="text-right">{{ number_format($data->sum('gaji.netto') + $data->sum('kekuranganGaji.netto') + $data->sum('makan.netto') + $data->sum('lembur.netto') + $data->sum('tukin.netto') + $data->sum('kekuranganTukin.netto'), 0, ',', '.') }}</th>
                         {{-- <th></th> --}}
                     </tr>
                 </tbody>

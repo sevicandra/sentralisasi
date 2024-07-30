@@ -125,7 +125,7 @@
                 <strong>KEMENTERIAN KEUANGAN RI</strong><br>
                 <strong>DIREKTORAT JENDERAL PAJAK</strong>
             </td>
-            <td class="angka" style="text-align:center; font-size: 10px; padding-top:2px; padding-bottom:2px; border-bottom:none;">Nomor : <span style="margin-left: 5px; margin-right: 5px;">1</span>/1721-A2/2022</td>
+            <td class="angka" style="text-align:center; font-size: 10px; padding-top:2px; padding-bottom:2px; border-bottom:none;">Nomor : <span style="margin-left: 5px; margin-right: 5px;">1</span></td>
         </tr>
     </table>
 
@@ -211,13 +211,6 @@
     @endphp
     @endif
 
-    @if ($rapel === null)
-        @php
-            $rapel = new stdClass();
-            $rapel->netto=null;
-            $rapel->pph=null;
-        @endphp
-    @endif
     @php
         $setahun = $gaji->jumlah >= 12 ? 12 : $gaji->jumlah;
         $gapok = $gaji->gapok + $kurang->gapok;
@@ -231,7 +224,7 @@
         $tberas = $gaji->tberas + $kurang->tberas;
         $bulat = $gaji->bulat + $kurang->bulat;
         $tpapua = $gaji->tpapua + $kurang->tpapua;
-        $tk = $tukin->netto + $rapel->netto;
+        $tk = $tukin->netto;
         $bruto = $kelg + $tumum + $tunj + $tberas + $bulat + $tpapua + $tk;
         $ptkp_wp = $tarif->ptkp_wp;
         $ptkp_istri = $tarif->ptkp_istri;
@@ -244,6 +237,7 @@
         $total_biaya_jabatan = $jml_biaya_jabatan >= 6000000 ? 6000000 : $jml_biaya_jabatan;
         $pengurangan = $jml_iuran_pensiun + $total_biaya_jabatan;
         $netto = $bruto - $pengurangan;
+        $setahun = $setahun < 1 ? 1 : $setahun;
         $disetahun = floor(($netto / $setahun * 12)/1000)*1000;
         $peg_wp = intval(substr($peg->kdkawin, 0, 1));
         $peg_istri = intval(substr($peg->kdkawin, 1, 1));
@@ -253,7 +247,7 @@
         $jml_ptkp_anak = $peg_anak * $ptkp_anak;
         $ptkp = $jml_ptkp_wp + $jml_ptkp_istri + $jml_ptkp_anak;
         $pkp = $disetahun - $ptkp;
-        $jml_dipungut = $gaji->tpajak + $kurang->tpajak + $tukin->potongan + $rapel->pph;
+        $jml_dipungut = $gaji->tpajak + $kurang->tpajak + $tukin->potongan;
         $pph_tarif_1 = $tarif->pph_tarif_1;
         $pph_tarif_2 = $tarif->pph_tarif_2;
         $pph_tarif_3 = $tarif->pph_tarif_3;

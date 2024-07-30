@@ -170,9 +170,9 @@
             <td class="angka" style="padding-left:15px; border-bottom:none;">
                 <span style="margin-left:12px;">Objek PPh Pasal 21 Final Lainnya (Uang Makan)</span>
             </td>
-            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($makan->jumlah_bruto, 0, ',', '.')}}</td>
+            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format(($makan?->bruto ? $makan->bruto : 0), 0, ',', '.')}}</td>
             <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ $kdgol == 'III' ? '5%' : ($kdgol == 'IV' ? '15%' : '0%')}}</td>
-            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($makan->jumlah_pph, 0, ',', '.')}}</td>
+            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format(($makan?->pph ? $makan->pph : 0), 0, ',', '.')}}</td>
         </tr>
         <tr>
             <td class="angka" style="padding-top:5px; padding-left:15px; border-bottom:none;">2. 21-499-99</td>
@@ -184,9 +184,9 @@
             <td class="angka" style="padding-left:15px; border-bottom:none;">
                 <span style="margin-left:12px;">Objek PPh Pasal 21 Final Lainnya (Uang Lembur)</span>
             </td>
-            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($lembur->jumlah_bruto, 0, ',', '.')}}</td>
+            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format(($lembur?->bruto ? $lembur->bruto : 0), 0, ',', '.')}}</td>
             <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ $kdgol == 'III' ? '5%' : ($kdgol == 'IV' ? '15%' : '0%')}}</td>
-            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($lembur->jumlah_pph, 0, ',', '.')}}</td>
+            <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format(($lembur?->pph ? $lembur->pph : 0), 0, ',', '.')}}</td>
         </tr>
         @php
             $no = 3;
@@ -204,13 +204,13 @@
                 <td class="angka" style="padding-left:15px; border-bottom:none;">
                     <span style="margin-left:12px;">Objek PPh Pasal 21 Final Lainnya ({{ $item->jenis}})</span>
                 </td>
-                <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($item->jumlah_bruto, 0, ',', '.')}}</td>
+                <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($item->bruto, 0, ',', '.')}}</td>
                 <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ $kdgol == 'III' ? '5%' : ($kdgol == 'IV' ? '15%' : '0%')}}</td>
-                <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($item->jumlah_pph, 0, ',', '.')}}</td>
+                <td class="angka" style="padding-right:10px; text-align:right; border-bottom:none;">{{ number_format($item->pph, 0, ',', '.')}}</td>
             </tr>
         @php
-            $j1 += $item->jumlah_bruto;
-            $j2 += $item->jumlah_pph;
+            $j1 += $item->bruto;
+            $j2 += $item->pph;
         @endphp
         @endforeach
         <tr>
@@ -224,9 +224,9 @@
             <td class="angka" style="text-align:center; padding-top:5px; padding-bottom:5px;">
                 <span style="margin-left:12px;"><strong>Jumlah</strong></span>
             </td>
-            <td class="angka" style="padding-right:10px; text-align:right;"><strong>{{ number_format($j1 + $makan->jumlah_bruto + $lembur->jumlah_bruto, 0, ',', '.')}}</strong></td>
+            <td class="angka" style="padding-right:10px; text-align:right;"><strong>{{ number_format($j1 + ($makan?->bruto ? $makan->bruto : 0) + ($lembur?->bruto ? $lembur->bruto : 0), 0, ',', '.')}}</strong></td>
             <td class="angka" style="padding-right:10px; text-align:right;"></td>
-            <td class="angka" style="padding-right:10px; text-align:right;"><strong>{{ number_format($j2 + $makan->jumlah_pph + $lembur->jumlah_pph, 0, ',', '.')}}</strong></td>
+            <td class="angka" style="padding-right:10px; text-align:right;"><strong>{{ number_format($j2 + ($makan?->pph ? $makan->pph : 0) + ($lembur?->pph ? $lembur->pph : 0), 0, ',', '.')}}</strong></td>
         </tr>
     </table>
 

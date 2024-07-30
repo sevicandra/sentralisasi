@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Alika\API3\satkerAlika;
 use App\Helper\hris;
 use App\Models\satker;
-use App\Helper\Alika\API3\spt;
 use Spipu\Html2Pdf\Html2Pdf;
-use App\Helper\Alika\API3\dataLain;
-use App\Helper\Alika\API3\dataMakan;
-use App\Helper\Alika\API3\dataLembur;
-use App\Helper\Alika\API3\detailLain;
-use App\Helper\Alika\API3\penghasilan;
-use App\Helper\Alika\API3\satkerAlika;
+use App\Helper\AlikaNew\SPTPegawai;
+use App\Helper\AlikaNew\RefSPTTahunan;
+use App\Helper\AlikaNew\Profil;
+use App\Helper\AlikaNew\Satker as AlikaSatker;
+use App\Helper\AlikaNew\UangLembur;
+use App\Helper\AlikaNew\UangMakan;
+use App\Helper\AlikaNew\PenghasilanLain;
+use App\Helper\AlikaNew\Penghasilan;
+use App\Helper\AlikaNew\Gaji;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -21,30 +24,30 @@ class MonitoringPelaporanController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
-        return view('monitoring.pelaporan.index',[
-            'pageTitle'=>'Pelaporan',
-            'data'=>satker::search()->order()->paginate(15)->withQueryString(),
+        return view('monitoring.pelaporan.index', [
+            'pageTitle' => 'Pelaporan',
+            'data' => satker::search()->order()->paginate(15)->withQueryString(),
         ]);
     }
 
     public function satker(satker $satker)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
@@ -52,62 +55,62 @@ class MonitoringPelaporanController extends Controller
         $status = $pegawai->unique('StatusPegawai')->pluck('StatusPegawai');
         $search = request('search');
         if (request('status')) {
-            $pegawai_Collection = Collect($pegawai, false)->map(function($data){
-                return(object)[
-                    'Nama'=>$data->Nama,
-                    'Nip18'=>$data->Nip18,
-                    'StatusPegawai'=>$data->StatusPegawai,
-                    'Grading'=>$data->Grading,
-                    'KodeOrganisasi'=>$data->KodeOrganisasi,
-                ];
-            })->where('StatusPegawai',request('status'))->filter(function ($value) use ($search) {
-                foreach ($value as $field) {
-                    if (preg_match('/' . $search . '/i', $field)) {
-                        return true;
-                    }
-                }
-                return false;
-            })->sortBy([['Grading', 'desc'],['KodeoOrganisasi', 'asc']])->values();
-        }else{
-            $pegawai_Collection = Collect($pegawai, false)->map(function($data){
+            $pegawai_Collection = Collect($pegawai, false)->map(function ($data) {
                 return (object)[
-                    'Nama'=>$data->Nama,
-                    'Nip18'=>$data->Nip18,
-                    'StatusPegawai'=>$data->StatusPegawai,
-                    'Grading'=>$data->Grading,
-                    'KodeOrganisasi'=>$data->KodeOrganisasi,
+                    'Nama' => $data->Nama,
+                    'Nip18' => $data->Nip18,
+                    'StatusPegawai' => $data->StatusPegawai,
+                    'Grading' => $data->Grading,
+                    'KodeOrganisasi' => $data->KodeOrganisasi,
                 ];
-            })->where('StatusPegawai','Aktif')->filter(function ($value) use ($search) {
+            })->where('StatusPegawai', request('status'))->filter(function ($value) use ($search) {
                 foreach ($value as $field) {
                     if (preg_match('/' . $search . '/i', $field)) {
                         return true;
                     }
                 }
                 return false;
-            })->sortBy([['Grading', 'desc'],['KodeOrganisasi', 'asc']])->values();
+            })->sortBy([['Grading', 'desc'], ['KodeoOrganisasi', 'asc']])->values();
+        } else {
+            $pegawai_Collection = Collect($pegawai, false)->map(function ($data) {
+                return (object)[
+                    'Nama' => $data->Nama,
+                    'Nip18' => $data->Nip18,
+                    'StatusPegawai' => $data->StatusPegawai,
+                    'Grading' => $data->Grading,
+                    'KodeOrganisasi' => $data->KodeOrganisasi,
+                ];
+            })->where('StatusPegawai', 'Aktif')->filter(function ($value) use ($search) {
+                foreach ($value as $field) {
+                    if (preg_match('/' . $search . '/i', $field)) {
+                        return true;
+                    }
+                }
+                return false;
+            })->sortBy([['Grading', 'desc'], ['KodeOrganisasi', 'asc']])->values();
         }
 
-        $data = $this->paginate($pegawai_Collection, 15, request('page'), ['path'=>' '])->withQueryString();
-        return view('monitoring.pelaporan.laporan.index',[
-            "pageTitle"=>"Laporan ".$satker->nmsatker,
-            "data"=>$data,
-            "satker"=>$satker,
-            "status"=>$status
+        $data = $this->paginate($pegawai_Collection, 15, request('page'), ['path' => ' '])->withQueryString();
+        return view('monitoring.pelaporan.laporan.index', [
+            "pageTitle" => "Laporan " . $satker->nmsatker,
+            "data" => $data,
+            "satker" => $satker,
+            "status" => $status
         ]);
     }
-    
+
     public function satker_profil(satker $satker, $nip)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        
+
         $pegawai_Collection = hris::getPegawai($nip)->first();
         $keluarga = hris::getKeluarga($nip)->first();
         $rekenig = hris::getRekening($nip)->first();
@@ -119,23 +122,23 @@ class MonitoringPelaporanController extends Controller
             return abort(403);
         }
 
-        return view('monitoring.pelaporan.laporan.profil.index',[
-            "pageTitle"=>"Profil ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            "pegawai"=>$pegawai_Collection,
-            "keluarga"=>collect($keluarga)->sortBy('TanggalLahir'),
-            "rekening"=>$rekenig
+        return view('monitoring.pelaporan.laporan.profil.index', [
+            "pageTitle" => "Profil " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
+            "pegawai" => $pegawai_Collection,
+            "keluarga" => collect($keluarga)->sortBy('TanggalLahir'),
+            "rekening" => $rekenig
         ]);
     }
 
     public function satker_pph_pasal_21(satker $satker, $nip, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
@@ -147,41 +150,45 @@ class MonitoringPelaporanController extends Controller
         if ($pegawai_Collection->KdSatker != $satker->kdsatker) {
             return abort(403);
         }
-
-        $tahun = spt::getTahun($nip);
+        $tahun = SPTPegawai::tahunByNip($nip)->data;
 
         if ($thn === null) {
-            $thn=collect($tahun)->first()->tahun;
+            $thn = collect($tahun)->first()->tahun;
         }
 
         if (!isset(collect($tahun)->where('tahun', $thn)->first()->tahun)) {
             abort(404);
         }
-        
-        return view('monitoring.pelaporan.laporan.pph_pasal_21.index',[
-            "pageTitle"=>"PPh Pasal 21 " .$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            "thn"=>$thn,
-            "nip"=>$nip,
-            "peg"=>spt::getSptPegawai($nip, $thn),
-            "gaji"=>spt::getViewGaji($nip, $thn),
-            "kurang"=>spt::getViewKurang($nip, $thn),
-            "tukin"=>spt::getViewTukin($nip, $thn),
-            "rapel"=>spt::getViewRapel($nip, $thn),
-            "tarif"=>detailLain::getTarif($thn),
-            "tahun"=>collect($tahun)->all(),
-            "satker"=>$satker
+
+        $peg = SPTPegawai::get($nip, $thn)->data;
+        $gaji = SPTPegawai::gaji($nip, $thn)->data;
+        $kekuranganGaji = SPTPegawai::kekuranganGaji($nip, $thn)->data;
+        $tukin = SPTPegawai::tukin($nip, $thn)->data;
+        $tarif = RefSPTTahunan::get($thn)->data;
+
+        return view('monitoring.pelaporan.laporan.pph_pasal_21.index', [
+            "pageTitle" => "PPh Pasal 21 " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
+            "thn" => $thn,
+            "nip" => $nip,
+            "peg" => $peg,
+            "gaji" => $gaji,
+            "kurang" => $kekuranganGaji,
+            "tukin" => $tukin,
+            "tarif" => $tarif,
+            "tahun" => collect($tahun)->all(),
+            "satker" => $satker
         ]);
     }
 
     public function satker_pph_pasal_21_final(satker $satker, $nip, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
@@ -194,40 +201,43 @@ class MonitoringPelaporanController extends Controller
             return abort(403);
         }
 
-        $tahun = spt::getTahun($nip);
+        $tahun = SPTPegawai::tahunByNip($nip)->data;
 
         if ($thn === null) {
-            $thn=collect($tahun)->first()->tahun;
+            $thn = collect($tahun)->last()->tahun;
         }
 
         if (!isset(collect($tahun)->where('tahun', $thn)->first()->tahun)) {
             abort(404);
         }
 
-        return view('monitoring.pelaporan.laporan.pph_pasal_21_final.index',[
-            "pageTitle"=>"PPh Pasal 21 Final ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            "thn"=>$thn,
-            "nip"=>$nip,
-            "tahun"=>collect($tahun)->all(),
-            "makan"=>dataMakan::getPph($nip, $thn),
-            "lembur"=>dataLembur::getPph($nip, $thn),
-            'lain'=>dataLain::getPph($nip, $thn),
-            "satker"=>$satker
+        $makan = UangMakan::pph($nip, $thn)->data;
+        $lembur = UangLembur::pph($nip, $thn)->data;
+        $lain = PenghasilanLain::pph($nip, $thn)->data;
+        return view('monitoring.pelaporan.laporan.pph_pasal_21_final.index', [
+            "pageTitle" => "PPh Pasal 21 Final " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
+            "thn" => $thn,
+            "nip" => $nip,
+            "tahun" => collect($tahun)->all(),
+            "makan" => $makan,
+            "lembur" => $lembur,
+            'lain' => $lain,
+            "satker" => $satker
         ]);
     }
 
     public function satker_penghasilan_tahunan(satker $satker, $nip, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        
+
         $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
@@ -237,23 +247,22 @@ class MonitoringPelaporanController extends Controller
             return abort(403);
         }
 
-        $tahun = penghasilan::getTahunPenghasilan($nip);
-
+        $tahun = Gaji::tahun($nip)->data;
         if ($thn === null) {
-            $thn=collect($tahun)->first()->tahun;
+            $thn = collect($tahun)->last()->tahun;
         }
 
         if (!isset(collect($tahun)->where('tahun', $thn)->first()->tahun)) {
             abort(404);
         }
-
-        return view('monitoring.pelaporan.laporan.penghasilan_tahunan.index',[
-            "pageTitle"=>"Penghasilan Tahunan ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            "data"=>penghasilan::getPenghasilanTahunan($nip, $thn),
-            "thn"=>$thn,
-            "nip"=>$nip,
-            "tahun"=>$tahun,
-            "satker"=>$satker
+        $penghasilan = Penghasilan::get($nip, $thn)->data;
+        return view('monitoring.pelaporan.laporan.penghasilan_tahunan.index', [
+            "pageTitle" => "Penghasilan Tahunan " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
+            "data" => $penghasilan,
+            "thn" => $thn,
+            "nip" => $nip,
+            "tahun" => $tahun,
+            "satker" => $satker
         ]);
     }
 
@@ -272,12 +281,12 @@ class MonitoringPelaporanController extends Controller
     public function satker_pph_pasal_21_cetak(satker $satker, $nip, $thn)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
@@ -289,25 +298,30 @@ class MonitoringPelaporanController extends Controller
         if ($pegawai_Collection->KdSatker != $satker->kdsatker) {
             return abort(403);
         }
-
+        $peg = SPTPegawai::get($nip, $thn)->data;
+        $gaji = SPTPegawai::gaji($nip, $thn)->data;
+        $kekuranganGaji = SPTPegawai::kekuranganGaji($nip, $thn)->data;
+        $tukin = SPTPegawai::tukin($nip, $thn)->data;
+        $tarif = RefSPTTahunan::get($thn)->data;
+        $profil = Profil::get($pegawai_Collection->KdSatker, $thn)->data;
+        $satker = AlikaSatker::get($pegawai_Collection->KdSatker)->data;
         ob_start();
-        $html = ob_get_clean();
-        
+        $html2pdf = ob_get_clean();
+
         $html2pdf = new Html2Pdf('P', 'A4', 'en', false, 'UTF-8', array(10, 10, 10, 10));
         $html2pdf->addFont('Arial');
         $html2pdf->pdf->SetTitle('Form 1721-A2');
-        $html2pdf->writeHTML(view('monitoring.pelaporan.laporan.pph_pasal_21.cetak',[
-            "thn"=>$thn,
-            "nip"=>$nip,
-            "peg"=>spt::getSptPegawai($nip, $thn),
-            "gaji"=>spt::getViewGaji($nip, $thn),
-            "kurang"=>spt::getViewKurang($nip, $thn),
-            "tukin"=>spt::getViewTukin($nip, $thn),
-            "rapel"=>spt::getViewRapel($nip, $thn),
-            "tarif"=>detailLain::getTarif($thn),
-            "profil"=>detailLain::getProfil(spt::getSptPegawai($nip, $thn)->kdsatker, $thn),
-            "satker"=>satkerAlika::getDetailSatker(spt::getSptPegawai($nip, $thn)->kdsatker),
-            "pegawai"=>$pegawai_Collection
+        $html2pdf->writeHTML(view('monitoring.pelaporan.laporan.pph_pasal_21.cetak', [
+            "thn" => $thn,
+            "nip" => $nip,
+            "peg" => $peg,
+            "gaji" => $gaji,
+            "kurang" => $kekuranganGaji,
+            "tukin" => $tukin,
+            "tarif" => $tarif,
+            "profil" => $profil,
+            "satker" => $satker,
+            "pegawai" => $pegawai_Collection
         ]));
         $html2pdf->output('1721A2-' . $nip . '.pdf', 'D');
     }
@@ -315,15 +329,15 @@ class MonitoringPelaporanController extends Controller
     public function satker_pph_pasal_21_final_cetak(satker $satker, $nip, $thn)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        
+
         $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
@@ -332,22 +346,26 @@ class MonitoringPelaporanController extends Controller
         if ($pegawai_Collection->KdSatker != $satker->kdsatker) {
             return abort(403);
         }
-
+        $makan = UangMakan::pph($nip, $thn)->data;
+        $lembur = UangLembur::pph($nip, $thn)->data;
+        $lain = PenghasilanLain::pph($nip, $thn)->data;
+        $profil = Profil::get($pegawai_Collection->KdSatker, $thn)->data;
+        $satker = AlikaSatker::get($pegawai_Collection->KdSatker)->data;
         ob_start();
-        $html = ob_get_clean();
+        $html2pdf = ob_get_clean();
 
         $html2pdf = new Html2Pdf('P', 'A4', 'en', false, 'UTF-8', array(10, 10, 10, 10));
         $html2pdf->addFont('Arial');
         $html2pdf->pdf->SetTitle('Form 1721-VII');
-        $html2pdf->writeHTML(view('monitoring.pelaporan.laporan.pph_pasal_21_final.cetak',[
-            "thn"=>$thn,
-            "nip"=>$nip,
-            "makan"=>dataMakan::getPph($nip, $thn),
-            "lembur"=>dataLembur::getPph($nip, $thn),
-            'lain'=>dataLain::getPph($nip, $thn),
-            "profil"=>detailLain::getProfil(spt::getSptPegawai($nip, $thn)->kdsatker, $thn),
-            "satker"=>satkerAlika::getDetailSatker(spt::getSptPegawai($nip, $thn)->kdsatker),
-            "pegawai"=>$pegawai_Collection
+        $html2pdf->writeHTML(view('monitoring.pelaporan.laporan.pph_pasal_21_final.cetak', [
+            "thn" => $thn,
+            "nip" => $nip,
+            "makan" => $makan,
+            "lembur" => $lembur,
+            'lain' => $lain,
+            "profil" => $profil,
+            "satker" => $satker,
+            "pegawai" => $pegawai_Collection
         ]));
         $html2pdf->output('1721VII-' . $nip . '.pdf', 'D');
     }

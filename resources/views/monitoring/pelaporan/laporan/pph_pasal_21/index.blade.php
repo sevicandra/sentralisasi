@@ -38,14 +38,6 @@
                 $kurang->tpajak=null;
             @endphp
         @endif
-
-        @if ($rapel === null)
-            @php
-                $rapel = new stdClass();
-                $rapel->netto=null;
-                $rapel->pph=null;
-            @endphp
-        @endif
         @php
                 $setahun = $gaji->jumlah >= 12 ? 12 : $gaji->jumlah;
                 $gapok = $gaji->gapok + $kurang->gapok;
@@ -59,7 +51,7 @@
                 $tberas = $gaji->tberas + $kurang->tberas;
                 $bulat = $gaji->bulat + $kurang->bulat;
                 $tpapua = $gaji->tpapua + $kurang->tpapua;
-                $tk = $tukin->netto + $rapel->netto;
+                $tk = $tukin->netto;
                 $bruto = $kelg + $tumum + $tunj + $tberas + $bulat + $tpapua + $tk;
                 $ptkp_wp = $tarif->ptkp_wp;
                 $ptkp_istri = $tarif->ptkp_istri;
@@ -82,7 +74,7 @@
                 $jml_ptkp_anak = $peg_anak * $ptkp_anak;
                 $ptkp = $jml_ptkp_wp + $jml_ptkp_istri + $jml_ptkp_anak;
                 $pkp = $disetahun - $ptkp;
-                $jml_dipungut = $gaji->tpajak + $kurang->tpajak + $tukin->potongan + $rapel->pph;
+                $jml_dipungut = $gaji->tpajak + $kurang->tpajak + $tukin->potongan;
                 $pph_tarif_1 = $tarif->pph_tarif_1;
                 $pph_tarif_2 = $tarif->pph_tarif_2;
                 $pph_tarif_3 = $tarif->pph_tarif_3;

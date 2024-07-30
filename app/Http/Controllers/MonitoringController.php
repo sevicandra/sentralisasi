@@ -28,7 +28,7 @@ class MonitoringController extends Controller
         //     }
         //     return Redirect('/monitoring/penghasilan');
         // }
-        
+        return redirect('/monitoring/rincian');
         switch (request('jns')) {
             case 'gaji-rutin':
                 $endpoint= "gaji-rutin";
@@ -85,6 +85,7 @@ class MonitoringController extends Controller
     
     public function detail()
     {
+        return redirect('/monitoring/rincian');
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'opr_monitoring'];
             $gate2=['sys_admin'];

@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Helper\AlikaNew\Penghasilan;
+use App\Helper\AlikaNew\Gaji;
+use App\Helper\AlikaNew\KekuranganGaji;
+use App\Helper\AlikaNew\UangMakan;
+use App\Helper\AlikaNew\UangLembur;
+use App\Helper\AlikaNew\KekuranganTukin;
+use App\Helper\AlikaNew\Tukin;
+use App\Helper\AlikaNew\PenghasilanLain;
+
 
 class MonitoringPenghasilanController extends Controller
 {
@@ -106,15 +115,7 @@ class MonitoringPenghasilanController extends Controller
         }else{
             $thn= date('Y');
         }
-
-        $token= Http::asForm()->post(config('hris.token_uri'),[
-            'client_secret'=>config('hris.secret'),
-            'client_id' =>config('hris.id'),
-            'grant_type'=>config('hris.grant')
-        ]);
-        $accesstoken = json_decode($token, false)->access_token;
-        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
-        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+        $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
             return abort(404);
@@ -123,21 +124,10 @@ class MonitoringPenghasilanController extends Controller
             return abort(403);
         }
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-penghasilan',[
-            'nip' => $nip,
-            'thn' => $thn,
-            'X-API-KEY' => config('alika.key')
-        ]);
-
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-penghasilan',[
-            'nip' => $nip,
-            'X-API-KEY' => config('alika.key')
-        ]);
-
         return view('monitoring.penghasilan.rincian.penghasilan.index',[
             "pageTitle"=>"Penghasilan ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            "data"=>collect(json_decode($data, false)),
-            "tahun"=>json_decode($tahun, false),
+            "data" => collect(Penghasilan::get($nip, $thn)->data),
+            "tahun" => Gaji::tahun($nip)->data,
             'nip'=>$nip,
             'thn'=>$thn,
             'satker'=>$satker,
@@ -156,14 +146,7 @@ class MonitoringPenghasilanController extends Controller
             abort(403);
         }
 
-        $token= Http::asForm()->post(config('hris.token_uri'),[
-            'client_secret'=>config('hris.secret'),
-            'client_id' =>config('hris.id'),
-            'grant_type'=>config('hris.grant')
-        ]);
-        $accesstoken = json_decode($token, false)->access_token;
-        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
-        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+        $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
             return abort(404);
@@ -177,39 +160,24 @@ class MonitoringPenghasilanController extends Controller
         }
         switch ($jns) {
             case 'rutin':
-                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-gaji',[
-                    'nip' => $nip,
-                    'thn' => $thn,
-                    'X-API-KEY' => config('alika.key')
-                ]);
+                $data = Gaji::get($nip, $thn)->data;
                 break;
-            
+
             case 'kekurangan':
-                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-kurang',[
-                    'nip' => $nip,
-                    'thn' => $thn,
-                    'X-API-KEY' => config('alika.key')
-                ]);
+                $data = KekuranganGaji::get($nip, $thn)->data;
                 break;
-            
+
             default:
-                $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-gaji',[
-                    'nip' => $nip,
-                    'thn' => $thn,
-                    'X-API-KEY' => config('alika.key')
-                ]);
+                $data = Gaji::get($nip, $thn)->data;
                 break;
         }
 
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-gaji',[
-            'nip' => $nip,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        $tahun = gaji::Tahun($nip)->data;
 
         return view('monitoring.penghasilan.rincian.gaji',[
             "pageTitle"=>"Gaji ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            "tahun"=>json_decode($tahun. false),
-            "data"=>collect(json_decode($data, false)),
+            "tahun" => $tahun,
+            "data" => collect($data, false),
             "thn"=>$thn,
             "jns"=>$jns,
             'nip'=>$nip,
@@ -228,14 +196,8 @@ class MonitoringPenghasilanController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $token= Http::asForm()->post(config('hris.token_uri'),[
-            'client_secret'=>config('hris.secret'),
-            'client_id' =>config('hris.id'),
-            'grant_type'=>config('hris.grant')
-        ]);
-        $accesstoken = json_decode($token, false)->access_token;
-        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
-        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
             return abort(404);
@@ -248,23 +210,16 @@ class MonitoringPenghasilanController extends Controller
             $thn=date('Y');
         }
         
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-makan',[
-            'nip' => $nip,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        $tahun = UangMakan::tahun($nip)->data;
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-makan',[
-            'nip' => $nip,
-            'thn'=>$thn,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        $data = UangMakan::get($nip, $thn)->data;
 
         return view('monitoring.penghasilan.rincian.uang_makan',[
             "pageTitle"=>"Uang Makan ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            'data'=> collect(json_decode($data), false),
-            'nip'=>$nip,
-            'thn'=>$thn,
-            'tahun'=>json_decode($tahun, false),
+            'data' => collect($data),
+            'nip' => $nip,
+            'thn' => $thn,
+            'tahun' => $tahun,
             'satker'=>$satker
         ]);
     }
@@ -280,14 +235,8 @@ class MonitoringPenghasilanController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $token= Http::asForm()->post(config('hris.token_uri'),[
-            'client_secret'=>config('hris.secret'),
-            'client_id' =>config('hris.id'),
-            'grant_type'=>config('hris.grant')
-        ]);
-        $accesstoken = json_decode($token, false)->access_token;
-        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
-        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
             return abort(404);
@@ -300,22 +249,16 @@ class MonitoringPenghasilanController extends Controller
             $thn=date('Y');
         }
         
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-lembur',[
-            'nip' => $nip,
-            'X-API-KEY' => config('alika.key')
-        ]);
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-lembur',[
-            'nip' => $nip,
-            'thn'=>$thn,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        $tahun = UangLembur::tahun($nip)->data;
+
+        $data = UangLembur::get($nip, $thn)->data;
         return view('monitoring.penghasilan.rincian.uang_lembur',[
             "pageTitle"=>"Uang Lembur ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            'data'=> collect(json_decode($data), false),
-            'nip'=>$nip,
-            'thn'=>$thn,
-            'tahun'=>json_decode($tahun, false),
+            'data' => collect($data),
+            'nip' => $nip,
+            'thn' => $thn,
+            'tahun' => $tahun,
             'satker'=>$satker
         ]);
     }
@@ -336,9 +279,7 @@ class MonitoringPenghasilanController extends Controller
             'client_id' =>config('hris.id'),
             'grant_type'=>config('hris.grant')
         ]);
-        $accesstoken = json_decode($token, false)->access_token;
-        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
-        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+        $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
             return abort(404);
@@ -347,43 +288,32 @@ class MonitoringPenghasilanController extends Controller
             return abort(403);
         }
 
+        if (!$thn) {
+            $thn = date('Y');
+        }
         switch ($jns) {
             case 'rutin':
-                $jenis=0;
+                $data = Tukin::get($nip, $thn)->data;
                 break;
-            
+
             case 'kekurangan':
-                $jenis=1;
+                $data = KekuranganTukin::get($nip, $thn)->data;
                 break;
-            
+
             default:
-                $jenis=0;
+                $data = Tukin::get($nip, $thn)->data;
                 break;
         }
 
-        if (!$thn) {
-            $thn=date('Y');
-        }
-        
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-tukin',[
-            'nip' => $nip,
-            'X-API-KEY' => config('alika.key')
-        ]);
-
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tukin',[
-            'nip' => $nip,
-            'thn'=>$thn,
-            'jns'=>$jenis,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        $tahun = Tukin::Tahun($nip)->data;
 
         return view('monitoring.penghasilan.rincian.tunjangan_kinerja',[
             "pageTitle"=>"Tunjangan Kinerja ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            'tahun'=>json_decode($tahun,false),
-            'data'=>collect(json_decode($data,false)),
-            'nip'=>$nip,
-            'thn'=>$thn,
-            'jns'=>$jns,
+            'tahun' => $tahun,
+            'data' => collect($data),
+            'nip' => $nip,
+            'thn' => $thn,
+            'jns' => $jns,
             'satker'=>$satker
         ]);
     }
@@ -400,14 +330,7 @@ class MonitoringPenghasilanController extends Controller
             abort(403);
         }
 
-        $token= Http::asForm()->post(config('hris.token_uri'),[
-            'client_secret'=>config('hris.secret'),
-            'client_id' =>config('hris.id'),
-            'grant_type'=>config('hris.grant')
-        ]);
-        $accesstoken = json_decode($token, false)->access_token;
-        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
-        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+        $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
             return abort(404);
@@ -417,40 +340,26 @@ class MonitoringPenghasilanController extends Controller
         }
 
         if (!$thn) {
-            $thn=date('Y');
+            $thn = date('Y');
         }
+        $jenis = PenghasilanLain::jenis($nip, $thn)->data;
 
         if (!$jns) {
-            $jns='perjadin';
+            $jns = $jenis[0]->jenis ?? 'uang-makan';
         }
 
-        $tahun=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-tahun-lain',[
-            'nip' => $nip,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        $tahun = PenghasilanLain::tahun($nip)->data;
 
-        $jenis=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-jenis-lain',[
-            'nip' => $nip,
-            'thn'=>$thn,
-            'X-API-KEY' => config('alika.key')
-        ]);
-        
 
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-lain',[
-            'nip' => $nip,
-            'thn'=>$thn,
-            'jns'=>$jns,
-            'X-API-KEY' => config('alika.key')
-        ]);
-
+        $data = PenghasilanLain::get($nip, $thn, $jns)->data;
         return view('monitoring.penghasilan.rincian.lainnya.index',[
             "pageTitle"=>"Lainnya ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            'tahun'=>json_decode($tahun, false),
-            'jenis'=>json_decode($jenis, false),
-            'data'=>collect(json_decode($data, false)),
+            'tahun' => $tahun,
+            'jenis' => $jenis,
+            'data' => collect($data),
             'nip' => $nip,
-            'thn'=>$thn,
-            'jns'=>$jns,
+            'thn' => $thn,
+            'jns' => $jns,
             'satker'=>$satker
         ]);
     }
@@ -466,14 +375,8 @@ class MonitoringPenghasilanController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $token= Http::asForm()->post(config('hris.token_uri'),[
-            'client_secret'=>config('hris.secret'),
-            'client_id' =>config('hris.id'),
-            'grant_type'=>config('hris.grant')
-        ]);
-        $accesstoken = json_decode($token, false)->access_token;
-        $pegawai = Http::withToken($accesstoken)->get(config('hris.uri').'profil/Pegawai/GetByNip/'.$nip);
-        $pegawai_Collection = collect([json_decode($pegawai, false)->Data])->first();
+
+        $pegawai_Collection = hris::getPegawai($nip)->first();
 
         if (!$pegawai_Collection) {
             return abort(404);
@@ -482,17 +385,11 @@ class MonitoringPenghasilanController extends Controller
             return abort(403);
         }
         
-        $data=Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->get(config('alika.uri3').'data-detail-lain',[
-            'nip' => $nip,
-            'thn'=>$thn,
-            'jns'=>$jns,
-            'bln'=>$bln,
-            'X-API-KEY' => config('alika.key')
-        ]);
+        $data = PenghasilanLain::get($nip, $thn, $jns, $bln)->data;
 
         return view('monitoring.penghasilan.rincian.lainnya.detail',[
             "pageTitle"=>"Detail ".$pegawai_Collection->Nama. " / ". $pegawai_Collection->Nip18,
-            'data'=>collect(json_decode($data, false)),
+            'data' => collect($data),
             'nip' => $nip,
             'thn'=>$thn,
             'jns'=>$jns,
