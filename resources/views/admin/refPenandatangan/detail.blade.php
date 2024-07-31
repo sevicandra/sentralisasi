@@ -22,7 +22,6 @@
                     <tr class="align-middle">
                         <th>No</th>
                         <th>Tahun</th>
-                        <th>No_skp</th>
                         <th>Nama_ttd_skp</th>
                         <th>NIP_ttd_skp</th>
                         <th>Jab_ttd_skp</th>
@@ -44,7 +43,6 @@
                         <tr>
                             <td>{{$i++}}</td>
                             <td>{{$item->tahun}}</td>
-                            <td>{{$item->no_skp}}</td>
                             <td>{{$item->nama_ttd_skp}}</td>
                             <td>{{$item->nip_ttd_skp}}</td>
                             <td>{{$item->jab_ttd_skp}}</td>

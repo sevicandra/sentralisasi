@@ -26,18 +26,6 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-2">
-                                <label for="">no_skp:</label>
-                                <input type="text" name="no_skp"
-                                    class="form-control @error('no_skp') is-invalid @enderror" value="{{ $data->no_skp }}">
-                                @error('no_skp')
-                                    <div class="text-danger">
-                                        <small>
-                                            {{ $message }}
-                                        </small>
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group mb-2">
                                 <label for="">nama_ttd_skp:</label>
                                 <input type="text" name="nama_ttd_skp"
                                     class="form-control @error('nama_ttd_skp') is-invalid @enderror"

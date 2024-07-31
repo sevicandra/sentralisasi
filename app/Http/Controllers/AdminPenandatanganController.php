@@ -3,64 +3,66 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helper\AlikaNew\Profil;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Helper\Alika\API2\dataPenandatangan;
+use Illuminate\Support\Facades\Cache;
 
 class AdminPenandatanganController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
-        }else{
-            $gate=['admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker'];
+        } else {
+            $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        return view('admin.penandatangan.index',[
-            'data'=>dataPenandatangan::getDataPenandatangan(auth()->user()->kdsatker)
+        return view('admin.penandatangan.index', [
+            'data' => Profil::get(auth()->user()->kdsatker)->data
         ]);
     }
 
-    public function create(){
+    public function create()
+    {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
-        }else{
-            $gate=['admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker'];
+        } else {
+            $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
         return view('admin.penandatangan.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
-        }else{
-            $gate=['admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker'];
+        } else {
+            $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        
+
         $request->validate([
             'tahun' => 'required|min_digits:4|max_digits:4',
-            'no_skp' => 'required',
             'nama_ttd_skp' => 'required',
             'nip_ttd_skp' => 'required|min_digits:18|max_digits:18',
-            'jab_ttd_skp' =>'required',
-            'nama_ttd_kp4' =>'required',
-            'nip_ttd_kp4' =>'required|min_digits:18|max_digits:18',
-            'jab_ttd_kp4' =>'required',
-            'npwp_bendahara' =>'required|min_digits:15|max_digits:16',
-            'nama_bendahara' =>'required',
-            'nip_bendahara' =>'required|min_digits:18|max_digits:18',
-            'tgl_spt' =>'required|date_format:Y-m-d'
-        ],[
+            'jab_ttd_skp' => 'required',
+            'nama_ttd_kp4' => 'required',
+            'nip_ttd_kp4' => 'required|min_digits:18|max_digits:18',
+            'jab_ttd_kp4' => 'required',
+            'npwp_bendahara' => 'required|min_digits:15|max_digits:16',
+            'nama_bendahara' => 'required',
+            'nip_bendahara' => 'required|min_digits:18|max_digits:18',
+            'tgl_spt' => 'required|date_format:Y-m-d'
+        ], [
             'tahun.required' => 'Tahun harus diisi',
-            'no_skp.required' => 'Nomor SKP harus diisi',
             'nama_ttd_skp.required' => 'Nama TTD SKP harus diisi',
             'nip_ttd_skp.required' => 'NIP TTD SKP harus diisi',
             'jab_ttd_skp.required' => 'Jabatan TTD SKP harus diisi',
@@ -83,72 +85,79 @@ class AdminPenandatanganController extends Controller
             'npwp_bendahara.min_digits' => 'NPWP Bendahara minimal 15 digit',
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
+        try {
+            $response = Profil::post([
+                'tahun' => $request->tahun,
+                'kdsatker' => auth()->user()->kdsatker,
+                'nama_ttd_skp' => $request->nama_ttd_skp,
+                'nip_ttd_skp' => $request->nip_ttd_skp,
+                'jab_ttd_skp' => $request->jab_ttd_skp,
+                'nama_ttd_kp4' => $request->nama_ttd_kp4,
+                'nip_ttd_kp4' => $request->nip_ttd_kp4,
+                'jab_ttd_kp4' => $request->jab_ttd_kp4,
+                'npwp_bendahara' => $request->npwp_bendahara,
+                'nama_bendahara' => $request->nama_bendahara,
+                'nip_bendahara' => $request->nip_bendahara,
+                'tgl_spt' => $request->tgl_spt
+            ]);
 
-        dataPenandatangan::CreateDataPenandatangan([
-            'tahun' => $request->tahun,
-            'kdsatker' => auth()->user()->kdsatker,
-            'no_skp' => $request->no_skp,
-            'nama_ttd_skp' => $request->nama_ttd_skp,
-            'nip_ttd_skp' => $request->nip_ttd_skp,
-            'jab_ttd_skp' => $request->jab_ttd_skp,
-            'nama_ttd_kp4' => $request->nama_ttd_kp4,
-            'nip_ttd_kp4' => $request->nip_ttd_kp4,
-            'jab_ttd_kp4' => $request->jab_ttd_kp4,
-            'npwp_bendahara' => $request->npwp_bendahara,
-            'nama_bendahara' => $request->nama_bendahara,
-            'nip_bendahara' => $request->nip_bendahara,
-            'tgl_spt' => $request->tgl_spt
-        ]);
-
-        return redirect('/admin/penandatangan')->with('berhasil','Penandatangan berhasil ditambahkan');
+            if ($response->failed()) {
+                throw new \Exception($response);
+            }
+            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_');
+            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_'. $request->tahun);
+            return redirect('/admin/penandatangan')->with('berhasil', 'Penandatangan berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect('/admin/penandatangan')->with('gagal', $th->getMessage());
+        }
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
-        }else{
-            $gate=['admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker'];
+        } else {
+            $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $data = dataPenandatangan::getPenandatangan($id);
+        $data = Profil::getPenandatangan($id)->data;
         if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
-        return view('admin.penandatangan.edit',[
-            'data'=>$data
+        return view('admin.penandatangan.edit', [
+            'data' => $data
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
-        }else{
-            $gate=['admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker'];
+        } else {
+            $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        if (dataPenandatangan::getPenandatangan($id)->kdsatker != auth()->user()->kdsatker) {
+        if (Profil::getPenandatangan($id)->data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
         $request->validate([
             'tahun' => 'required|min_digits:4|max_digits:4',
-            'no_skp' => 'required',
             'nama_ttd_skp' => 'required',
             'nip_ttd_skp' => 'required|min_digits:18|max_digits:18',
-            'jab_ttd_skp' =>'required',
-            'nama_ttd_kp4' =>'required',
-            'nip_ttd_kp4' =>'required|min_digits:18|max_digits:18',
-            'jab_ttd_kp4' =>'required',
-            'npwp_bendahara' =>'required|min_digits:15|max_digits:16',
-            'nama_bendahara' =>'required',
-            'nip_bendahara' =>'required|min_digits:18|max_digits:18',
-            'tgl_spt' =>'required|date_format:Y-m-d'
-        ],[
+            'jab_ttd_skp' => 'required',
+            'nama_ttd_kp4' => 'required',
+            'nip_ttd_kp4' => 'required|min_digits:18|max_digits:18',
+            'jab_ttd_kp4' => 'required',
+            'npwp_bendahara' => 'required|min_digits:15|max_digits:16',
+            'nama_bendahara' => 'required',
+            'nip_bendahara' => 'required|min_digits:18|max_digits:18',
+            'tgl_spt' => 'required|date_format:Y-m-d'
+        ], [
             'tahun.required' => 'Tahun harus diisi',
-            'no_skp.required' => 'Nomor SKP harus diisi',
             'nama_ttd_skp.required' => 'Nama TTD SKP harus diisi',
             'nip_ttd_skp.required' => 'NIP TTD SKP harus diisi',
             'jab_ttd_skp.required' => 'Jabatan TTD SKP harus diisi',
@@ -171,21 +180,29 @@ class AdminPenandatanganController extends Controller
             'npwp_bendahara.min_digits' => 'NPWP Bendahara minimal 15 digit',
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
-        dataPenandatangan::updateDataPenandatangan([
-            'tahun' => $request->tahun,
-            'kdsatker' => auth()->user()->kdsatker,
-            'no_skp' => $request->no_skp,
-            'nama_ttd_skp' => $request->nama_ttd_skp,
-            'nip_ttd_skp' => $request->nip_ttd_skp,
-            'jab_ttd_skp' => $request->jab_ttd_skp,
-            'nama_ttd_kp4' => $request->nama_ttd_kp4,
-            'nip_ttd_kp4' => $request->nip_ttd_kp4,
-            'jab_ttd_kp4' => $request->jab_ttd_kp4,
-            'npwp_bendahara' => $request->npwp_bendahara,
-            'nama_bendahara' => $request->nama_bendahara,
-            'nip_bendahara' => $request->nip_bendahara,
-            'tgl_spt' => $request->tgl_spt
-        ], $id);
-        return redirect('/admin/penandatangan')->with('berhasil','Penandatangan berhasil diubah');
+        try {
+            $response = Profil::put($id, [
+                'tahun' => $request->tahun,
+                'kdsatker' => auth()->user()->kdsatker,
+                'nama_ttd_skp' => $request->nama_ttd_skp,
+                'nip_ttd_skp' => $request->nip_ttd_skp,
+                'jab_ttd_skp' => $request->jab_ttd_skp,
+                'nama_ttd_kp4' => $request->nama_ttd_kp4,
+                'nip_ttd_kp4' => $request->nip_ttd_kp4,
+                'jab_ttd_kp4' => $request->jab_ttd_kp4,
+                'npwp_bendahara' => $request->npwp_bendahara,
+                'nama_bendahara' => $request->nama_bendahara,
+                'nip_bendahara' => $request->nip_bendahara,
+                'tgl_spt' => $request->tgl_spt
+            ]);
+            if ($response->failed()) {
+                throw new \Exception($response);
+            }
+            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_');
+            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_'. $request->tahun);
+            return redirect('/admin/penandatangan')->with('berhasil', 'Penandatangan berhasil diubah');
+        } catch (\Throwable $th) {
+            return redirect('/admin/penandatangan')->with('gagal', $th->getMessage());
+        }
     }
 }
