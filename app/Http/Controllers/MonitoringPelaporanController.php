@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\Alika\API3\satkerAlika;
 use App\Helper\hris;
 use App\Models\satker;
 use Spipu\Html2Pdf\Html2Pdf;

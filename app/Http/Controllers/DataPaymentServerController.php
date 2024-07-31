@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\dataHonorarium;
-// use App\Helper\Alika\API2\dataLain;
 use App\Helper\AlikaNew\PenghasilanLain;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;

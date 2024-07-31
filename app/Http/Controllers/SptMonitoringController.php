@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\satker;
 use Illuminate\Http\Request;
-use App\Helper\Alika\API2\dataSpt;
+use App\Helper\AlikaNew\RefJabatan;
+use App\Helper\AlikaNew\RefPangkat;
+use App\Helper\AlikaNew\SPTPegawai;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Helper\Alika\API2\refJabatan;
-use App\Helper\Alika\API2\refPangkat;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class SptMonitoringController extends Controller
@@ -16,85 +17,96 @@ class SptMonitoringController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
-        return view('spt.monitoring.index',[
-            'data'=>satker::search()->order()->paginate(15)->withQueryString(),
-            "pageTitle"=>"Monitoring SPT",
+        return view('spt.monitoring.index', [
+            'data' => satker::search()->order()->paginate(15)->withQueryString(),
+            "pageTitle" => "Monitoring SPT",
         ]);
     }
 
     public function satker(satker $satker)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-
+        $limit = 15;
+        if (request('page')) {
+            $offset = (request('page') - 1) * $limit;
+        } else {
+            $offset = 0;
+        }
+        $tahun = SPTPegawai::tahunByKdSatker($satker->kdsatker)->data;
         if (!request('thn')) {
-            $tahun = date('Y')-1;
-        }else{
-            $tahun = request('thn');
+            $thn = collect($tahun)->last()->tahun;
+        } else {
+            $thn = request('thn');
         };
-        $spt = Collect(dataSpt::getDataSpt($satker->kdsatker, $tahun), false);
-        $data = $this->paginate($spt, 15, request('page'), ['path'=>' '])->withQueryString();
+        $spt = SPTPegawai::getByKdSatker($satker->kdsatker, $thn, $limit, $offset, request('search'))->data;
+        $count = SPTPegawai::countByKdSatker($satker->kdsatker, $thn)->data;
+        $data = $this->paginate($spt, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
 
         return view('spt.monitoring.detail.index', [
             'data' => $data,
-            "pageTitle"=>"SPT ".$satker->nmsatker,
-            "kdsatker"=>$satker->kdsatker,
-            'tahun'=>dataSpt::getTahun($satker->kdsatker)
+            "pageTitle" => "SPT " . $satker->nmsatker,
+            "kdsatker" => $satker->kdsatker,
+            'tahun' => $tahun,
+            'thn' => $thn
         ]);
     }
 
     public function edit($kdsatker, $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $data = dataSpt::getSpt($id);
+        $data = SPTPegawai::getById($id)->data;
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
 
-        return view('spt.monitoring.detail.edit',[
+        $refJab = RefJabatan::get()->data;
+        $refPang = RefPangkat::get()->data;
+
+        return view('spt.monitoring.detail.edit', [
             'data' => $data,
-            'refJab' => refJabatan::get(),
-            'refPang' => refPangkat::get()
+            'refJab' => $refJab,
+            'refPang' => $refPang
         ]);
     }
 
     public function update(Request $request, $kdsatker, $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
-        $data = dataSpt::getSpt($id);
+        $data = SPTPegawai::getById($id)->data;
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
@@ -107,7 +119,7 @@ class SptMonitoringController extends Controller
             'alamat' => 'required',
             'kdkawin' => 'required|min_digits:4|max_digits:4',
             'kdjab' => 'required|min_digits:5|max_digits:5',
-        ],[
+        ], [
             'tahun.required' => 'Tahun harus diisi',
             'nip.required' => 'NIP harus diisi',
             'npwp.required' => 'NPWP harus diisi',
@@ -128,42 +140,57 @@ class SptMonitoringController extends Controller
             'kdjab.min_digits' => 'Jabatan minimal 5 digit',
             'kdjab.max_digits' => 'Jabatan maksimal 5 digit',
         ]);
-        dataSpt::update([
-            'id' => $id,
-            'tahun' => $request->tahun,
-            'nip' => $request->nip,
-            'npwp' => $request->npwp,
-            'alamat' => $request->alamat,
-            'kdgol' => $request->kdgol,
-            'kdkawin' => $request->kdkawin,
-            'kdjab' => $request->kdjab,
-            'kdsatker' => $data->kdsatker
-        ]);
-        return redirect('/spt-monitoring/'.$kdsatker.'?thn='.$request->tahun)->with('berhasil', 'Data berhasil diubah');
+        try {
+            $response = SPTPegawai::put($id, [
+                'tahun' => $request->tahun,
+                'nip' => $request->nip,
+                'npwp' => $request->npwp,
+                'alamat' => $request->alamat,
+                'kdgol' => $request->kdgol,
+                'kdkawin' => $request->kdkawin,
+                'kdjab' => $request->kdjab,
+                'kdsatker' => $data->kdsatker
+            ]);
+            if ($response->failed()) {
+                throw new \Exception($response);
+            }
+            Cache::forget('alikaSPTPegawaiTahunByKdSatker_' . auth()->user()->kdsatker);
+            return redirect('/spt-monitoring/' . $kdsatker . '?thn=' . $request->tahun)->with('berhasil', 'Data berhasil diubah');
+        } catch (\Throwable $th) {
+
+            return redirect('/spt-monitoring/' . $kdsatker . '?thn=' . $request->tahun)->with('gagal', $th->getMessage());
+        }
     }
-    
-    public function delete($kdsatker, $id){
+
+    public function delete($kdsatker, $id)
+    {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin'];
-        }else{
-            $gate=[];
+            $gate = ['sys_admin'];
+        } else {
+            $gate = [];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
 
-        $data = dataSpt::getSpt($id);
+        $data = SPTPegawai::getById($id)->data;
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
-        
-        dataSpt::delete($id);
-        return redirect('/spt-monitoring/'.$kdsatker.'?thn='.$data->tahun)->with('berhasil', 'Data berhasil dihapus'); 
+        try {
+            $response = SPTPegawai::destroy($id);
+            if ($response->failed()) {
+                throw new \Exception($response);
+            }
+            return redirect('/spt-monitoring/' . $kdsatker . '?thn=' . $data->tahun)->with('berhasil', 'Data berhasil dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/spt-monitoring/' . $kdsatker . '?thn=' . $data->tahun)->with('gagal', $th->getMessage());
+        }
     }
 
-    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    public function paginate($items, $perPage = 15, $page = null, $count, $options = [])
     {
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+        return new LengthAwarePaginator($items, $count, $perPage, $page, $options);
     }
 }
