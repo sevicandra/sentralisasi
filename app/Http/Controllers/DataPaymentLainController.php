@@ -91,6 +91,7 @@ class DataPaymentLainController extends Controller
             'file_excel' => 'required|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ], [
             'file_excel.mimetypes' => 'The file must be a xlsx file',
+            'file_excel.required' => 'The file is required',
         ]);
 
         $file = $request->file('file_excel');
@@ -193,7 +194,7 @@ class DataPaymentLainController extends Controller
             'nip' => $request->nip,
             'bruto' => $request->bruto,
             'pph' => $request->pph,
-            'tanggal' => Carbon::createFromFormat('d-m-Y', $request->tanggal)->timestamp,
+            'tanggal' => Carbon::createFromFormat('Y-m-d', $request->tanggal)->timestamp,
             'uraian' => $request->uraian,
         ]);
 
@@ -246,8 +247,8 @@ class DataPaymentLainController extends Controller
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
+        $count = 0;
         try {
-            $count = 0;
             foreach (dataPembayaranLainnya::paymentPending($kdsatker, $jenis, $thn, $bln)->get() as $item) {
                 $response = PenghasilanLain::post(
                     [
@@ -274,7 +275,6 @@ class DataPaymentLainController extends Controller
         } catch (\Throwable $th) {
             return redirect('/data-payment/lain')->with('gagal', $count . " data berhasil di upload, " . $th->getMessage());
         }
-
     }
 
     public function uploaddetail(dataPembayaranLainnya $dataPembayaranLainnya)

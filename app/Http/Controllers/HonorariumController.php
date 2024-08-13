@@ -321,7 +321,7 @@ class HonorariumController extends Controller
             'nip'=>$request->nip,
             'bruto'=>$request->bruto,
             'pph'=>$request->pph,
-            'tanggal'=>Carbon::createFromFormat('d-m-Y', $request->tanggal)->timestamp,
+            'tanggal'=>Carbon::createFromFormat('Y-m-d', $request->tanggal)->timestamp,
             'uraian'=>$request->uraian,
         ]);
         return redirect('/honorarium/'.$dataHonorarium->file.'/detail')->with('berhasil', 'data berhasil di ubah');

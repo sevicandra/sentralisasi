@@ -3,62 +3,60 @@
     @include('rumah-dinas.sidemenu')
 @endsection
 @section('main-content')
-    <div id="main-content-header">
+<div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+    <div class="flex gap-2 flex-wrap py-2 px-4">
     </div>
-    <div id="main-content">
+    <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
         <div>
             <div>
                 @include('layout.flashmessage')
             </div>
         </div>
-        <div class="table-warper">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr class="text-center align-middle">
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>NIP</th>
-                        <th>Nomor SIP</th>
-                        <th>Tanggal SIP</th>
-                        <th>TMT</th>
-                        <th>Nilai Sewa</th>
-                        <th>file</th>
-                        <th>Status</th>
+        <div class="overflow-x-auto overflow-y-auto h-full w-full">
+            <x-table class="collapse">
+                <x-table.header>
+                    <tr class="*:text-center *:border">
+                        <x-table.header.column>No</x-table.header.column>
+                        <x-table.header.column>Nama</x-table.header.column>
+                        <x-table.header.column>NIP</x-table.header.column>
+                        <x-table.header.column>Nomor SIP</x-table.header.column>
+                        <x-table.header.column>Tanggal SIP</x-table.header.column>
+                        <x-table.header.column>TMT</x-table.header.column>
+                        <x-table.header.column>Nilai Sewa</x-table.header.column>
+                        <x-table.header.column>file</x-table.header.column>
+                        <x-table.header.column>Status</x-table.header.column>
                     </tr>
-                </thead>
-                @php
-                    $i = 1;
-                @endphp
-                <tbody>
+                </x-table.header>
+                <x-table.body>
                     @foreach ($data as $item)
-                        <tr>
-                            <td class="text-center">{{ $i++ }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->nip }}</td>
-                            <td>{{ $item->nomor_sip }}</td>
-                            <td class="text-center">{{ $item->tanggal_sip }}</td>
-                            <td class="text-center">{{ $item->tmt }}</td>
-                            <td class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</td>
-                            <td>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">{{ $loop->iteration }}</x-table.body.column>
+                            <x-table.body.column class="whitespace-nowrap">{{ $item->nama }}</x-table.body.column>
+                            <x-table.body.column class="whitespace-nowrap">{{ $item->nip }}</x-table.body.column>
+                            <x-table.body.column class="whitespace-nowrap">{{ $item->nomor_sip }}</x-table.body.column>
+                            <x-table.body.column class="text-center whitespace-nowrap">{{ $item->tanggal_sip }}</x-table.body.column>
+                            <x-table.body.column class="text-center whitespace-nowrap">{{ $item->tmt }}</x-table.body.column>
+                            <x-table.body.column class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</x-table.body.column>
+                            <x-table.body.column class="text-center">
                                 @if ($item->file)
                                     <form action="/sewa-rumdin/wilayah/monitoring/{{ $item->id }}/dokumen" method="post"
                                         target="_blank">
                                         @csrf
                                         @method('patch')
-                                        <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i
-                                                class="bi bi-filetype-pdf"></i></button>
+                                        <button class="btn btn-xs btn-outline btn-primary">file</button>
                                     </form>
                                 @endif
-                            </td>
-                            <td class="text-center">{{ str_replace('_', ' ',  $item->status) }}</td>
+                            </x-table.body.column>
+                            <x-table.body.column class="text-center">{{ str_replace('_', ' ',  $item->status) }}</x-table.body.column>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
+                </x-table.body>
+            </x-table>
         </div>
     </div>
-    <div id="paginator">
+    <div class="px-4 py-2">
         {{$data->links()}}
     </div>
+</div>
 @endsection
 

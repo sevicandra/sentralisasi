@@ -1,78 +1,72 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('admin.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-
-    <div id="main-content-header">
-        <div class="row">
-            <div class="row">
-                <div class="col-lg-5">
-                    <form action="" method="get">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="" value="{{ request('search') }}">
-                            <button class="btn btn-sm btn-outline-secondary" type="submit">Cari</button>
-                        </div>
-                    </form>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 flex-wrap py-2 px-4">
+            <div class="flex justify-end w-full">
+                <form action="" method="get">
+                    <div class="join">
+                        <input type="text" name="search" class="input input-sm join-item input-bordered focus:outline-none"
+                            placeholder="" value="{{ request('search') }}">
+                        <button class="btn btn-sm join-item btn-neutral" type="submit">Cari</button>
+                    </div>
+                </form>
+            </div>
+            <div class="w-full flex gap-1 flex-wrap">
+                <a href="/admin/user/create" class="btn btn-xs btn-primary">Tambah</a>
+            </div>
+        </div>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div>
+                <div>
+                    @include('layout.flashmessage')
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="main-content">
-        <div>
-            <div >
-                @include('layout.flashmessage')
-            </div>
-            <div class="card-header">
-                <a href="/admin/user/create" class="btn btn-outline-secondary active mr-1">Tambah</a>
-            </div>
-        </div>
-        <div class="table-warper">
-            <table class="table table-bordered table-hover">
-                <thead class="text-center">
-                    <tr class="align-middle">
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>NIP</th>
-                        <th>Satker</th>
-                        <th>No HP</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $i=1
-                    @endphp
-                    @foreach ($data as $item)
-                        <tr>
-                            <td>{{$i}}</td>
-                            <td> {{$item->nama}} </td>
-                            <td> {{$item->nip}} </td>
-                            <td> {{$item->nmsatker}} </td>
-                            <td> {{$item->nohp}} </td>
-                            <form action="/admin/user/{{$item->nip}}" method="post">
-                                <td class="pb-0 pr-0">
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a href="/admin/user/{{$item->nip}}/role" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Role</a>
-                                        <a href="/admin/user/{{$item->nip}}/edit" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Ubah</a>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Apakah Anda yakin akan Menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0" >Hapus</button>
-                                    </div>
-                                </td>
-                            </form>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border-x *:text-center">
+                            <x-table.header.column>No</x-table.header.column>
+                            <x-table.header.column>Nama</x-table.header.column>
+                            <x-table.header.column>NIP</x-table.header.column>
+                            <x-table.header.column>Satker</x-table.header.column>
+                            <x-table.header.column>No HP</x-table.header.column>
+                            <x-table.header.column>Aksi</x-table.header.column>
                         </tr>
-                        @php
-                            $i++
-                        @endphp
-                    @endforeach
-                </tbody>
-            </table>
+                    </x-table.header>
+                    <x-table.body>
+                        @foreach ($data as $item)
+                            <tr class="*:border">
+                                <x-table.body.column class="text-center">{{ $loop->iteration }}</x-table.body.column>
+                                <x-table.body.column> {{ $item->nama }} </x-table.body.column>
+                                <x-table.body.column> {{ $item->nip }} </x-table.body.column>
+                                <x-table.body.column> {{ $item->nmsatker }} </x-table.body.column>
+                                <x-table.body.column> {{ $item->nohp }} </x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                    <div class="w-full h-full flex gap-1 flex-wrap justify-center">
+                                        <form action="/admin/user/{{ $item->nip }}" method="post">
+                                            <a href="/admin/user/{{ $item->nip }}/role"
+                                                class="btn btn-xs btn-primary">Role</a>
+                                            <a href="/admin/user/{{ $item->nip }}/edit"
+                                                class="btn btn-xs btn-primary">Ubah</a>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Apakah Anda yakin akan Menghapus data ini?');"
+                                                type="submit"
+                                                class="btn btn-xs btn-error">Hapus</button>
+                                        </form>
+                                    </div>
+                                </x-table.body.column>
+                            </tr>
+                        @endforeach
+                    </x-table.body>
+                </x-table>
+            </div>
+        </div>
+        <div class="px-4 py-2">
+            {{ $data->links() }}
         </div>
     </div>
-    <div id="paginator">
-        {{$data->links()}}
-    </div>
-
-
 @endsection

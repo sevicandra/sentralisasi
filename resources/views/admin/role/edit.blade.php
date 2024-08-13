@@ -1,68 +1,31 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('admin.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-
-    <div id="main-content-header">
-    </div>
-    <div id="main-content">
-        <div class="row">
-          <div class="col-xxl-8">
-            <div class="card">
-              <form action="/admin/role/{{ $data->id }}" method="post" autocomplete="off">
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex gap-2 flex-wrap py-2 px-4">
+        </div>
+        <div class="overflow-x-auto overflow-y-auto h-full w-full">
+            <form action="/admin/role/{{ $data->id }}" method="post" autocomplete="off">
                 @csrf
                 @method('PATCH')
-                <div class="card-header">
-                  <div class="card-text">
-                    <p></p>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label for="">Kode:</label>
-                        <input type="text" name="kode" class="form-control @error('kode') is-invalid @enderror" value="{{ $data->kode }}">
-                        @error('kode')
-                        <div class="text-danger">
-                            <small>
-                                {{ $message }}
-                            </small>
-                        </div>
-                        @enderror
-                      </div>
+                <div class="flex flex-col gap-2 w-full max-w-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2 gap-2">
+                        <x-input type="text" name="kode" size="w-full" value="{{ old('kode', $data->kode) }}"
+                            label="Kode:" />
+                        <x-input type="text" name="role" size="w-full" value="{{ old('role', $data->role) }}"
+                            label="Role:" />
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12 ">
-                      <div class="form-group">
-                        <label for="jumlah">Role:</label>
-                        <input type="text" name="role" class="form-control @error('role') is-invalid @enderror" value="{{ $data->role }}">
-                        @error('role')
-                        <div class="text-danger">
-                            <small>
-                                {{ $message }}
-                            </small>
-                        </div>
-                        @enderror
-                      </div>
+                    <div class="flex gap-2 p-2">
+                        <a href="/admin/role" class="btn btn-xs btn-secondary">Kembali</a>
+                        <button type="submit" class="btn btn-xs btn-success">Simpan</button>
                     </div>
-                  </div>
-
                 </div>
-                <div class="card-footer">
-                  <a href="/admin/role" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
-                  <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i> Simpan</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          </div>
+            </form>
+        </div>
+        <div>
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

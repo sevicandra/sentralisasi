@@ -1,20 +1,12 @@
 @if (Auth::guard('web')->check())
     @php
-        $gate=['opr_spt', 'plt_admin_satker', 'sys_admin']
+        $gate = ['opr_spt', 'plt_admin_satker', 'sys_admin'];
     @endphp
 @else
     @php
-    $gate=['admin_satker']
+        $gate = ['admin_satker'];
     @endphp
 @endif
 @canany($gate, auth()->user()->id)
-<a href="/spt" class="main-menu" style="text-decoration: none; color:#555555"> 
-    <div class="content">
-        <div>
-            <img src="/img/ico/spt.png" alt="monitoring icon" style="max-height: 100%; width:auto">
-        </div>
-        <span>SPT</span>
-    </div>
-</a>
-    
+    <x-module-button name="SPT" url="/spt" icon="img/ico/spt.png" />
 @endcanany

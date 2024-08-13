@@ -70,6 +70,7 @@ class PembayaranUangMakanController extends Controller
             'uangMakanKirim'=>dokumenUangMakan::send(),
             'uangLemburDraft'=>dokumenUangLembur::draft(),
             'uangMakanDraft'=>dokumenUangMakan::draft(),
+            "pageTitle"=>"Uang Makan",
         ]);
     }
 
@@ -183,6 +184,7 @@ class PembayaranUangMakanController extends Controller
             'uangMakanKirim'=>dokumenUangMakan::send(),
             'uangLemburDraft'=>dokumenUangLembur::draft(),
             'uangMakanDraft'=>dokumenUangMakan::draft(),
+            "pageTitle"=>"Uang Makan",
         ]);
     }
 

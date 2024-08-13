@@ -89,6 +89,7 @@ class DataPaymentServerController extends Controller
             'jenis' => 'required',
             'uraian' => 'required',
             'tanggal' => 'required',
+            'nospm' => 'required|numeric',
         ]);
 
         $request->validate([

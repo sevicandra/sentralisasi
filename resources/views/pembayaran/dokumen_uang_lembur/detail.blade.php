@@ -1,105 +1,110 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('pembayaran.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-    <div id="main-content-header">
-      <div class="row">
-        <div class="col-lg-12">
-          <a href="/belanja-51/dokumen-uang-lembur/{{ $thn }}/{{ $bln }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-2">Kembali ke halaman sebelumnya</a>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 py-2 px-4">
+            <div class="w-full flex gap-1 flex-wrap justify-between">
+                <a href="/belanja-51/dokumen-uang-lembur/{{ $thn }}/{{ $bln }}"
+                    class="btn btn-xs btn-primary">Kembali</a>
+            </div>
         </div>
-        @include('layout.flashmessage')
-      </div>
-    </div>
-    <div id="main-content">
-      <div class="row">
-        <div class="col-lg-8">
-          <div class="card">
-              <div class="card-header">
-                Kantor Pusat
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-sm table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th>No</th>
-                        <th>Jml Pegawai</th>
-                        <th>Ket</th>
-                        <th>File</th>
-                        <th>#</th>
-                        <th>Tgl Upload</th>
-                        <th>Tgl Kirim</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @php
-                          $i=1;
-                      @endphp
-                      @foreach ($data as $item)
-                        <tr>
-                          <td>{{ $i++ }}</td>
-                          <td>{{ $item->jmlpegawai }}</td>
-                          <td>{{ $item->keterangan }}</td>
-                          <td class="d-flex">
-                            <div class="px-1">
-                              <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen" method="post" target="_blank">
-                                @csrf
-                                @method('patch')
-                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0">pdf</i></button>
-                              </form>
-                            </div>
-                            <div class="px-1">
-                              <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen-excel" method="post" target="_blank">
-                                @csrf
-                                @method('patch')
-                                <button class="btn btn-sm btn-outline-primary pt-0 pb-0">excel></i></button>
-                              </form>
-                            </div>
-                          <td>
-                            @if ($item->terkirim)
-                            <span class="text-primary">terkirim</span>
-                            @else
-                            <span class="text-primary">draft</span>
-                            @endif
-                          </td>
-                          <td>{{ $item->created_at }}</td>
-                          <td>
-                            @if ($item->terkirim)
-                                {{ $item->updated_at }}
-                            @endif
-                          </td>
-                          <td>
-                            @if ($item->terkirim !=0)
-                            <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}" method="post">
-                              @csrf
-                              @method('DELETE')
-                              <button onclick="return confirm('Apakah Anda yakin akan menolak data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">tolak</button>
-                            </form>
-                            @endif
-                            @if ($item->terkirim === 1)
-                            <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/approve" method="post">
-                              @csrf
-                              @method('PATCH')
-                              <button onclick="return confirm('Apakah Anda yakin akan menyimpan data ini?');" type="submit" class="btn btn-sm btn-outline-primary pt-0 pb-0">approve</button>
-                            </form>
-                            @endif
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div>
+                <div>
+                    @include('layout.flashmessage')
                 </div>
-  
-              </div>
-          </div>
+            </div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border-x">
+                            <x-table.header.column class="text-center">No</x-table.header.column>
+                            <x-table.header.column class="text-center">Jml Pegawai</x-table.header.column>
+                            <x-table.header.column class="text-center">Ket</x-table.header.column>
+                            <x-table.header.column class="text-center">File</x-table.header.column>
+                            <x-table.header.column class="text-center">#</x-table.header.column>
+                            <x-table.header.column class="text-center">Tgl Upload</x-table.header.column>
+                            <x-table.header.column class="text-center">Tgl Kirim</x-table.header.column>
+                            <x-table.header.column class="text-center">Aksi</x-table.header.column>
+                        </tr>
+                    </x-table.header>
+                    <x-table.body>
+                        @foreach ($data as $item)
+                            <tr class="*:border-x">
+                                <x-table.body.column>{{ $loop->iteration }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->jmlpegawai }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->keterangan }}</x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                    <div class="flex gap-1">
+                                        <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen"
+                                            method="post" target="_blank">
+                                            @csrf
+                                            @method('patch')
+                                            <button class="btn btn-xs btn-outline btn-primary">pdf</i></button>
+                                        </form>
+                                        <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/dokumen-excel"
+                                            method="post" target="_blank">
+                                            @csrf
+                                            @method('patch')
+                                            <button class="btn btn-xs btn-outline btn-primary">excel</i></button>
+                                        </form>
+                                    </div>
+                                </x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                    @switch($item->terkirim)
+                                        @case(0)
+                                            <span class="badge badge-warning">draft</span>
+                                        @break
+
+                                        @case(1)
+                                            <span class="badge badge-success">terkirim</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-primary">approve</span>
+                                        @break
+
+                                        @default
+                                    @endswitch
+                                </x-table.body.column>
+                                <x-table.body.column class="text-center">{{ $item->created_at }}</x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                    @if ($item->terkirim)
+                                        {{ $item->updated_at }}
+                                    @endif
+                                </x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                  <div class="flex gap-1">
+                                    @if ($item->terkirim != 0)
+                                        <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Apakah Anda yakin akan menolak data ini?');"
+                                                type="submit"
+                                                class="btn btn-xs btn-error">tolak</button>
+                                        </form>
+                                    @endif
+                                    @if ($item->terkirim === 1)
+                                        <form action="/belanja-51/dokumen-uang-lembur/{{ $item->id }}/approve"
+                                            method="post">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button onclick="return confirm('Apakah Anda yakin akan menyimpan data ini?');"
+                                                type="submit"
+                                                class="btn btn-xs btn-primary">approve</button>
+                                        </form>
+                                    @endif
+                                  </div>
+                                </x-table.body.column>
+                            </tr>
+                        @endforeach
+                    </x-table.body>
+                </x-table>
+            </div>
         </div>
-      </div>
+        <div>
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

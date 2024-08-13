@@ -1,76 +1,81 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('data-payment.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-    <div id="main-content-header">
-      @include('layout.flashmessage')
-    </div>
-    <div id="main-content">
-
-              <div class="card">
-                  <div class="card-header" style="display: flex; justify-content:space-between">
-
-                  </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-sm table-bordered table-hover">
-                        <thead>
-                          <tr class="text-center">
-                            <th>No</th>
-                            <th>Tahun</th>
-                            <th>Bulan</th>
-                            <th>Satker</th>
-                            <th>Jml Pegawai</th>
-                            <th>Bruto</th>
-                            <th>PPh</th>
-                            <th>Netto</th>
-                            <th>File</th>
-                            <th>#</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          @php
-                              $i=1;
-                          @endphp
-                          @foreach ($data as $item)
-                            <tr>
-                              <td class="text-center">{{ $i++ }}</td>
-                              <td>{{ $item->tahun }}</td>
-                              <td>{{ $item->nmbulan }}</td>
-                              <td class="text-center">{{ $item->nmsatker }}</td>
-                              <td class="text-center">{{ $item->jmh }}</td>
-                              <td class="text-right">{{ number_format($item->bruto,2, ',', '.') }}</td>
-                              <td class="text-right">{{ number_format($item->pph,2, ',', '.') }}</td>
-                              <td class="text-right">{{ number_format($item->bruto-$item->pph,2, ',', '.') }}</td>
-                              <td>
-                                <form action="/data-payment/honorarium/{{$item->file}}/dokumen" method="post" target="_blank">
-                                  @csrf
-                                  @method('patch')
-                                  <button class="btn btn-sm btn-outline-primary pt-0 pb-0"><i class="bi bi-filetype-pdf"></i></button>
-                                </form>
-                              </td>
-                              <td>
-                                <form action="/data-payment/honorarium/{{ $item->file }}" method="post">
-                                  @csrf
-                                  @method('DELETE')
-                                  <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">tolak</button>
-                                  <a href="/data-payment/honorarium/{{ $item->file }}/detail" data-toggle="tooltip" data-placement="bottom" title="detail" class="btn btn-sm btn-outline-primary pt-0 pb-0">detail</a>
-                                  <a href="/data-payment/honorarium/{{ $item->file }}/upload" data-toggle="tooltip" data-placement="bottom" title="upload" onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');" class="btn btn-sm btn-outline-primary pt-0 pb-0">upload</a>
-                                </form>
-                              </td>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 flex-wrap py-2 px-4">
+        </div>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div>
+                <div>
+                    @include('layout.flashmessage')
+                </div>
+            </div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border-x *:text-center">
+                            <x-table.header.column>No</x-table.header.column>
+                            <x-table.header.column>Tahun</x-table.header.column>
+                            <x-table.header.column>Bulan</x-table.header.column>
+                            <x-table.header.column>Satker</x-table.header.column>
+                            <x-table.header.column>Jml Pegawai</x-table.header.column>
+                            <x-table.header.column>Bruto</x-table.header.column>
+                            <x-table.header.column>PPh</x-table.header.column>
+                            <x-table.header.column>Netto</x-table.header.column>
+                            <x-table.header.column>File</x-table.header.column>
+                            <x-table.header.column>#</x-table.header.column>
+                        </tr>
+                    </x-table.header>
+                    <x-table.body>
+                        @foreach ($data as $item)
+                            <tr class="*:border">
+                                <x-table.body.column class="text-center">{{ $loop->iteration }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->tahun }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nmbulan }}</x-table.body.column>
+                                <x-table.body.column class="text-center">{{ $item->nmsatker }}</x-table.body.column>
+                                <x-table.body.column class="text-center">{{ $item->jmh }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->bruto, 2, ',', '.') }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->pph, 2, ',', '.') }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->bruto - $item->pph, 2, ',', '.') }}
+                                </x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                    <form action="/data-payment/honorarium/{{ $item->file }}/dokumen" method="post"
+                                        target="_blank">
+                                        @csrf
+                                        @method('patch')
+                                        <button class="btn btn-xs btn-outline btn-primary">file</button>
+                                    </form>
+                                </x-table.body.column>
+                                <x-table.body.column>
+                                    <div class="w-full h-full flex gap-1">
+                                        <form action="/data-payment/honorarium/{{ $item->file }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');"
+                                                type="submit" class="btn btn-xs btn-error pt-0 pb-0">tolak</button>
+                                        </form>
+                                        <a href="/data-payment/honorarium/{{ $item->file }}/detail" data-toggle="tooltip"
+                                            data-placement="bottom" title="detail"
+                                            class="btn btn-xs btn-primary pt-0 pb-0">detail</a>
+                                        <a href="/data-payment/honorarium/{{ $item->file }}/upload" data-toggle="tooltip"
+                                            data-placement="bottom" title="upload"
+                                            onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');"
+                                            class="btn btn-xs btn-success pt-0 pb-0">upload</a>
+                                    </div>
+                                </x-table.body.column>
                             </tr>
-                          @endforeach
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-              </div>
-
+                        @endforeach
+                    </x-table.body>
+                </x-table>
+            </div>
+        </div>
+        <div class="px-4 py-2">
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

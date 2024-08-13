@@ -1,44 +1,38 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('monitoring.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-
-    <div id="main-content-header">
-        <div class="row">
-            <div class="row">
-                <div class="row mb-3">
-                    <div class="col-lg-8">
-                        @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21/{{ $nip }}/{{ $item->tahun }}" class="btn btn-sm btn-outline-success ml-1 mt-1 mb-1 @if ($thn === $item->tahun) active @endif">{{ $item->tahun }}</a>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-8">
-                        <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21/{{ $nip }}/{{ $thn }}/cetak" class="btn btn-sm btn-outline-success">Download Form 1721-A2</a>
-                    </div>
-                </div>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 flex-wrap py-2 px-4">
+            <div class="w-full flex gap-1 flex-wrap">
+                @foreach ($tahun as $item)
+                    <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21/{{ $nip }}/{{ $item->tahun }}"
+                        class="btn btn-xs btn-primary btn-outline @if ($thn === $item->tahun) btn-active @endif">{{ $item->tahun }}</a>
+                @endforeach
+            </div>
+            <div class="w-full flex gap-1 flex-wrap">
+                <a href="{{ config('app.url') }}/monitoring/pelaporan/{{ $satker->kdsatker }}/pph-pasal-21/{{ $nip }}/{{ $thn }}/cetak"
+                    class="btn btn-xs btn-primary">Download Form 1721-A2</a>
             </div>
         </div>
-    </div>
-    <div id="main-content">
-        @if ($kurang === null)
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            @if ($kurang === null)
+                @php
+                    $kurang = new stdClass();
+                    $kurang->gapok = null;
+                    $kurang->tistri = null;
+                    $kurang->tanak = null;
+                    $kurang->tumum = null;
+                    $kurang->tstruktur = null;
+                    $kurang->tfungsi = null;
+                    $kurang->tberas = null;
+                    $kurang->bulat = null;
+                    $kurang->tpapua = null;
+                    $kurang->tpajak = null;
+                @endphp
+            @endif
             @php
-                $kurang = new stdClass();
-                $kurang->gapok=null;
-                $kurang->tistri=null;
-                $kurang->tanak=null;
-                $kurang->tumum=null;
-                $kurang->tstruktur=null;
-                $kurang->tfungsi=null;
-                $kurang->tberas=null;
-                $kurang->bulat=null;
-                $kurang->tpapua=null;
-                $kurang->tpajak=null;
-            @endphp
-        @endif
-        @php
                 $setahun = $gaji->jumlah >= 12 ? 12 : $gaji->jumlah;
                 $gapok = $gaji->gapok + $kurang->gapok;
                 $tistri = $gaji->tistri + $kurang->tistri;
@@ -65,7 +59,7 @@
                 $pengurangan = $jml_iuran_pensiun + $total_biaya_jabatan;
                 $netto = $bruto - $pengurangan;
                 $setahun = $setahun < 1 ? 1 : $setahun;
-                $disetahun = floor(($netto / $setahun * 12)/1000)*1000;
+                $disetahun = floor((($netto / $setahun) * 12) / 1000) * 1000;
                 $peg_wp = intval(substr($peg->kdkawin, 0, 1));
                 $peg_istri = intval(substr($peg->kdkawin, 1, 1));
                 $peg_anak = intval(substr($peg->kdkawin, 2, 2));
@@ -89,12 +83,12 @@
                     $pph3 = $pph_tarif_3 * ($pph_limit_3 - $pph_limit_2);
                     $pph4 = $pph_tarif_4 * ($pkp - $pph_limit_3);
                     $pph = ($pph1 + $pph2 + $pph3 + $pph4) / 100;
-                } else if ($pkp > $pph_limit_2) {
+                } elseif ($pkp > $pph_limit_2) {
                     $pph1 = $pph_tarif_1 * $pph_limit_1;
                     $pph2 = $pph_tarif_2 * ($pph_limit_2 - $pph_limit_1);
                     $pph3 = $pph_tarif_3 * ($pkp - $pph_limit_2);
                     $pph = ($pph1 + $pph2 + $pph3) / 100;
-                } else if ($pkp > $pph_limit_1) {
+                } elseif ($pkp > $pph_limit_1) {
                     $pph1 = $pph_tarif_1 * $pph_limit_1;
                     $pph2 = $pph_tarif_2 * ($pkp - $pph_limit_1);
                     $pph = ($pph1 + $pph2) / 100;
@@ -102,162 +96,193 @@
                     $pph = ($pph_tarif_1 * $pkp) / 100;
                 }
                 $sisa = $pph - $jml_dipungut;
-        @endphp
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="text-center">
-                            <tr>
-                                <th>No</th>
-                                <th>Uraian</th>
-                                <th>Nominal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th colspan="3">Penghasilan Bruto :</th>
-                            </tr>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>Gaji Pokok</td>
-                                <td class="text-right">{{ number_format($gapok, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>Tunjangan Istri/Suami</td>
-                                <td class="text-right">{{ number_format($tistri, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">3</td>
-                                <td>Tunjangan Anak</td>
-                                <td class="text-right">{{ number_format($tanak, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">4</td>
-                                <td>Jumlah Gaji dan Tunjangan Keluarga <small>(No.1 s/d No.3)</small></td>
-                                <td class="text-right">{{ number_format($kelg, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">5</td>
-                                <td>Tunjangan Perbaikan Penghasilan</td>
-                                <td class="text-right">{{ number_format($tumum, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">6</td>
-                                <td>Tunjangan Struktural/Fungsional</td>
-                                <td class="text-right">{{ number_format($tunj, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">7</td>
-                                <td>Tunjangan Beras</td>
-                                <td class="text-right">{{ number_format($tberas, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">8</td>
-                                <td>Tunjangan Khusus</td>
-                                <td class="text-right">{{ number_format($bulat, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">9</td>
-                                <td>Tunjangan Lain-lain</td>
-                                <td class="text-right">{{ number_format($tpapua, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">10</td>
-                                <td>Penghasilan Tetap dan Teratur Lainnya yang Pembayarannya Terpisah dari Pembayaran Gaji</td>
-                                <td class="text-right">{{ number_format($tk, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">11</td>
-                                <td>Jumlah Penghasilan Bruto <small>(No.4 s/d No.10)</small></td>
-                                <td class="text-right">{{ number_format($bruto, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <th colspan="3">Pengurangan :</th>
-                            </tr>
-                            <tr>
-                                <td class="text-center">12</td>
-                                <td>Biaya Jabatan <small>(5% <small>X</small> No.11 Maks. 6.000.000)</small></td>
-                                <td class="text-right">{{ number_format($total_biaya_jabatan, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">13</td>
-                                <td>Iuran Pensiun <small>(4,75% <small>X</small> No.4)</small></td>
-                                <td class="text-right">{{ number_format($jml_iuran_pensiun, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">14</td>
-                                <td>Jumlah Pengurangan <small>(No.12 s/d No.13)</small></td>
-                                <td class="text-right">{{ number_format($pengurangan, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <th colspan="3">Penghitungan PPh Pasal 21 :</th>
-                            </tr>
-                            <tr>
-                                <td class="text-center">15</td>
-                                <td>Jumlah Penghasilan Netto <small>(No.11 - No.14)</small></td>
-                                <td class="text-right">{{ number_format($netto, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">16</td>
-                                <td>Jumlah Penghasilan Masa Sebelumnya</td>
-                                <td class="text-right">0</td>
-                            </tr>
-                            <tr class="text-bold text-success">
-                                <td class="text-center">17</td>
-                                <td>Jumlah Penghasilan Netto untuk Penghitungan PPh Pasal 21 (Setahun/Disetahunkan)</td>
-                                <td class="text-right">{{ number_format($disetahun, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr class="text-bold text-success">
-                                <td class="text-center">18</td>
-                                <td>Penghasilan Tidak Kena Pajak (PTKP)</td>
-                                <td class="text-right">{{ number_format($ptkp, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">19</td>
-                                <td>Penghasilan Kena Pajak Setahun/Disetahunkan <small>(17 - 18)</small></td>
-                                <td class="text-right">{{ number_format($pkp, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">20</td>
-                                <td>PPh Pasal 21 Atas Penghasilan Kena Pajak Setahun/Disetahunkan</td>
-                                <td class="text-right">{{ number_format($pph, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">21</td>
-                                <td>PPh Pasal 21 Yang Telah DIpotong Masa Sebelumnya</td>
-                                <td class="text-right">0</td>
-                            </tr>
-                            <tr class="text-bold text-success">
-                                <td class="text-center">22</td>
-                                <td>PPh Pasal 21 Terutang</td>
-                                <td class="text-right">{{ number_format($pph, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr class="text-bold text-success">
-                                <td class="text-center">23</td>
-                                <td>PPh Pasal 21 Yang Telah Dipotong dan Dilunasi</td>
-                                <td class="text-right">{{ number_format($pph, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>A. Atas Gaji dan Tunjangan</td>
-                                <td class="text-right">{{ number_format($jml_dipungut, 0, ',', '.')}}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>B. Atas Penghasilan Tidak Tetap dan Teratur Lainnya yang Pembayarannya Terpisah dari Pembayaran Gaji</td>
-                                <td class="text-right">{{ number_format($sisa, 0, ',', '.')}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            @endphp
+            <div></div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full max-w-2xl">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border-x">
+                            <x-table.header.column class="text-center">No</x-table.header.column>
+                            <x-table.header.column class="text-center">Uraian</x-table.header.column>
+                            <x-table.header.column class="text-center">Nominal</x-table.header.column>
+                        </tr>
+                    </x-table.header>
+                    <x-table.body>
+                        <tr class="*:border">
+                            <x-table.body.column colspan="3">Penghasilan Bruto :</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">1</x-table.body.column>
+                            <x-table.body.column>Gaji Pokok</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($gapok, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">2</x-table.body.column>
+                            <x-table.body.column>Tunjangan Istri/Suami</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($tistri, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">3</x-table.body.column>
+                            <x-table.body.column>Tunjangan Anak</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($tanak, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">4</x-table.body.column>
+                            <x-table.body.column>Jumlah Gaji dan Tunjangan Keluarga <small>(No.1 s/d
+                                    No.3)</small></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($kelg, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">5</x-table.body.column>
+                            <x-table.body.column>Tunjangan Perbaikan Penghasilan</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($tumum, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">6</x-table.body.column>
+                            <x-table.body.column>Tunjangan Struktural/Fungsional</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($tunj, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">7</x-table.body.column>
+                            <x-table.body.column>Tunjangan Beras</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($tberas, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">8</x-table.body.column>
+                            <x-table.body.column>Tunjangan Khusus</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($bulat, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">9</x-table.body.column>
+                            <x-table.body.column>Tunjangan Lain-lain</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($tpapua, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">10</x-table.body.column>
+                            <x-table.body.column>Penghasilan Tetap dan Teratur Lainnya yang Pembayarannya Terpisah dari
+                                Pembayaran
+                                Gaji</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($tk, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">11</x-table.body.column>
+                            <x-table.body.column>Jumlah Penghasilan Bruto <small>(No.4 s/d
+                                    No.10)</small></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($bruto, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column colspan="3">Pengurangan :</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">12</x-table.body.column>
+                            <x-table.body.column>Biaya Jabatan <small>(5% <small>X</small> No.11 Maks.
+                                    6.000.000)</small></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($total_biaya_jabatan, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">13</x-table.body.column>
+                            <x-table.body.column>Iuran Pensiun <small>(4,75% <small>X</small>
+                                    No.4)</small></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($jml_iuran_pensiun, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">14</x-table.body.column>
+                            <x-table.body.column>Jumlah Pengurangan <small>(No.12 s/d No.13)</small></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($pengurangan, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column colspan="3">Penghitungan PPh Pasal 21 :</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">15</x-table.body.column>
+                            <x-table.body.column>Jumlah Penghasilan Netto <small>(No.11 -
+                                    No.14)</small></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($netto, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">16</x-table.body.column>
+                            <x-table.body.column>Jumlah Penghasilan Masa Sebelumnya</x-table.body.column>
+                            <x-table.body.column class="text-right">0</x-table.body.column>
+                        </tr>
+                        <tr class="text-bold text-success *:border">
+                            <x-table.body.column class="text-center">17</x-table.body.column>
+                            <x-table.body.column>Jumlah Penghasilan Netto untuk Penghitungan PPh Pasal 21
+                                (Setahun/Disetahunkan)</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($disetahun, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="text-bold text-success *:border">
+                            <x-table.body.column class="text-center">18</x-table.body.column>
+                            <x-table.body.column>Penghasilan Tidak Kena Pajak (PTKP)</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($ptkp, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">19</x-table.body.column>
+                            <x-table.body.column>Penghasilan Kena Pajak Setahun/Disetahunkan <small>(17 -
+                                    18)</small></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($pkp, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">20</x-table.body.column>
+                            <x-table.body.column>PPh Pasal 21 Atas Penghasilan Kena Pajak
+                                Setahun/Disetahunkan</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($pph, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column class="text-center">21</x-table.body.column>
+                            <x-table.body.column>PPh Pasal 21 Yang Telah DIpotong Masa Sebelumnya</x-table.body.column>
+                            <x-table.body.column class="text-right">0</x-table.body.column>
+                        </tr>
+                        <tr class="text-bold text-success *:border">
+                            <x-table.body.column class="text-center">22</x-table.body.column>
+                            <x-table.body.column>PPh Pasal 21 Terutang</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($pph, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="text-bold text-success *:border">
+                            <x-table.body.column class="text-center">23</x-table.body.column>
+                            <x-table.body.column>PPh Pasal 21 Yang Telah Dipotong dan Dilunasi</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($pph, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column></x-table.body.column>
+                            <x-table.body.column>A. Atas Gaji dan Tunjangan</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($jml_dipungut, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                        <tr class="*:border">
+                            <x-table.body.column></x-table.body.column>
+                            <x-table.body.column>B. Atas Penghasilan Tidak Tetap dan Teratur Lainnya yang Pembayarannya
+                                Terpisah dari
+                                Pembayaran Gaji</x-table.body.column>
+                            <x-table.body.column
+                                class="text-right">{{ number_format($sisa, 0, ',', '.') }}</x-table.body.column>
+                        </tr>
+                    </x-table.body>
+                </x-table>
             </div>
         </div>
+        <div>
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

@@ -43,14 +43,15 @@ class SptController extends Controller
         } else {
             $thn = request('thn');
         };
-        $spt = SPTPegawai::getByKdSatker(auth()->user()->kdsatker, $thn, $limit, $offset, request('search'))->data;
+        $spt = SPTPegawai::getByKdSatker(auth()->user()->kdsatker, $thn, $limit, $offset, request('nip'))->data;
         $count = SPTPegawai::countByKdSatker(auth()->user()->kdsatker, $thn)->data;
         $data = $this->paginate($spt, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
 
         return view('spt.index.index', [
             'data' => $data,
             'tahun' => $tahun,
-            'thn' => $thn
+            'thn' => $thn,
+            'pageTitle' => 'SPT',
         ]);
     }
 
@@ -76,7 +77,8 @@ class SptController extends Controller
 
         return view('spt.index.create', [
             'refJab' => $refJab,
-            'refPang' => $refPang
+            'refPang' => $refPang,
+            'pageTitle' => 'SPT',
         ]);
     }
 
@@ -175,7 +177,8 @@ class SptController extends Controller
         return view('spt.index.edit', [
             'data' => $data,
             'refJab' => $refJab,
-            'refPang' => $refPang
+            'refPang' => $refPang,
+            'pageTitle' => 'SPT',
         ]);
     }
 
@@ -305,7 +308,9 @@ class SptController extends Controller
             }
             return Redirect('/spt-monitoring');
         }
-        return view('spt.index.import');
+        return view('spt.index.import',[
+            'pageTitle' => 'SPT',
+        ]);
     }
 
     public function importAlika(Request $request)

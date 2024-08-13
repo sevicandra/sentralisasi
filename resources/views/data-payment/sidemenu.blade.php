@@ -1,66 +1,38 @@
-
 @canany(['sys_admin'], auth()->user()->id)
-<span>
-    Halaman Utama
-</span>
-{{-- <div>
-    <a href="/data-payment">
-        <span></span>
-        <span>Pending</span>
-    </a>
-</div> --}}
-<div>
-    <a href="/data-payment/server">
-        <span></span>
-        <span>Data Server</span>
-    </a>
-</div>
-<span>
-    Data Pending
-</span>
-<div>
-    <a href="/data-payment/honorarium">
-        <span></span>
-        <span>Honorarium
-            @if ($honorariumKirim >0)
-            <span class="position-relative">
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $honorariumKirim }}
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </span>
-            @endif
-        </span>
-    </a>
-</div>
-<div>
-    <a href="/data-payment/lain">
-        <span></span>
-        <span>Pembayaran Lainnya
-            @if ($dataPembayaranLainnyaDraft >0)
-            <span class="position-relative">
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $dataPembayaranLainnyaDraft }}
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </span>
-            @endif
-        </span>
-    </a>
-</div>
-<span>
-    Data Upload
-</span>
-<div>
-    <a href="/data-payment/upload/honorarium">
-        <span></span>
-        <span>Honorarium</span>
-    </a>
-</div>
-<div>
-    <a href="/data-payment/upload/lain">
-        <span></span>
-        <span>Pembayaran Lainnya</span>
-    </a>
-</div>
+    <li>
+        <h2 class="menu-title">Halaman Utama</h2>
+        <ul>
+            <li><a href="/data-payment/server">Data Server</a></li>
+        </ul>
+    </li>
+    <li>
+        <h2 class="menu-title">Data Pending</h2>
+        <ul>
+            <li>
+                <a href="/data-payment/honorarium">Honorarium
+                    @if ($honorariumKirim > 0)
+                        <div class="badge badge-warning badge-sm">{{ $honorariumKirim }}</div>
+                    @endif
+                </a>
+            </li>
+            <li>
+                <a href="/data-payment/lain">Pembayaran Lainnya
+                    @if ($dataPembayaranLainnyaDraft > 0)
+                        <div class="badge badge-warning badge-sm">{{ $dataPembayaranLainnyaDraft }}</div>
+                    @endif
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2 class="menu-title">Data Upload</h2>
+        <ul>
+            <li>
+                <a href="/data-payment/upload/honorarium">Honorarium</a>
+            </li>
+            <li>
+                <a href="/data-payment/upload/lain">Pembayaran Lainnya</a>
+            </li>
+        </ul>
+    </li>
 @endcan

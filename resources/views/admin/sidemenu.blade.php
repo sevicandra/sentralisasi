@@ -1,57 +1,24 @@
-<span>
-    Halaman Utama
-</span>
-<div>
-    <a href="/admin/user">
-        <span></span>
-        <span>User</span>
-    </a>
-</div>
-<div>
-    <a href="/admin/penandatangan">
-        <span></span>
-        <span>Penandatangan</span>
-    </a>
-</div>
+<li>
+    <h2 class="menu-title">Halaman Utama</h2>
+    <ul>
+        <li><a href="/admin/user">User</a></li>
+        <li><a href="/admin/penandatangan">Penandatangan</a></li>
+    </ul>
+</li>
 @if (Auth::guard('web')->check())
-@can('sys_admin', auth()->user()->id)
-<span>
-    Referensi
-</span>
-<div>
-    <a href="/admin/role">
-        <span></span>
-        <span>Role</span>
-    </a>
-</div>
-<div>
-    <a href="/admin/satker">
-        <span></span>
-        <span>Satker</span>
-    </a>
-</div>
-<div>
-    <a href="/admin/admin-satker">
-        <span></span>
-        <span>Admin Satker</span>
-    </a>
-</div>
-<div>
-    <a href="/admin/bulan">
-        <span></span>
-        <span>Bulan</span>
-    </a>
-</div>
-
-<div>
-    <a href="/admin/ref-penandatangan">
-        <span></span>
-        <span>Penandatangan</span>
-    </a>
-</div>
-    
-<div class="position-fixed bottom-0 end-0 p-3 text-white">
-    V.1.6.1
-</div>
-@endcan
+    @can('sys_admin', auth()->user()->id)
+        <li>
+            <h2 class="menu-title">Referensi</h2>
+            <ul>
+                <li><a href="/admin/role">Role</a></li>
+                <li><a href="/admin/satker">Satker</a></li>
+                <li><a href="/admin/admin-satker">Admin Satker</a></li>
+                <li><a href="/admin/bulan">Bulan</a></li>
+                <li><a href="/admin/ref-penandatangan">Penandatangan</a></li>
+            </ul>
+        </li>
+        <div class="absolute bottom-0 start-0 p-3 text-base-content">
+            V.1.8
+        </div>
+    @endcan
 @endif

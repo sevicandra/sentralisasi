@@ -1,100 +1,40 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('admin.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-
-    <div id="main-content-header">
-    </div>
-    <div id="main-content">
-        <div class="row">
-          <div class="col-xxl-8">
-            <div class="card">
-              <form action="/admin/user/{{$data->nip}}/update" method="post" autocomplete="off">
-                @csrf
-                @method('PATCH')
-                <div class="card-header">
-                  <div class="card-text">
-                    <p></p>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label for="">Nama:</label>
-                        <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" value="{{$data->nama}}">
-                        @error('nama')
-                        <div class="text-danger">
-                            <small>
-                                {{ $message }}
-                            </small>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex gap-2 flex-wrap py-2 px-4">
+        </div>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div></div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <form action="/admin/user/{{ $data->nip }}/update" method="post" autocomplete="off">
+                    @csrf
+                    @method('PATCH')
+                    <div class="flex flex-col gap-2 w-full max-w-2xl">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2 gap-2">
+                            <x-input name="nama" value="{{ old('nama', $data->nama) }}" label="Nama:" size="w-full" />
+                            <x-input name="nip" value="{{ old('nip', $data->nip) }}" label="NIP:" size="w-full" />
+                            @if (Auth::guard('web')->check())
+                                @can('sys_admin', auth()->user()->id)
+                                    <x-input name="kdsatker" value="{{ old('kdsatker', $data->kdsatker) }}" label="Kode Satker:"
+                                        size="w-full" />
+                                @endcan
+                            @endif
+                            <x-input name="nohp" value="{{ old('nohp', $data->nohp) }}" label="Nomor HP:"
+                                size="w-full" />
                         </div>
-                        @enderror
-                      </div>
+                        <div class="flex gap-2 p-2">
+                            <a href="/admin/user" class="btn btn-xs btn-secondary">Kembali</a>
+                            <button type="submit" class="btn btn-xs btn-success">Simpan</button>
+                        </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12 ">
-                      <div class="form-group">
-                        <label for="jumlah">NIP:</label>
-                        <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{$data->nip}}">
-                        @error('nip')
-                        <div class="text-danger">
-                            <small>
-                                {{ $message }}
-                            </small>
-                        </div>
-                        @enderror
-                      </div>
-                    </div>
-                  </div>
-                  @if (Auth::guard('web')->check())
-                      @can('sys_admin', auth()->user()->id)
-                      <div class="row">
-                        <div class="col-lg-12 ">
-                          <div class="form-group">
-                            <label for="jumlah">Kode Satker:</label>
-                            <input type="text" name="kdsatker" class="form-control @error('nip') is-invalid @enderror" value="{{$data->kdsatker}}">
-                            @error('kdsatker')
-                              <div class="invalid-feedback">
-                                {{$message}}
-                              </div>
-                            @enderror
-                          </div>
-                        </div>
-                      </div>
-                      @endcan
-                  @endif
-                  <div class="row">
-                    <div class="col-lg-12 ">
-                      <div class="form-group">
-                        <label for="jumlah">Nomor HP:</label>
-                        <input type="text" name="nohp" class="form-control @error('nohp') is-invalid @enderror" value="{{$data->nohp}}">
-                        @error('nohp')
-                        <div class="text-danger">
-                            <small>
-                                {{ $message }}
-                            </small>
-                        </div>
-                        @enderror
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-                <div class="card-footer">
-                  <a href="/admin/user" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
-                  <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i> Simpan</button>
-                </div>
-              </form>
+                </form>
             </div>
-          </div>
-          </div>
+        </div>
+        <div>
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

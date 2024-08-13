@@ -48,6 +48,7 @@ class PembayaranController extends Controller
             'uangMakanKirim'=>dokumenUangMakan::send(),
             'uangLemburDraft'=>dokumenUangLembur::draft(),
             'uangMakanDraft'=>dokumenUangMakan::draft(),
+            'pageTitle' => 'Belanja 51',
         ]);
     }
 
@@ -78,6 +79,7 @@ class PembayaranController extends Controller
             'uangMakanKirim'=>dokumenUangMakan::send(),
             'uangLemburDraft'=>dokumenUangLembur::draft(),
             'uangMakanDraft'=>dokumenUangMakan::draft(),
+            'pageTitle' => 'Belanja 51',
         ]);
     }
 
@@ -108,6 +110,7 @@ class PembayaranController extends Controller
             'uangMakanKirim'=>dokumenUangMakan::send(),
             'uangLemburDraft'=>dokumenUangLembur::draft(),
             'uangMakanDraft'=>dokumenUangMakan::draft(),
+            'pageTitle' => 'Belanja 51',
         ]);
     }
 

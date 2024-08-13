@@ -1,93 +1,87 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('data-payment.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-    <div id="main-content-header">
-      @include('layout.flashmessage')
-      <div class="row">
-        <div class="row">
-          <div class="row">
-              <div class="col-lg-12">
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 flex-wrap py-2 px-4">
+            <div class="w-full flex gap-1 flex-wrap">
                 @foreach ($tahun as $item)
-                  <a href="{{ config('app.url') }}/data-payment/lain?thn={{ $item->tahun }}" class="btn btn-outline-secondary @if (!$thn && $item->tahun === date('Y') || $item->tahun === $thn) active @endif mr-1">{{ $item->tahun }}</a>
+                    <a href="{{ config('app.url') }}/data-payment/lain?thn={{ $item->tahun }}"
+                        class="btn btn-xs btn-outline btn-primary @if ((!$thn && $item->tahun === date('Y')) || $item->tahun === $thn) btn-active @endif">{{ $item->tahun }}</a>
                 @endforeach
-              </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="row">
-              <div class="col-lg-12">
+            </div>
+            <div class="w-full flex gap-1 flex-wrap">
                 @foreach ($bulan as $item)
-                  <a href="{{ config('app.url') }}/data-payment/lain?thn={{ $thn }}&bln={{ $item->bulan }}" class="btn btn-outline-secondary @if (!$bln && $item->bulan === date('m') || $item->bulan === $bln) active @endif mr-1">{{ $item->bulan }}</a>
+                    <a href="{{ config('app.url') }}/data-payment/lain?thn={{ $thn }}&bln={{ $item->bulan }}"
+                        class="btn btn-xs btn-outline btn-primary @if ((!$bln && $item->bulan === date('m')) || $item->bulan === $bln) btn-active @endif">{{ $item->bulan }}</a>
                 @endforeach
-              </div>
-          </div>
+            </div>
+            <div class="w-full flex gap-1 flex-wrap justify-end">
+                <a href="/data-payment/lain/create" class="btn btn-xs btn-primary">Tambah</a>
+            </div>
         </div>
-      </div>
-    </div>
-    <div id="main-content">
-              <div class="card">
-                  <div class="card-header d-flex flex-row-reverse" style="justify-content:space-between">
-
-                    <a href="/data-payment/lain/create" class="btn btn-outline-secondary mr-2" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="bi bi-plus"></i></a>
-                  </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-sm table-bordered table-hover">
-                        <thead>
-                          <tr class="text-center">
-                            <th>No</th>
-                            <th>Satker</th>
-                            <th>jenis</th>
-                            <th>Jml Pegawai</th>
-                            <th>Bruto</th>
-                            <th>PPh</th>
-                            <th>Netto</th>
-                            <th>#</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          @php
-                              $i=1;
-                          @endphp
-                          @foreach ($data as $item)
-                            <tr class="text-center">
-                              <td>{{ $i++ }}</td>
-                              <td>{{ $item->nmsatker }}</td>
-                              <td>{{ $item->jenis }}</td>
-                              <td>{{ $item->jml }}</td>
-                              <td class="text-right">{{ number_format($item->bruto,2,',','.') }}</td>
-                              <td class="text-right">{{ number_format($item->pph,2,',','.') }}</td>
-                              <td class="text-right">{{ number_format($item->bruto-$item->pph,2,',','.') }}</td>
-                              <td>
-                                <span class="d-flex justify-content-center">
-                                  <form action="/data-payment/lain/{{ $item->kdsatker }}/{{ $item->jenis }}/{{ $thn }}/{{ $bln }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');" type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">hapus</button>
-                                  </form>
-                                  <span>
-                                    <a href="/data-payment/lain/{{ $item->kdsatker }}/{{ $item->jenis }}/{{ $thn }}/{{ $bln }}/detail" data-toggle="tooltip" data-placement="bottom" title="detail" class="btn btn-sm btn-outline-primary pt-0 pb-0">detail</a>
-                                  </span>
-                                  <form action="/data-payment/lain/{{ $item->kdsatker }}/{{ $item->jenis }}/{{ $thn }}/{{ $bln }}" method="post">
-                                    @csrf
-                                    <button type="submit"  onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');" class="btn btn-sm btn-outline-primary pt-0 pb-0">upload</button>
-                                  </form>
-                                </span>
-                              </td>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div></div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border *:text-center">
+                            <x-table.header.column>No</x-table.header.column>
+                            <x-table.header.column>Satker</x-table.header.column>
+                            <x-table.header.column>jenis</x-table.header.column>
+                            <x-table.header.column>Jml Pegawai</x-table.header.column>
+                            <x-table.header.column>Bruto</x-table.header.column>
+                            <x-table.header.column>PPh</x-table.header.column>
+                            <x-table.header.column>Netto</x-table.header.column>
+                            <x-table.header.column>#</x-table.header.column>
+                        </tr>
+                    </x-table.header>
+                    <x-table.body>
+                        @foreach ($data as $item)
+                            <tr class="*:border">
+                                <x-table.body.column>{{ $loop->iteration }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nmsatker }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->jenis }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->jml }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->bruto, 2, ',', '.') }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->pph, 2, ',', '.') }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->bruto - $item->pph, 2, ',', '.') }}
+                                </x-table.body.column>
+                                <x-table.body.column>
+                                    <div class="w-full h-full flex gap-1 justify-center">
+                                        <form
+                                            action="/data-payment/lain/{{ $item->kdsatker }}/{{ $item->jenis }}/{{ $thn }}/{{ $bln }}"
+                                            method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');"
+                                                type="submit"
+                                                class="btn btn-xs btn-error">hapus</button>
+                                        </form>
+                                        <a href="/data-payment/lain/{{ $item->kdsatker }}/{{ $item->jenis }}/{{ $thn }}/{{ $bln }}/detail"
+                                            class="btn btn-xs btn-primary">detail</a>
+                                        <form
+                                            action="/data-payment/lain/{{ $item->kdsatker }}/{{ $item->jenis }}/{{ $thn }}/{{ $bln }}"
+                                            method="post">
+                                            @csrf
+                                            <button type="submit"
+                                                onclick="return confirm('Apakah Anda yakin akan mengirim data ini?');"
+                                                class="btn btn-xs btn-success">upload</button>
+                                        </form>
+                                    </div>
+                                </x-table.body.column>
                             </tr>
-                          @endforeach
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-              </div>
-
+                        @endforeach
+                    </x-table.body>
+                </x-table>
+            </div>
+        </div>
+        <div>
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

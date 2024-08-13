@@ -1,66 +1,70 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('monitoring.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-    <div id="main-content-header">
-        <div class="row">
-            <div class="row">
-                <div class="row">
-                    <div class="col-lg-12">
-                        @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/lainnya/{{ $item->tahun }}/{{ $jns }}" class="btn btn-sm btn-outline-success @if (Request('thn') === null && $item->tahun === date('Y') || $item->tahun === request('thn'))active @endif ml-1 mt-1 mb-1">{{ $item->tahun }}</a>
-                        @endforeach
-                    </div>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+            <div class="flex flex-col gap-2 flex-wrap py-2 px-4">
+                <div class="w-full flex gap-1 flex-wrap">
+                    @foreach ($tahun as $item)
+                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/lainnya/{{ $item->tahun }}/{{ $jns }}"
+                            class="btn btn-xs btn-primary btn-outline @if ((Request('thn') === null && $item->tahun === date('Y')) || $item->tahun === request('thn')) btn-active @endif">{{ $item->tahun }}</a>
+                    @endforeach
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        @foreach ($jenis as $item)
-                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/lainnya/{{ $thn }}/{{ $item->jenis }}" class="btn btn-sm btn-outline-success @if ($jns === $item->jenis ) active @endif ml-1 mt-1 mb-1">{{ $item->jenis }}</a>
-                        @endforeach
-                    </div>
+                <div class="w-full flex gap-1 flex-wrap">
+                    @foreach ($jenis as $item)
+                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/lainnya/{{ $thn }}/{{ $item->jenis }}"
+                            class="btn btn-xs btn-primary btn-outline @if ($jns === $item->jenis) btn-active @endif">{{ $item->jenis }}</a>
+                    @endforeach
                 </div>
             </div>
         </div>
-    </div>
-    <div id="main-content">
-        <div class="table-warper" style="overflow-x:auto">
-            <table class="table table-bordered table-hover">
-                <thead class="text-center">
-                    <tr>
-                        <th>No</th>
-                        <th>Bulan</th>
-                        <th>Bruto</th>
-                        <th>PPh</th>
-                        <th>Netto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $no=1;
-                    @endphp
-                    @foreach ($data as $item)
-                        <tr>
-                            <td class="text-center">{{ $no++ }}</td>
-                            <td><a href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/lainnya/{{ $thn }}/{{ $jns }}/{{ $item->bulan }}/detail">{{ $item->nama_bulan }}</a></td>
-                            <td class="text-right"><?= number_format($item->bruto, 0, ',', '.'); ?></td>
-                            <td class="text-right"><?= number_format($item->pph, 0, ',', '.'); ?></td>
-                            <td class="text-right"><?= number_format($item->netto, 0, ',', '.'); ?></td>
-                        </tr> 
-                    @endforeach
-                    <tr>
-                        <th colspan="2" class="text-center">Jumlah</th>
-                        <td class="text-right"><?= number_format($data->sum('bruto'), 0, ',', '.'); ?></td>
-                        <td class="text-right"><?= number_format($data->sum('pph'), 0, ',', '.'); ?></td>
-                        <td class="text-right"><?= number_format($data->sum('netto'), 0, ',', '.'); ?></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div></div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border-x">
+                            <x-table.header.column-pin class="text-center">No</x-table.header.column-pin>
+                            <x-table.header.column-pin class="text-center">Bulan</x-table.header.column-pin>
+                            <x-table.header.column class="text-center">Bruto</x-table.header.column>
+                            <x-table.header.column class="text-center">PPh</x-table.header.column>
+                            <x-table.header.column class="text-center">Netto</x-table.header.column>
+                            <x-table.header.column class="text-center">Keterangan</x-table.header.column>
+
+                        </tr>
+                    </x-table.header>
+                    <x-table.body>
+                        @foreach ($data as $item)
+                            <tr class="*:border">
+                                <x-table.body.column-pin
+                                    class="text-center">{{ $loop->iteration }}</x-table.body.column-pin>
+                                <x-table.body.column-pin>{{ $item->nama_bulan }}</x-table.body.column-pin>
+                                <x-table.body.column
+                                    class="text-right"><?= number_format($item->bruto, 0, ',', '.') ?></x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right"><?= number_format($item->pph, 0, ',', '.') ?></x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right"><?= number_format($item->netto, 0, ',', '.') ?></x-table.body.column>
+                                <x-table.body.column class="max-w-xs"><?= $item->uraian ?></x-table.body.column>
+                            </tr>
+                        @endforeach
+                        <tr class="*:border">
+                            <x-table.body.column-pin :colspan="2" class="text-center">Jumlah</x-table.body.column-pin>
+                            <x-table.body.column
+                                class="text-right"><?= number_format($data->sum('bruto'), 0, ',', '.') ?></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right"><?= number_format($data->sum('pph'), 0, ',', '.') ?></x-table.body.column>
+                            <x-table.body.column
+                                class="text-right"><?= number_format($data->sum('netto'), 0, ',', '.') ?></x-table.body.column>
+                        </tr>
+                    </x-table.body>
+                </x-table>
+            </div>
+        </div>
+        <div>
+            {{-- {{$data->links()}} --}}
         </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

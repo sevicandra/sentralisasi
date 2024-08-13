@@ -1,126 +1,36 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('honorarium.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-
-    <div id="main-content-header">
-    </div>
-    <div id="main-content">
-        <div class="row">
-          <div class="col-xxl-6">
-            <div class="card">
-              <form action="/honorarium/{{ $data->id }}/update-detail" method="post" enctype="multipart/form-data" autocomplete="off">
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 py-2 px-4">
+        </div>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <form action="/honorarium/{{ $data->id }}/update-detail" method="post" enctype="multipart/form-data"
+                autocomplete="off">
                 @csrf
                 @method('PATCH')
-                <div class="card-header">
-                  <div class="card-text">
-                    <p></p>
-                  </div>
+                <div class="flex flex-col gap-2 w-full max-w-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 p-2">
+                        <x-input name="nama" value="{{ old('nama', $data->nama) }}" label="Nama:" />
+                        <x-input name="nip" value="{{ old('nip', $data->nip) }}" label="NIP:" />
+                        <x-input name="bruto" value="{{ old('bruto', $data->bruto) }}" label="Bruto:" />
+                        <x-input name="pph" value="{{ old('pph', $data->pph) }}" label="PPh:" />
+                        <x-input type="date" name="tanggal" value="{{ old('tanggal', \Carbon\Carbon::parse($data->tanggal)->format('Y-m-d')) }}"
+                            label="Tanggal:" />
+                        <x-input name="uraian" value="{{ old('uraian', $data->uraian) }}" label="Uraian:"
+                            class="md:col-span-3" />
+                    </div>
+                    <div class="flex gap-2 p-2">
+                        <a href="/honorarium/{{ $data->file }}/detail" class="btn btn-xs btn-secondary">Kembali</a>
+                        <button type="submit" class="btn btn-xs btn-success">Simpan</button>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label for="">Nama:</label>
-                        <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" value="{{ $data->nama }}">
-                        @error('nama')
-                        <div class="text-danger">
-                          <small>
-                            {{ $message }}
-                          </small>
-                        </div>
-                        @enderror
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label for="jmlpegawai">NIP</label>
-                        <input type="text" name="nip" class="form-control @error('nip') is-invalid @enderror" value="{{ $data->nip }}">
-                        @error('nip')
-                        <div class="text-danger">
-                          <small>
-                            {{ $message }}
-                          </small>
-                        </div>
-                        @enderror
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label for="">Bruto:</label>
-                        <input type="text" name="bruto" class="form-control @error('bruto') is-invalid @enderror" value="{{ $data->bruto }}">
-                        @error('bruto')
-                        <div class="text-danger">
-                          <small>
-                            {{ $message }}
-                          </small>
-                        </div>
-                        @enderror
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label for="jmlpegawai">PPh</label>
-                        <input type="text" name="pph" class="form-control @error('pph') is-invalid @enderror" value="{{ $data->pph }}">
-                        @error('pph')
-                        <div class="text-danger">
-                          <small>
-                            {{ $message }}
-                          </small>
-                        </div>
-                        @enderror
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label for="">Tanggal:</label>
-                        <input type="text" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ date('d-m-Y', $data->tanggal) }}" >
-                        @error('tanggal')
-                        <div class="text-danger">
-                          <small>
-                            {{ $message }}
-                          </small>
-                        </div>
-                        @enderror
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-8">
-                          <div class="form-group">
-                            <label for="">Uraian:</label>
-                            <div class="custom-file">
-                            <input type="text" class="form-control custom @error('uraian') is-invalid @enderror" name="uraian" value="{{ $data->uraian }}">
-                            @error('uraian')
-                            <div class="text-danger">
-                                <small>
-                                    {{ $message }}
-                                </small>
-                            </div>
-                            @enderror
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="card-footer">
-                  <a href="/honorarium/{{ $data->file }}/detail" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
-                  <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i> Simpan</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          </div>
+            </form>
+        </div>
+        <div>
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

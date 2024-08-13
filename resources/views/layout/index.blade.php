@@ -1,50 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Dengan Alika Sentralisasi, kami hadirkan pengalaman terbaik pelaksanaan sentralisasi belanja pegawai di layar Anda">
-    <link rel="stylesheet" href="/css/layout.css">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="shortcut icon" href="/img/alika.png" type=" image/x-icon">
+    <meta name="description"
+        content="Dengan Alika Sentralisasi, kami hadirkan pengalaman terbaik pelaksanaan sentralisasi belanja pegawai di layar Anda">
+    @vite('resources/css/app.css')
+    <link rel="shortcut icon" href="/img/alika.png" type="image/x-icon">
     @section('head')
-        
+
     @show
     <title>SENTRALISASI</title>
 </head>
-<body>
-    <header class="header">
-        <div class="title">
-            <a style="text-decoration: none;color:white" href="{{ config('app.url') }}">
-                <span><img src="/img/alika.png" alt="logo alika" height="30px" width="30px"></span>
-                <span>ALIKA SENTRALISASI</span>
-            </a>
-        </div>
-        <div class="mobile-title">
-            <a style="text-decoration: none;color:white" href="{{ config('app.url') }}">
-                <img src="/img/alika.png" alt="logo alika" height="24px" width="24px">
-            </a>
-        </div>
-        <div class="profil dropdown">
-            <img src="{{ session()->get('gravatar') }}" alt="" class="" style="border-radius: 50%; height:40px; width: 40px; object-fit:cover">
-            <span class="profil-name">{{ session()->get('name') }}</span>
-            <div class="dropdown-content">
-                <a href="{{ config('app.url') }}/logout">
-                    <img src="/img/ico/logout.png" alt="" height="25px" width="25px">
-                    <span>Logout</span>
-                </a>
+
+<body class="min-h-screen bg-base-100">
+    <div class="h-screen overflow-hidden grid grid-rows-[auto_1fr]">
+        <header class="shadow">
+            <div class="h-full w-full max-w-7xl mx-auto flex justify-between items-center px-4 py-1">
+                <div class="hidden md:block">
+                    <a class="flex gap-2" href="{{ config('app.url') }}">
+                        <span><img src="/img/alika.png" alt="logo alika" height="30px" width="30px"></span>
+                        <span>
+                            <h1 class="font-bold text-xl">
+                                ALIKA SENTRALISASI
+                            </h1>
+                        </span>
+                    </a>
+                </div>
+                <div class="md:hidden">
+                    <a href="{{ config('app.url') }}">
+                        <img src="/img/alika.png" alt="logo alika" height="24px" width="24px">
+                    </a>
+                </div>
+                <div class="flex gap-2">
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn m-1 btn-ghost">
+                            <div class="avatar">
+                                <div
+                                    class="ring-primary ring-offset-base-100 w-8 rounded-full ring ring-offset-1 ring-sm">
+                                    <img src="{{ session()->get('gravatar') }}" />
+                                </div>
+                            </div>
+                            <span class="hidden md:block">{{ session()->get('name') }}</span>
+                        </div>
+                        <ul tabindex="0"
+                            class="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2 shadow-lg">
+                            <li>
+                                <a href="{{ config('app.url') }}/logout">
+                                    <img src="/img/ico/logout.png" alt="" height="25px" width="25px">
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-    </header>
-    <main class="main-body">
-        @yield('content')
-    </main>
+        </header>
+        <main class="overflow-hidden">
+            <div class="h-full w-full max-w-7xl mx-auto overflow-x-visible border-x">
+                @yield('content')
+            </div>
+        </main>
+    </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-<script src="/js/bootstrap.min.js"></script>
 @section('footer')
-        
+
 @show
+
 </html>

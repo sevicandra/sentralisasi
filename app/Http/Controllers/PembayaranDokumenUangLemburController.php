@@ -121,6 +121,7 @@ class PembayaranDokumenUangLemburController extends Controller
             'uangMakanKirim'=>dokumenUangMakan::send(),
             'uangLemburDraft'=>dokumenUangLembur::draft(),
             'uangMakanDraft'=>dokumenUangMakan::draft(),
+            "pageTitle"=>"Dokumen Uang Lembur",
         ]);
     }
 

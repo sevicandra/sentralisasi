@@ -1,109 +1,65 @@
 @if (Auth::guard('web')->check())
     @php
-        $gate=['plt_admin_satker', 'opr_rumdin']
+        $gate = ['plt_admin_satker', 'opr_rumdin'];
     @endphp
 @else
     @php
-    $gate=['admin_satker']
+        $gate = ['admin_satker'];
     @endphp
 @endif
 
 @canany($gate, auth()->user()->id)
-    
-<span>
-    Halaman Utama
-</span>
-
-<div>
-    <a href="/sewa-rumdin">
-        <span></span>
-        <span>Beranda</span>
-    </a>
-</div>
-
-<div>
-    <a href="/sewa-rumdin/reject">
-        <span></span>
-        <span>Reject
-            @if ($rumdinReject >0)
-            <span class="position-relative">
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $rumdinReject }}
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </span>
-            @endif
-        </span>
-    </a>
-</div>
-
-<div>
-    <a href="/sewa-rumdin/non-aktif">
-        <span></span>
-        <span>Non Aktif</span>
-    </a>
-</div>
-
+    <li>
+        <h2 class="menu-title">Halaman Utama</h2>
+        <ul>
+            <li><a href="/sewa-rumdin">Beranda</a></li>
+            <li><a href="/sewa-rumdin/reject">Reject
+                    @if ($rumdinReject > 0)
+                        <div class="absolute top-1/2 -translate-y-1/2 end-1 badge badge-warning shadow border">
+                            {{ $rumdinReject }}
+                        </div>
+                    @endif
+                </a></li>
+            <li><a href="/sewa-rumdin/non-aktif">Non Aktif</a></li>
+        </ul>
+    </li>
 @endcan
 
 @can('wilayah', [auth()->user()->kdsatker])
-    <span>
-        Monitoring Wilayah
-    </span>
-    <div>
-        <a href="/sewa-rumdin/wilayah/monitoring">
-            <span></span>
-            <span>Monitoring</span>
-        </a>
-    </div>    
+    <li>
+        <h2 class="menu-title">Monitoring Wilayah</h2>
+        <ul>
+            <li><a href="/sewa-rumdin/wilayah/monitoring">Monitoring</a></li>
+        </ul>
+    </li>
 @endcan
 
 @if (Auth::guard('web')->check())
-@can('sys_admin', auth()->user()->id)
-<span>
-    Monitoring Pusat
-</span>
-<div>
-    <a href="/sewa-rumdin/monitoring">
-        <span></span>
-        <span>Monitoring</span>
-    </a>
-</div>
-<div>
-    <a href="/sewa-rumdin/monitoring-nonaktif">
-        <span></span>
-        <span>Monitoring Non Aktif</span>
-    </a>
-</div>
-<div>
-    <a href="/sewa-rumdin/usulan">
-        <span></span>
-        <span>Usulan Potongan
-            @if ($rumdinUsulan >0)
-            <span class="position-relative">
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $rumdinUsulan }}
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </span>
-            @endif
-        </span>
-    </a>
-</div>
-<div>
-    <a href="/sewa-rumdin/penghentian">
-        <span></span>
-        <span>Usulan Penghentian
-            @if ($rumdinPenghentian >0)
-            <span class="position-relative">
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $rumdinPenghentian }}
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </span>
-            @endif
-        </span>
-    </a>
-</div>
-@endcan    
+    @can('sys_admin', auth()->user()->id)
+        <li>
+            <h2 class="menu-title">Monitoring Pusat</h2>
+            <ul>
+                <li><a href="/sewa-rumdin/monitoring">Monitoring</a></li>
+                <li><a href="/sewa-rumdin/monitoring-nonaktif">Monitoring Non Aktif</a></li>
+                <li>
+                    <a href="/sewa-rumdin/usulan">Usulan Potongan
+                        @if ($rumdinUsulan > 0)
+                            <div class="absolute top-1/2 -translate-y-1/2 end-1 badge badge-warning shadow border">
+                                {{ $rumdinUsulan }}
+                            </div>
+                        @endif
+                    </a>
+                </li>
+                <li>
+                    <a href="/sewa-rumdin/penghentian">Usulan Penghentian
+                        @if ($rumdinPenghentian > 0)
+                            <div class="absolute top-1/2 -translate-y-1/2 end-1 badge badge-warning shadow border">
+                                {{ $rumdinPenghentian }}
+                            </div>
+                        @endif
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endcan
 @endif

@@ -1,103 +1,96 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('pembayaran.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-    <div id="main-content-header">
-      @include('layout.flashmessage')
-    </div>
-    <div id="main-content">
-        <div class="row">
-            <div class="col">
-              <div class="card">
-                  <div class="card-header">
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 py-2 px-4">
+            <div class="w-full flex gap-1 flex-wrap justify-between">
+                <div class="flex gap-1 flex-wrap">
                     @foreach ($tahun as $item)
-                      <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->tahun }}" class="btn btn-outline-secondary position-relative @if ($item->tahun === $thn) active @endif mr-1">{{ $item->tahun }}
-                        @if ($item->pending > 0 && $item->tahun != $thn)
-                          <span class="spinner-grow position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle" style="width: 1rem; height: 1rem;"></span>
-                        @endif
-                      </a>
-                    @endforeach
-                  </div>
-                  <div class=" card-body">
-                    <div>
-                      @foreach ($bulan as $item)
-                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $thn }}/{{ $item->bulan }}" class="btn btn-outline-secondary position-relative @if ($item->bulan === $bln) active @endif mb-3 mr-1">{{ $item->bulan }}
-                          @if ($item->pending > 0)
-                            <span class="spinner-grow position-absolute top-0 start-100 translate-middle bg-danger border border-light rounded-circle" style="width: 1rem; height: 1rem;"></span>
-                          @endif
+                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->tahun }}"
+                            class="btn btn-xs btn-outline btn-primary @if ($item->tahun === $thn) btn-active @endif">{{ $item->tahun }}
+                            @if ($item->pending > 0 && $item->tahun != $thn)
+                                <div class="badge badge-warning badge-sm">
+                                    {{ $item->pending }}
+                                </div>
+                            @endif
                         </a>
-                      @endforeach
-                    </div>
-                    <div>
-                      @if ($thn && $bln)
-                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/rekap?thn={{ $thn }}&bln={{ $bln }}" class="btn btn-outline-secondary mb-3 mr-1">Download Rekap</a>
-                      @endif
-                    </div>
-                    <div class="table-responsive">
-                      <table class="table table-sm table-bordered table-hover">
-                        <thead>
-                          <tr>
-                            <th>No</th>
-                            <th>Kode</th>
-                            <th>Nama</th>
-                            <th>Berkas</th>
-                            <th>Jml Peg</th>
-                            <th>File</th>
-                            <th>Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          @php
-                              $i =1;
-                              $totpeg=0;
-                          @endphp
-                          @foreach ($data as $item)
-                            <tr>
-                              <td>{{ $i++ }}</td>
-                              <td>{{ $item->kdsatker }}</td>
-                              <td>{{ $item->nmsatker }}</td>
-                              <td>{{ $item->dokumenUangMakan($thn, $bln)->count() }}</td>
-                              <td>{{ $item->dokumenUangMakan($thn, $bln)->sum('jmlpegawai') }}</td>
-                              @php
-                                  $totpeg += $item->dokumenUangMakan($thn, $bln)->sum('jmlpegawai');
-                              @endphp
-                              <td>
-                                @if ($item->dokumenUangMakan($thn, $bln)->count()>0)
-                                <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail">file</a>
-                                @endif
-                              </td>
-                              <td>
-                                @if ($item->dokumenUangMakan($thn, $bln)->min('terkirim') === 1)
-                                  <span class="text-primary">terkirim</span>
-                                @elseif($item->dokumenUangMakan($thn, $bln)->min('terkirim') === 0)
-                                  <span class="text-danger">draft</span>
-                                @else
-                                  <span class="text-primary"></span>
-                                @endif
-                              </td>
-                            </tr>
-                          @endforeach
-                        </tbody>
-                        <thead>
-                          <tr>
-                            <th colspan="4">Jumlah</th>
-                            <th>{{ $totpeg }}</th>
-                            <th></th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                      </table>
-                    </div>
-      
-                  </div>
-              </div>
+                    @endforeach
+                </div>
             </div>
-          </div>
+            <div class="w-full flex gap-1 flex-wrap justify-between">
+                <div class="flex gap-1 flex-wrap">
+                    @foreach ($bulan as $item)
+                        <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $thn }}/{{ $item->bulan }}"
+                            class="btn btn-xs btn-outline btn-primary @if ($item->bulan === $bln) btn-active @endif">{{ $item->bulan }}
+                            @if ($item->pending > 0)
+                                <div class="badge badge-warning badge-sm">
+                                    {{ $item->pending }}
+                                </div>
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            <div class="w-full flex gap-1 flex-wrap justify-between">
+                @if ($thn && $bln)
+                    <a href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/rekap?thn={{ $thn }}&bln={{ $bln }}"
+                        class="btn btn-xs btn-primary">Download Rekap</a>
+                @endif
+            </div>
+        </div>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div>
+                <div>
+                    @include('layout.flashmessage')
+                </div>
+            </div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border-x">
+                            <x-table.header.column class="text-center">No</x-table.header.column>
+                            <x-table.header.column class="text-center">Kode</x-table.header.column>
+                            <x-table.header.column class="text-center">Nama</x-table.header.column>
+                            <x-table.header.column class="text-center">Berkas</x-table.header.column>
+                            <x-table.header.column class="text-center">Jml Peg</x-table.header.column>
+                            <x-table.header.column class="text-center">File</x-table.header.column>
+                            <x-table.header.column class="text-center">Status</x-table.header.column>
+                        </tr>
+                    </x-table.header>
+                    <x-table.body>
+                        @foreach ($data as $item)
+                            <tr class="*:border">
+                                <x-table.body.column class="text-center">{{ $loop->iteration }}</x-table.body.column>
+                                <x-table.body.column class="text-center">{{ $item->kdsatker }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nmsatker }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-center">{{ $item->dokumenUangMakan($thn, $bln)->count() }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-center">{{ $item->dokumenUangMakan($thn, $bln)->sum('jmlpegawai') }}</x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                    @if ($item->dokumenUangMakan($thn, $bln)->count() > 0)
+                                        <a class="btn btn-xs btn-primary btn-outline"
+                                            href="{{ config('app.url') }}/belanja-51/dokumen-uang-makan/{{ $item->kdsatker }}/{{ $thn }}/{{ $bln }}/detail">file</a>
+                                    @endif
+                                </x-table.body.column>
+                                <x-table.body.column class="text-center">
+                                    @if ($item->dokumenUangMakan($thn, $bln)->min('terkirim') === 1)
+                                        <div class="badge badge-success">terkirim</div>
+                                    @elseif($item->dokumenUangMakan($thn, $bln)->min('terkirim') === 0)
+                                        <div class="badge badge-warning">draft</div>
+                                    @else
+                                    @endif
+                                </x-table.body.column>
+                            </tr>
+                        @endforeach
+                    </x-table.body>
+                </x-table>
+            </div>
+        </div>
+        <div>
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

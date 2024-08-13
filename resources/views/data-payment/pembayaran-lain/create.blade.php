@@ -1,54 +1,32 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('data-payment.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-
-    <div id="main-content-header">
-    </div>
-    <div id="main-content">
-        <div class="row">
-          <div class="col-xxl-6">
-            <div class="card">
-              <form action="/data-payment/lain" method="post" enctype="multipart/form-data" autocomplete="off">
-                @csrf
-                <div class="card-header">
-                  <div class="card-text">
-                    <p></p>
-                  </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-8">
-                          <div class="form-group">
-                              <label for="">Upload File <span>Template (<a href="/template/Upload_Pembayaran_Lain.xlsx">download</a>)</span>  Excel: </label>
-                              <div class="custom-file">
-                              <input type="file" class="form-control custom @error('file') is-invalid @enderror" name="file_excel" accept=".xlsx" required>
-                              @error('file_excel')
-                              <div class="text-danger">
-                                  <small>
-                                      {{ $message }}
-                                  </small>
-                              </div>
-                              @enderror
-                          </div>
-                              <span><small class="text-muted ">file dengan format .xlsx</small></span>
-                          </div>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex gap-2 flex-wrap py-2 px-4">
+        </div>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div></div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <form action="/data-payment/lain" method="post" enctype="multipart/form-data" autocomplete="off">
+                    @csrf
+                    <div class="flex flex-col gap-2 w-full max-w-2xl">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2 gap-2">
+                            <x-input.file name="file_excel" label="Upload File Excel:" size="w-full" />
+                        </div>
+                        <div class="flex gap-2 p-2">
+                            <a href="/data-payment/lain" class="btn btn-xs btn-secondary">Kembali</a>
+                            <a href="/template/Upload_Pembayaran_Lain.xlsx" class="btn btn-xs btn-secondary">Download
+                                Template</a>
+                            <button type="submit" class="btn btn-xs btn-success">Simpan</button>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                  <a href="/data-payment/lain" class="btn btn-sm btn-secondary float-left"><i class="fa fa-undo"></i> Kembali</a>
-                  <button type="submit" class="btn btn-sm btn-success ml-2"><i class="fa fa-save"></i> Simpan</button>
-                </div>
-              </form>
+                </form>
             </div>
-          </div>
-          </div>
+        </div>
+        <div>
+            {{-- {{$data->links()}} --}}
+        </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

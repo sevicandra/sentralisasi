@@ -1,69 +1,65 @@
 @extends('layout.main')
 @section('aside-menu')
     @include('admin.sidemenu')
-@endsection         
+@endsection
 @section('main-content')
-
-    <div id="main-content-header">
-
-    </div>
-    <div id="main-content">
-        <div>
-            <div >
-                @include('layout.flashmessage')
-            </div>
-            <div class="card-header">
-                <a href="/admin/penandatangan/create" class="btn btn-outline-secondary active mr-1">Tambah</a>
+    <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
+        <div class="flex flex-col gap-2 flex-wrap py-2 px-4">
+            <div class="flex justify-end w-full">
+                <a href="/admin/penandatangan/create" class="btn btn-xs btn-primary">Tambah</a>
             </div>
         </div>
-        <div class="table-warper overflow-auto">
-            <table class="table table-bordered table-hover">
-                <thead class="text-center">
-                    <tr class="align-middle">
-                        <th>No</th>
-                        <th>Tahun</th>
-                        <th>Nama_ttd_skp</th>
-                        <th>NIP_ttd_skp</th>
-                        <th>Jab_ttd_skp</th>
-                        <th>Nama_ttd_kp4</th>
-                        <th>NIP_ttd_kp4</th>
-                        <th>Jab_ttd_kp4</th>
-                        <th>NPWP_bendahara</th>
-                        <th>Nama_bendahara</th>
-                        <th>NIP_bendahara</th>
-                        <th>Tgl_spt</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $i=1
-                    @endphp
-                    @foreach ($data as $item)
-                        <tr>
-                            <td>{{$i++}}</td>
-                            <td>{{$item->tahun}}</td>
-                            <td>{{$item->nama_ttd_skp}}</td>
-                            <td>{{$item->nip_ttd_skp}}</td>
-                            <td>{{$item->jab_ttd_skp}}</td>
-                            <td>{{$item->nama_ttd_kp4}}</td>
-                            <td>{{$item->nip_ttd_kp4}}</td>
-                            <td>{{$item->jab_ttd_kp4}}</td>
-                            <td>{{$item->npwp_bendahara}}</td>
-                            <td>{{$item->nama_bendahara}}</td>
-                            <td>{{$item->nip_bendahara}}</td>
-                            <td>{{ date("d-m-Y", $item->tgl_spt) }}</td>
-                            <td>
-                                <a href="/admin/penandatangan/{{$item->id}}" class="btn btn-sm btn-outline-secondary pt-0 pb-0">Edit</a>
-                            </td>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">
+            <div>
+                <div>
+                    @include('layout.flashmessage')
+                </div>
+            </div>
+            <div class="overflow-x-auto overflow-y-auto h-full w-full">
+                <x-table class="collapse">
+                    <x-table.header>
+                        <tr class="*:border-x *:text-center">
+                            <x-table.header.column>No</x-table.header.column>
+                            <x-table.header.column>Tahun</x-table.header.column>
+                            <x-table.header.column>Nama_ttd_skp</x-table.header.column>
+                            <x-table.header.column>NIP_ttd_skp</x-table.header.column>
+                            <x-table.header.column>Jab_ttd_skp</x-table.header.column>
+                            <x-table.header.column>Nama_ttd_kp4</x-table.header.column>
+                            <x-table.header.column>NIP_ttd_kp4</x-table.header.column>
+                            <x-table.header.column>Jab_ttd_kp4</x-table.header.column>
+                            <x-table.header.column>NPWP_bendahara</x-table.header.column>
+                            <x-table.header.column>Nama_bendahara</x-table.header.column>
+                            <x-table.header.column>NIP_bendahara</x-table.header.column>
+                            <x-table.header.column>Tgl_spt</x-table.header.column>
+                            <x-table.header.column>Action</x-table.header.column>
+                        </tr>
+                    </x-table.header>
+                    <x-table.body>
+                        @foreach ($data as $item)
+                            <tr class="*:border">
+                                <x-table.body.column>{{ $loop->iteration }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->tahun }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nama_ttd_skp }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nip_ttd_skp }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->jab_ttd_skp }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nama_ttd_kp4 }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nip_ttd_kp4 }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->jab_ttd_kp4 }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->npwp_bendahara }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nama_bendahara }}</x-table.body.column>
+                                <x-table.body.column>{{ $item->nip_bendahara }}</x-table.body.column>
+                                <x-table.body.column>{{ date('d-m-Y', $item->tgl_spt) }}</x-table.body.column>
+                                <x-table.body.column>
+                                    <a href="/admin/penandatangan/{{ $item->id }}"
+                                        class="btn btn-xs btn-primary">Edit</a>
+                                </x-table.body.column>
+                        @endforeach
+                    </x-table.body>
+                </x-table>
+            </div>
+        </div>
+        <div id="paginator">
+            {{-- {{$data->links()}} --}}
         </div>
     </div>
-    <div id="paginator">
-        {{-- {{$data->links()}} --}}
-    </div>
-
-
 @endsection

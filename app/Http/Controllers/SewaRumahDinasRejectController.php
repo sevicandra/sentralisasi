@@ -32,6 +32,7 @@ class SewaRumahDinasRejectController extends Controller
             'rumdinReject'=>sewaRumahDinas::countReject(),
             'rumdinUsulan'=>sewaRumahDinas::countUsulan(),
             'rumdinPenghentian'=>sewaRumahDinas::countPenghentian(),
+            'pageTitle'=>'Sewa Rumah Dinas',
         ]);
     }
 
@@ -62,6 +63,7 @@ class SewaRumahDinasRejectController extends Controller
             'rumdinReject'=>sewaRumahDinas::countReject(),
             'rumdinUsulan'=>sewaRumahDinas::countUsulan(),
             'rumdinPenghentian'=>sewaRumahDinas::countPenghentian(),
+            'pageTitle'=>'Sewa Rumah Dinas',
         ]);
     }
 

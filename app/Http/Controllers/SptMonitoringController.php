@@ -55,7 +55,7 @@ class SptMonitoringController extends Controller
         } else {
             $thn = request('thn');
         };
-        $spt = SPTPegawai::getByKdSatker($satker->kdsatker, $thn, $limit, $offset, request('search'))->data;
+        $spt = SPTPegawai::getByKdSatker($satker->kdsatker, $thn, $limit, $offset, request('nip'))->data;
         $count = SPTPegawai::countByKdSatker($satker->kdsatker, $thn)->data;
         $data = $this->paginate($spt, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
 
@@ -90,7 +90,8 @@ class SptMonitoringController extends Controller
         return view('spt.monitoring.detail.edit', [
             'data' => $data,
             'refJab' => $refJab,
-            'refPang' => $refPang
+            'refPang' => $refPang,
+            "pageTitle" => "SPT " . satker::where('kdsatker', $kdsatker)->first()->nmsatker,
         ]);
     }
 
