@@ -11,7 +11,7 @@
 
     .header table {
         top: 0px;
-        right: 75mm;
+        right: 90mm;
         position: absolute;
     }
 

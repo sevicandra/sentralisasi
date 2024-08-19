@@ -40,6 +40,7 @@ class Belanja51CreateMakanController extends Controller
             'bulan' => $bulan,
             'tahun' => $tahun,
             'thn' => $thn,
+            'pageTitle' => 'Uang Makan',
         ]);
     }
 
@@ -70,6 +71,7 @@ class Belanja51CreateMakanController extends Controller
             'satker' => $satker,
             'minDate' => $minDate,
             'maxDate' => $maxDate,
+            'pageTitle' => 'Uang Makan',
         ]);
     }
 
@@ -179,33 +181,5 @@ class Belanja51CreateMakanController extends Controller
             'nama' => 'Rekap Absensi ' . $permohonan->uraian,
         ]);
         return redirect('/belanja-51-v2/uang-makan/permohonan/')->with('berhasil', 'permohonan berhasil dibuat');
-    }
-
-
-    public function test()
-    {
-        $daysInMonth = Carbon::create(2024, 6, 1)->daysInMonth;
-        $data = AbsensiUangMakan::RekapTanggal(auth()->user()->kdsatker, 2024, 6);
-        // return $data->first()->data->where('tanggal', "2024-06-01")->first()->absensikeluar;
-        ob_start();
-        // return view('belanja-51.uang_makan.document.lampiran');
-        $html2pdf = ob_get_clean();
-
-        $html2pdf = new Html2Pdf('L', 'F4', 'en', false, 'UTF-8', array(10, 15, 10, 15), true);
-        $html2pdf->addFont('Arial');
-        $html2pdf->pdf->SetTitle('$permohonan->uraian');
-        $html2pdf->writeHTML(view('belanja-51.uang_makan.document.lampiran', [
-            'data' => $data,
-            'daysInMonth' => $daysInMonth,
-            'thn' => 2024,
-            'bln' => 6,
-        ]));
-
-        // Menetapkan header untuk memastikan PDF dikirim ke browser dan ditampilkan
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: inline; filename="document.pdf"');
-
-        // Output PDF ke browser
-        return $html2pdf->output('document.pdf', 'I');
     }
 }

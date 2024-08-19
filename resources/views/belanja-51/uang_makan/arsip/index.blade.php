@@ -67,8 +67,10 @@
                                     <div class="w-full h-full flex gap-1 justify-center">
                                         <a href="/belanja-51-v2/uang-makan/arsip/{{ $item->id }}"
                                             class="btn btn-xs btn-primary">Detail</a>
+                                        <a href="/belanja-51-v2/uang-makan/arsip/{{ $item->id }}/history"
+                                            class="btn btn-xs btn-primary">Riwayat</a>
                                         @if ($item->status == 'proses')
-                                            <form action="/belanja-51-v2/uang-makan/arsip/{{ $item->id }}"
+                                            <form action="/belanja-51-v2/uang-makan/arsip/{{ $item->id }}/batal"
                                                 method="post"
                                                 onsubmit="return confirm('Apakah Anda yakin akan mengirim data ini?');">
                                                 @csrf

@@ -33,5 +33,5 @@
             $notif += $uangMakanDraft;
         @endphp
     @endif
-    <x-module-button name="Benlanja 51" url="/belanja-51" icon="img/ico/belanja_51.png" notif="{{ $notif }}" />
+    <x-module-button name="Belanja 51" url="/belanja-51" icon="img/ico/belanja_51.png" notif="{{ $notif }}" />
 @endcanany

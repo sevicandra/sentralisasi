@@ -15,6 +15,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
 use App\Http\Controllers\DataPaymentController;
+use App\Http\Controllers\Belanja51TTEController;
 use App\Http\Controllers\SptMonitoringController;
 use App\Http\Controllers\Belanja51MakanController;
 use App\Http\Controllers\SewaRumahDinasController;
@@ -452,6 +453,7 @@ Route::controller(Belanja51MakanController::class)->group(function () {
     Route::patch('/belanja-51-v2/uang-makan/arsip/{id}/batal', 'batal')->middleware('auth:web,admin');
     Route::get('/belanja-51-v2/uang-makan/arsip', 'arsip')->middleware('auth:web,admin');
     Route::get('/belanja-51-v2/uang-makan/arsip/{id}', 'detailArsip')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/arsip/{id}/history', 'history')->middleware('auth:web,admin');
 });
 
 Route::controller(Belanja51AbsensiMakanController::class)->group(function () {
@@ -472,4 +474,14 @@ Route::controller(Belanja51CreateMakanController::class)->group(function () {
     Route::get('/belanja-51-v2/uang-makan/create/{thn}/{bln}', 'preview')->middleware('auth:web,admin');
     Route::post('/belanja-51-v2/uang-makan/create/{thn}/{bln}', 'store')->middleware('auth:web,admin');
     Route::get('/belanja-51-v2/uang-makan/test', 'test')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51TTEController::class)->group(function () {
+    Route::get('/belanja-51-v2/tte', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/tte/arsip', 'arsip')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/tte/arsip/{id}', 'detailArsip')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/tte/arsip/{id}/history', 'history')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/tte/{id}', 'detail')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/tte/{id}/tolak', 'tolak')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/tte/{id}', 'TTE')->middleware('auth:web,admin'); 
 });

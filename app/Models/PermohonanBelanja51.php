@@ -53,4 +53,14 @@ class PermohonanBelanja51 extends Model
     {
         return $data->where('kdsatker', $kdsatker)->where('status', '!=', 'draft')->where('jenis', 'makan');
     }
+
+    public function scopeTTE($data, $nip)
+    {
+        return $data->where('nip', $nip)->where('status', 'proses');
+    }
+
+    public function scopeArsipTTE($data, $nip)
+    {
+        return $data->where('nip', $nip)->where('status', ['kirim', 'approve', 'reject']);
+    }
 }

@@ -51,7 +51,9 @@ class Belanja51AbsensiMakanController extends Controller
             abort(403);
         }
 
-        return view('belanja-51.uang_makan.absensi.create');
+        return view('belanja-51.uang_makan.absensi.create',[
+            'pageTitle' => 'Uang Makan',
+        ]);
     }
 
     public function store(Request $request)
@@ -147,6 +149,7 @@ class Belanja51AbsensiMakanController extends Controller
             'data' => $data,
             'thn' => $thn,
             'bln' => $bln,
+            'pageTitle' => 'Uang Makan',
         ]);
     }
 
@@ -172,6 +175,7 @@ class Belanja51AbsensiMakanController extends Controller
             'data' => $data,
             'tahun' => $tahun,
             'bulan' => $bulan,
+            'pageTitle' => 'Uang Makan',
         ]);
     }
 

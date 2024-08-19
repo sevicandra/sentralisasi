@@ -40,10 +40,10 @@
     <li>
         <h2 class="menu-title">TTE</h2>
         <ul>
-            <li><a href="/belanja-51-v2/tte">Permohonan</a></li>
+            <li><a href="/belanja-51-v2/tte">Konsep</a></li>
         </ul>
         <ul>
-            <li><a href="/belanja-51-v2/arsip">Arsip</a></li>
+            <li><a href="/belanja-51-v2/tte/arsip">Arsip</a></li>
         </ul>
     </li>
 

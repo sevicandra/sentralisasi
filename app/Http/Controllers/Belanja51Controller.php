@@ -19,7 +19,9 @@ class Belanja51Controller extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        return view('belanja-51.index');   
+        return view('belanja-51.index', [
+            'pageTitle' => 'Belanja 51',
+        ]);   
     }
 
     public function document($path)
