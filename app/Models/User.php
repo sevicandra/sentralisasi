@@ -38,9 +38,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function scopeSatker(){
-        return $this    ->leftJoin('satkers', 'users.kdsatker', '=','satkers.kdsatker')
-                        ->select('users.*', 'satkers.nmsatker', 'satkers.order')
+    public function scopeSatker()
+    {
+        return $this->leftJoin('satkers', 'users.kdsatker', '=', 'satkers.kdsatker')
+            ->select('users.*', 'satkers.nmsatker', 'satkers.order')
         ;
     }
 
@@ -49,8 +50,9 @@ class User extends Authenticatable
         return $this->belongsToMany(role::class);
     }
 
-    public function is($access){
-        foreach($this->role()->get() as $role){
+    public function is($access)
+    {
+        foreach ($this->role()->get() as $role) {
             if ($role->kode === $access) {
                 return true;
             }
@@ -71,16 +73,22 @@ class User extends Authenticatable
 
     public function scopeSearch($data)
     {
-        if(request('search')){
-            return $data    ->where('nama', 'LIKE', '%'.request('search').'%')
-                            ->orwhere('nip', 'LIKE', '%'.request('search').'%')
-                            ->orwhere('users.kdsatker', 'LIKE', '%'.request('search').'%')
-                            ->orwhere('nmsatker', 'LIKE', '%'.request('search').'%');
+        if (request('search')) {
+            return $data->where('nama', 'LIKE', '%' . request('search') . '%')
+                ->orwhere('nip', 'LIKE', '%' . request('search') . '%')
+                ->orwhere('users.kdsatker', 'LIKE', '%' . request('search') . '%')
+                ->orwhere('nmsatker', 'LIKE', '%' . request('search') . '%');
         }
     }
 
     public function scopeOrder($data)
     {
         $data->orderBy('order')->orderBy('nip');
+    }
+    public function scopeAprSatker($data, $kdsatker)
+    {
+        return $data->where('kdsatker', $kdsatker)->whereHas('role', function ($q) {
+            return $q->where('kode', '09');
+        });
     }
 }

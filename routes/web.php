@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminRoleController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\Belanja51Controller;
 use App\Http\Controllers\AdminBulanController;
 use App\Http\Controllers\HonorariumController;
 use App\Http\Controllers\MonitoringController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\AdminSatkerController;
 use App\Http\Controllers\DataPaymentController;
 use App\Http\Controllers\SptMonitoringController;
+use App\Http\Controllers\Belanja51MakanController;
 use App\Http\Controllers\SewaRumahDinasController;
 use App\Http\Controllers\DataPaymentLainController;
 use App\Http\Controllers\AdminAdminSatkerController;
@@ -24,10 +26,12 @@ use App\Http\Controllers\MonitoringRincianController;
 use App\Http\Controllers\AdminPenandatanganController;
 use App\Http\Controllers\MonitoringPelaporanController;
 use App\Http\Controllers\PembayaranUangMakanController;
+use App\Http\Controllers\Belanja51CreateMakanController;
 use App\Http\Controllers\PembayaranUangLemburController;
 use App\Http\Controllers\SewaRumahDinasRejectController;
 use App\Http\Controllers\SewaRumahDinasUsulanController;
 use App\Http\Controllers\AdminRefPenandatanganController;
+use App\Http\Controllers\Belanja51AbsensiMakanController;
 use App\Http\Controllers\DataPaymentHonorariumController;
 use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringPenghasilanController;
@@ -63,16 +67,16 @@ Route::get('/login', function () {
     return view('welcome');
 })->name('sign-in')->middleware('guest:web,admin');
 
-Route::controller(LoginController::class)->group(function(){
+Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout')->middleware('auth:web,admin');
 });
 
-Route::controller(MonitoringController::class)->middleware('can:monitoring')->group(function(){
+Route::controller(MonitoringController::class)->middleware('can:monitoring')->group(function () {
     Route::get('/monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/monitoring/detail', 'detail')->middleware('auth:web,admin');
 });
 
-Route::controller(MonitoringRincianController::class)->middleware('can:monitoring')->group(function(){
+Route::controller(MonitoringRincianController::class)->middleware('can:monitoring')->group(function () {
     Route::get('/monitoring/rincian', 'index')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/penghasilan', 'penghasilan')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/penghasilan/{thn}', 'penghasilan')->middleware('auth:web,admin');
@@ -93,7 +97,7 @@ Route::controller(MonitoringRincianController::class)->middleware('can:monitorin
     // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/surat', 'penghasilan_surat')->middleware('auth:web,admin');
 });
 
-Route::controller(MonitoringLaporanController::class)->middleware('can:monitoring')->group(function(){
+Route::controller(MonitoringLaporanController::class)->middleware('can:monitoring')->group(function () {
     Route::get('/monitoring/laporan', 'index')->middleware('auth:web,admin');
     Route::get('/monitoring/laporan/profil/{nip}', 'profil')->middleware('auth:web,admin');
     // Route::get('/monitoring/laporan/profil/kp4', 'profil_kp4')->middleware('auth:web,admin');
@@ -108,7 +112,7 @@ Route::controller(MonitoringLaporanController::class)->middleware('can:monitorin
     // Route::get('/monitoring/laporan/dokumen-perubahan', 'dokumen_perubahan')->middleware('auth:web,admin');
 });
 
-Route::controller(MonitoringPenghasilanController::class)->middleware('can:monitoring')->group(function(){
+Route::controller(MonitoringPenghasilanController::class)->middleware('can:monitoring')->group(function () {
     Route::get('/monitoring/penghasilan', 'index')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/penghasilan', 'satker_penghasilan')->middleware('auth:web,admin');
@@ -127,10 +131,9 @@ Route::controller(MonitoringPenghasilanController::class)->middleware('can:monit
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}', 'satker_lainnya')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}', 'satker_lainnya')->middleware('auth:web,admin');
     Route::get('/monitoring/penghasilan/{satker:kdsatker}/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'satker_lainnya_detail')->middleware('auth:web,admin');
-
 });
 
-Route::controller(MonitoringPelaporanController::class)->middleware('can:monitoring')->group(function(){
+Route::controller(MonitoringPelaporanController::class)->middleware('can:monitoring')->group(function () {
     Route::get('/monitoring/pelaporan', 'index')->middleware('auth:web,admin');
     Route::get('/monitoring/pelaporan/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
     Route::get('/monitoring/pelaporan/{satker:kdsatker}/profil/{nip}', 'satker_profil')->middleware('auth:web,admin');
@@ -145,7 +148,7 @@ Route::controller(MonitoringPelaporanController::class)->middleware('can:monitor
     Route::get('/monitoring/pelaporan/{satker:kdsatker}/penghasilan-tahunan/{nip}/{thn}', 'satker_penghasilan_tahunan')->middleware('auth:web,admin');
 });
 
-Route::controller(PembayaranController::class)->middleware('can:belanja_51')->group(function(){
+Route::controller(PembayaranController::class)->middleware('can:belanja_51')->group(function () {
     Route::get('/belanja-51', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/index', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/index/{thn}', 'index')->middleware('auth:web,admin');
@@ -155,7 +158,7 @@ Route::controller(PembayaranController::class)->middleware('can:belanja_51')->gr
     Route::patch('/belanja-51/uang-lembur/{ul}/dokumen', 'dokumenUL')->middleware('auth:web,admin');
 });
 
-Route::controller(PembayaranUangMakanController::class)->middleware('can:belanja_51')->group(function(){
+Route::controller(PembayaranUangMakanController::class)->middleware('can:belanja_51')->group(function () {
     Route::get('/belanja-51/uang-makan', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/uang-makan/index', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/uang-makan/index/{thn}', 'index')->middleware('auth:web,admin');
@@ -169,7 +172,7 @@ Route::controller(PembayaranUangMakanController::class)->middleware('can:belanja
     Route::patch('/belanja-51/uang-makan/{dokumenUangMakan}/dokumen-excel', 'dokumen_excel')->middleware('auth:web,admin');
 });
 
-Route::controller(PembayaranUangLemburController::class)->middleware('can:belanja_51')->group(function(){
+Route::controller(PembayaranUangLemburController::class)->middleware('can:belanja_51')->group(function () {
     Route::get('/belanja-51/uang-lembur', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/uang-lembur/index', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/uang-lembur/index/{thn}', 'index')->middleware('auth:web,admin');
@@ -183,7 +186,7 @@ Route::controller(PembayaranUangLemburController::class)->middleware('can:belanj
     Route::patch('/belanja-51/uang-lembur/{dokumenUangLembur}/dokumen-excel', 'dokumen_excel')->middleware('auth:web,admin');
 });
 
-Route::controller(PembayaranUangMakanWilayahController::class)->middleware('can:belanja_51')->group(function(){
+Route::controller(PembayaranUangMakanWilayahController::class)->middleware('can:belanja_51')->group(function () {
     Route::get('/belanja-51/wilayah/uang-makan', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/wilayah/uang-makan/{thn}', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/wilayah/uang-makan/{thn}/{bln}', 'index')->middleware('auth:web,admin');
@@ -192,7 +195,7 @@ Route::controller(PembayaranUangMakanWilayahController::class)->middleware('can:
     Route::patch('/belanja-51/wilayah/uang-makan/{dokumenUangMakan}/dokumen-excel', 'dokumen_excel')->middleware('auth:web,admin');
 });
 
-Route::controller(PembayaranUangLemburWilayahController::class)->middleware('can:belanja_51')->group(function(){
+Route::controller(PembayaranUangLemburWilayahController::class)->middleware('can:belanja_51')->group(function () {
     Route::get('/belanja-51/wilayah/uang-lembur', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/wilayah/uang-lembur/{thn}', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/wilayah/uang-lembur/{thn}/{bln}', 'index')->middleware('auth:web,admin');
@@ -201,7 +204,7 @@ Route::controller(PembayaranUangLemburWilayahController::class)->middleware('can
     Route::patch('/belanja-51/wilayah/uang-lembur/{dokumenUangLembur}/dokumen-excel', 'dokumen_excel')->middleware('auth:web,admin');
 });
 
-Route::controller(PembayaranDokumenUangMakanController::class)->middleware('can:belanja_51')->group(function(){
+Route::controller(PembayaranDokumenUangMakanController::class)->middleware('can:belanja_51')->group(function () {
     Route::get('/belanja-51/dokumen-uang-makan', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-makan/rekap', 'rekap')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-makan/{thn}', 'index')->middleware('auth:web,admin');
@@ -213,7 +216,7 @@ Route::controller(PembayaranDokumenUangMakanController::class)->middleware('can:
     Route::patch('/belanja-51/dokumen-uang-makan/{dokumenUangMakan}/approve', 'approve')->middleware('auth:web,admin');
 });
 
-Route::controller(PembayaranDokumenUangLemburController::class)->middleware('can:belanja_51')->group(function(){
+Route::controller(PembayaranDokumenUangLemburController::class)->middleware('can:belanja_51')->group(function () {
     Route::get('/belanja-51/dokumen-uang-lembur', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-lembur/rekap', 'rekap')->middleware('auth:web,admin');
     Route::get('/belanja-51/dokumen-uang-lembur/{thn}', 'index')->middleware('auth:web,admin');
@@ -225,11 +228,11 @@ Route::controller(PembayaranDokumenUangLemburController::class)->middleware('can
     Route::patch('/belanja-51/dokumen-uang-lembur/{dokumenUangLembur}/approve', 'approve')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminController::class)->group(function(){
+Route::controller(AdminController::class)->group(function () {
     Route::get('/admin', 'index')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminUserController::class)->group(function(){
+Route::controller(AdminUserController::class)->group(function () {
     Route::get('/admin/user', 'index')->middleware('auth:web,admin');
     Route::get('/admin/user/create', 'create')->middleware('auth:web,admin');
     Route::get('/admin/user/{user:nip}/edit', 'edit')->middleware('auth:web,admin');
@@ -242,7 +245,7 @@ Route::controller(AdminUserController::class)->group(function(){
     Route::delete('/admin/user/{user:nip}/role/{role}', 'role_delete')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminRoleController::class)->group(function(){
+Route::controller(AdminRoleController::class)->group(function () {
     Route::get('/admin/role', 'index')->middleware('auth:web,admin');
     Route::get('/admin/role/create', 'create')->middleware('auth:web,admin');
     Route::post('/admin/role/store', 'store')->middleware('auth:web,admin');
@@ -250,7 +253,7 @@ Route::controller(AdminRoleController::class)->group(function(){
     Route::patch('/admin/role/{role}', 'update')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminSatkerController::class)->group(function(){
+Route::controller(AdminSatkerController::class)->group(function () {
     Route::get('/admin/satker', 'index')->middleware('auth:web,admin');
     Route::get('/admin/satker/create', 'create')->middleware('auth:web,admin');
     Route::post('/admin/satker/store', 'store')->middleware('auth:web,admin');
@@ -259,7 +262,7 @@ Route::controller(AdminSatkerController::class)->group(function(){
     Route::delete('/admin/satker/{satker:kdsatker}', 'delete')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminBulanController::class)->group(function(){
+Route::controller(AdminBulanController::class)->group(function () {
     Route::get('admin/bulan', 'index')->middleware('auth:web,admin');
     Route::get('admin/bulan/create', 'create')->middleware('auth:web,admin');
     Route::post('admin/bulan/store', 'store')->middleware('auth:web,admin');
@@ -267,7 +270,7 @@ Route::controller(AdminBulanController::class)->group(function(){
     Route::patch('admin/bulan/{bulan}/update', 'update')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminAdminSatkerController::class)->group(function(){
+Route::controller(AdminAdminSatkerController::class)->group(function () {
     Route::get('admin/admin-satker', 'index')->middleware('auth:web,admin');
     Route::get('admin/admin-satker/create', 'create')->middleware('auth:web,admin');
     Route::post('admin/admin-satker', 'store')->middleware('auth:web,admin');
@@ -276,7 +279,7 @@ Route::controller(AdminAdminSatkerController::class)->group(function(){
     Route::delete('admin/admin-satker/{adminSatker}', 'delete')->middleware('auth:web,admin');
 });
 
-Route::controller(HonorariumController::class)->middleware('can:honorarium')->group(function(){
+Route::controller(HonorariumController::class)->middleware('can:honorarium')->group(function () {
     Route::get('honorarium', 'index')->middleware('auth:web,admin');
     Route::get('honorarium/create', 'create')->middleware('auth:web,admin');
     Route::post('honorarium/import', 'import')->middleware('auth:web,admin');
@@ -293,18 +296,18 @@ Route::controller(HonorariumController::class)->middleware('can:honorarium')->gr
     Route::patch('honorarium/{dataHonorarium}/update-detail', 'updateDetail')->middleware('auth:web,admin');
 });
 
-Route::controller(DataPaymentController::class)->group(function(){
+Route::controller(DataPaymentController::class)->group(function () {
     Route::get('data-payment', 'index')->middleware('auth:web,admin');
 });
 
-Route::controller(DataPaymentServerController::class)->group(function(){
+Route::controller(DataPaymentServerController::class)->group(function () {
     Route::get('data-payment/server', 'index')->middleware('auth:web,admin');
     Route::get('data-payment/server/{id}/edit', 'edit')->middleware('auth:web,admin');
     Route::patch('data-payment/server/{id}', 'update')->middleware('auth:web,admin');
     Route::delete('data-payment/server/{id}', 'delete')->middleware('auth:web,admin');
 });
 
-Route::controller(DataPaymentHonorariumController::class)->group(function(){
+Route::controller(DataPaymentHonorariumController::class)->group(function () {
     Route::get('data-payment/honorarium', 'index')->middleware('auth:web,admin');
     Route::get('data-payment/honorarium/{file}/detail', 'detail')->middleware('auth:web,admin');
     Route::patch('data-payment/honorarium/{file}/dokumen', 'dokumen')->middleware('auth:web,admin');
@@ -314,7 +317,7 @@ Route::controller(DataPaymentHonorariumController::class)->group(function(){
     Route::delete('data-payment/honorarium/{dataHonorarium}/detail', 'tolakDetail')->middleware('auth:web,admin');
 });
 
-Route::controller(DataPaymentLainController::class)->group(function(){
+Route::controller(DataPaymentLainController::class)->group(function () {
     Route::get('/data-payment/lain', 'index')->middleware('auth:web,admin');
     Route::get('/data-payment/lain/create', 'create')->middleware('auth:web,admin');
     Route::post('/data-payment/lain', 'impor')->middleware('auth:web,admin');
@@ -327,7 +330,7 @@ Route::controller(DataPaymentLainController::class)->group(function(){
     Route::post('/data-payment/lain/{dataPembayaranLainnya}', 'uploaddetail')->middleware('auth:web,admin');
 });
 
-Route::controller(DataPaymentUploadHonorariumController::class)->group(function(){
+Route::controller(DataPaymentUploadHonorariumController::class)->group(function () {
     Route::get('/data-payment/upload/honorarium', 'index')->middleware('auth:web,admin');
     Route::get('/data-payment/upload/honorarium/{file}/dokumen', 'dokumen')->middleware('auth:web,admin');
     Route::delete('/data-payment/upload/honorarium/{file}', 'drop')->middleware('auth:web,admin');
@@ -335,14 +338,14 @@ Route::controller(DataPaymentUploadHonorariumController::class)->group(function(
     Route::delete('/data-payment/upload/honorarium/{dataHonorarium}/detail', 'dropDetail')->middleware('auth:web,admin');
 });
 
-Route::controller(DataPaymentUploadLainController::class)->group(function(){
+Route::controller(DataPaymentUploadLainController::class)->group(function () {
     Route::get('/data-payment/upload/lain', 'index')->middleware('auth:web,admin');
     Route::delete('/data-payment/upload/lain/{kdsatker}/{jenis}/{thn}/{bln}', 'drop')->middleware('auth:web,admin');
     Route::get('/data-payment/upload/lain/{kdsatker}/{jenis}/{thn}/{bln}/detail', 'detail')->middleware('auth:web,admin');
     Route::delete('/data-payment/upload/lain/{dataPembayaranLainnya}/detail', 'dropDetail')->middleware('auth:web,admin');
 });
 
-Route::controller(SptController::class)->middleware('can:spt')->group(function(){
+Route::controller(SptController::class)->middleware('can:spt')->group(function () {
     Route::get('/spt', 'index')->middleware('auth:web,admin');
     Route::get('/spt/create', 'create')->middleware('auth:web,admin');
     Route::get('/spt/import', 'import')->middleware('auth:web,admin');
@@ -353,7 +356,7 @@ Route::controller(SptController::class)->middleware('can:spt')->group(function()
     Route::delete('/spt/{id}', 'delete')->middleware('auth:web,admin');
 });
 
-Route::controller(SptMonitoringController::class)->middleware('can:spt')->group(function(){
+Route::controller(SptMonitoringController::class)->middleware('can:spt')->group(function () {
     Route::get('/spt-monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/spt-monitoring/{satker:kdsatker}', 'satker')->middleware('auth:web,admin');
     Route::get('/spt-monitoring/{kdsatker}/{id}/edit', 'edit')->middleware('auth:web,admin');
@@ -361,7 +364,7 @@ Route::controller(SptMonitoringController::class)->middleware('can:spt')->group(
     Route::delete('/spt-monitoring/{kdsatker}/{id}', 'delete')->middleware('auth:web,admin');
 });
 
-Route::controller(SewaRumahDinasController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin', 'index')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/create', 'create')->middleware('auth:web,admin');
     Route::post('/sewa-rumdin/create', 'store')->middleware('auth:web,admin');
@@ -375,7 +378,7 @@ Route::controller(SewaRumahDinasController::class)->middleware('can:rumdin')->gr
     Route::patch('/sewa-rumdin/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });
 
-Route::controller(SewaRumahDinasRejectController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasRejectController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin/reject', 'index')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/reject/{sewaRumahDinas}/edit', 'edit')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/reject/{sewaRumahDinas}/edit', 'update')->middleware('auth:web,admin');
@@ -384,44 +387,42 @@ Route::controller(SewaRumahDinasRejectController::class)->middleware('can:rumdin
     Route::patch('/sewa-rumdin/reject/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });
 
-Route::controller(SewaRumahDinasUsulanController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasUsulanController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin/usulan', 'index')->middleware('auth:web,admin');
-    Route::patch('/sewa-rumdin/usulan/{sewaRumahDinas}/tolak', 'tolak')->middleware('auth:web,admin'); 
+    Route::patch('/sewa-rumdin/usulan/{sewaRumahDinas}/tolak', 'tolak')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/usulan/{sewaRumahDinas}/approve', 'approve')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/usulan/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
-
 });
 
-Route::controller(SewaRumahDinasPenghentianController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasPenghentianController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin/penghentian', 'index')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/penghentian/{sewaRumahDinas}/approve', 'approve')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/penghentian/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
-
 });
 
-Route::controller(SewaRumahDinasNonAktifController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasNonAktifController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin/non-aktif', 'index')->middleware('auth:web,admin');
 });
 
-Route::controller(SewaRumahDinasMonitoringController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasMonitoringController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin/monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/monitoring/{kdsatker}', 'detail')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/monitoring/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });
 
-Route::controller(SewaRumahDinasMonitoringNonAktifController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasMonitoringNonAktifController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin/monitoring-nonaktif', 'index')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/monitoring-nonaktif/{kdsatker}', 'detail')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/monitoring-nonaktif/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });
 
-Route::controller(SewaRumahDinasMonitoringWilayahController::class)->middleware('can:rumdin')->group(function(){
+Route::controller(SewaRumahDinasMonitoringWilayahController::class)->middleware('can:rumdin')->group(function () {
     Route::get('/sewa-rumdin/wilayah/monitoring', 'index')->middleware('auth:web,admin');
     Route::get('/sewa-rumdin/wilayah/monitoring/{kdsatker}', 'detail')->middleware('auth:web,admin');
     Route::patch('/sewa-rumdin/wilayah/monitoring/{sewaRumahDinas}/dokumen', 'dokumen')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminPenandatanganController::class)->group(function(){
+Route::controller(AdminPenandatanganController::class)->group(function () {
     Route::get('admin/penandatangan', 'index')->middleware('auth:web,admin');
     Route::get('admin/penandatangan/create', 'create')->middleware('auth:web,admin');
     Route::post('admin/penandatangan/create', 'store')->middleware('auth:web,admin');
@@ -429,11 +430,46 @@ Route::controller(AdminPenandatanganController::class)->group(function(){
     Route::patch('admin/penandatangan/{id}', 'update')->middleware('auth:web,admin');
 });
 
-Route::controller(AdminRefPenandatanganController::class)->group(function(){
+Route::controller(AdminRefPenandatanganController::class)->group(function () {
     Route::get('admin/ref-penandatangan', 'index')->middleware('auth:web,admin');
     Route::get('admin/ref-penandatangan/{kdsatker}', 'satker')->middleware('auth:web,admin');
     Route::get('admin/ref-penandatangan/{kdsatker}/create', 'create')->middleware('auth:web,admin');
     Route::post('admin/ref-penandatangan/{kdsatker}/create', 'store')->middleware('auth:web,admin');
     Route::get('admin/ref-penandatangan/{kdsatker}/{id}/edit', 'edit')->middleware('auth:web,admin');
     Route::patch('admin/ref-penandatangan/{kdsatker}/{id}/edit', 'update')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51Controller::class)->group(function () {
+    Route::get('/belanja-51-v2', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/document/{path}', 'document')->where('path', '.*')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51MakanController::class)->group(function () {
+    Route::get('/belanja-51-v2/uang-makan/permohonan', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/permohonan/{id}', 'detail')->middleware('auth:web,admin');
+    Route::delete('/belanja-51-v2/uang-makan/permohonan/{id}', 'destroy')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-makan/permohonan/{id}', 'kirim')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-makan/arsip/{id}/batal', 'batal')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/arsip', 'arsip')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/arsip/{id}', 'detailArsip')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51AbsensiMakanController::class)->group(function () {
+    Route::get('/belanja-51-v2/uang-makan/absensi', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/absensi/create', 'create')->middleware('auth:web,admin');
+    Route::post('/belanja-51-v2/uang-makan/absensi/create', 'store')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/absensi/{id}/edit', 'edit')->middleware('auth:web,admin');
+    Route::delete('/belanja-51-v2/uang-makan/absensi/{AbsensiUangMakan}', 'destroy')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-makan/absensi/{AbsensiUangMakan}/edit', 'update')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/absensi/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/absensi/{thn}/{bln}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/absensi/{thn}/{bln}/{nip}', 'detail')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51CreateMakanController::class)->group(function () {
+    Route::get('/belanja-51-v2/uang-makan/create', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/create/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/create/{thn}/{bln}', 'preview')->middleware('auth:web,admin');
+    Route::post('/belanja-51-v2/uang-makan/create/{thn}/{bln}', 'store')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-makan/test', 'test')->middleware('auth:web,admin');
 });

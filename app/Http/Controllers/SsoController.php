@@ -46,6 +46,10 @@ class SsoController extends Controller
                         $admin=adminSatker::where('kdunit', $userinfo->kode_organisasi)->first();
                         if (isset($admin->id)) {
                             Auth::guard('admin')->loginUsingId($admin->id);
+                            $admin->update([
+                                'nama' => $userinfo->name,
+                                'nip' => $userinfo->nip
+                            ]);
                             $request->session()->regenerate();
                             $request->session()->put('gravatar', $userinfo->gravatar);
                             $request->session()->put('name', $userinfo->name);

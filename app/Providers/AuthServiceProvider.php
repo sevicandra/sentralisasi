@@ -94,5 +94,9 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             };
         });
+
+        Gate::define('approver', function(User $user){
+            return $user->is('09');
+        });
     }
 }
