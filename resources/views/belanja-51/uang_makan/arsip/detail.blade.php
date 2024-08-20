@@ -53,7 +53,7 @@
                                     </tr>
                                 </x-table.header>
                                 <x-table.body>
-                                    @foreach ($permohonan->dokumen as $item)
+                                    @foreach ($permohonan->lampiran as $item)
                                         <tr class="*:border">
                                             <x-table.body.column
                                                 class="text-center">{{ $loop->iteration }}</x-table.body.column>

@@ -56,7 +56,7 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
         return view('belanja-51.uang_lembur.detail', [
-            'permohonan' => PermohonanBelanja51::with(['lampiran', 'history'])->find($id->id),
+            'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
             'spkl' => $id->spkl,
             'sptjm' => $id->sptjm,
@@ -77,7 +77,7 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
         return view('belanja-51.uang_lembur.arsip.detail', [
-            'permohonan' => PermohonanBelanja51::with(['dokumen'])->find($id->id),
+            'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
         ]);
     }
