@@ -53,10 +53,54 @@
                                     </tr>
                                 </x-table.header>
                                 <x-table.body>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+
                                     @foreach ($permohonan->lampiran as $item)
                                         <tr class="*:border">
                                             <x-table.body.column
-                                                class="text-center">{{ $loop->iteration }}</x-table.body.column>
+                                                class="text-center">{{ $i++ }}</x-table.body.column>
+                                            <x-table.body.column
+                                                class="whitespace-nowrap">{{ $item->nama }}</x-table.body.column>
+                                            <x-table.body.column class="text-center">
+                                                <a href="{{ env('APP_URL') }}/belanja-51-v2/document/{{ $item->file }}"
+                                                    class="btn btn-xs btn-primary btn-outline" target="_blank">Preview</a>
+                                            </x-table.body.column>
+                                            <x-table.body.column class="text-center">
+                                                <div
+                                                    class="badge badge-sm @switch($item->status)
+                                                @case('draft')
+                                                    badge-warning
+                                                    @break
+
+                                                @case('proses')
+                                                    badge-info
+                                                    @break
+
+                                                @case('success')
+                                                    badge-success
+                                                    @break
+
+                                                @case('failed')
+                                                    badge-error
+                                                    @break
+                                                @default
+                                            @endswitch">
+                                                    {{ $item->status }}
+                                                </div>
+                                            </x-table.body.column>
+                                            <x-table.body.column class="text-center">
+                                                @if ($item->status == 'failed')
+                                                    <button class="btn btn-xs btn-success">TTE</button>
+                                                @endif
+                                            </x-table.body.column>
+                                        </tr>
+                                    @endforeach
+                                    @foreach ($permohonan->dokumen as $item)
+                                        <tr class="*:border">
+                                            <x-table.body.column
+                                                class="text-center">{{ $i++ }}</x-table.body.column>
                                             <x-table.body.column
                                                 class="whitespace-nowrap">{{ $item->nama }}</x-table.body.column>
                                             <x-table.body.column class="text-center">

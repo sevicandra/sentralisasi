@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Kop;
 use App\Models\User;
 use App\Models\Nomor;
 use App\Models\satker;
+use App\Models\adminSatker;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spipu\Html2Pdf\Html2Pdf;
-use Illuminate\Support\Carbon;
-use App\Models\AbsensiUangMakan;
-use App\Models\adminSatker;
+use App\Models\AbsensiUangLembur;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
-class Belanja51CreateMakanController extends Controller
+class Belanja51CreateLemburController extends Controller
 {
     public function index($thn = null)
     {
         if (Auth::guard('web')->check()) {
             $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
-            $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
-            $gate2 = [];
         }
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
@@ -34,13 +32,13 @@ class Belanja51CreateMakanController extends Controller
         if (!$thn) {
             $thn = date('Y');
         }
-        $tahun = AbsensiUangMakan::tahun(auth()->user()->kdsatker);
-        $bulan = AbsensiUangMakan::RekapBulanan(auth()->user()->kdsatker, $thn)->get();
-        return view('belanja-51.uang_makan.create.index', [
+        $tahun = AbsensiUangLembur::tahun(auth()->user()->kdsatker);
+        $bulan = AbsensiUangLembur::RekapBulanan(auth()->user()->kdsatker, $thn)->get();
+        return view('belanja-51.uang_lembur.create.index', [
             'bulan' => $bulan,
             'tahun' => $tahun,
             'thn' => $thn,
-            'pageTitle' => 'Uang Makan',
+            'pageTitle' => 'Uang Lembur',
         ]);
     }
 
@@ -56,11 +54,11 @@ class Belanja51CreateMakanController extends Controller
         }
         $minDate = Carbon::create($thn, $bln, 1)->format('Y-m-d');
         $maxDate = Carbon::create($thn, $bln)->endOfMonth()->format('Y-m-d');
-        $data = AbsensiUangMakan::rekap(auth()->user()->kdsatker, $thn, $bln)->get();
+        $data = AbsensiUangLembur::rekap(auth()->user()->kdsatker, $thn, $bln)->get();
         $aprSatker = User::AprSatker(auth()->user()->kdsatker)->get();
         $adminSatker = adminSatker::where('kdsatker', auth()->user()->kdsatker)->first();
         $satker = satker::where('kdsatker', auth()->user()->kdsatker)->first();
-        return view('belanja-51.uang_makan.create.preview', [
+        return view('belanja-51.uang_lembur.create.preview', [
             'data' => $data,
             'thn' => $thn,
             'bln' => $bln,
@@ -69,12 +67,13 @@ class Belanja51CreateMakanController extends Controller
             'satker' => $satker,
             'minDate' => $minDate,
             'maxDate' => $maxDate,
-            'pageTitle' => 'Uang Makan',
+            'pageTitle' => 'Uang Lembur',
         ]);
     }
 
     public function store($thn, $bln, Request $request)
     {
+        // return $request;
         if (Auth::guard('web')->check()) {
             $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
         } else {
@@ -104,7 +103,7 @@ class Belanja51CreateMakanController extends Controller
             'kdunit' => 0000,
             'tahun' => $thn,
             'bulan' => $bln,
-            'jenis' => 'makan',
+            'jenis' => 'lembur',
             'uraian' => $request->uraian,
             'status' => 'draft',
             'nip' => explode('/',$request->penandatangan)[0],
@@ -125,22 +124,22 @@ class Belanja51CreateMakanController extends Controller
         ]);
         $minDate = request('min') ?? Carbon::create($thn, $bln, 1)->format('Y-m-d');
         $maxDate = request('max') ?? Carbon::create($thn, $bln)->endOfMonth()->format('Y-m-d');
-        $data = AbsensiUangMakan::where('kdsatker', auth()->user()->kdsatker)
+        $data = AbsensiUangLembur::where('kdsatker', auth()->user()->kdsatker)
             ->whereBetween('tanggal', [$minDate, $maxDate])
             ->whereYear('tanggal', $thn)
             ->whereMonth('tanggal', $bln)
             ->whereIn('nip', $request->data)
-            ->orderBy('golongan', 'asc')
-            ->orderBy('nip', 'asc')
             ->get();
         foreach ($data as $item) {
-            $permohonan->dataMakan()->create([
+            $permohonan->dataLembur()->create([
                 'golongan' => $item->golongan,
                 'nip' => $item->nip,
                 'nama' => $item->nama,
                 'tanggal' => $item->tanggal,
                 'absensimasuk' => $item->absensimasuk,
                 'absensikeluar' => $item->absensikeluar,
+                'jenishari' => $item->jenishari,
+                'jumlahjam' => $item->jumlahjam,
             ]);
         }
         ob_start();
@@ -148,8 +147,8 @@ class Belanja51CreateMakanController extends Controller
         $html2pdf = new Html2Pdf('P', 'A4', 'en', false, 'UTF-8', array(18, 15, 15, 15), true);
         $html2pdf->addFont('Arial');
         $html2pdf->pdf->SetTitle($permohonan->uraian);
-        $html2pdf->writeHTML(view('belanja-51.uang_makan.document.permohonan', [
-            'data' => $permohonan->dataMakan()->rekap()->get(),
+        $html2pdf->writeHTML(view('belanja-51.uang_lembur.document.permohonan', [
+            'data' => $permohonan->dataLembur()->rekap()->get(),
             'permohonan' => $permohonan,
             'nomor' => $permohonan->nomor,
             'kop' => $kop,
@@ -163,13 +162,13 @@ class Belanja51CreateMakanController extends Controller
             'file' => $filename
         ]);
         $daysInMonth = Carbon::create(2024, 6, 1)->daysInMonth;
-        $dataAbsensi = $permohonan->dataMakan()->RekapTanggal();
+        $dataAbsensi = $permohonan->dataLembur()->RekapTanggal();
         ob_start();
         $html2pdf = ob_get_clean();
         $html2pdf = new Html2Pdf('L', 'F4', 'en', false, 'UTF-8', array(10, 15, 10, 15), true);
         $html2pdf->addFont('Arial');
         $html2pdf->pdf->SetTitle('Lampiran ' . $permohonan->uraian);
-        $html2pdf->writeHTML(view('belanja-51.uang_makan.document.lampiran', [
+        $html2pdf->writeHTML(view('belanja-51.uang_lembur.document.lampiran', [
             'data' => $dataAbsensi,
             'daysInMonth' => $daysInMonth,
             'thn' => 2024,
@@ -187,6 +186,6 @@ class Belanja51CreateMakanController extends Controller
             'file' => $lampiranname,
             'nama' => 'Rekap Absensi ' . $permohonan->uraian,
         ]);
-        return redirect('/belanja-51-v2/uang-makan/permohonan/')->with('berhasil', 'permohonan berhasil dibuat');
+        return redirect('/belanja-51-v2/uang-lembur/permohonan/')->with('berhasil', 'permohonan berhasil dibuat');
     }
 }

@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('file_permohonan_belanja51s', function (Blueprint $table) {
+        Schema::create('data_permohonan_uang_lemburs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('permohonan_id');
-            $table->enum('type', ['lampiran', 'sptjm', 'spkl', 'lpt'])->nullable();
+            $table->string('golongan', 2);
+            $table->string('nip', 18);
             $table->string('nama');
-            $table->string('file');
-            $table->string('id_dokumen')->nullable();
-            $table->string('date')->nullable();
-            $table->enum('status', ['draft', 'proses', 'success', 'failed'])->default('draft');
+            $table->date('tanggal');
+            $table->enum('jenishari', ['kerja', 'libur']);
+            $table->string('absensimasuk');
+            $table->string('absensikeluar');
+            $table->string('jumlahjam');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('file_permohonan_belanja51s');
+        Schema::dropIfExists('data_permohonan_uang_lemburs');
     }
 };

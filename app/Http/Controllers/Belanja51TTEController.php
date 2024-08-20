@@ -41,9 +41,8 @@ class Belanja51TTEController extends Controller
         if ($id->nip != auth()->user()->nip || $id->status != 'proses') {
             abort(403);
         }
-
         return view('belanja-51.TTE.detail', [
-            'permohonan' => PermohonanBelanja51::with(['lampiran', 'history'])->find($id->id),
+            'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
         ]);
     }
@@ -103,14 +102,17 @@ class Belanja51TTEController extends Controller
                 'nip' => Auth::user()->nip,
                 'nama' => Auth::user()->nama,
             ]);
-            $id->lampiran()->update([
+            $id->dokumen()->update([
                 'status' => 'proses',
             ]);
             $id->update([
                 'status' => 'kirim',
             ]);
             foreach ($id->lampiran as $item) {
-                return $item->TTE($id->nomor, session('nik'), $request->passphrase);
+                $item->TTE($id->nomor, session('nik'), $request->passphrase);
+            }
+            foreach ($id->dokumen as $item) {
+                $item->TTEAxis($id->nomor, session('nik'), $request->passphrase);
             }
             return redirect('/belanja-51-v2/tte')->with('berhasil', 'data berhasil dikirim');
         } catch (\GuzzleHttp\Exception\ClientException $th) {
@@ -152,7 +154,7 @@ class Belanja51TTEController extends Controller
         }
 
         return view('belanja-51.TTE.arsip.detail', [
-            'permohonan' => PermohonanBelanja51::with(['lampiran', 'history'])->find($id->id),
+            'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
         ]);
     }

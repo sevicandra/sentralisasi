@@ -36,7 +36,8 @@ class Belanja51AbsensiMakanController extends Controller
             'tahun' => $tahun,
             'bulan' => $bulan,
             'bln' => $bln,
-            'data' => $data
+            'data' => $data,
+            'pageTitle' => 'Uang Makan',
         ]);
     }
 

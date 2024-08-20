@@ -19,6 +19,7 @@ use App\Http\Controllers\Belanja51TTEController;
 use App\Http\Controllers\SptMonitoringController;
 use App\Http\Controllers\Belanja51MakanController;
 use App\Http\Controllers\SewaRumahDinasController;
+use App\Http\Controllers\Belanja51LemburController;
 use App\Http\Controllers\DataPaymentLainController;
 use App\Http\Controllers\AdminAdminSatkerController;
 use App\Http\Controllers\DataPaymentServerController;
@@ -33,9 +34,11 @@ use App\Http\Controllers\SewaRumahDinasRejectController;
 use App\Http\Controllers\SewaRumahDinasUsulanController;
 use App\Http\Controllers\AdminRefPenandatanganController;
 use App\Http\Controllers\Belanja51AbsensiMakanController;
+use App\Http\Controllers\Belanja51CreateLemburController;
 use App\Http\Controllers\DataPaymentHonorariumController;
 use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringPenghasilanController;
+use App\Http\Controllers\Belanja51AbsensiLemburController;
 use App\Http\Controllers\SewaRumahDinasNonAktifController;
 use App\Http\Controllers\SewaRumahDinasMonitoringController;
 use App\Http\Controllers\SewaRumahDinasPenghentianController;
@@ -483,5 +486,43 @@ Route::controller(Belanja51TTEController::class)->group(function () {
     Route::get('/belanja-51-v2/tte/arsip/{id}/history', 'history')->middleware('auth:web,admin');
     Route::get('/belanja-51-v2/tte/{id}', 'detail')->middleware('auth:web,admin');
     Route::patch('/belanja-51-v2/tte/{id}/tolak', 'tolak')->middleware('auth:web,admin');
-    Route::patch('/belanja-51-v2/tte/{id}', 'TTE')->middleware('auth:web,admin'); 
+    Route::patch('/belanja-51-v2/tte/{id}', 'TTE')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51LemburController::class)->group(function () {
+    Route::get('/belanja-51-v2/uang-lembur/permohonan', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/permohonan/{id}', 'detail')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-lembur/permohonan/{id}/spkl', 'uploadSPKL')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-lembur/permohonan/{id}/sptjm', 'uploadSPTJM')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-lembur/permohonan/{id}/lpt', 'uploadLPT')->middleware('auth:web,admin');
+    Route::delete('/belanja-51-v2/uang-lembur/permohonan/{id}/spkl', 'deleteSPKL')->middleware('auth:web,admin');
+    Route::delete('/belanja-51-v2/uang-lembur/permohonan/{id}/sptjm', 'deleteSPTJM')->middleware('auth:web,admin');
+    Route::delete('/belanja-51-v2/uang-lembur/permohonan/{id}/lpt', 'deleteLPT')->middleware('auth:web,admin');
+    Route::delete('/belanja-51-v2/uang-lembur/permohonan/{id}', 'destroy')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-lembur/permohonan/{id}', 'kirim')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-lembur/arsip/{id}/batal', 'batal')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/arsip', 'arsip')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/arsip/{id}', 'detailArsip')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/arsip/{id}/history', 'history')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51AbsensiLemburController::class)->group(function () {
+    Route::get('/belanja-51-v2/uang-lembur/absensi', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/absensi/create', 'create')->middleware('auth:web,admin');
+    Route::post('/belanja-51-v2/uang-lembur/absensi/create', 'store')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/absensi/template', 'template')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/absensi/{id}/edit', 'edit')->middleware('auth:web,admin');
+    Route::delete('/belanja-51-v2/uang-lembur/absensi/{AbsensiUangLembur}', 'destroy')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-v2/uang-lembur/absensi/{AbsensiUangLembur}/edit', 'update')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/absensi/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/absensi/{thn}/{bln}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/absensi/{thn}/{bln}/{nip}', 'detail')->middleware('auth:web,admin');
+});
+
+Route::controller(Belanja51CreateLemburController::class)->group(function () {
+    Route::get('/belanja-51-v2/uang-lembur/create', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/create/{thn}', 'index')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/create/{thn}/{bln}', 'preview')->middleware('auth:web,admin');
+    Route::post('/belanja-51-v2/uang-lembur/create/{thn}/{bln}', 'store')->middleware('auth:web,admin');
+    Route::get('/belanja-51-v2/uang-lembur/test', 'test')->middleware('auth:web,admin');
 });

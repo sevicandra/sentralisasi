@@ -20,7 +20,8 @@
                             </div>
                         </div>
                         <div class="flex gap-2 p-2">
-                            <a href="/belanja-51-v2/uang-makan/absensi" class="btn btn-xs btn-secondary">Kembali</a>
+                            <a href="/belanja-51-v2/uang-lembur/absensi" class="btn btn-xs btn-secondary">Kembali</a>
+                            <a href="/belanja-51-v2/uang-lembur/absensi/template" class="btn btn-xs btn-secondary">Template</a>
                             <button type="submit" class="btn btn-xs btn-success">Simpan</button>
                         </div>
                     </div>

@@ -72,7 +72,7 @@ class Belanja51MakanController extends Controller
             abort(403);
         }
         return view('belanja-51.uang_makan.arsip.detail', [
-            'permohonan' => PermohonanBelanja51::with(['lampiran', 'history'])->find($id->id),
+            'permohonan' => PermohonanBelanja51::with(['dokumen'])->find($id->id),
             'pageTitle' => $id->uraian,
         ]);
     }

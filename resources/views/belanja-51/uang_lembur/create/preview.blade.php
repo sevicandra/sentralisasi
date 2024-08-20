@@ -7,7 +7,7 @@
         <div class="flex gap-2 flex-wrap py-2 px-4">
             <div class="breadcrumbs text-sm">
                 <ul>
-                    <li><a href="/belanja-51-v2/uang-makan/create">Periode</a></li>
+                    <li><a href="/belanja-51-v2/uang-lembur/create">Periode</a></li>
                     <li>
                         <span class="btn btn-xs btn-ghost btn-active">
                             Preview
@@ -53,7 +53,8 @@
                                             <x-table.header.column>No</x-table.header.column>
                                             <x-table.header.column>Nama</x-table.header.column>
                                             <x-table.header.column>NIP</x-table.header.column>
-                                            <x-table.header.column>Jumlah Hari</x-table.header.column>
+                                            <x-table.header.column>Jumlah Jam Hari Kerja</x-table.header.column>
+                                            <x-table.header.column>Jumlah Jam Hari Libur</x-table.header.column>
                                             <x-table.header.column> <input type="checkbox" class="checkbox checkbox-sm"
                                                     id="select-all" /></x-table.header.column>
                                         </tr>
@@ -66,7 +67,9 @@
                                                 <x-table.body.column>{{ $item->nama }}</x-table.body.column>
                                                 <x-table.body.column>{{ $item->nip }}</x-table.body.column>
                                                 <x-table.body.column
-                                                    class="text-center">{{ $item->jml }}</x-table.body.column>
+                                                    class="text-center">{{ $item->jumlahjamkerja }}</x-table.body.column>
+                                                <x-table.body.column
+                                                    class="text-center">{{ $item->jumlahjamlibur }}</x-table.body.column>
                                                 <x-table.body.column class="text-center">
                                                     <input type="checkbox" class="checkbox checkbox-sm checkbox-selected"
                                                         name="data[]" value="{{ $item->nip }}" />
@@ -79,7 +82,7 @@
                             <div class="p-2">
                                 @csrf
                                 <x-input name="uraian"
-                                    value="{{ old('uraian', 'Permohonan Pembayaran Uang Makan Periode Bulan ' . \Carbon\Carbon::createFromDate(null, $bln)->translatedFormat('F') . ' Tahun ' . $thn) }}"
+                                    value="{{ old('uraian', 'Permohonan Pembayaran Uang Lembur Periode Bulan ' . \Carbon\Carbon::createFromDate(null, $bln)->translatedFormat('F') . ' Tahun ' . $thn) }}"
                                     label="Uraian:" size="w-full" :required="true" />
                                 <x-select name="penandatangan" label="Penandatangan:" size="w-full" :required="true">
                                     @foreach ($approval as $item)
@@ -87,7 +90,7 @@
                                         </option>
                                     @endforeach
                                     @if ($admin)
-                                        <option value='{{ $admin->nip }}/{{ $admin->nama }}'>{{ $admin->nama }}
+                                        <option value='{{ $admin->nip }}/{{ $item->nama }}'>{{ $admin->nama }}
                                         </option>
                                     @endif
                                 </x-select>
@@ -97,7 +100,7 @@
                             </div>
                         </div>
                         <div class="flex gap-2 p-2 justify-end">
-                            <a href="/belanja-51-v2/uang-makan/create" class="btn btn-xs btn-secondary">Kembali</a>
+                            <a href="/belanja-51-v2/uang-lembur/create" class="btn btn-xs btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-xs btn-success">Proses</button>
                         </div>
                     </div>

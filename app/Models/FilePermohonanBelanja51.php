@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helper\Esign\Tte;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,12 @@ class FilePermohonanBelanja51 extends Model
             }
         });
     }
+    protected static function booted()
+    {
+        static::deleting(function ($filePermohonan) {
+            Storage::delete($filePermohonan->file);
+        });
+    }
 
     public function permohonan()
     {
@@ -35,7 +42,34 @@ class FilePermohonanBelanja51 extends Model
             $response = $tte->esign([
                 'tujuan' => "Sekretaris Direktorat Jenderal Kekayaan Negara c.q. Kepala Bagian Keuangan",
                 'nomor' => $nomor,
-                'jenis_dokumen' => "Register Permohonan Uang Makan",
+                'jenis_dokumen' => "Register Permohonan Uang Makan/Lembur",
+                'perihal' => $this->nama,
+                'linkQR' => config('app.url') . '/belanja-51-v2/document/' . $this->file,
+                'file' => $this->file,
+            ], $nik, $passpharse);
+            $result = $response->getBody()->getContents();
+            $result_header = $response->getHeaders();
+            Storage::put($this->file, $result);
+            $this->update([
+                'status' => 'success',
+                'date' => $result_header['Date'][0],
+                'id_dokumen' => $result_header['id_dokumen'][0],
+            ]);
+        } catch (\Throwable $th) {
+            $this->update([
+                'status' => 'failed',
+            ]);
+        }
+    }
+
+    public function TTEAxis($nomor, $nik, $passpharse)
+    {
+        try {
+            $tte = new Tte();
+            $response = $tte->esignXY([
+                'tujuan' => "Sekretaris Direktorat Jenderal Kekayaan Negara c.q. Kepala Bagian Keuangan",
+                'nomor' => $nomor,
+                'jenis_dokumen' => "Register Permohonan Uang Makan/Lembur",
                 'perihal' => $this->nama,
                 'linkQR' => config('app.url') . '/belanja-51-v2/document/' . $this->file,
                 'file' => $this->file,

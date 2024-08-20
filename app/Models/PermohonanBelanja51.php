@@ -18,7 +18,8 @@ class PermohonanBelanja51 extends Model
 
         static::deleting(function ($data) {
             $data->dataMakan()->delete();
-            foreach ($data->lampiran as $lampiran) {
+            $data->dataLembur()->delete();
+            foreach ($data->dokumen as $lampiran) {
                 Storage::delete($lampiran->file);
                 $lampiran->delete();
             }
@@ -34,9 +35,33 @@ class PermohonanBelanja51 extends Model
         return $this->hasMany(DataPermohonanUangMakan::class, 'permohonan_id', 'id');
     }
 
+    public function dataLembur()
+    {
+        return $this->hasMany(DataPermohonanUangLembur::class, 'permohonan_id', 'id');
+    }
+
+    public function dokumen()
+    {
+        return $this->hasMany(FilePermohonanBelanja51::class, 'permohonan_id', 'id')->where('type', '!=', null);
+    }
     public function lampiran()
     {
-        return $this->hasMany(FilePermohonanBelanja51::class, 'permohonan_id', 'id');
+        return $this->hasMany(FilePermohonanBelanja51::class, 'permohonan_id', 'id')->where('type', null);
+    }
+
+    public function spkl()
+    {
+        return $this->hasOne(FilePermohonanBelanja51::class, 'permohonan_id', 'id')->where('type', 'spkl');
+    }
+
+    public function sptjm()
+    {
+        return $this->hasOne(FilePermohonanBelanja51::class, 'permohonan_id', 'id')->where('type', 'sptjm');
+    }
+
+    public function lpt()
+    {
+        return $this->hasOne(FilePermohonanBelanja51::class, 'permohonan_id', 'id')->where('type', 'lpt');
     }
 
     public function history()
@@ -52,6 +77,16 @@ class PermohonanBelanja51 extends Model
     public function scopeArsipMakan($data, $kdsatker)
     {
         return $data->where('kdsatker', $kdsatker)->where('status', '!=', 'draft')->where('jenis', 'makan');
+    }
+
+    public function scopeDraftLembur($data, $kdsatker)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('status', 'draft')->where('jenis', 'lembur');
+    }
+
+    public function scopeArsipLembur($data, $kdsatker)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('status', '!=', 'draft')->where('jenis', 'lembur');
     }
 
     public function scopeTTE($data, $nip)
