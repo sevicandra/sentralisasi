@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         <div class="flex gap-2 p-2">
-                            <a href="/belanja-51-v2/uang-makan/absensi/{{ $tahun }}/{{ $bulan }}/{{ $data->nip }}"
+                            <a href="/belanja-51-vertikal/uang-makan/absensi/{{ $tahun }}/{{ $bulan }}/{{ $data->nip }}"
                                 class="btn btn-xs btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-xs btn-success">Simpan</button>
                         </div>

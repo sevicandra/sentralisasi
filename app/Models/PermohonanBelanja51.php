@@ -98,4 +98,24 @@ class PermohonanBelanja51 extends Model
     {
         return $data->where('nip', $nip)->where('status', ['kirim', 'approve', 'reject']);
     }
+
+    public function scopeDraftMakanPusat($data, $kdsatker, $kdunit)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->where('status', 'draft')->where('jenis', 'makan');
+    }
+
+    public function scopeArsipMakanPusat($data, $kdsatker, $kdunit)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->where('status', '!=', 'draft')->where('jenis', 'makan');
+    }
+
+    public function scopeDraftLemburPusat($data, $kdsatker, $kdunit)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->where('status', 'draft')->where('jenis', 'lembur');
+    }
+
+    public function scopeArsipLemburPusat($data, $kdsatker, $kdunit)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->where('status', '!=', 'draft')->where('jenis', 'lembur');
+    }
 }

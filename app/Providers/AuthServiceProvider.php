@@ -8,7 +8,6 @@ use App\Models\role;
 use App\Models\User;
 use App\Models\adminSatker;
 use App\Models\satker;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -33,13 +32,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('admin_satker', function (adminSatker $user) {
-            return true ;
+            return true;
         });
-        
+
         Gate::define('sys_admin', function (User $user) {
             return $user->is('01') === true && $user->kdsatker === '411792';
         });
-        
+
         Gate::define('plt_admin_satker', function (User $user) {
             return $user->is('02');
         });
@@ -50,6 +49,14 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('opr_belanja_51', function (User $user) {
             return $user->is('04');
+        });
+
+        Gate::define('opr_belanja_51_pusat', function (User $user) {
+            return $user->is('04') && $user->kdsatker === '411792' && $user->kdunit != null;
+        });
+
+        Gate::define('opr_belanja_51_vertikal', function (User $user) {
+            return $user->is('04') && $user->kdsatker != '411792';
         });
 
         Gate::define('opr_honor', function (User $user) {
@@ -68,35 +75,39 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is('08');
         });
 
-        Gate::define('monitoring', function(){
+        Gate::define('monitoring', function () {
             return role::active('03');
         });
 
-        Gate::define('belanja_51', function(){
+        Gate::define('belanja_51', function () {
             return role::active('04');
         });
 
-        Gate::define('honorarium', function(){
+        Gate::define('honorarium', function () {
             return role::active('05');
         });
 
-        Gate::define('spt', function(){
+        Gate::define('spt', function () {
             return role::active('07');
         });
 
-        Gate::define('rumdin', function(){
+        Gate::define('rumdin', function () {
             return role::active('08');
         });
 
-        Gate::define('wilayah', function($user, $kdsatker){
+        Gate::define('wilayah', function ($user, $kdsatker) {
             $satker = satker::where('kdsatker', $kdsatker)->first();
-            if($satker->jnssatker === '2'){
+            if ($satker->jnssatker === '2') {
                 return true;
             };
         });
 
-        Gate::define('approver', function(User $user){
-            return $user->is('09');
+        Gate::define('approver_vertikal', function (User $user) {
+            return $user->is('09') && $user->kdsatker != '411792';
+        });
+
+        Gate::define('approver_pusat', function (User $user) {
+            return $user->is('09') && $user->kdsatker === '411792' && $user->kdunit != null;
         });
     }
 }

@@ -7,7 +7,7 @@
         <div class="flex gap-2 flex-wrap py-2 px-4">
             <div class="breadcrumbs text-sm">
                 <ul>
-                    <li><a href="/belanja-51-v2/uang-makan/create">Periode</a></li>
+                    <li><a href="/belanja-51-vertikal/uang-makan/create">Periode</a></li>
                     <li>
                         <span class="btn btn-xs btn-ghost btn-active">
                             Preview
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                         <div class="flex gap-2 p-2 justify-end">
-                            <a href="/belanja-51-v2/uang-makan/create" class="btn btn-xs btn-secondary">Kembali</a>
+                            <a href="/belanja-51-vertikal/uang-makan/create" class="btn btn-xs btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-xs btn-success">Proses</button>
                         </div>
                     </div>

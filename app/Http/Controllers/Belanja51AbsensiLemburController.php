@@ -18,7 +18,7 @@ class Belanja51AbsensiLemburController extends Controller
     public function index($thn = null, $bln = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -48,7 +48,7 @@ class Belanja51AbsensiLemburController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -64,7 +64,7 @@ class Belanja51AbsensiLemburController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -139,7 +139,7 @@ class Belanja51AbsensiLemburController extends Controller
                     'jumlahjam' => $row['jumlahjam'],
                 ]);
             }
-            return redirect('/belanja-51-v2/uang-lembur/absensi')->with('berhasil', 'Data Berhasil');
+            return redirect('/belanja-51-vertikal/uang-lembur/absensi')->with('berhasil', 'Data Berhasil');
         } else {
             return redirect()->back()->with('gagal', 'File Excel Tidak Valid');
         }
@@ -148,7 +148,7 @@ class Belanja51AbsensiLemburController extends Controller
     public function detail($thn, $bln, $nip)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -167,7 +167,7 @@ class Belanja51AbsensiLemburController extends Controller
     public function edit($id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -193,7 +193,7 @@ class Belanja51AbsensiLemburController extends Controller
     public function update(Request $request, AbsensiUangLembur $AbsensiUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -235,13 +235,13 @@ class Belanja51AbsensiLemburController extends Controller
         $tanggal = date($AbsensiUangLembur->tanggal);
         $tahun = substr($tanggal, 0, 4);
         $bulan = substr($tanggal, 5, 2);
-        return redirect('/belanja-51-v2/uang-lembur/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangLembur->nip)->with('berhasil', 'Data Berhasil Di Ubah');
+        return redirect('/belanja-51-vertikal/uang-lembur/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangLembur->nip)->with('berhasil', 'Data Berhasil Di Ubah');
     }
 
     public function destroy(AbsensiUangLembur $AbsensiUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -258,7 +258,7 @@ class Belanja51AbsensiLemburController extends Controller
         $bulan = substr($tanggal, 5, 2);
         $AbsensiUangLembur->delete();
 
-        return redirect('/belanja-51-v2/uang-lembur/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangLembur->nip)->with('berhasil', 'Data Berhasil Di Hapus');
+        return redirect('/belanja-51-vertikal/uang-lembur/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangLembur->nip)->with('berhasil', 'Data Berhasil Di Hapus');
     }
 
     public function template()

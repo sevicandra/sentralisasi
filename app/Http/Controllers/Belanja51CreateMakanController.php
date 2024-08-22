@@ -22,11 +22,9 @@ class Belanja51CreateMakanController extends Controller
     public function index($thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
-            $gate2 = ['sys_admin'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
-            $gate2 = [];
         }
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
@@ -47,7 +45,7 @@ class Belanja51CreateMakanController extends Controller
     public function preview($thn, $bln)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -76,7 +74,7 @@ class Belanja51CreateMakanController extends Controller
     public function store($thn, $bln, Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -98,7 +96,16 @@ class Belanja51CreateMakanController extends Controller
             'jabatan.required' => 'Jabatan harus diisi',
             'uraian.required' => 'Uraian harus diisi',
         ]);
-        $nomor = Nomor::where('kdsatker', auth()->user()->kdsatker, date('Y'))->first();
+        $nomor = Nomor::where('kdsatker', auth()->user()->kdsatker)->where('tahun', date('Y'))->first();
+        if (!$nomor) {
+            $nomor = Nomor::create([
+                'kdsatker' => auth()->user()->kdsatker,
+                'kdunit' => '0000',
+                'nomor' => 1,
+                'ext' => Nomor::where('kdsatker', auth()->user()->kdsatker)->first()->ext,
+                'tahun' => Date('Y'),
+            ]);
+        }
         $permohonan = PermohonanBelanja51::create([
             'kdsatker' => auth()->user()->kdsatker,
             'kdunit' => 0000,
@@ -107,11 +114,11 @@ class Belanja51CreateMakanController extends Controller
             'jenis' => 'makan',
             'uraian' => $request->uraian,
             'status' => 'draft',
-            'nip' => explode('/',$request->penandatangan)[0],
-            'nama' => explode('/',$request->penandatangan)[1],
+            'nip' => explode('/', $request->penandatangan)[0],
+            'nama' => explode('/', $request->penandatangan)[1],
             'jabatan' => $request->jabatan,
             'tanggal' => date('Y-m-d'),
-            'nomor' => $nomor->nomor.$nomor->ext.$nomor->tahun,
+            'nomor' => $nomor->nomor . $nomor->ext . $nomor->tahun,
         ]);
         $nomor->update([
             'nomor' => $nomor->nomor + 1,
@@ -162,7 +169,7 @@ class Belanja51CreateMakanController extends Controller
         $permohonan->update([
             'file' => $filename
         ]);
-        $daysInMonth = Carbon::create(2024, 6, 1)->daysInMonth;
+        $daysInMonth = Carbon::create($thn, $bln, 1)->daysInMonth;
         $dataAbsensi = $permohonan->dataMakan()->RekapTanggal();
         ob_start();
         $html2pdf = ob_get_clean();
@@ -172,8 +179,8 @@ class Belanja51CreateMakanController extends Controller
         $html2pdf->writeHTML(view('belanja-51.uang_makan.document.lampiran', [
             'data' => $dataAbsensi,
             'daysInMonth' => $daysInMonth,
-            'thn' => 2024,
-            'bln' => 6,
+            'thn' => $thn,
+            'bln' => $bln,
             'permohonan' => $permohonan,
             'nomor' => $permohonan->nomor,
             'kop' => $kop,
@@ -187,6 +194,6 @@ class Belanja51CreateMakanController extends Controller
             'file' => $lampiranname,
             'nama' => 'Rekap Absensi ' . $permohonan->uraian,
         ]);
-        return redirect('/belanja-51-v2/uang-makan/permohonan/')->with('berhasil', 'permohonan berhasil dibuat');
+        return redirect('/belanja-51-vertikal/uang-makan/permohonan/')->with('berhasil', 'permohonan berhasil dibuat');
     }
 }

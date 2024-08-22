@@ -6,7 +6,7 @@
     <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2 relative">
         <div class="flex flex-col gap-2 py-2 px-4">
             <div class="w-full flex gap-1 flex-wrap justify-between">
-                <a href="/belanja-51-v2/tte" class="btn btn-xs btn-primary">kembali</a>
+                <a href="/belanja-51-vertikal/tte" class="btn btn-xs btn-primary">kembali</a>
                 <button type="button" onclick="tte_modal.showModal()" class="btn btn-xs btn-success">kirim</button>
             </div>
         </div>

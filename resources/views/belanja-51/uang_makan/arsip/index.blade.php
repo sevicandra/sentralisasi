@@ -7,7 +7,7 @@
         <div class="flex flex-col gap-2 py-2 px-4">
             <div class="w-full flex gap-1 flex-wrap justify-between">
                 <div class="flex gap-1 flex-wrap">
-                    <a href="/belanja-51-v2/uang-makan/create" class="btn btn-xs btn-primary">Create</a>
+                    <a href="/belanja-51-vertikal/uang-makan/create" class="btn btn-xs btn-primary">Create</a>
                 </div>
             </div>
         </div>
@@ -65,12 +65,12 @@
                                 </x-table.body.column>
                                 <x-table.body.column class="text-center">
                                     <div class="w-full h-full flex gap-1 justify-center">
-                                        <a href="/belanja-51-v2/uang-makan/arsip/{{ $item->id }}"
+                                        <a href="/belanja-51-vertikal/uang-makan/arsip/{{ $item->id }}"
                                             class="btn btn-xs btn-primary">Detail</a>
-                                        <a href="/belanja-51-v2/uang-makan/arsip/{{ $item->id }}/history"
+                                        <a href="/belanja-51-vertikal/uang-makan/arsip/{{ $item->id }}/history"
                                             class="btn btn-xs btn-primary">Riwayat</a>
                                         @if ($item->status == 'proses')
-                                            <form action="/belanja-51-v2/uang-makan/arsip/{{ $item->id }}/batal"
+                                            <form action="/belanja-51-vertikal/uang-makan/arsip/{{ $item->id }}/batal"
                                                 method="post"
                                                 onsubmit="return confirm('Apakah Anda yakin akan mengirim data ini?');">
                                                 @csrf

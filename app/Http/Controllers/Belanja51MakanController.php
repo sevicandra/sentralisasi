@@ -11,7 +11,7 @@ class Belanja51MakanController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -27,7 +27,7 @@ class Belanja51MakanController extends Controller
     public function arsip()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -43,7 +43,7 @@ class Belanja51MakanController extends Controller
     public function detail(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -61,7 +61,7 @@ class Belanja51MakanController extends Controller
     public function detailArsip(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -79,7 +79,7 @@ class Belanja51MakanController extends Controller
     public function destroy(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -90,15 +90,15 @@ class Belanja51MakanController extends Controller
             abort(403);
         }
         if ($id->status != 'draft') {
-            return redirect('/belanja-51-v2/uang-makan/permohonan')->with('gagal', 'data tidak dapat di hapus');
+            return redirect('/belanja-51-vertikal/uang-makan/permohonan')->with('gagal', 'data tidak dapat di hapus');
         }
         $id->delete();
-        return redirect('/belanja-51-v2/uang-makan/permohonan')->with('berhasil', 'data berhasil di hapus');
+        return redirect('/belanja-51-vertikal/uang-makan/permohonan')->with('berhasil', 'data berhasil di hapus');
     }
     public function kirim(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -109,7 +109,7 @@ class Belanja51MakanController extends Controller
             abort(403);
         }
         if ($id->status != 'draft') {
-            return redirect('/belanja-51-v2/uang-makan/permohonan')->with('gagal', 'data tidak dapat di kirim');
+            return redirect('/belanja-51-vertikal/uang-makan/permohonan')->with('gagal', 'data tidak dapat di kirim');
         }
         $id->update([
             'status' => 'proses',
@@ -119,12 +119,12 @@ class Belanja51MakanController extends Controller
             'nip' => Auth::user()->nip,
             'nama' => Auth::user()->nama,
         ]);
-        return redirect('/belanja-51-v2/uang-makan/permohonan')->with('berhasil', 'data berhasil di kirim');
+        return redirect('/belanja-51-vertikal/uang-makan/permohonan')->with('berhasil', 'data berhasil di kirim');
     }
     public function batal(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -135,7 +135,7 @@ class Belanja51MakanController extends Controller
             abort(403);
         }
         if ($id->status != 'proses') {
-            return redirect('/belanja-51-v2/uang-makan/arsip')->with('gagal', 'data tidak dapat dibatalkan');
+            return redirect('/belanja-51-vertikal/uang-makan/arsip')->with('gagal', 'data tidak dapat dibatalkan');
         }
         $id->update([
             'status' => 'draft',
@@ -145,12 +145,12 @@ class Belanja51MakanController extends Controller
             'nip' => Auth::user()->nip,
             'nama' => Auth::user()->nama,
         ]);
-        return redirect('/belanja-51-v2/uang-makan/arsip')->with('berhasil', 'data berhasil dibatalkan');
+        return redirect('/belanja-51-vertikal/uang-makan/arsip')->with('berhasil', 'data berhasil dibatalkan');
     }
     public function history(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -165,7 +165,7 @@ class Belanja51MakanController extends Controller
         return view('belanja-51.uang_makan.history', [
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
-            'back' => '/belanja-51-v2/uang-makan/arsip',
+            'back' => '/belanja-51-vertikal/uang-makan/arsip',
         ]);
     }
 }

@@ -7,7 +7,7 @@
         <div class="flex flex-col gap-2 py-2 px-4">
             <div class="w-full flex gap-1 flex-wrap justify-between">
                 <div class="flex gap-1 flex-wrap">
-                    <a href="/belanja-51-v2/uang-lembur/create" class="btn btn-xs btn-primary">Create</a>
+                    <a href="/belanja-51-vertikal/uang-lembur/create" class="btn btn-xs btn-primary">Create</a>
                 </div>
             </div>
         </div>
@@ -49,14 +49,14 @@
                                 </x-table.body.column>
                                 <x-table.body.column class="text-center">
                                     <div class="w-full h-full flex gap-1 justify-center">
-                                        <a href="/belanja-51-v2/uang-lembur/permohonan/{{ $item->id }}"
+                                        <a href="/belanja-51-vertikal/uang-lembur/permohonan/{{ $item->id }}"
                                             class="btn btn-xs btn-primary">Detail</a>
-                                        <form action="/belanja-51-v2/uang-lembur/permohonan/{{ $item->id }}" method="post" onsubmit="return confirm('Apakah Anda yakin akan menghapus data ini?');">
+                                        <form action="/belanja-51-vertikal/uang-lembur/permohonan/{{ $item->id }}" method="post" onsubmit="return confirm('Apakah Anda yakin akan menghapus data ini?');">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-xs btn-error">Delete</button>
                                         </form>
-                                        <form action="/belanja-51-v2/uang-lembur/permohonan/{{ $item->id }}" method="post" onsubmit="return confirm('Apakah Anda yakin akan mengirim data ini?');">
+                                        <form action="/belanja-51-vertikal/uang-lembur/permohonan/{{ $item->id }}" method="post" onsubmit="return confirm('Apakah Anda yakin akan mengirim data ini?');">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-xs btn-success">Kirim</button>

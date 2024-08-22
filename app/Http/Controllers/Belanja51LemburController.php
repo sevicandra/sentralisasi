@@ -13,7 +13,7 @@ class Belanja51LemburController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -29,7 +29,7 @@ class Belanja51LemburController extends Controller
     public function arsip()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -45,7 +45,7 @@ class Belanja51LemburController extends Controller
     public function detail(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -66,7 +66,7 @@ class Belanja51LemburController extends Controller
     public function detailArsip(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -84,7 +84,7 @@ class Belanja51LemburController extends Controller
     public function destroy(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -95,15 +95,15 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
         if ($id->status != 'draft') {
-            return redirect('/belanja-51-v2/uang-lembur/permohonan')->with('gagal', 'data tidak dapat di hapus');
+            return redirect('/belanja-51-vertikal/uang-lembur/permohonan')->with('gagal', 'data tidak dapat di hapus');
         }
         $id->delete();
-        return redirect('/belanja-51-v2/uang-lembur/permohonan')->with('berhasil', 'data berhasil di hapus');
+        return redirect('/belanja-51-vertikal/uang-lembur/permohonan')->with('berhasil', 'data berhasil di hapus');
     }
     public function kirim(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -114,10 +114,10 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
         if ($id->status != 'draft') {
-            return redirect('/belanja-51-v2/uang-lembur/permohonan')->with('gagal', 'data tidak dapat di kirim');
+            return redirect('/belanja-51-vertikal/uang-lembur/permohonan')->with('gagal', 'data tidak dapat di kirim');
         }
         if (!$id->lpt || !$id->spkl || !$id->sptjm) {
-            return redirect('/belanja-51-v2/uang-lembur/permohonan')->with('gagal', 'data tidak dapat di kirim, lampiran tidak lengkap');
+            return redirect('/belanja-51-vertikal/uang-lembur/permohonan')->with('gagal', 'data tidak dapat di kirim, lampiran tidak lengkap');
         }
         $id->update([
             'status' => 'proses',
@@ -127,12 +127,12 @@ class Belanja51LemburController extends Controller
             'nip' => Auth::user()->nip,
             'nama' => Auth::user()->nama,
         ]);
-        return redirect('/belanja-51-v2/uang-lembur/permohonan')->with('berhasil', 'data berhasil di kirim');
+        return redirect('/belanja-51-vertikal/uang-lembur/permohonan')->with('berhasil', 'data berhasil di kirim');
     }
     public function batal(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -143,7 +143,7 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
         if ($id->status != 'proses') {
-            return redirect('/belanja-51-v2/uang-lembur/arsip')->with('gagal', 'data tidak dapat dibatalkan');
+            return redirect('/belanja-51-vertikal/uang-lembur/arsip')->with('gagal', 'data tidak dapat dibatalkan');
         }
         $id->update([
             'status' => 'draft',
@@ -153,12 +153,12 @@ class Belanja51LemburController extends Controller
             'nip' => Auth::user()->nip,
             'nama' => Auth::user()->nama,
         ]);
-        return redirect('/belanja-51-v2/uang-lembur/arsip')->with('berhasil', 'data berhasil dibatalkan');
+        return redirect('/belanja-51-vertikal/uang-lembur/arsip')->with('berhasil', 'data berhasil dibatalkan');
     }
     public function history(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -173,13 +173,13 @@ class Belanja51LemburController extends Controller
         return view('belanja-51.uang_lembur.history', [
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
-            'back' => '/belanja-51-v2/uang-lembur/arsip',
+            'back' => '/belanja-51-vertikal/uang-lembur/arsip',
         ]);
     }
     public function uploadSPKL(PermohonanBelanja51 $id, Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -214,7 +214,7 @@ class Belanja51LemburController extends Controller
     public function uploadSPTJM(PermohonanBelanja51 $id, Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -249,7 +249,7 @@ class Belanja51LemburController extends Controller
     public function uploadLPT(PermohonanBelanja51 $id, Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -284,7 +284,7 @@ class Belanja51LemburController extends Controller
     public function deleteSPKL(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -303,7 +303,7 @@ class Belanja51LemburController extends Controller
     public function deleteSPTJM(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -322,7 +322,7 @@ class Belanja51LemburController extends Controller
     public function deleteLPT(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }

@@ -8,6 +8,7 @@
         @can('belanja_51')
             @include('module.belanja51')
             @include('module.belanja51-v2')
+            @include('module.belanja51-pusat')
         @endcan
         @can('honorarium')
             @include('module.honorarium')

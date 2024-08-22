@@ -37,9 +37,9 @@
                                 <x-table.body.column class="min-w-60">{{ $item->uraian }}</x-table.body.column>
                                 <x-table.body.column class="text-center">
                                     <div class="w-full h-full flex gap-1 justify-center">
-                                        <a href="/belanja-51-v2/tte/{{ $item->id }}"
+                                        <a href="/belanja-51-vertikal/tte/{{ $item->id }}"
                                             class="btn btn-xs btn-primary">Detail</a>
-                                        <form action="/belanja-51-v2/tte/{{ $item->id }}/tolak" method="post"
+                                        <form action="/belanja-51-vertikal/tte/{{ $item->id }}/tolak" method="post"
                                             onsubmit="return confirm('Apakah Anda yakin akan menolak data ini?');">
                                             @csrf
                                             @method('PATCH')

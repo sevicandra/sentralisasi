@@ -37,9 +37,9 @@
                                 <x-table.body.column class="min-w-60">{{ $item->uraian }}</x-table.body.column>
                                 <x-table.body.column class="text-center">
                                     <div class="w-full h-full flex gap-1 justify-center">
-                                        <a href="/belanja-51-v2/tte/arsip/{{ $item->id }}"
+                                        <a href="/belanja-51-vertikal/tte/arsip/{{ $item->id }}"
                                             class="btn btn-xs btn-primary">Detail</a>
-                                            <a href="/belanja-51-v2/tte/arsip/{{ $item->id }}/history"
+                                            <a href="/belanja-51-vertikal/tte/arsip/{{ $item->id }}/history"
                                                 class="btn btn-xs btn-primary">Riwayat</a>
                                     </div>
                                 </x-table.body.column>

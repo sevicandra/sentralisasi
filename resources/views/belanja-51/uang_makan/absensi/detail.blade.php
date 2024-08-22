@@ -7,7 +7,7 @@
         <div class="flex flex-col gap-2 py-2 px-4">
             <div class="w-full flex  gap-1 flex-wrap justify-between">
                 <div class="flex gap-1 flex-wrap">
-                    <a href="{{ config('app.url') }}/belanja-51-v2/uang-makan/absensi/{{ $thn }}/{{ $bln }}"
+                    <a href="{{ config('app.url') }}/belanja-51-vertikal/uang-makan/absensi/{{ $thn }}/{{ $bln }}"
                         class="btn btn-xs btn-primary">kembali</a>
                 </div>
             </div>
@@ -45,9 +45,9 @@
                                 <x-table.body.column class="text-center">{{ $item->absensikeluar }}</x-table.body.column>
                                 <x-table.body.column class="text-center">
                                     <div class="w-full h-full flex gap-1 flex-wrap justify-center">
-                                        <a href="/belanja-51-v2/uang-makan/absensi/{{ $item->id }}/edit"
+                                        <a href="/belanja-51-vertikal/uang-makan/absensi/{{ $item->id }}/edit"
                                             class="btn btn-xs btn-primary">ubah</a>
-                                        <form action="/belanja-51-v2/uang-makan/absensi/{{ $item->id }}"
+                                        <form action="/belanja-51-vertikal/uang-makan/absensi/{{ $item->id }}"
                                             method="post">
                                             @csrf
                                             @method('DELETE')

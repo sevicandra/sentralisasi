@@ -22,7 +22,7 @@ class Belanja51CreateLemburController extends Controller
     public function index($thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -45,7 +45,7 @@ class Belanja51CreateLemburController extends Controller
     public function preview($thn, $bln)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -75,7 +75,7 @@ class Belanja51CreateLemburController extends Controller
     {
         // return $request;
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -97,7 +97,16 @@ class Belanja51CreateLemburController extends Controller
             'jabatan.required' => 'Jabatan harus diisi',
             'uraian.required' => 'Uraian harus diisi',
         ]);
-        $nomor = Nomor::where('kdsatker', auth()->user()->kdsatker, date('Y'))->first();
+        $nomor = Nomor::where('kdsatker', auth()->user()->kdsatker)->where('tahun', date('Y'))->first();
+        if (!$nomor) {
+            $nomor = Nomor::create([
+                'kdsatker' => auth()->user()->kdsatker,
+                'kdunit' => '0000',
+                'nomor' => 1,
+                'ext' => Nomor::where('kdsatker', auth()->user()->kdsatker)->first()->ext,
+                'tahun' => Date('Y'),
+            ]);
+        }
         $permohonan = PermohonanBelanja51::create([
             'kdsatker' => auth()->user()->kdsatker,
             'kdunit' => 0000,
@@ -161,7 +170,7 @@ class Belanja51CreateLemburController extends Controller
         $permohonan->update([
             'file' => $filename
         ]);
-        $daysInMonth = Carbon::create(2024, 6, 1)->daysInMonth;
+        $daysInMonth = Carbon::create($thn, $bln, 1)->daysInMonth;
         $dataAbsensi = $permohonan->dataLembur()->RekapTanggal();
         ob_start();
         $html2pdf = ob_get_clean();
@@ -171,8 +180,8 @@ class Belanja51CreateLemburController extends Controller
         $html2pdf->writeHTML(view('belanja-51.uang_lembur.document.lampiran', [
             'data' => $dataAbsensi,
             'daysInMonth' => $daysInMonth,
-            'thn' => 2024,
-            'bln' => 6,
+            'thn' => $thn,
+            'bln' => $bln,
             'permohonan' => $permohonan,
             'nomor' => $permohonan->nomor,
             'kop' => $kop,
@@ -186,6 +195,6 @@ class Belanja51CreateLemburController extends Controller
             'file' => $lampiranname,
             'nama' => 'Rekap Absensi ' . $permohonan->uraian,
         ]);
-        return redirect('/belanja-51-v2/uang-lembur/permohonan/')->with('berhasil', 'permohonan berhasil dibuat');
+        return redirect('/belanja-51-vertikal/uang-lembur/permohonan/')->with('berhasil', 'permohonan berhasil dibuat');
     }
 }

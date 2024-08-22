@@ -6,7 +6,7 @@
     <div class="h-full grid grid-rows-[auto_1fr_auto] grid-cols-1 gap-2">
         <div class="flex flex-col gap-2 py-2 px-4">
             <div class="w-full flex gap-1 flex-wrap justify-between">
-                <a href="/belanja-51-v2/uang-lembur/arsip" class="btn btn-xs btn-primary">kembali</a>
+                <a href="/belanja-51-vertikal/uang-lembur/arsip" class="btn btn-xs btn-primary">kembali</a>
             </div>
         </div>
         <div class="grid grid-rows-[auto_1fr] grid-cols-1 overflow-hidden px-4 pb-2">

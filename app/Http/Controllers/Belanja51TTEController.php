@@ -14,7 +14,7 @@ class Belanja51TTEController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver'];
+            $gate = ['approver_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -31,7 +31,7 @@ class Belanja51TTEController extends Controller
     public function detail(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51', 'approver'];
+            $gate = ['approver_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -50,7 +50,7 @@ class Belanja51TTEController extends Controller
     public function tolak(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51', 'approver'];
+            $gate = ['approver_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -68,13 +68,13 @@ class Belanja51TTEController extends Controller
             'nip' => Auth::user()->nip,
             'nama' => Auth::user()->nama,
         ]);
-        return redirect('/belanja-51-v2/tte')->with('berhasil', 'data berhasil ditolak');
+        return redirect('/belanja-51-vertikal/tte')->with('berhasil', 'data berhasil ditolak');
     }
 
     public function TTE(PermohonanBelanja51 $id, Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51', 'approver'];
+            $gate = ['approver_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -92,7 +92,7 @@ class Belanja51TTEController extends Controller
                 'nomor' => $id->nomor,
                 'jenis_dokumen' => "Register Permohonan Uang Makan",
                 'perihal' => $id->uraian,
-                'linkQR' => config('app.url') . '/belanja-51-v2/document/' . $id->file,
+                'linkQR' => config('app.url') . '/belanja-51-vertikal/document/' . $id->file,
                 'file' => $id->file,
             ], session('nik'), $request->passphrase);
             $result_body = $result->getBody()->getContents();
@@ -114,18 +114,18 @@ class Belanja51TTEController extends Controller
             foreach ($id->dokumen as $item) {
                 $item->TTEAxis($id->nomor, session('nik'), $request->passphrase);
             }
-            return redirect('/belanja-51-v2/tte')->with('berhasil', 'data berhasil dikirim');
+            return redirect('/belanja-51-vertikal/tte')->with('berhasil', 'data berhasil dikirim');
         } catch (\GuzzleHttp\Exception\ClientException $th) {
             $response = $th->getResponse();
             $responseBodyAsString = json_decode($response->getBody()->getContents(), true);
-            return redirect('/belanja-51-v2/tte')->with('gagal', $responseBodyAsString['error']);
+            return redirect('/belanja-51-vertikal/tte')->with('gagal', $responseBodyAsString['error']);
         }
     }
 
     public function arsip()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver'];
+            $gate = ['approver_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -142,7 +142,7 @@ class Belanja51TTEController extends Controller
     public function detailArsip(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51', 'approver'];
+            $gate = ['approver_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -162,7 +162,7 @@ class Belanja51TTEController extends Controller
     public function history(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51', 'approver'];
+            $gate = ['approver_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -177,7 +177,7 @@ class Belanja51TTEController extends Controller
         return view('belanja-51.uang_makan.history', [
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
-            'back' => '/belanja-51-v2/tte/arsip',
+            'back' => '/belanja-51-vertikal/tte/arsip',
         ]);
     }
 }

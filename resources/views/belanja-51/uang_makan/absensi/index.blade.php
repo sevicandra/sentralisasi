@@ -9,19 +9,19 @@
                 <div class="flex flex-col gap-1">
                     <div class="flex gap-1 flex-wrap">
                         @foreach ($tahun as $item)
-                            <a href="{{ config('app.url') }}/belanja-51-v2/uang-makan/absensi/{{ $item }}"
+                            <a href="{{ config('app.url') }}/belanja-51-vertikal/uang-makan/absensi/{{ $item }}"
                                 class="btn btn-xs btn-outline btn-primary @if ((!$thn && $item == date('Y')) || $item == $thn) btn-active @endif">{{ $item }}</a>
                         @endforeach
                     </div>
                     <div class="flex gap-1 flex-wrap">
                         @foreach ($bulan as $item)
-                            <a href="{{ config('app.url') }}/belanja-51-v2/uang-makan/absensi/{{ $thn }}/{{ $item }}"
+                            <a href="{{ config('app.url') }}/belanja-51-vertikal/uang-makan/absensi/{{ $thn }}/{{ $item }}"
                                 class="btn btn-xs btn-outline btn-primary @if ((!$bln && $item == date('m')) || $item == $bln) btn-active @endif">{{ $item }}</a>
                         @endforeach
                     </div>
                 </div>
                 <div class="flex items-center">
-                    <a href="/belanja-51-v2/uang-makan/absensi/create" class="btn btn-xs btn-primary">Import</a>
+                    <a href="/belanja-51-vertikal/uang-makan/absensi/create" class="btn btn-xs btn-primary">Import</a>
                 </div>
             </div>
             <div class="w-full flex gap-1 flex-wrap justify-end">
@@ -59,7 +59,7 @@
                                 <x-table.body.column class="">{{ $item->nama }}</x-table.body.column>
                                 <x-table.body.column class="text-center">{{ $item->jml }}</x-table.body.column>
                                 <x-table.body.column class="text-center">
-                                    <a href="/belanja-51-v2/uang-makan/absensi/{{ $thn }}/{{ $bln }}/{{ $item->nip }}"
+                                    <a href="/belanja-51-vertikal/uang-makan/absensi/{{ $thn }}/{{ $bln }}/{{ $item->nip }}"
                                         class="btn btn-xs btn-primary">detail</a>
                                 </x-table.body.column>
                             </tr>

@@ -15,7 +15,7 @@ class Belanja51AbsensiMakanController extends Controller
     public function index($thn = null, $bln = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -44,7 +44,7 @@ class Belanja51AbsensiMakanController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -60,7 +60,7 @@ class Belanja51AbsensiMakanController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -129,7 +129,7 @@ class Belanja51AbsensiMakanController extends Controller
                     'absensikeluar' => $row['absensiKeluar'],
                 ]);
             }
-            return redirect('/belanja-51-v2/uang-makan/absensi')->with('berhasil', 'Data Berhasil');
+            return redirect('/belanja-51-vertikal/uang-makan/absensi')->with('berhasil', 'Data Berhasil');
         } else {
             return redirect()->back()->with('gagal', 'File Excel Tidak Valid');
         }
@@ -138,7 +138,7 @@ class Belanja51AbsensiMakanController extends Controller
     public function detail($thn, $bln, $nip)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -157,7 +157,7 @@ class Belanja51AbsensiMakanController extends Controller
     public function edit($id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -183,7 +183,7 @@ class Belanja51AbsensiMakanController extends Controller
     public function update(Request $request, AbsensiUangMakan $AbsensiUangMakan)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -209,13 +209,13 @@ class Belanja51AbsensiMakanController extends Controller
         $tanggal = date($AbsensiUangMakan->tanggal);
         $tahun = substr($tanggal, 0, 4);
         $bulan = substr($tanggal, 5, 2);
-        return redirect('/belanja-51-v2/uang-makan/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangMakan->nip)->with('berhasil', 'Data Berhasil Di Ubah');
+        return redirect('/belanja-51-vertikal/uang-makan/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangMakan->nip)->with('berhasil', 'Data Berhasil Di Ubah');
     }
 
     public function destroy(AbsensiUangMakan $AbsensiUangMakan)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver'];
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -232,6 +232,6 @@ class Belanja51AbsensiMakanController extends Controller
         $bulan = substr($tanggal, 5, 2);
         $AbsensiUangMakan->delete();
 
-        return redirect('/belanja-51-v2/uang-makan/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangMakan->nip)->with('berhasil', 'Data Berhasil Di Hapus');
+        return redirect('/belanja-51-vertikal/uang-makan/absensi/' . $tahun . '/' . $bulan . '/' . $AbsensiUangMakan->nip)->with('berhasil', 'Data Berhasil Di Hapus');
     }
 }

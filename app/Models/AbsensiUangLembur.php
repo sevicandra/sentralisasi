@@ -83,4 +83,77 @@ class AbsensiUangLembur extends Model
     {
         return $data->where('kdsatker', $kdsatker)->whereYear('tanggal', $thn)->whereMonth('tanggal', $bln)->where('nip', $nip)->orderBy('tanggal', 'asc')->get();
     }
+
+    public function scopeTahunPusat($data, $kdsatker, $kdunit)
+    {
+        $datas = $this->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->selectRaw('year(tanggal) as tahun')->groupBy('tahun')->get();
+        $tahun = [];
+        foreach ($datas as $value) {
+            $tahun[] = $value->tahun;
+        }
+        return $tahun;
+    }
+
+    public function scopeBulanPusat($data, $kdsatker, $kdunit, $tahun)
+    {
+        $datas = $this->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->whereYear('tanggal', $tahun)->selectRaw('month(tanggal) as bulan')->groupBy('bulan')->get();
+        $bulan = [];
+        foreach ($datas as $value) {
+            $bulan[] = $value->bulan;
+        }
+        return $bulan;
+    }
+
+    public function scopeRekapPusat($data, $kdsatker, $kdunit, $thn, $bln)
+    {
+        if (request('search')) {
+            $data->where('nip', 'LIKE', '%' . request('search') . '%')->orWhere('nama', 'LIKE', '%' . request('search') . '%');
+        }
+        if (request('min') && request('max')) {
+            $data->whereBetween('tanggal', [request('min'), request('max')]);
+        }
+        return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->whereYear('tanggal', $thn)->whereMonth('tanggal', $bln)->groupBy(['nip', 'nama'])->selectRaw('nip, nama, SUM(CASE WHEN jenishari = "kerja" THEN jumlahjam ELSE 0 END) as jumlahjamkerja, SUM(CASE WHEN jenishari = "libur" THEN jumlahjam ELSE 0 END) as jumlahjamlibur');
+    }
+
+    public function scopeRekapTanggalPusat($data, $kdsatker, $kdunit, $thn, $bln)
+    {
+        return $data->select('nama', 'nip', 'tanggal', 'absensimasuk', 'absensikeluar')
+            ->where('kdsatker', $kdsatker)
+            ->where('kdunit', $kdunit)
+            ->whereYear('tanggal', $thn)
+            ->whereMonth('tanggal', $bln)
+            ->orderBy('nip')
+            ->orderBy('tanggal')
+            ->get()
+            ->groupBy('nip')
+            ->map(function ($items) {
+                $responseData = new \stdClass();
+                $responseData->nama = $items->first()->nama;
+                $responseData->nip = $items->first()->nip;
+                $responseData->data = $items->map(function ($item) {
+                    return (object) [
+                        'tanggal' => $item->tanggal,
+                        'absensimasuk' => $item->absensimasuk,
+                        'absensikeluar' => $item->absensikeluar,
+                    ];
+                });
+                return $responseData;
+            });
+    }
+
+    public function scopeRekapBulananPusat($data, $kdsatker, $kdunit, $thn)
+    {
+        $data->where('kdsatker', $kdsatker)
+            ->where('kdunit', $kdunit)
+            ->whereYear('tanggal', $thn)
+            ->groupByRaw('month(tanggal)')
+            ->selectRaw('month(tanggal) as bulan, count(DISTINCT nip) as jml')
+        ;
+        return DB::table('bulans')->joinSub($data, 'data', 'data.bulan', '=', 'bulans.bulan')->orderBy('data.bulan')->select(['data.bulan', 'data.jml', 'bulans.nmbulan']);
+    }
+
+    public function scopeDetailPusat($data, $kdsatker, $kdunit, $thn, $bln, $nip)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->whereYear('tanggal', $thn)->whereMonth('tanggal', $bln)->where('nip', $nip)->orderBy('tanggal', 'asc')->get();
+    }
 }

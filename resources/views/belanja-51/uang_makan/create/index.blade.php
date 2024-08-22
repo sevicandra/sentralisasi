@@ -14,7 +14,7 @@
             <div>
                 <div class="flex gap-1 flex-wrap">
                     @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/belanja-51-v2/uang-makan/create/{{ $item }}"
+                        <a href="{{ config('app.url') }}/belanja-51-vertikal/uang-makan/create/{{ $item }}"
                             class="btn btn-xs btn-outline btn-primary @if ((!$thn && $item == date('Y')) || $item == $thn) btn-active @endif">{{ $item }}</a>
                     @endforeach
                 </div>
@@ -39,7 +39,7 @@
                         <x-table.body.column class="text-center">{{ $item->nmbulan }}</x-table.body.column>
                         <x-table.body.column class="text-center">{{ $item->jml }}</x-table.body.column>
                         <x-table.body.column class="text-center">
-                            <a href="/belanja-51-v2/uang-makan/create/{{ $thn }}/{{ $item->bulan }}"
+                            <a href="/belanja-51-vertikal/uang-makan/create/{{ $thn }}/{{ $item->bulan }}"
                                 class="btn btn-xs btn-primary">proses</a>
                         </x-table.body.column>
                     </tr>
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="flex gap-2 p-2">
-                            <a href="/belanja-51-v2/uang-makan" class="btn btn-xs btn-secondary">Kembali</a>
+                            <a href="/belanja-51-vertikal/uang-makan" class="btn btn-xs btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-xs btn-success">Berikutnya</button>
                         </div>
                     </div>
