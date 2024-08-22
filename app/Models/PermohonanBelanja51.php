@@ -30,6 +30,11 @@ class PermohonanBelanja51 extends Model
         });
     }
 
+    public function satker()
+    {
+        return $this->belongsTo(Satker::class, 'kdsatker', 'kdsatker');
+    }
+
     public function dataMakan()
     {
         return $this->hasMany(DataPermohonanUangMakan::class, 'permohonan_id', 'id');
@@ -96,7 +101,7 @@ class PermohonanBelanja51 extends Model
 
     public function scopeArsipTTE($data, $nip)
     {
-        return $data->where('nip', $nip)->where('status', ['kirim', 'approve', 'reject']);
+        return $data->where('nip', $nip)->where('status', ['kirim', 'approved', 'rejected']);
     }
 
     public function scopeDraftMakanPusat($data, $kdsatker, $kdunit)
@@ -117,5 +122,55 @@ class PermohonanBelanja51 extends Model
     public function scopeArsipLemburPusat($data, $kdsatker, $kdunit)
     {
         return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->where('status', '!=', 'draft')->where('jenis', 'lembur');
+    }
+
+    public function scopePermohonanMakan($data)
+    {
+        return $data->where('kdsatker', '!=', 411792)->where('status', 'kirim')->where('jenis', 'makan');
+    }
+
+    public function scopeTahunMakanVertikal()
+    {
+        $datas = $this->where('jenis', 'makan')->where('kdsatker', '!=', 411792)->selectRaw('tahun')->groupBy('tahun')->get();
+        $tahun = [];
+        foreach ($datas as $value) {
+            $tahun[] = $value->tahun;
+        }
+        return $tahun;
+    }
+
+    public function scopeBulanMakanVertikal($data, $tahun)
+    {
+        $datas = $this->where('jenis', 'makan')->where('kdsatker', '!=', 411792)->where('tahun', $tahun)->selectRaw('bulan')->groupBy('bulan')->get();
+        $bulan = [];
+        foreach ($datas as $value) {
+            $bulan[] = $value->bulan;
+        }
+        return $bulan;
+    }
+
+    public function scopePermohonanLembur($data)
+    {
+        return $data->where('kdsatker', '!=', 411792)->where('status', 'kirim')->where('jenis', 'lembur');
+    }
+
+    public function scopeTahunLemburVertikal()
+    {
+        $datas = $this->where('jenis', 'lembur')->where('kdsatker', '!=', 411792)->selectRaw('tahun')->groupBy('tahun')->get();
+        $tahun = [];
+        foreach ($datas as $value) {
+            $tahun[] = $value->tahun;
+        }
+        return $tahun;
+    }
+
+    public function scopeBulanLemburVertikal($data, $tahun)
+    {
+        $datas = $this->where('jenis', 'lembur')->where('kdsatker', '!=', 411792)->where('tahun', $tahun)->selectRaw('bulan')->groupBy('bulan')->get();
+        $bulan = [];
+        foreach ($datas as $value) {
+            $bulan[] = $value->bulan;
+        }
+        return $bulan;
     }
 }

@@ -14,6 +14,7 @@
             @include('module.honorarium')
         @endcan
         @include('module.dataPayment')
+        @include('module.belanja51-monitoring')
         @can('spt')
             @include('module.spt')
         @endcan

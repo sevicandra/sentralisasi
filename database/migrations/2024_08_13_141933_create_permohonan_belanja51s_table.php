@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('nama')->nullable();
             $table->string('jabatan')->nullable();
             $table->string('file')->nullable();
-            $table->enum('status', ['draft', 'proses', 'kirim', 'approve', 'reject']);
+            $table->enum('status', ['draft', 'proses', 'kirim', 'approved', 'rejected']);
             $table->timestamps();
         });
     }

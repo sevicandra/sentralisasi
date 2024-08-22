@@ -46,27 +46,6 @@
                     @endforeach
                 </x-table.body>
                 </x-table>
-                {{-- <form action="" enctype="multipart/form-data" autocomplete="off">
-                    <div class="flex flex-col gap-2 w-full max-w-2xl">
-                        <div class="flex flex-col">
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
-                                <x-select name="bulan" label="Bulan:" size="w-full" :required="true">
-                                    @foreach ($bulan as $item)
-                                        <option value="{{ $item->bulan }}"
-                                            @if (old('bulan') === $item->bulan) selected @endif>
-                                            {{ $item->nmbulan }}</option>
-                                    @endforeach
-                                </x-select>
-                                <x-input name="tahun" value="{{ old('tahun') }}" label="Tahun:" size="w-full"
-                                    :required="true" />
-                            </div>
-                        </div>
-                        <div class="flex gap-2 p-2">
-                            <a href="/belanja-51-pusat/uang-lembur" class="btn btn-xs btn-secondary">Kembali</a>
-                            <button type="submit" class="btn btn-xs btn-success">Berikutnya</button>
-                        </div>
-                    </div>
-                </form> --}}
             </div>
         </div>
         <div>

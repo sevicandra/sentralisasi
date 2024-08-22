@@ -28,6 +28,7 @@ use App\Http\Controllers\MonitoringLaporanController;
 use App\Http\Controllers\MonitoringRincianController;
 use App\Http\Controllers\PusatBelanja51TTEController;
 use App\Http\Controllers\AdminPenandatanganController;
+use App\Http\Controllers\MonitoringBelanja51Controller;
 use App\Http\Controllers\MonitoringPelaporanController;
 use App\Http\Controllers\PembayaranUangMakanController;
 use App\Http\Controllers\PusatBelanja51MakanController;
@@ -52,6 +53,7 @@ use App\Http\Controllers\PembayaranUangMakanWilayahController;
 use App\Http\Controllers\PusatBelanja51AbsensiMakanController;
 use App\Http\Controllers\PusatBelanja51CreateLemburController;
 use App\Http\Controllers\DataPaymentUploadHonorariumController;
+use App\Http\Controllers\MonitoringBelanja51VertikalController;
 use App\Http\Controllers\PembayaranDokumenUangLemburController;
 use App\Http\Controllers\PembayaranUangLemburWilayahController;
 use App\Http\Controllers\PusatBelanja51AbsensiLemburController;
@@ -613,4 +615,32 @@ Route::controller(PusatBelanja51CreateLemburController::class)->group(function (
     Route::get('/belanja-51-pusat/uang-lembur/create/{thn}', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51-pusat/uang-lembur/create/{thn}/{bln}', 'preview')->middleware('auth:web,admin');
     Route::post('/belanja-51-pusat/uang-lembur/create/{thn}/{bln}', 'store')->middleware('auth:web,admin');
+});
+
+Route::controller(MonitoringBelanja51Controller::class)->group(function (){
+    Route::get('/belanja-51-monitoring', 'index')->middleware('auth:web');
+});
+
+Route::controller(MonitoringBelanja51VertikalController::class)->group(function (){
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan', 'uangMakan')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan/detail/{id}', 'uangMakanDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan/detail/{id}/rekap', 'uangMakanRekap')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/vertikal/uang-makan/detail/{id}/approve', 'uangMakanApprove')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/vertikal/uang-makan/detail/{id}/tolak', 'uangMakanTolak')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan/monitoring', 'uangMakanMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan/monitoring/detail/{id}', 'uangMakanMonitoringDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan/monitoring/{thn}/', 'uangMakanMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan/monitoring/{thn}/{bln}', 'uangMakanMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-makan/monitoring/{thn}/{bln}/{kdsatker}', 'uangMakanMonitoringRekap')->middleware('auth:web');
+
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur', 'uangLembur')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur/detail/{id}', 'uangLemburDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur/detail/{id}/rekap', 'uangLemburRekap')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/vertikal/uang-lembur/detail/{id}/approve', 'uangLemburApprove')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/vertikal/uang-lembur/detail/{id}/tolak', 'uangLemburTolak')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring', 'uangLemburMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/detail/{id}', 'uangLemburMonitoringDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{thn}/', 'uangLemburMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{thn}/{bln}', 'uangLemburMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{thn}/{bln}/{kdsatker}', 'uangLemburMonitoringRekap')->middleware('auth:web');
 });

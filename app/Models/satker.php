@@ -20,11 +20,28 @@ class satker extends Model
     public function scopeSearch()
     {
         if (request('search')) {
-            return $this->where('kdsatker', 'LIKE','%'.request('search').'%')->orWhere('nmsatker','LIKE', '%'.request('search').'%');
+            return $this->where('kdsatker', 'LIKE', '%' . request('search') . '%')->orWhere('nmsatker', 'LIKE', '%' . request('search') . '%');
         }
     }
 
-    public function scopeOrder($data){
+    public function permohonanUangMakanVertikal()
+    {
+        return $this    ->hasMany(PermohonanBelanja51::class, 'kdsatker', 'kdsatker')
+                        ->where('jenis', 'makan')
+                        ->where('kdsatker', '!=', '411792')
+                        ;
+    }
+
+    public function permohonanUangLemburVertikal()
+    {
+        return $this    ->hasMany(PermohonanBelanja51::class, 'kdsatker', 'kdsatker')
+                        ->where('jenis', 'lembur')
+                        ->where('kdsatker', '!=', '411792')
+                        ;
+    }
+
+    public function scopeOrder($data)
+    {
         return $data->orderby('order');
     }
 
@@ -43,18 +60,21 @@ class satker extends Model
         return $this->hasMany(dokumenUangLembur::class, 'kdsatker', 'kdsatker')->where('tahun', $thn)->where('bulan', $bln)->get();
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->hasMany(User::class, 'kdsatker', 'kdsatker');
     }
 
-    public function scopeVertikal($data, $kdsatker){
+    public function scopeVertikal($data, $kdsatker)
+    {
         return $this->where('kdkoordinator', $kdsatker);
     }
 
-    public function scopeKoordinator($data, $kdsatker, $kdkoordinator){;
+    public function scopeKoordinator($data, $kdsatker, $kdkoordinator)
+    {;
         if ($this->where('kdsatker', $kdsatker)->first()->kdkoordinator === $kdkoordinator) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

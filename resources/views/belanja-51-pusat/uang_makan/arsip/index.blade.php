@@ -51,10 +51,10 @@
                                         @case('kirim')
                                             badge-info
                                             @break
-                                        @case('reject')
+                                        @case('rejected')
                                             badge-error
                                             @break
-                                        @case('approve')
+                                        @case('approved')
                                             badge-success
                                             @break
                                         @default

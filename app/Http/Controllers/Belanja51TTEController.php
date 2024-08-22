@@ -14,7 +14,7 @@ class Belanja51TTEController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver_vertikal'];
+            $gate = ['approver_vertikal', 'plt_admin_satker'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -31,7 +31,7 @@ class Belanja51TTEController extends Controller
     public function detail(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver_vertikal'];
+            $gate = ['approver_vertikal', 'plt_admin_satker'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -50,7 +50,7 @@ class Belanja51TTEController extends Controller
     public function tolak(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver_vertikal'];
+            $gate = ['approver_vertikal', 'plt_admin_satker'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -74,7 +74,7 @@ class Belanja51TTEController extends Controller
     public function TTE(PermohonanBelanja51 $id, Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver_vertikal'];
+            $gate = ['approver_vertikal', 'plt_admin_satker'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -125,7 +125,7 @@ class Belanja51TTEController extends Controller
     public function arsip()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver_vertikal'];
+            $gate = ['approver_vertikal', 'plt_admin_satker'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -142,7 +142,7 @@ class Belanja51TTEController extends Controller
     public function detailArsip(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver_vertikal'];
+            $gate = ['approver_vertikal', 'plt_admin_satker'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -162,7 +162,7 @@ class Belanja51TTEController extends Controller
     public function history(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['approver_vertikal'];
+            $gate = ['approver_vertikal', 'plt_admin_satker'];
         } else {
             $gate = ['admin_satker'];
         }
