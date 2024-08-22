@@ -23,20 +23,4 @@ class PusatBelanja51Controller extends Controller
             'pageTitle' => 'Belanja 51',
         ]);   
     }
-
-    public function document($path)
-    {
-        if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_belanja_51', 'approver', 'sys_admin'];
-        } else {
-            $gate = ['admin_satker'];
-        }
-        if (! Gate::any($gate, auth()->user()->id)) {
-            abort(403);
-        }
-        
-        return response()->file(Storage::path($path), [
-            'Content-Type' => 'application/pdf',
-        ]);
-    }
 }

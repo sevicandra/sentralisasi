@@ -37,8 +37,20 @@
     <li>
         <h2 class="menu-title">Pusat</h2>
         <ul>
-            <li><a href="/belanja-51-monitoring/pusat/uang-makan">Uang Makan</a></li>
-            <li><a href="/belanja-51-monitoring/pusat/uang-lembur">Uang Lembur</a></li>
+            <li>
+                <h2 class="menu-title">Uang Makan</h2>
+                <ul>
+                    <li><a href="/belanja-51-monitoring/pusat/uang-makan">Permohonan</a></li>
+                    <li><a href="/belanja-51-monitoring/pusat/uang-makan/monitoring">Monitoring</a></li>
+                </ul>
+            </li>
+            <li>
+                <h2 class="menu-title">Uang Lembur</h2>
+                <ul>
+                    <li><a href="/belanja-51-monitoring/pusat/uang-lembur">Permohonan</a></li>
+                    <li><a href="/belanja-51-monitoring/pusat/uang-lembur/monitoring">Monitoring</a></li>
+                </ul>
+            </li>
         </ul>
     </li>
 @endcan

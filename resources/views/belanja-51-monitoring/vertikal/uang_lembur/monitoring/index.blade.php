@@ -44,7 +44,7 @@
                             <tr class="*:border">
                                 <x-table.body.column class="text-center">{{ $loop->iteration }}</x-table.body.column>
                                 <x-table.body.column class="text-center">{{ $item->kdsatker }}</x-table.body.column>
-                                <x-table.body.column class="text-center">{{ $item->nmsatker }}</x-table.body.column>
+                                <x-table.body.column class="">{{ $item->nmsatker }}</x-table.body.column>
                                 <x-table.body.column class="text-center">
                                     {{ number_format($item->permohonanUangLemburVertikal->count(), 0, ',', '.') }}
                                 </x-table.body.column>

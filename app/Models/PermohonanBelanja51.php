@@ -35,6 +35,11 @@ class PermohonanBelanja51 extends Model
         return $this->belongsTo(Satker::class, 'kdsatker', 'kdsatker');
     }
 
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'kdunit', 'kdunit')->where('kdsatker', 411792);
+    }
+
     public function dataMakan()
     {
         return $this->hasMany(DataPermohonanUangMakan::class, 'permohonan_id', 'id');
@@ -167,6 +172,55 @@ class PermohonanBelanja51 extends Model
     public function scopeBulanLemburVertikal($data, $tahun)
     {
         $datas = $this->where('jenis', 'lembur')->where('kdsatker', '!=', 411792)->where('tahun', $tahun)->selectRaw('bulan')->groupBy('bulan')->get();
+        $bulan = [];
+        foreach ($datas as $value) {
+            $bulan[] = $value->bulan;
+        }
+        return $bulan;
+    }
+    public function scopePermohonanMakanPusat($data)
+    {
+        return $data->where('kdsatker', 411792)->where('status', 'kirim')->where('jenis', 'makan');
+    }
+
+    public function scopeTahunMakanPusat()
+    {
+        $datas = $this->where('jenis', 'makan')->where('kdsatker', 411792)->selectRaw('tahun')->groupBy('tahun')->get();
+        $tahun = [];
+        foreach ($datas as $value) {
+            $tahun[] = $value->tahun;
+        }
+        return $tahun;
+    }
+
+    public function scopeBulanMakanPusat($data, $tahun)
+    {
+        $datas = $this->where('jenis', 'makan')->where('kdsatker', 411792)->where('tahun', $tahun)->selectRaw('bulan')->groupBy('bulan')->get();
+        $bulan = [];
+        foreach ($datas as $value) {
+            $bulan[] = $value->bulan;
+        }
+        return $bulan;
+    }
+
+    public function scopePermohonanLemburPusat($data)
+    {
+        return $data->where('kdsatker', 411792)->where('status', 'kirim')->where('jenis', 'lembur');
+    }
+
+    public function scopeTahunLemburPusat()
+    {
+        $datas = $this->where('jenis', 'lembur')->where('kdsatker', 411792)->selectRaw('tahun')->groupBy('tahun')->get();
+        $tahun = [];
+        foreach ($datas as $value) {
+            $tahun[] = $value->tahun;
+        }
+        return $tahun;
+    }
+
+    public function scopeBulanLemburPusat($data, $tahun)
+    {
+        $datas = $this->where('jenis', 'lembur')->where('kdsatker', 411792)->where('tahun', $tahun)->selectRaw('bulan')->groupBy('bulan')->get();
         $bulan = [];
         foreach ($datas as $value) {
             $bulan[] = $value->bulan;

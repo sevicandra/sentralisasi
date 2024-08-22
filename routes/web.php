@@ -45,6 +45,7 @@ use App\Http\Controllers\DataPaymentUploadLainController;
 use App\Http\Controllers\MonitoringPenghasilanController;
 use App\Http\Controllers\Belanja51AbsensiLemburController;
 use App\Http\Controllers\SewaRumahDinasNonAktifController;
+use App\Http\Controllers\MonitoringBelanja51PusatController;
 use App\Http\Controllers\SewaRumahDinasMonitoringController;
 use App\Http\Controllers\PusatBelanja51CreateMakanController;
 use App\Http\Controllers\SewaRumahDinasPenghentianController;
@@ -537,7 +538,6 @@ Route::controller(Belanja51CreateLemburController::class)->group(function () {
 
 Route::controller(PusatBelanja51Controller::class)->group(function () {
     Route::get('/belanja-51-pusat', 'index')->middleware('auth:web,admin');
-    Route::get('/belanja-51-pusat/document/{path}', 'document')->where('path', '.*')->middleware('auth:web,admin');
 });
 
 Route::controller(PusatBelanja51MakanController::class)->group(function () {
@@ -643,4 +643,28 @@ Route::controller(MonitoringBelanja51VertikalController::class)->group(function 
     Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{thn}/', 'uangLemburMonitoring')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{thn}/{bln}', 'uangLemburMonitoring')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{thn}/{bln}/{kdsatker}', 'uangLemburMonitoringRekap')->middleware('auth:web');
+});
+
+Route::controller(MonitoringBelanja51PusatController::class)->group(function (){
+    Route::get('/belanja-51-monitoring/pusat/uang-makan', 'uangMakan')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-makan/detail/{id}', 'uangMakanDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-makan/detail/{id}/rekap', 'uangMakanRekap')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/pusat/uang-makan/detail/{id}/approve', 'uangMakanApprove')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/pusat/uang-makan/detail/{id}/tolak', 'uangMakanTolak')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-makan/monitoring', 'uangMakanMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-makan/monitoring/detail/{id}', 'uangMakanMonitoringDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-makan/monitoring/{thn}/', 'uangMakanMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-makan/monitoring/{thn}/{bln}', 'uangMakanMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-makan/monitoring/{thn}/{bln}/{kdunit}', 'uangMakanMonitoringRekap')->middleware('auth:web');
+
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur', 'uangLembur')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur/detail/{id}', 'uangLemburDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur/detail/{id}/rekap', 'uangLemburRekap')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/pusat/uang-lembur/detail/{id}/approve', 'uangLemburApprove')->middleware('auth:web');
+    Route::PATCH('/belanja-51-monitoring/pusat/uang-lembur/detail/{id}/tolak', 'uangLemburTolak')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring', 'uangLemburMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring/detail/{id}', 'uangLemburMonitoringDetail')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring/{thn}/', 'uangLemburMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring/{thn}/{bln}', 'uangLemburMonitoring')->middleware('auth:web');
+    Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring/{thn}/{bln}/{kdunit}', 'uangLemburMonitoringRekap')->middleware('auth:web');
 });

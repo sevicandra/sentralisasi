@@ -24,6 +24,11 @@ class satker extends Model
         }
     }
 
+    public function unit()
+    {
+        return $this->hasMany(Unit::class, 'kdsatker', 'kdsatker');
+    }
+
     public function permohonanUangMakanVertikal()
     {
         return $this    ->hasMany(PermohonanBelanja51::class, 'kdsatker', 'kdsatker')

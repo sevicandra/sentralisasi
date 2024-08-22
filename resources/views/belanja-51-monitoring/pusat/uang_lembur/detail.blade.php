@@ -7,10 +7,20 @@
         <div class="flex flex-col gap-2 py-2 px-4">
             <div class="w-full flex gap-1 flex-wrap justify-between">
                 <div>
-                    <a href="/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{{ $permohonan->tahun }}/{{ $permohonan->bulan }}/{{ $permohonan->kdsatker }}" class="btn btn-xs btn-primary">kembali</a>
+                    <a href="/belanja-51-monitoring/pusat/uang-lembur" class="btn btn-xs btn-primary">kembali</a>
                 </div>
                 <div class="flex gap-1 items-center">
-                    <a href="/belanja-51-monitoring/vertikal/uang-lembur/{{ $permohonan->id }}/rekap" target="_blank" class="btn btn-xs btn-primary">Download Rekap</a>
+                    <a href="/{{ Request::path() }}/rekap" target="_blank" class="btn btn-xs btn-primary">Download Rekap</a>
+                    <form action="/{{ Request::path() }}/tolak" method="post" onsubmit="return confirm('Apakah Anda yakin akan menolak usulan ini?');">
+                        @method('PATCH')
+                        @csrf
+                        <button type="submit" class="btn btn-xs btn-error">Tolak</button>
+                    </form>
+                    <form action="/{{ Request::path() }}/approve" method="post" onsubmit="return confirm('Apakah Anda yakin akan menyetujui usulan ini?');">
+                        @method('PATCH')
+                        @csrf
+                        <button type="submit" class="btn btn-xs btn-success">Approve</button>
+                    </form>
                 </div>
             </div>
         </div>

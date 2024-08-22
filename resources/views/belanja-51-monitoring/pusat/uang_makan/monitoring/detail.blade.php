@@ -7,10 +7,10 @@
         <div class="flex flex-col gap-2 py-2 px-4">
             <div class="w-full flex gap-1 flex-wrap justify-between">
                 <div>
-                    <a href="/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{{ $permohonan->tahun }}/{{ $permohonan->bulan }}/{{ $permohonan->kdsatker }}" class="btn btn-xs btn-primary">kembali</a>
+                    <a href="/belanja-51-monitoring/pusat/uang-makan/monitoring/{{ $permohonan->tahun }}/{{ $permohonan->bulan }}/{{ $permohonan->kdsatker }}" class="btn btn-xs btn-primary">kembali</a>
                 </div>
                 <div class="flex gap-1 items-center">
-                    <a href="/belanja-51-monitoring/vertikal/uang-lembur/{{ $permohonan->id }}/rekap" target="_blank" class="btn btn-xs btn-primary">Download Rekap</a>
+                    <a href="/belanja-51-monitoring/pusat/uang-makan/{{ $permohonan->id }}/rekap" target="_blank" class="btn btn-xs btn-primary">Download Rekap</a>
                 </div>
             </div>
         </div>

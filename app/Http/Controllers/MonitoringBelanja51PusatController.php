@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\satker;
+use App\Models\Unit;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class MonitoringBelanja51VertikalController extends Controller
+class MonitoringBelanja51PusatController extends Controller
 {
     public function uangMakan()
     {
@@ -22,10 +22,9 @@ class MonitoringBelanja51VertikalController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-
-        $data = PermohonanBelanja51::permohonanMakan()->with(['satker'])->orderBy('updated_at', 'asc')->paginate(15)->withQueryString();
-        return view('belanja-51-monitoring.vertikal.uang_makan.index', [
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
+        $data = PermohonanBelanja51::permohonanMakanPusat()->with(['unit'])->orderBy('updated_at', 'asc')->paginate(15)->withQueryString();
+        return view('belanja-51-monitoring.pusat.uang_makan.index', [
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Makan',
             'data' => $data,
         ]);
     }
@@ -40,8 +39,8 @@ class MonitoringBelanja51VertikalController extends Controller
             abort(403);
         }
 
-        return view('belanja-51-monitoring.vertikal.uang_makan.detail', [
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
+        return view('belanja-51-monitoring.pusat.uang_makan.detail', [
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Makan',
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
         ]);
     }
@@ -61,7 +60,7 @@ class MonitoringBelanja51VertikalController extends Controller
         $id->update([
             'status' => 'approved',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-makan')->with('berhasil', 'Permohonan Berhasilakn Disetujui');
+        return redirect('/belanja-51-monitoring/pusat/uang-makan')->with('berhasil', 'Permohonan Berhasilakn Disetujui');
     }
     public function uangMakanTolak(PermohonanBelanja51 $id)
     {
@@ -79,7 +78,7 @@ class MonitoringBelanja51VertikalController extends Controller
         $id->update([
             'status' => 'rejected',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-makan')->with('berhasil', 'Permohonan Berhasilakn Ditolak');
+        return redirect('/belanja-51-monitoring/pusat/uang-makan')->with('berhasil', 'Permohonan Berhasilakn Ditolak');
     }
     public function uangMakanRekap(PermohonanBelanja51 $id)
     {
@@ -186,21 +185,21 @@ class MonitoringBelanja51VertikalController extends Controller
         if (!$bln) {
             $bln = date('m');
         }
-        $tahun = PermohonanBelanja51::tahunMakanVertikal();
-        $bulan = PermohonanBelanja51::bulanMakanVertikal($thn);
-        $satker = satker::with(['permohonanUangMakanVertikal' => function ($q) use ($thn, $bln) {
+        $tahun = PermohonanBelanja51::tahunMakanPusat();
+        $bulan = PermohonanBelanja51::bulanMakanPusat($thn);
+        $satker = Unit::where('kdsatker', '411792')->with(['permohonanUangMakanPusat' => function ($q) use ($thn, $bln) {
             $q->where('tahun', $thn)->where('bulan', $bln);
-        }])->orderBy('order')->where('kdsatker', '!=', '411792')->selectRaw('kdsatker, nmsatker')->get();
-        return view('belanja-51-monitoring.vertikal.uang_makan.monitoring.index', [
+        }])->orderBy('kdunit')->selectRaw('kdunit, nama')->get();
+        return view('belanja-51-monitoring.pusat.uang_makan.monitoring.index', [
             'tahun' => $tahun,
             'bulan' => $bulan,
             'data' => $satker,
             'thn' => $thn,
             'bln' => $bln,
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Makan',
         ]);
     }
-    public function uangMakanMonitoringRekap($thn, $bln, $kdsatker)
+    public function uangMakanMonitoringRekap($thn, $bln, $kdunit)
     {
         if (Auth::guard('web')->check()) {
             $gate = ['sys_admin'];
@@ -211,12 +210,12 @@ class MonitoringBelanja51VertikalController extends Controller
             abort(403);
         }
 
-        $data = PermohonanBelanja51::where('jenis', 'makan')->where('tahun', $thn)->where('bulan', $bln)->where('kdsatker', $kdsatker)->get();
-        return view('belanja-51-monitoring.vertikal.uang_makan.monitoring.rekap', [
+        $data = PermohonanBelanja51::where('jenis', 'makan')->where('tahun', $thn)->where('bulan', $bln)->where('kdunit', $kdunit)->get();
+        return view('belanja-51-monitoring.pusat.uang_makan.monitoring.rekap', [
             'data' => $data,
             'thn' => $thn,
             'bln' => $bln,
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Makan',
         ]);
     }
     public function uangMakanMonitoringDetail(PermohonanBelanja51 $id)
@@ -230,8 +229,8 @@ class MonitoringBelanja51VertikalController extends Controller
             abort(403);
         }
 
-        return view('belanja-51-monitoring.vertikal.uang_makan.monitoring.detail', [
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
+        return view('belanja-51-monitoring.pusat.uang_makan.monitoring.detail', [
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Makan',
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
         ]);
     }
@@ -247,9 +246,9 @@ class MonitoringBelanja51VertikalController extends Controller
             abort(403);
         }
 
-        $data = PermohonanBelanja51::permohonanLembur()->with(['satker'])->orderBy('updated_at', 'asc')->paginate(15)->withQueryString();
-        return view('belanja-51-monitoring.vertikal.uang_lembur.index', [
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+        $data = PermohonanBelanja51::permohonanLemburPusat()->with(['unit'])->orderBy('updated_at', 'asc')->paginate(15)->withQueryString();
+        return view('belanja-51-monitoring.pusat.uang_lembur.index', [
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Lembur',
             'data' => $data,
         ]);
     }
@@ -264,8 +263,8 @@ class MonitoringBelanja51VertikalController extends Controller
             abort(403);
         }
 
-        return view('belanja-51-monitoring.vertikal.uang_lembur.detail', [
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+        return view('belanja-51-monitoring.pusat.uang_lembur.detail', [
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Lembur',
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
         ]);
     }
@@ -285,7 +284,7 @@ class MonitoringBelanja51VertikalController extends Controller
         $id->update([
             'status' => 'approved',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-lembur')->with('berhasil', 'Permohonan Berhasilakn Disetujui');
+        return redirect('/belanja-51-monitoring/pusat/uang-lembur')->with('berhasil', 'Permohonan Berhasilakn Disetujui');
     }
     public function uangLemburTolak(PermohonanBelanja51 $id)
     {
@@ -303,7 +302,7 @@ class MonitoringBelanja51VertikalController extends Controller
         $id->update([
             'status' => 'rejected',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-lembur')->with('berhasil', 'Permohonan Berhasilakn Ditolak');
+        return redirect('/belanja-51-monitoring/pusat/uang-lembur')->with('berhasil', 'Permohonan Berhasilakn Ditolak');
     }
     public function uangLemburRekap(PermohonanBelanja51 $id)
     {
@@ -414,21 +413,21 @@ class MonitoringBelanja51VertikalController extends Controller
         if (!$bln) {
             $bln = date('m');
         }
-        $tahun = PermohonanBelanja51::tahunLemburVertikal();
-        $bulan = PermohonanBelanja51::bulanLemburVertikal($thn);
-        $satker = satker::with(['permohonanUangLemburVertikal' => function ($q) use ($thn, $bln) {
+        $tahun = PermohonanBelanja51::tahunLemburPusat();
+        $bulan = PermohonanBelanja51::bulanLemburPusat($thn);
+        $satker = Unit::with(['permohonanUangLemburPusat' => function ($q) use ($thn, $bln) {
             $q->where('tahun', $thn)->where('bulan', $bln);
-        }])->orderBy('order')->where('kdsatker', '!=', '411792')->selectRaw('kdsatker, nmsatker')->get();
-        return view('belanja-51-monitoring.vertikal.uang_lembur.monitoring.index', [
+        }])->orderBy('kdunit')->where('kdsatker', '411792')->selectRaw('kdunit, nama')->get();
+        return view('belanja-51-monitoring.pusat.uang_lembur.monitoring.index', [
             'tahun' => $tahun,
             'bulan' => $bulan,
             'data' => $satker,
             'thn' => $thn,
             'bln' => $bln,
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Lembur',
         ]);
     }
-    public function uangLemburMonitoringRekap($thn, $bln, $kdsatker)
+    public function uangLemburMonitoringRekap($thn, $bln, $kdunit)
     {
         if (Auth::guard('web')->check()) {
             $gate = ['sys_admin'];
@@ -439,12 +438,12 @@ class MonitoringBelanja51VertikalController extends Controller
             abort(403);
         }
 
-        $data = PermohonanBelanja51::where('jenis', 'lembur')->where('tahun', $thn)->where('bulan', $bln)->where('kdsatker', $kdsatker)->get();
-        return view('belanja-51-monitoring.vertikal.uang_lembur.monitoring.rekap', [
+        $data = PermohonanBelanja51::where('jenis', 'lembur')->where('tahun', $thn)->where('bulan', $bln)->where('kdunit', $kdunit)->get();
+        return view('belanja-51-monitoring.pusat.uang_lembur.monitoring.rekap', [
             'data' => $data,
             'thn' => $thn,
             'bln' => $bln,
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Lembur',
         ]);
     }
     public function uangLemburMonitoringDetail(PermohonanBelanja51 $id)
@@ -458,9 +457,9 @@ class MonitoringBelanja51VertikalController extends Controller
             abort(403);
         }
 
-        return view('belanja-51-monitoring.vertikal.uang_lembur.monitoring.detail', [
+        return view('belanja-51-monitoring.pusat.uang_lembur.monitoring.detail', [
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
-            'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+            'pageTitle' => 'Monitoring Belanja 51 Pusat - Uang Lembur',
         ]);
     }
 }

@@ -9,13 +9,13 @@
                 <div class="flex flex-col gap-1">
                     <div class="flex gap-1 flex-wrap">
                         @foreach ($tahun as $item)
-                            <a href="{{ config('app.url') }}/belanja-51-monitoring/vertikal/uang-makan/monitoring/{{ $item }}"
+                            <a href="{{ config('app.url') }}/belanja-51-monitoring/pusat/uang-makan/monitoring/{{ $item }}"
                                 class="btn btn-xs btn-outline btn-primary @if ((!$thn && $item == date('Y')) || $item == $thn) btn-active @endif">{{ $item }}</a>
                         @endforeach
                     </div>
                     <div class="flex gap-1 flex-wrap">
                         @foreach ($bulan as $item)
-                            <a href="{{ config('app.url') }}/belanja-51-monitoring/vertikal/uang-makan/monitoring/{{ $thn }}/{{ $item }}"
+                            <a href="{{ config('app.url') }}/belanja-51-monitoring/pusat/uang-makan/monitoring/{{ $thn }}/{{ $item }}"
                                 class="btn btn-xs btn-outline btn-primary @if ((!$bln && $item == date('m')) || $item == $bln) btn-active @endif">{{ $item }}</a>
                         @endforeach
                     </div>
@@ -43,13 +43,13 @@
                         @foreach ($data as $item)
                             <tr class="*:border">
                                 <x-table.body.column class="text-center">{{ $loop->iteration }}</x-table.body.column>
-                                <x-table.body.column class="text-center">{{ $item->kdsatker }}</x-table.body.column>
-                                <x-table.body.column class="">{{ $item->nmsatker }}</x-table.body.column>
+                                <x-table.body.column class="text-center">{{ $item->kdunit }}</x-table.body.column>
+                                <x-table.body.column class="">{{ $item->nama }}</x-table.body.column>
                                 <x-table.body.column class="text-center">
-                                    {{ number_format($item->permohonanUangMakanVertikal->count(), 0, ',', '.') }}
+                                    {{ number_format($item->permohonanUangMakanPusat->count(), 0, ',', '.') }}
                                 </x-table.body.column>
                                 <x-table.body.column class="text-center">
-                                    <a href="/belanja-51-monitoring/vertikal/uang-makan/monitoring/{{ $thn }}/{{ $bln }}/{{ $item->kdsatker }}" class="btn btn-xs btn-primary">detail</a>
+                                    <a href="/belanja-51-monitoring/pusat/uang-makan/monitoring/{{ $thn }}/{{ $bln }}/{{ $item->kdunit }}" class="btn btn-xs btn-primary">detail</a>
                                 </x-table.body.column>
                             </tr>
                         @endforeach
