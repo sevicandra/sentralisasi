@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\romanToDecimal;
-use Illuminate\Http\Request;
-use App\Models\AbsensiUangMakan;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Helper\romanToDecimal;
+use App\Models\AbsensiUangMakan;
+use App\Models\NotifikasiBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -31,6 +32,7 @@ class Belanja51AbsensiMakanController extends Controller
         $tahun = AbsensiUangMakan::tahun(auth()->user()->kdsatker);
         $bulan = AbsensiUangMakan::bulan(auth()->user()->kdsatker, $thn);
         $data = AbsensiUangMakan::rekap(auth()->user()->kdsatker, $thn, $bln)->paginate(15);
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.absensi.index', [
             'thn' => $thn,
             'tahun' => $tahun,
@@ -38,6 +40,7 @@ class Belanja51AbsensiMakanController extends Controller
             'bln' => $bln,
             'data' => $data,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -51,9 +54,10 @@ class Belanja51AbsensiMakanController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.absensi.create',[
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -146,11 +150,13 @@ class Belanja51AbsensiMakanController extends Controller
             abort(403);
         }
         $data = AbsensiUangMakan::Detail(auth()->user()->kdsatker, $thn, $bln, $nip);
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);   
         return view('belanja-51.uang_makan.absensi.detail', [
             'data' => $data,
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -171,12 +177,13 @@ class Belanja51AbsensiMakanController extends Controller
         $tanggal = date($data->tanggal);
         $tahun = substr($tanggal, 0, 4);
         $bulan = substr($tanggal, 5, 2);
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.absensi.edit', [
             'data' => $data,
             'tahun' => $tahun,
             'bulan' => $bulan,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 

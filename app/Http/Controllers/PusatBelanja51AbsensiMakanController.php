@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\romanToDecimal;
-use Illuminate\Http\Request;
-use App\Models\AbsensiUangMakan;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Helper\romanToDecimal;
+use App\Models\AbsensiUangMakan;
+use App\Models\NotifikasiBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -38,6 +39,7 @@ class PusatBelanja51AbsensiMakanController extends Controller
             'bln' => $bln,
             'data' => $data,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -54,6 +56,7 @@ class PusatBelanja51AbsensiMakanController extends Controller
 
         return view('belanja-51-pusat.uang_makan.absensi.create', [
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -152,6 +155,7 @@ class PusatBelanja51AbsensiMakanController extends Controller
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -178,6 +182,7 @@ class PusatBelanja51AbsensiMakanController extends Controller
             'tahun' => $tahun,
             'bulan' => $bulan,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 

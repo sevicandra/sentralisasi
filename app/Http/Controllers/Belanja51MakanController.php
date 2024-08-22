@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -19,9 +20,11 @@ class Belanja51MakanController extends Controller
             abort(403);
         }
         $data = PermohonanBelanja51::DraftMakan(auth()->user()->kdsatker)->paginate(15)->withQueryString();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.index', [
             'data' => $data,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function arsip()
@@ -35,9 +38,11 @@ class Belanja51MakanController extends Controller
             abort(403);
         }
         $data = PermohonanBelanja51::ArsipMakan(auth()->user()->kdsatker)->paginate(15)->withQueryString();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.arsip.index', [
             'data' => $data,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function detail(PermohonanBelanja51 $id)
@@ -53,9 +58,11 @@ class Belanja51MakanController extends Controller
         if ($id->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.detail', [
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function detailArsip(PermohonanBelanja51 $id)
@@ -71,9 +78,11 @@ class Belanja51MakanController extends Controller
         if ($id->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.arsip.detail', [
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function destroy(PermohonanBelanja51 $id)
@@ -161,11 +170,12 @@ class Belanja51MakanController extends Controller
             abort(403);
         }
 
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.history', [
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
             'back' => '/belanja-51-vertikal/uang-makan/arsip',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 }

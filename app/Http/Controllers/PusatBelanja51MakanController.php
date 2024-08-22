@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -22,6 +23,7 @@ class PusatBelanja51MakanController extends Controller
         return view('belanja-51-pusat.uang_makan.index', [
             'data' => $data,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function arsip()
@@ -38,6 +40,7 @@ class PusatBelanja51MakanController extends Controller
         return view('belanja-51-pusat.uang_makan.arsip.index', [
             'data' => $data,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function detail(PermohonanBelanja51 $id)
@@ -58,6 +61,7 @@ class PusatBelanja51MakanController extends Controller
         return view('belanja-51-pusat.uang_makan.detail', [
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function detailArsip(PermohonanBelanja51 $id)
@@ -76,6 +80,7 @@ class PusatBelanja51MakanController extends Controller
         return view('belanja-51-pusat.uang_makan.arsip.detail', [
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function destroy(PermohonanBelanja51 $id)
@@ -168,6 +173,7 @@ class PusatBelanja51MakanController extends Controller
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
             'back' => '/belanja-51-pusat/uang-makan/arsip',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 }

@@ -14,7 +14,13 @@
     <li>
         <h2 class="menu-title">Halaman Utama</h2>
         <ul>
-            <li><a href="/belanja-51-pusat/">Beranda</a></li>
+            <li><a href="/belanja-51-pusat/">Beranda
+                    @if ($notifBelanja51Tolak > 0)
+                        <div class="absolute top-1/2 -translate-y-1/2 end-1 badge badge-warning shadow border">
+                            {{ $notifBelanja51Tolak }}
+                        </div>
+                    @endif
+                </a></li>
         </ul>
     </li>
     <li>

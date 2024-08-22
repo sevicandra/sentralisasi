@@ -110,6 +110,7 @@ class AdminUserController extends Controller
                 'nip'=> $request->nip,
                 'nohp'=> $request->nohp,
                 'kdsatker'=> $request->kdsatker,
+                'kdunit' => $request->kdunit,
             ]);
     
             return redirect('/admin/user')->with('berhasil', 'data berhasil di simpan.');
@@ -211,6 +212,7 @@ class AdminUserController extends Controller
                 'nip'=> $request->nip,
                 'nohp'=> $request->nohp,
                 'kdsatker'=> $request->kdsatker,
+                'kdunit' => $request->kdunit,
             ]);
     
             return redirect('/admin/user')->with('berhasil', 'data berhasil di ubah.');

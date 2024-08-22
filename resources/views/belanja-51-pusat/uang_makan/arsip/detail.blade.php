@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="border border-base-300 p-1 rounded-box">
-                        <x-pdf-viewer src="{{ env('APP_URL') }}/belanja-51-pusat/document/{{ $permohonan->file }}" />
+                        <x-pdf-viewer src="{{ env('APP_URL') }}/belanja-51-v2/document/{{ $permohonan->file }}" />
                     </div>
                 </div>
                 <div class="carousel-item w-full grid grid-rows-[auto_1fr] gap-2" id="Lampiran">
@@ -60,7 +60,7 @@
                                             <x-table.body.column
                                                 class="whitespace-nowrap">{{ $item->nama }}</x-table.body.column>
                                             <x-table.body.column class="text-center">
-                                                <a href="{{ env('APP_URL') }}/belanja-51-pusat/document/{{ $item->file }}"
+                                                <a href="{{ env('APP_URL') }}/belanja-51-v2/document/{{ $item->file }}"
                                                     class="btn btn-xs btn-primary btn-outline" target="_blank">Preview</a>
                                             </x-table.body.column>
                                             <x-table.body.column class="text-center">

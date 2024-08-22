@@ -6,12 +6,13 @@ use App\Models\Kop;
 use App\Models\User;
 use App\Models\Nomor;
 use App\Models\satker;
+use App\Models\adminSatker;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spipu\Html2Pdf\Html2Pdf;
 use Illuminate\Support\Carbon;
 use App\Models\AbsensiUangMakan;
-use App\Models\adminSatker;
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -34,11 +35,13 @@ class Belanja51CreateMakanController extends Controller
         }
         $tahun = AbsensiUangMakan::tahun(auth()->user()->kdsatker);
         $bulan = AbsensiUangMakan::RekapBulanan(auth()->user()->kdsatker, $thn)->get();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.create.index', [
             'bulan' => $bulan,
             'tahun' => $tahun,
             'thn' => $thn,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -58,6 +61,7 @@ class Belanja51CreateMakanController extends Controller
         $aprSatker = User::AprSatker(auth()->user()->kdsatker)->get();
         $adminSatker = adminSatker::where('kdsatker', auth()->user()->kdsatker)->first();
         $satker = satker::where('kdsatker', auth()->user()->kdsatker)->first();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.create.preview', [
             'data' => $data,
             'thn' => $thn,
@@ -68,6 +72,7 @@ class Belanja51CreateMakanController extends Controller
             'minDate' => $minDate,
             'maxDate' => $maxDate,
             'pageTitle' => 'Uang Makan',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 

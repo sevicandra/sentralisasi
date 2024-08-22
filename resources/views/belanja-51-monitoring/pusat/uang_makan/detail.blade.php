@@ -11,11 +11,7 @@
                 </div>
                 <div class="flex gap-1 items-center">
                     <a href="/{{ Request::path() }}/rekap" target="_blank" class="btn btn-xs btn-primary">Download Rekap</a>
-                    <form action="/{{ Request::path() }}/tolak" method="post" onsubmit="return confirm('Apakah Anda yakin akan menolak usulan ini?');">
-                        @method('PATCH')
-                        @csrf
-                        <button type="submit" class="btn btn-xs btn-error">Tolak</button>
-                    </form>
+                    <button type="button" onclick="penolakan_modal.showModal()" class="btn btn-xs btn-error">Tolak</button>
                     <form action="/{{ Request::path() }}/approve" method="post" onsubmit="return confirm('Apakah Anda yakin akan menyetujui usulan ini?');">
                         @method('PATCH')
                         @csrf
@@ -116,5 +112,28 @@
         <div>
             {{-- {{$data->links()}} --}}
         </div>
+        <dialog id="penolakan_modal" class="modal">
+            <div class="modal-box">
+                <form action="/{{ Request::path() }}/tolak" method="post" onsubmit="return confirm('Apakah Anda yakin akan menolak usulan ini?');">
+                    @csrf
+                    @method('PATCH')
+                    <div class="flex flex-col gap-2 w-full max-w-2xl">
+                        <div class="flex flex-col">
+                            <div class="flex flex-col">
+                                <x-input name="catatan" value="{{ old('catatan') }}"
+                                    label="Catatan:" size="w-full" :required="true" />
+                            </div>
+                        </div>
+                        <div class="flex gap-2 p-2">
+                            <button type="submit"
+                                class="btn btn-xs btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </dialog>
     </div>
 @endsection

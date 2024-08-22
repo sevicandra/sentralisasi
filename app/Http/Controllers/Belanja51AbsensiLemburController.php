@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helper\romanToDecimal;
 use App\Models\AbsensiUangLembur;
+use App\Models\NotifikasiBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -34,7 +35,7 @@ class Belanja51AbsensiLemburController extends Controller
         $tahun = AbsensiUangLembur::tahun(auth()->user()->kdsatker);
         $bulan = AbsensiUangLembur::bulan(auth()->user()->kdsatker, $thn);
         $data = AbsensiUangLembur::rekap(auth()->user()->kdsatker, $thn, $bln)->paginate(15);
-        
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.absensi.index', [
             'thn' => $thn,
             'tahun' => $tahun,
@@ -42,6 +43,7 @@ class Belanja51AbsensiLemburController extends Controller
             'bln' => $bln,
             'data' => $data,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -55,9 +57,10 @@ class Belanja51AbsensiLemburController extends Controller
         if (! Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.absensi.create', [
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -156,11 +159,13 @@ class Belanja51AbsensiLemburController extends Controller
             abort(403);
         }
         $data = AbsensiUangLembur::Detail(auth()->user()->kdsatker, $thn, $bln, $nip);
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.absensi.detail', [
             'data' => $data,
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -181,12 +186,13 @@ class Belanja51AbsensiLemburController extends Controller
         $tanggal = date($data->tanggal);
         $tahun = substr($tanggal, 0, 4);
         $bulan = substr($tanggal, 5, 2);
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.absensi.edit', [
             'data' => $data,
             'tahun' => $tahun,
             'bulan' => $bulan,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 

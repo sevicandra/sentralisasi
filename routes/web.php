@@ -457,6 +457,7 @@ Route::controller(AdminRefPenandatanganController::class)->group(function () {
 Route::controller(Belanja51Controller::class)->group(function () {
     Route::get('/belanja-51-vertikal', 'index')->middleware('auth:web,admin');
     Route::get('/belanja-51-v2/document/{path}', 'document')->where('path', '.*')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-vertikal/notifikasi/{id}', 'notifikasi')->middleware('auth:web,admin');
 });
 
 Route::controller(Belanja51MakanController::class)->group(function () {
@@ -538,6 +539,7 @@ Route::controller(Belanja51CreateLemburController::class)->group(function () {
 
 Route::controller(PusatBelanja51Controller::class)->group(function () {
     Route::get('/belanja-51-pusat', 'index')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-pusat/notifikasi/{id}', 'notifikasi')->middleware('auth:web,admin');
 });
 
 Route::controller(PusatBelanja51MakanController::class)->group(function () {

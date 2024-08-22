@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\satker;
+use Illuminate\Http\Request;
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
@@ -27,6 +30,10 @@ class MonitoringBelanja51VertikalController extends Controller
         return view('belanja-51-monitoring.vertikal.uang_makan.index', [
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
             'data' => $data,
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangMakanDetail(PermohonanBelanja51 $id)
@@ -43,6 +50,10 @@ class MonitoringBelanja51VertikalController extends Controller
         return view('belanja-51-monitoring.vertikal.uang_makan.detail', [
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangMakanApprove(PermohonanBelanja51 $id)
@@ -61,9 +72,14 @@ class MonitoringBelanja51VertikalController extends Controller
         $id->update([
             'status' => 'approved',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-makan')->with('berhasil', 'Permohonan Berhasilakn Disetujui');
+        $id->history()->create([
+            'action' => 'approve',
+            'nama' => auth()->user()->nama,
+            'nip' => auth()->user()->nip,
+        ]);
+        return redirect('/belanja-51-monitoring/vertikal/uang-makan')->with('berhasil', 'Permohonan Berhasil Disetujui');
     }
-    public function uangMakanTolak(PermohonanBelanja51 $id)
+    public function uangMakanTolak(Request $request, PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
             $gate = ['sys_admin'];
@@ -76,10 +92,29 @@ class MonitoringBelanja51VertikalController extends Controller
         if ($id->status != 'kirim') {
             return abort(403);
         }
+        $validator = Validator::make($request->all(), [
+            'catatan' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->with('gagal', 'Catatan wajib diisi');
+        }
         $id->update([
             'status' => 'rejected',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-makan')->with('berhasil', 'Permohonan Berhasilakn Ditolak');
+        $id->history()->create([
+            'catatan' => $request->catatan,
+            'action' => 'reject',
+            'nama' => auth()->user()->nama,
+            'nip' => auth()->user()->nip,
+        ]);
+        NotifikasiBelanja51::create([
+            'kdsatker' => $id->kdsatker,
+            'kdunit' => $id->kdunit,
+            'nomor' => $id->nomor,
+            'catatan' => $request->catatan,
+            'status' => 'unread',
+        ]);
+        return redirect('/belanja-51-monitoring/vertikal/uang-makan')->with('berhasil', 'Permohonan Berhasil Ditolak');
     }
     public function uangMakanRekap(PermohonanBelanja51 $id)
     {
@@ -198,6 +233,10 @@ class MonitoringBelanja51VertikalController extends Controller
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangMakanMonitoringRekap($thn, $bln, $kdsatker)
@@ -217,6 +256,10 @@ class MonitoringBelanja51VertikalController extends Controller
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangMakanMonitoringDetail(PermohonanBelanja51 $id)
@@ -233,6 +276,10 @@ class MonitoringBelanja51VertikalController extends Controller
         return view('belanja-51-monitoring.vertikal.uang_makan.monitoring.detail', [
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Makan',
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
 
@@ -251,6 +298,10 @@ class MonitoringBelanja51VertikalController extends Controller
         return view('belanja-51-monitoring.vertikal.uang_lembur.index', [
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
             'data' => $data,
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangLemburDetail(PermohonanBelanja51 $id)
@@ -267,6 +318,10 @@ class MonitoringBelanja51VertikalController extends Controller
         return view('belanja-51-monitoring.vertikal.uang_lembur.detail', [
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangLemburApprove(PermohonanBelanja51 $id)
@@ -285,9 +340,14 @@ class MonitoringBelanja51VertikalController extends Controller
         $id->update([
             'status' => 'approved',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-lembur')->with('berhasil', 'Permohonan Berhasilakn Disetujui');
+        $id->history()->create([
+            'action' => 'approve',
+            'nama' => auth()->user()->nama,
+            'nip' => auth()->user()->nip,
+        ]);
+        return redirect('/belanja-51-monitoring/vertikal/uang-lembur')->with('berhasil', 'Permohonan Berhasil Disetujui');
     }
-    public function uangLemburTolak(PermohonanBelanja51 $id)
+    public function uangLemburTolak(Request $request, PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
             $gate = ['sys_admin'];
@@ -300,10 +360,29 @@ class MonitoringBelanja51VertikalController extends Controller
         if ($id->status != 'kirim') {
             return abort(403);
         }
+        $validator = Validator::make($request->all(), [
+            'catatan' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->with('gagal', 'Catatan wajib diisi');
+        }
         $id->update([
             'status' => 'rejected',
         ]);
-        return redirect('/belanja-51-monitoring/vertikal/uang-lembur')->with('berhasil', 'Permohonan Berhasilakn Ditolak');
+        $id->history()->create([
+            'catatan' => $request->catatan,
+            'action' => 'reject',
+            'nama' => auth()->user()->nama,
+            'nip' => auth()->user()->nip,
+        ]);
+        NotifikasiBelanja51::create([
+            'kdsatker' => $id->kdsatker,
+            'kdunit' => $id->kdunit,
+            'nomor' => $id->nomor,
+            'catatan' => $request->catatan,
+            'status' => 'unread',
+        ]);
+        return redirect('/belanja-51-monitoring/vertikal/uang-lembur')->with('berhasil', 'Permohonan Berhasil Ditolak');
     }
     public function uangLemburRekap(PermohonanBelanja51 $id)
     {
@@ -426,6 +505,10 @@ class MonitoringBelanja51VertikalController extends Controller
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangLemburMonitoringRekap($thn, $bln, $kdsatker)
@@ -445,6 +528,10 @@ class MonitoringBelanja51VertikalController extends Controller
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
     public function uangLemburMonitoringDetail(PermohonanBelanja51 $id)
@@ -461,6 +548,10 @@ class MonitoringBelanja51VertikalController extends Controller
         return view('belanja-51-monitoring.vertikal.uang_lembur.monitoring.detail', [
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
             'pageTitle' => 'Monitoring Belanja 51 Vertikal - Uang Lembur',
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count()
         ]);
     }
 }

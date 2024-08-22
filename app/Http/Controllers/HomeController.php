@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\dataHonorarium;
-use App\Models\dataPembayaranLainnya;
+use App\Models\sewaRumahDinas;
 use App\Models\dokumenUangMakan;
 use App\Models\dokumenUangLembur;
-use App\Models\sewaRumahDinas;
+use App\Models\NotifikasiBelanja51;
+use App\Models\PermohonanBelanja51;
+use App\Models\dataPembayaranLainnya;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,12 @@ class HomeController extends Controller
             'rumdinReject'=>sewaRumahDinas::countReject(),
             'rumdinUsulan'=>sewaRumahDinas::countUsulan(),
             'rumdinPenghentian'=>sewaRumahDinas::countPenghentian(),
+            'permohonanMakanPusat' =>PermohonanBelanja51::permohonanMakanPusat()->count(),
+            'permohonanMakanVertikal' =>PermohonanBelanja51::permohonanMakan()->count(),
+            'permohonanLemburPusat' =>PermohonanBelanja51::permohonanLemburPusat()->count(),
+            'permohonanLemburVertikal' =>PermohonanBelanja51::permohonanLembur()->count(),
+            'notifBelanja51TolakVertikal' =>NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker),
+            'notifBelanja51TolakPusat' =>NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 }

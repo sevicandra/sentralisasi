@@ -13,15 +13,19 @@
                     @csrf
                     <div class="flex flex-col gap-2 w-full max-w-2xl">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2 gap-2">
-                            <x-input name="nama" value="{{ old('nama') }}" label="Nama:" size="w-full" />
-                            <x-input name="nip" value="{{ old('nip') }}" label="NIP:" size="w-full" />
+                            <x-input name="nama" value="{{ old('nama') }}" label="Nama:" size="w-full"
+                                :required="true" />
+                            <x-input name="nip" value="{{ old('nip') }}" label="NIP:" size="w-full"
+                                :required="true" />
                             @if (Auth::guard('web')->check())
                                 @can('sys_admin', auth()->user()->id)
                                     <x-input name="kdsatker" value="{{ old('kdsatker') }}" label="Kode Satker:"
                                         size="w-full" />
+                                    <x-input name="kdunit" value="{{ old('kdunit') }}" label="Kode Unit:" size="w-full" />
                                 @endcan
                             @endif
-                            <x-input name="nohp" value="{{ old('nohp') }}" label="Nomor HP:" size="w-full" />
+                            <x-input name="nohp" value="{{ old('nohp') }}" label="Nomor HP:" size="w-full"
+                                :required="true" />
                         </div>
                         <div class="flex gap-2 p-2">
                             <a href="/admin/user" class="btn btn-xs btn-secondary">Kembali</a>

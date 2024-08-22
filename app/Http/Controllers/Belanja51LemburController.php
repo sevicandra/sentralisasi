@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -21,9 +22,11 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
         $data = PermohonanBelanja51::DraftLembur(auth()->user()->kdsatker)->paginate(15)->withQueryString();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.index', [
             'data' => $data,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function arsip()
@@ -37,9 +40,11 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
         $data = PermohonanBelanja51::ArsipLembur(auth()->user()->kdsatker)->paginate(15)->withQueryString();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.arsip.index', [
             'data' => $data,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function detail(PermohonanBelanja51 $id)
@@ -55,12 +60,14 @@ class Belanja51LemburController extends Controller
         if ($id->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.detail', [
             'permohonan' => PermohonanBelanja51::with(['lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
             'spkl' => $id->spkl,
             'sptjm' => $id->sptjm,
             'lpt' => $id->lpt,
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function detailArsip(PermohonanBelanja51 $id)
@@ -76,9 +83,11 @@ class Belanja51LemburController extends Controller
         if ($id->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.arsip.detail', [
             'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function destroy(PermohonanBelanja51 $id)
@@ -169,11 +178,12 @@ class Belanja51LemburController extends Controller
             abort(403);
         }
 
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_lembur.history', [
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
             'back' => '/belanja-51-vertikal/uang-lembur/arsip',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
     public function uploadSPKL(PermohonanBelanja51 $id, Request $request)

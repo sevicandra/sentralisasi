@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\Esign\Tte;
 use Illuminate\Http\Request;
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -22,9 +23,11 @@ class Belanja51TTEController extends Controller
             abort(403);
         }
         $data = PermohonanBelanja51::TTE(auth()->user()->nip)->paginate(15)->withQueryString();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.TTE.index', [
             'data' => $data,
             'pageTitle' => 'TTE',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -41,9 +44,11 @@ class Belanja51TTEController extends Controller
         if ($id->nip != auth()->user()->nip || $id->status != 'proses') {
             abort(403);
         }
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.TTE.detail', [
             'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -133,9 +138,11 @@ class Belanja51TTEController extends Controller
             abort(403);
         }
         $data = PermohonanBelanja51::ArsipTTE(auth()->user()->nip)->paginate(15)->withQueryString();
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.TTE.arsip.index', [
             'data' => $data,
             'pageTitle' => 'TTE',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -152,10 +159,11 @@ class Belanja51TTEController extends Controller
         if ($id->nip != auth()->user()->nip || ($id->status != 'kirim' && $id->status != 'approve' && $id->status != 'reject')) {
             abort(403);
         }
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.TTE.arsip.detail', [
             'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 
@@ -173,11 +181,12 @@ class Belanja51TTEController extends Controller
             abort(403);
         }
 
-
+        $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
         return view('belanja-51.uang_makan.history', [
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
             'back' => '/belanja-51-vertikal/tte/arsip',
+            'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
     }
 }

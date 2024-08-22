@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -24,6 +25,7 @@ class PusatBelanja51LemburController extends Controller
         return view('belanja-51-pusat.uang_lembur.index', [
             'data' => $data,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function arsip()
@@ -40,6 +42,7 @@ class PusatBelanja51LemburController extends Controller
         return view('belanja-51-pusat.uang_lembur.arsip.index', [
             'data' => $data,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function detail(PermohonanBelanja51 $id)
@@ -61,6 +64,7 @@ class PusatBelanja51LemburController extends Controller
             'spkl' => $id->spkl,
             'sptjm' => $id->sptjm,
             'lpt' => $id->lpt,
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function detailArsip(PermohonanBelanja51 $id)
@@ -79,6 +83,7 @@ class PusatBelanja51LemburController extends Controller
         return view('belanja-51-pusat.uang_lembur.arsip.detail', [
             'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function destroy(PermohonanBelanja51 $id)
@@ -174,6 +179,7 @@ class PusatBelanja51LemburController extends Controller
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
             'back' => '/belanja-51-pusat/uang-lembur/arsip',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
     public function uploadSPKL(PermohonanBelanja51 $id, Request $request)

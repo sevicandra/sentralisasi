@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helper\romanToDecimal;
 use App\Models\AbsensiUangLembur;
+use App\Models\NotifikasiBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -42,6 +43,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             'bln' => $bln,
             'data' => $data,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -58,6 +60,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
 
         return view('belanja-51-pusat.uang_lembur.absensi.create', [
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -162,6 +165,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             'thn' => $thn,
             'bln' => $bln,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -188,6 +192,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             'tahun' => $tahun,
             'bulan' => $bulan,
             'pageTitle' => 'Uang Lembur',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 

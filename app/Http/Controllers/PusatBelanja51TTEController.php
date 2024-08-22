@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\Esign\Tte;
 use Illuminate\Http\Request;
+use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -25,6 +26,7 @@ class PusatBelanja51TTEController extends Controller
         return view('belanja-51-pusat.TTE.index', [
             'data' => $data,
             'pageTitle' => 'TTE',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -44,6 +46,7 @@ class PusatBelanja51TTEController extends Controller
         return view('belanja-51-pusat.TTE.detail', [
             'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -136,6 +139,7 @@ class PusatBelanja51TTEController extends Controller
         return view('belanja-51-pusat.TTE.arsip.index', [
             'data' => $data,
             'pageTitle' => 'TTE',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -156,6 +160,7 @@ class PusatBelanja51TTEController extends Controller
         return view('belanja-51-pusat.TTE.arsip.detail', [
             'permohonan' => PermohonanBelanja51::with(['dokumen', 'lampiran'])->find($id->id),
             'pageTitle' => $id->uraian,
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 
@@ -178,6 +183,7 @@ class PusatBelanja51TTEController extends Controller
             'data' => $id->history()->get(),
             'pageTitle' => $id->uraian,
             'back' => '/belanja-51-pusat/tte/arsip',
+            'notifBelanja51Tolak' => NotifikasiBelanja51::NotifikasiPusat(auth()->user()->kdsatker, auth()->user()->kdunit),
         ]);
     }
 }
