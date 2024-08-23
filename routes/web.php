@@ -6,6 +6,8 @@ use App\Http\Controllers\SsoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RefKopController;
+use App\Http\Controllers\RefNomorController;
 use App\Http\Controllers\AdminRoleController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Belanja51Controller;
@@ -669,4 +671,22 @@ Route::controller(MonitoringBelanja51PusatController::class)->group(function (){
     Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring/{thn}/', 'uangLemburMonitoring')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring/{thn}/{bln}', 'uangLemburMonitoring')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/pusat/uang-lembur/monitoring/{thn}/{bln}/{kdunit}', 'uangLemburMonitoringRekap')->middleware('auth:web');
+});
+
+Route::controller(RefNomorController::class)->group(function () {
+    Route::get('/admin/ref-nomor/', 'index')->middleware('auth:web,admin');
+    Route::get('/admin/ref-nomor/create', 'create')->middleware('auth:web,admin');
+    Route::post('/admin/ref-nomor/create', 'store')->middleware('auth:web,admin');
+    Route::get('/admin/ref-nomor/{nomor}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/admin/ref-nomor/{nomor}/edit', 'update')->middleware('auth:web,admin');
+    Route::delete('/admin/ref-nomor/{nomor}', 'destroy')->middleware('auth:web,admin');
+});
+
+Route::controller(RefKopController::class)->group(function () {
+    Route::get('/admin/ref-kop/', 'index')->middleware('auth:web,admin');
+    Route::get('/admin/ref-kop/create', 'create')->middleware('auth:web,admin');
+    Route::post('/admin/ref-kop/create', 'store')->middleware('auth:web,admin');
+    Route::get('/admin/ref-kop/{kop}/edit', 'edit')->middleware('auth:web,admin');
+    Route::patch('/admin/ref-kop/{kop}/edit', 'update')->middleware('auth:web,admin');
+    Route::delete('/admin/ref-kop/{kop}', 'destroy')->middleware('auth:web,admin');
 });

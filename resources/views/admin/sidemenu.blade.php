@@ -15,6 +15,8 @@
                 <li><a href="/admin/admin-satker">Admin Satker</a></li>
                 <li><a href="/admin/bulan">Bulan</a></li>
                 <li><a href="/admin/ref-penandatangan">Penandatangan</a></li>
+                <li><a href="/admin/ref-nomor">Nomor</a></li>
+                <li><a href="/admin/ref-kop">Kop</a></li>
             </ul>
         </li>
         <div class="absolute bottom-0 start-0 p-3 text-base-content">
