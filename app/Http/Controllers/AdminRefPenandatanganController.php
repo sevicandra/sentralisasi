@@ -42,7 +42,7 @@ class AdminRefPenandatanganController extends Controller
         }
 
         return view('admin.refPenandatangan.detail', [
-            'data' => Profil::get($kdsatker)->data,
+            'data' => Profil::get($kdsatker),
             'kdsatker' => $kdsatker,
         ]);
     }

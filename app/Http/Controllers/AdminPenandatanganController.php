@@ -21,7 +21,7 @@ class AdminPenandatanganController extends Controller
             abort(403);
         }
         return view('admin.penandatangan.index', [
-            'data' => Profil::get(auth()->user()->kdsatker)->data
+            'data' => Profil::get(auth()->user()->kdsatker)
         ]);
     }
 

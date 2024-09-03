@@ -19,10 +19,10 @@ class Profil
                     $response = Http::withHeaders([
                         'Authorization' => 'Bearer ' . $token
                     ])->get(config('alikaNew.url') . '/api/Profil/GetByKdSatker/' . $kodeSatker . '/' . $tahun);
-                    return json_decode($response, false);
+                    return (json_decode($response, false));
                 }
             );
-            return $value;
+            return $value->data;
         } catch (\Throwable $th) {
             Cache::forget('alikaProfil_' . $kodeSatker . '_' . $tahun);
             return null;
