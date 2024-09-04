@@ -1,5 +1,5 @@
 <a href="{{ $url }}"
-    class="relative  rounded-box aspect-square h-48 max-w-48 bg-primary grid grid-rows-[1fr_auto] overflow-hidden drop-shadow hover:drop-shadow-lg cursor-pointer border">
+    class="relative hover:scale-110 rounded-box aspect-square h-48 max-w-48 bg-primary grid grid-rows-[1fr_auto] overflow-hidden drop-shadow hover:drop-shadow-lg cursor-pointer border">
     <div class="overflow-hidden p-1 flex justify-center items-center shadow-inner">
         <img src="{{ $icon }}" alt="{{ $name }} icon" class="aspect-square h-full">
     </div>

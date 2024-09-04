@@ -41,7 +41,6 @@ class SsoController extends Controller
                 if ($response2) {
                     $userinfo =  json_decode($response2->getBody()->getContents(), false);
                     $nip = $userinfo->nip;
-                    $user = User::where('nip', $nip)->first();
                     if ($userinfo->jabatan === 'Kepala Subbagian') {
                         $admin = adminSatker::where('kdunit', $userinfo->kode_organisasi)->first();
                         if (isset($admin->id)) {
@@ -58,6 +57,7 @@ class SsoController extends Controller
                             return redirect()->intended('/');
                         }
                     }
+                    $user = User::where('nip', $nip)->first();
                     if (isset($user->id)) {
                         Auth::guard('web')->loginUsingId($user->id);
                         $request->session()->regenerate();
