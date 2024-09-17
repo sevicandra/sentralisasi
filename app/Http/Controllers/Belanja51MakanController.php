@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kop;
+use Illuminate\Support\Str;
+use Spipu\Html2Pdf\Html2Pdf;
+use Illuminate\Support\Carbon;
 use App\Models\NotifikasiBelanja51;
 use App\Models\PermohonanBelanja51;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Models\FilePermohonanBelanja51;
+use Illuminate\Support\Facades\Storage;
 
 class Belanja51MakanController extends Controller
 {
@@ -177,5 +183,85 @@ class Belanja51MakanController extends Controller
             'back' => '/belanja-51-vertikal/uang-makan/arsip',
             'notifBelanja51Tolak' => $notifBelanja51Tolak,
         ]);
+    }
+    public function regenerateSurat(PermohonanBelanja51 $id){
+        if (Auth::guard('web')->check()) {
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
+        } else {
+            $gate = ['admin_satker'];
+        }
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        if ($id->kdsatker != auth()->user()->kdsatker) {
+            abort(403);
+        }
+        if ($id->status != 'draft') {
+            return redirect('/belanja-51-vertikal/uang-makan/permohonan')->with('gagal', 'data tidak dapat di kirim');
+        }
+        $kop = Kop::where('kdsatker', auth()->user()->kdsatker)
+            ->first();
+        ob_start();
+        $html2pdf = ob_get_clean();
+        $html2pdf = new Html2Pdf('P', 'A4', 'en', false, 'UTF-8', [18, 15, 15, 15], true);
+        $html2pdf->addFont('Arial');
+        $html2pdf->pdf->SetTitle($id->uraian);
+        $html2pdf->writeHTML(
+            view('belanja-51.uang_makan.document.permohonan', [
+                'data' => $id->dataMakan()->rekap()->get(),
+                'permohonan' => $id,
+                'nomor' => $id->nomor,
+                'kop' => $kop,
+                'tanggal' => $id->tanggal,
+            ]),
+        );
+        $register = $html2pdf->output('', 'S');
+        $filename = 'permohonan/file/' . Str::uuid() . '.pdf';
+        Storage::put($filename, $register);
+        ob_clean();
+        return redirect()->back()->with('berhasil', 'generate ulang surat berhasil');
+    }
+
+    public function regenerateLampiran(PermohonanBelanja51 $id, FilePermohonanBelanja51 $file)
+    {
+        if (Auth::guard('web')->check()) {
+            $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal'];
+        } else {
+            $gate = ['admin_satker'];
+        }
+        if (! Gate::any($gate, auth()->user()->id)) {
+            abort(403);
+        }
+        if ($id->kdsatker != auth()->user()->kdsatker) {
+            abort(403);
+        }
+        if ($id->status != 'draft') {
+            return redirect('/belanja-51-vertikal/uang-makan/permohonan')->with('gagal', 'data tidak dapat di kirim');
+        }
+        $kop = Kop::where('kdsatker', auth()->user()->kdsatker)
+            ->first();
+        $daysInMonth = Carbon::create($id->tahun, $id->bulan, 1)->daysInMonth;
+        $dataAbsensi = $id->dataMakan()->RekapTanggal();
+        ob_start();
+        $html2pdf = ob_get_clean();
+        $html2pdf = new Html2Pdf('L', 'F4', 'en', false, 'UTF-8', [10, 15, 10, 15], true);
+        $html2pdf->addFont('Arial');
+        $html2pdf->pdf->SetTitle('Lampiran ' . $id->uraian);
+        $html2pdf->writeHTML(
+            view('belanja-51.uang_makan.document.lampiran', [
+                'data' => $dataAbsensi,
+                'daysInMonth' => $daysInMonth,
+                'thn' => $id->tahun,
+                'bln' => $id->bulan,
+                'permohonan' => $id,
+                'nomor' => $id->nomor,
+                'kop' => $kop,
+                'tanggal' => $id->tanggal,
+            ]),
+        );
+        $register = $html2pdf->output('', 'S');
+        Storage::put($file->file, $register);
+        ob_clean();
+        return redirect()->back()->with('berhasil', 'generate ulang lampiran berhasil');
     }
 }

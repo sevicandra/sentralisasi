@@ -17,10 +17,18 @@
             </div>
             <div class="h-full w-full carousel scroll-auto">
                 <div class="carousel-item w-full grid grid-rows-[auto_1fr] gap-2" id="Register">
-                    <div class="w-full flex gap-1 flex-wrap">
+                    <div class="w-full flex gap-1 flex-wrap justify-between">
                         <div role="tablist" class="tabs tabs-bordered">
                             <a role="tab" class="tab tab-active" href="#Register">Register</a>
                             <a role="tab" class="tab" href="#Lampiran">Lampiran</a>
+                        </div>
+                        <div>
+                            <form action="/belanja-51-vertikal/uang-makan/permohonan/{{ $permohonan->id }}/regenerate"
+                                method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-sm btn-primary">Regenerate</button>
+                            </form>
                         </div>
                     </div>
                     <div class="border border-base-300 p-1 rounded-box">
@@ -87,7 +95,14 @@
                                                 </div>
                                             </x-table.body.column>
                                             <x-table.body.column class="text-center">
-
+                                                <form
+                                                    action="/belanja-51-vertikal/uang-makan/permohonan/{{ $permohonan->id }}/regenerate/{{ $item->id }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit"
+                                                        class="btn btn-xs btn-primary">Regenerate</button>
+                                                </form>
                                             </x-table.body.column>
                                         </tr>
                                     @endforeach

@@ -174,7 +174,7 @@ class PusatBelanja51CreateLemburController extends Controller
         $permohonan->update([
             'file' => $filename
         ]);
-        $daysInMonth = Carbon::create(2024, 6, 1)->daysInMonth;
+        $daysInMonth = Carbon::create($thn, $bln, 1)->daysInMonth;
         $dataAbsensi = $permohonan->dataLembur()->RekapTanggal();
         ob_start();
         $html2pdf = ob_get_clean();
@@ -184,8 +184,8 @@ class PusatBelanja51CreateLemburController extends Controller
         $html2pdf->writeHTML(view('belanja-51-pusat.uang_lembur.document.lampiran', [
             'data' => $dataAbsensi,
             'daysInMonth' => $daysInMonth,
-            'thn' => 2024,
-            'bln' => 6,
+            'thn' => $thn,
+            'bln' => $bln,
             'permohonan' => $permohonan,
             'nomor' => $permohonan->nomor,
             'kop' => $kop,

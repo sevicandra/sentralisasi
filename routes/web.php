@@ -467,6 +467,8 @@ Route::controller(Belanja51MakanController::class)->group(function () {
     Route::get('/belanja-51-vertikal/uang-makan/permohonan/{id}', 'detail')->middleware('auth:web,admin');
     Route::delete('/belanja-51-vertikal/uang-makan/permohonan/{id}', 'destroy')->middleware('auth:web,admin');
     Route::patch('/belanja-51-vertikal/uang-makan/permohonan/{id}', 'kirim')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-vertikal/uang-makan/permohonan/{id}/regenerate', 'regenerateSurat')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-vertikal/uang-makan/permohonan/{id}/regenerate/{file}', 'regenerateLampiran')->middleware('auth:web,admin');
     Route::patch('/belanja-51-vertikal/uang-makan/arsip/{id}/batal', 'batal')->middleware('auth:web,admin');
     Route::get('/belanja-51-vertikal/uang-makan/arsip', 'arsip')->middleware('auth:web,admin');
     Route::get('/belanja-51-vertikal/uang-makan/arsip/{id}', 'detailArsip')->middleware('auth:web,admin');
@@ -512,6 +514,8 @@ Route::controller(Belanja51LemburController::class)->group(function () {
     Route::delete('/belanja-51-vertikal/uang-lembur/permohonan/{id}/sptjm', 'deleteSPTJM')->middleware('auth:web,admin');
     Route::delete('/belanja-51-vertikal/uang-lembur/permohonan/{id}/lpt', 'deleteLPT')->middleware('auth:web,admin');
     Route::delete('/belanja-51-vertikal/uang-lembur/permohonan/{id}', 'destroy')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-vertikal/uang-lembur/permohonan/{id}/regenerate', 'regenerateSurat')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-vertikal/uang-lembur/permohonan/{id}/regenerate/{file}', 'regenerateLampiran')->middleware('auth:web,admin');
     Route::patch('/belanja-51-vertikal/uang-lembur/permohonan/{id}', 'kirim')->middleware('auth:web,admin');
     Route::patch('/belanja-51-vertikal/uang-lembur/arsip/{id}/batal', 'batal')->middleware('auth:web,admin');
     Route::get('/belanja-51-vertikal/uang-lembur/arsip', 'arsip')->middleware('auth:web,admin');
@@ -549,6 +553,8 @@ Route::controller(PusatBelanja51MakanController::class)->group(function () {
     Route::get('/belanja-51-pusat/uang-makan/permohonan/{id}', 'detail')->middleware('auth:web,admin');
     Route::delete('/belanja-51-pusat/uang-makan/permohonan/{id}', 'destroy')->middleware('auth:web,admin');
     Route::patch('/belanja-51-pusat/uang-makan/permohonan/{id}', 'kirim')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-pusat/uang-makan/permohonan/{id}/regenerate', 'regenerateSurat')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-pusat/uang-makan/permohonan/{id}/regenerate/{file}', 'regenerateLampiran')->middleware('auth:web,admin');
     Route::patch('/belanja-51-pusat/uang-makan/arsip/{id}/batal', 'batal')->middleware('auth:web,admin');
     Route::get('/belanja-51-pusat/uang-makan/arsip', 'arsip')->middleware('auth:web,admin');
     Route::get('/belanja-51-pusat/uang-makan/arsip/{id}', 'detailArsip')->middleware('auth:web,admin');
@@ -593,6 +599,8 @@ Route::controller(PusatBelanja51LemburController::class)->group(function () {
     Route::delete('/belanja-51-pusat/uang-lembur/permohonan/{id}/spkl', 'deleteSPKL')->middleware('auth:web,admin');
     Route::delete('/belanja-51-pusat/uang-lembur/permohonan/{id}/sptjm', 'deleteSPTJM')->middleware('auth:web,admin');
     Route::delete('/belanja-51-pusat/uang-lembur/permohonan/{id}/lpt', 'deleteLPT')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-pusat/uang-lembur/permohonan/{id}/regenerate', 'regenerateSurat')->middleware('auth:web,admin');
+    Route::patch('/belanja-51-pusat/uang-lembur/permohonan/{id}/regenerate/{file}', 'regenerateLampiran')->middleware('auth:web,admin');
     Route::delete('/belanja-51-pusat/uang-lembur/permohonan/{id}', 'destroy')->middleware('auth:web,admin');
     Route::patch('/belanja-51-pusat/uang-lembur/permohonan/{id}', 'kirim')->middleware('auth:web,admin');
     Route::patch('/belanja-51-pusat/uang-lembur/arsip/{id}/batal', 'batal')->middleware('auth:web,admin');
