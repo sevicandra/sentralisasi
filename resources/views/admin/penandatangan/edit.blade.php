@@ -44,7 +44,7 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2 gap-2">
                             <x-input type="date" name="tgl_spt" size="w-full"
-                                value="{{ old('tgl_spt', \Carbon\Carbon::parse($data->tgl_spt)->format('Y-m-d')) }}"
+                                value="{{ old('tgl_spt', \Carbon\Carbon::parse(+$data->tgl_spt)->format('Y-m-d')) }}"
                                 placeholder="dd-mm-yyyy" label="Tgl SPT:" />
                         </div>
                         <div class="flex gap-2 p-2">

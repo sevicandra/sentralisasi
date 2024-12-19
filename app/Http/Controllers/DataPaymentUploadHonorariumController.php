@@ -6,6 +6,10 @@ use App\Models\dataHonorarium;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
+
+// API Alika Old
+use App\Helper\Alika\API2\dataLain;
+
 use Illuminate\Support\Facades\Storage;
 use App\Helper\AlikaNew\PenghasilanLain;
 
@@ -86,7 +90,8 @@ class DataPaymentUploadHonorariumController extends Controller
         try {
             foreach (dataHonorarium::uploadDetail($file)->get() as $item) {
                 if ($item->server_id) {
-                    $response = PenghasilanLain::destroy($item->server_id);
+                    // $response = PenghasilanLain::destroy($item->server_id);
+                    $response = dataLain::delete($item->server_id);
                     if ($response->failed()) {
                         throw new \Exception($response);
                     }
@@ -138,7 +143,8 @@ class DataPaymentUploadHonorariumController extends Controller
 
         try {
             if ($dataHonorarium->server_id) {
-                $response = PenghasilanLain::destroy($dataHonorarium->server_id);
+                // $response = PenghasilanLain::destroy($dataHonorarium->server_id);
+                $response = dataLain::delete($dataHonorarium->server_id);
                 if ($response->failed()) {
                     throw new \Exception($response);
                 }

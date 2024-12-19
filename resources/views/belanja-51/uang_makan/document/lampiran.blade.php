@@ -86,7 +86,7 @@
         Rekap Absensi Uang Makan
     </p>
     <p class="title">
-        Periode Bulan {{ \Carbon\Carbon::createFromDate(null, $bln)->translatedFormat('F') }} 2024
+        Periode Bulan {{ \Carbon\Carbon::createFromDate(null, $bln)->translatedFormat('F') }} Tahun {{ $thn }}
     </p>
     <br>
 

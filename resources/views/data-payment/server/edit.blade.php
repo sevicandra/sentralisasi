@@ -32,7 +32,7 @@
                                 size="w-full" />
                             <x-input name="uraian" value="{{ old('uraian', $data->uraian) }}" label="uraian:"
                                 size="w-full" />
-                            <x-input type="date" name="tanggal" value="{{ old('tanggal', \Carbon\Carbon::parse($data->tanggal)->format('Y-m-d')) }}"
+                            <x-input type="date" name="tanggal" value="{{ old('tanggal', \Carbon\Carbon::parse(+$data->tanggal)->format('Y-m-d')) }}"
                                 label="tanggal:" size="w-full" />
                         </div>
                         <div class="flex gap-2 p-2">

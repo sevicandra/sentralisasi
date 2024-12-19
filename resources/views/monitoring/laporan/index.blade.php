@@ -53,7 +53,7 @@
                         @foreach ($data as $item)
                             <tr class="*:border">
                                 <x-table.body.column-pin  class="text-center">{{ $loop->iteration }}</x-table.body.column-pin>
-                                <x-table.body.column-pin>{{ $item->Nip18 }}</x-table.body.column-pin>
+                                <x-table.body.column>{{ $item->Nip18 }}</x-table.body.column>
                                 <x-table.body.column class="whitespace-nowrap">{{ $item->Nama }}</x-table.body.column>
                                 <x-table.body.column
                                     class="whitespace-nowrap bg-base-100 flex justify-center gap-1 flex-wrap min-w-md">

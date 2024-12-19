@@ -29,7 +29,6 @@ class dataPenandatangan
         $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->asForm()->post(config('alika.uri2').'data-profil',[
             'tahun' => $data['tahun'],
             'kdsatker' => $data['kdsatker'],
-            'no_skp' => $data['no_skp'],
             'nama_ttd_skp' => $data['nama_ttd_skp'],
             'nip_ttd_skp' => $data['nip_ttd_skp'],
             'jab_ttd_skp' => $data['jab_ttd_skp'],
@@ -42,14 +41,13 @@ class dataPenandatangan
             'tgl_spt' => strtotime($data['tgl_spt']),
             'X-API-KEY' => config('alika.key')
         ]);
-        return json_decode($response);
+        return $response;
     }
 
     public static function UpdateDataPenandatangan($data, $id){
         $response = Http::withBasicAuth(config('alika.auth'), config('alika.secret'))->asForm()->put(config('alika.uri2').'data-profil',[
             'tahun' => $data['tahun'],
             'kdsatker' => $data['kdsatker'],
-            'no_skp' => $data['no_skp'],
             'nama_ttd_skp' => $data['nama_ttd_skp'],
             'nip_ttd_skp' => $data['nip_ttd_skp'],
             'jab_ttd_skp' => $data['jab_ttd_skp'],
@@ -63,6 +61,6 @@ class dataPenandatangan
             'id' => $id,
             'X-API-KEY' => config('alika.key')
         ]);
-        return json_decode($response);
+        return $response;
     }
 }

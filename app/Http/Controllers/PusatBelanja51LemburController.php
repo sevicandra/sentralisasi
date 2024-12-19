@@ -381,6 +381,8 @@ class PusatBelanja51LemburController extends Controller
                 'nomor' => $id->nomor,
                 'kop' => $kop,
                 'tanggal' => $id->tanggal,
+                'tahun' => $id->tahun,
+                'bulan' => $id->bulan,
             ]),
         );
         $register = $html2pdf->output('', 'S');

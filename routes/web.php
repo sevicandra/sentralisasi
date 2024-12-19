@@ -103,13 +103,14 @@ Route::controller(MonitoringRincianController::class)->middleware('can:monitorin
     Route::get('/monitoring/rincian/{nip}/uang-makan', 'uang_makan')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/uang-makan/{thn}', 'uang_makan')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/uang-lembur', 'uang_lembur')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/uang-lembur/{thn}', 'uang_lembur')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja', 'tunjangan_kinerja')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}', 'tunjangan_kinerja')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/tunjangan-kinerja/{thn}/{jns}', 'tunjangan_kinerja')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/lainnya', 'lainnya')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/lainnya/{thn}', 'lainnya')->middleware('auth:web,admin');
     Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}', 'lainnya')->middleware('auth:web,admin');
-    // Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'lainnya_detail')->middleware('auth:web,admin');
+    Route::get('/monitoring/rincian/{nip}/lainnya/{thn}/{jns}/{bln}/detail', 'lainnya_detail')->middleware('auth:web,admin');
     // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/daftar', 'penghasilan_daftar')->middleware('auth:web,admin');
     // Route::get('/monitoring/rincian/penghasilan/{nip}/{thn}/{bln}/surat', 'penghasilan_surat')->middleware('auth:web,admin');
 });

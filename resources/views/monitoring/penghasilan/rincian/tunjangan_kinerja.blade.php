@@ -50,7 +50,7 @@
                                     class="text-center">{{ $loop->iteration }}</x-table.body.column-pin>
                                 <x-table.body.column-pin class="">{{ $item->nama_bulan }}</x-table.body.column-pin>
                                 <x-table.body.column
-                                    class="text-center">{{ number_format($item->grade, 0, ',', '.') }}</x-table.body.column>
+                                    class="text-center">{{ $item->grade }}</x-table.body.column>
                                 <x-table.body.column
                                     class="text-right">{{ number_format($item->tjpokok, 0, ',', '.') }}</x-table.body.column>
                                 <x-table.body.column

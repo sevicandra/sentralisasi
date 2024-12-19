@@ -40,14 +40,19 @@
                             <tr class="*:border">
                                 <x-table.body.column-pin
                                     class="text-center">{{ $loop->iteration }}</x-table.body.column-pin>
-                                <x-table.body.column-pin>{{ $item->nama_bulan }}</x-table.body.column-pin>
+                                <x-table.body.column-pin>
+                                    <a
+                                        href="{{ config('app.url') }}/monitoring/rincian/{{ $nip }}/lainnya/{{ $thn }}/{{ $jns }}/{{ $item->bulan }}/detail">
+                                        {{ $item->nama_bulan }}
+                                    </a>
+                                </x-table.body.column-pin>
                                 <x-table.body.column
                                     class="text-right"><?= number_format($item->bruto, 0, ',', '.') ?></x-table.body.column>
                                 <x-table.body.column
                                     class="text-right"><?= number_format($item->pph, 0, ',', '.') ?></x-table.body.column>
                                 <x-table.body.column
                                     class="text-right"><?= number_format($item->netto, 0, ',', '.') ?></x-table.body.column>
-                                <x-table.body.column class="max-w-xs"><?= $item->uraian ?></x-table.body.column>
+                                <x-table.body.column class="max-w-xs"><?= $item->uraian ?? '' ?></x-table.body.column>
                             </tr>
                         @endforeach
                         <tr class="*:border">

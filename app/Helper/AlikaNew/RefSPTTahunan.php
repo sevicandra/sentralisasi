@@ -12,7 +12,7 @@ class RefSPTTahunan
     {
         try {
             $token = Token::get();
-            $value = Cache::remember('alikaRefSPTTahunan', now()->addMinutes(20), function () use ($token, $tahun) {
+            $value = Cache::remember('alikaRefSPTTahunan_'.$tahun, now()->addMinutes(20), function () use ($token, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
                 ])->get(config('alikaNew.url') . '/api/RefSptTahunan/GetByTahun/' . $tahun);
@@ -20,7 +20,7 @@ class RefSPTTahunan
             });
             return $value;
         } catch (\Throwable $th) {
-            Cache::forget('alikaRefSPTTahunan');
+            Cache::forget('alikaRefSPTTahunan_'.$tahun);
             return null;
         }
     }

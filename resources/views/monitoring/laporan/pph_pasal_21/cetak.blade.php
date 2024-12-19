@@ -224,7 +224,7 @@
         $tberas = $gaji->tberas + $kurang->tberas;
         $bulat = $gaji->bulat + $kurang->bulat;
         $tpapua = $gaji->tpapua + $kurang->tpapua;
-        $tk = $tukin->netto;
+        $tk = $tukin->bruto;
         $bruto = $kelg + $tumum + $tunj + $tberas + $bulat + $tpapua + $tk;
         $ptkp_wp = $tarif->ptkp_wp;
         $ptkp_istri = $tarif->ptkp_istri;

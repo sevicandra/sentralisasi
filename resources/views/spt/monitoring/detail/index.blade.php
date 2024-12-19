@@ -20,7 +20,7 @@
                         <div class="join">
                             <input type="text" name="nip"
                                 class="input input-sm join-item input-bordered focus:outline-none" placeholder="NIP">
-                            <input type="text" name="thn"
+                            <input type="text" name="thn" value="{{ $thn }}"
                                 class="input input-sm join-item input-bordered focus:outline-none" placeholder="tahun">
                             <button class="btn btn-sm join-item btn-neutral" type="submit">Cari</button>
                         </div>

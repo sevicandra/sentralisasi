@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Helper\AlikaNew\Profil;
+
+// API Alika Old
+use App\Helper\Alika\API2\dataPenandatangan;
+
 use Illuminate\Support\Facades\Cache;
 
 class AdminRefPenandatanganController extends Controller
@@ -40,9 +44,10 @@ class AdminRefPenandatanganController extends Controller
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-
+        // $data = Profil::get(auth()->user()->kdsatker)->data;
+        $data = dataPenandatangan::getDataPenandatangan(auth()->user()->kdsatker);
         return view('admin.refPenandatangan.detail', [
-            'data' => Profil::get($kdsatker),
+            'data' => $data,
             'kdsatker' => $kdsatker,
         ]);
     }
@@ -113,9 +118,24 @@ class AdminRefPenandatanganController extends Controller
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
         try {
-            $response = Profil::post([
+            // $response = Profil::post([
+            //     'tahun' => $request->tahun,
+            //     'kdsatker' => $request->kdsatker,
+            //     'nama_ttd_skp' => $request->nama_ttd_skp,
+            //     'nip_ttd_skp' => $request->nip_ttd_skp,
+            //     'jab_ttd_skp' => $request->jab_ttd_skp,
+            //     'nama_ttd_kp4' => $request->nama_ttd_kp4,
+            //     'nip_ttd_kp4' => $request->nip_ttd_kp4,
+            //     'jab_ttd_kp4' => $request->jab_ttd_kp4,
+            //     'npwp_bendahara' => $request->npwp_bendahara,
+            //     'nama_bendahara' => $request->nama_bendahara,
+            //     'nip_bendahara' => $request->nip_bendahara,
+            //     'tgl_spt' => $request->tgl_spt
+            // ]);
+
+            $response = dataPenandatangan::CreateDataPenandatangan([
                 'tahun' => $request->tahun,
-                'kdsatker' => $request->kdsatker,
+                'kdsatker' => auth()->user()->kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
                 'nip_ttd_skp' => $request->nip_ttd_skp,
                 'jab_ttd_skp' => $request->jab_ttd_skp,
@@ -125,7 +145,7 @@ class AdminRefPenandatanganController extends Controller
                 'npwp_bendahara' => $request->npwp_bendahara,
                 'nama_bendahara' => $request->nama_bendahara,
                 'nip_bendahara' => $request->nip_bendahara,
-                'tgl_spt' => $request->tgl_spt
+                'tgl_spt' => $request->tgl_spt,
             ]);
 
             if ($response->failed()) {
@@ -151,8 +171,8 @@ class AdminRefPenandatanganController extends Controller
             abort(403);
         }
 
-        $data = Profil::getPenandatangan($id)->data;
-
+        // $data = Profil::getPenandatangan($id)->data;
+        $data = dataPenandatangan::getPenandatangan($id);
         return view('admin.penandatangan.edit', [
             'data' => $data,
         ]);
@@ -207,9 +227,24 @@ class AdminRefPenandatanganController extends Controller
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
         try {
-            $response = Profil::put($id, [
+            // $response = Profil::put($id, [
+            //     'tahun' => $request->tahun,
+            //     'kdsatker' => $request->kdsatker,
+            //     'nama_ttd_skp' => $request->nama_ttd_skp,
+            //     'nip_ttd_skp' => $request->nip_ttd_skp,
+            //     'jab_ttd_skp' => $request->jab_ttd_skp,
+            //     'nama_ttd_kp4' => $request->nama_ttd_kp4,
+            //     'nip_ttd_kp4' => $request->nip_ttd_kp4,
+            //     'jab_ttd_kp4' => $request->jab_ttd_kp4,
+            //     'npwp_bendahara' => $request->npwp_bendahara,
+            //     'nama_bendahara' => $request->nama_bendahara,
+            //     'nip_bendahara' => $request->nip_bendahara,
+            //     'tgl_spt' => $request->tgl_spt
+            // ]);
+
+            $response = dataPenandatangan::UpdateDataPenandatangan([
                 'tahun' => $request->tahun,
-                'kdsatker' => $request->kdsatker,
+                'kdsatker' => auth()->user()->kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
                 'nip_ttd_skp' => $request->nip_ttd_skp,
                 'jab_ttd_skp' => $request->jab_ttd_skp,
@@ -220,7 +255,8 @@ class AdminRefPenandatanganController extends Controller
                 'nama_bendahara' => $request->nama_bendahara,
                 'nip_bendahara' => $request->nip_bendahara,
                 'tgl_spt' => $request->tgl_spt
-            ]);
+            ], $id);
+
             if ($response->failed()) {
                 throw new \Exception($response);
             }

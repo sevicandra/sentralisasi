@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 use App\Helper\AlikaNew\RefJabatan;
 use App\Helper\AlikaNew\RefPangkat;
 use App\Helper\AlikaNew\SPTPegawai;
+
+// API Alika Old
+use App\Helper\Alika\API2\dataSpt;
+use App\Helper\Alika\API2\refPangkat as RefPangkatOld;
+use App\Helper\Alika\API2\refJabatan as RefJabatanOld;
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -49,14 +56,31 @@ class SptMonitoringController extends Controller
         } else {
             $offset = 0;
         }
-        $tahun = SPTPegawai::tahunByKdSatker($satker->kdsatker)->data;
+        // $tahun = SPTPegawai::tahunByKdSatker($satker->kdsatker)->data;
+        $tahun = dataSpt::getTahun(auth()->user()->kdsatker);
         if (!request('thn')) {
             $thn = collect($tahun)->last()->tahun;
         } else {
             $thn = request('thn');
         };
-        $spt = SPTPegawai::getByKdSatker($satker->kdsatker, $thn, $limit, $offset, request('nip'))->data;
-        $count = SPTPegawai::countByKdSatker($satker->kdsatker, $thn)->data;
+        // $spt = SPTPegawai::getByKdSatker($satker->kdsatker, $thn, $limit, $offset, request('nip'))->data;
+        $data_spt= collect(dataSpt::getDataSpt(auth()->user()->kdsatker, $thn, $limit, $offset));
+        if (request('nip')) {
+            $data_spt = $data_spt->where('nip', request('nip'));
+        }
+        $spt = $data_spt->map(function ($item) {
+            return (object) [
+                'id' => $item->id,
+                'npwp' => $item->npwp,
+                'nama_pangkat' => $item->nmgol,
+                'nama_jabatan'=> $item->nm_jabatan,
+                'kdkawin' => $item->kdkawin,
+                'alamat' => $item->alamat,
+                'nip' => $item->nip,
+            ];
+        });
+        // $count = SPTPegawai::countByKdSatker($satker->kdsatker, $thn)->data;
+        $count = collect(dataSpt::getDataSpt(auth()->user()->kdsatker, $thn))->count();
         $data = $this->paginate($spt, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
 
         return view('spt.monitoring.detail.index', [
@@ -79,13 +103,16 @@ class SptMonitoringController extends Controller
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $data = SPTPegawai::getById($id)->data;
+        // $data = SPTPegawai::getById($id)->data;
+        $data = dataSpt::getSpt($id);
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
 
-        $refJab = RefJabatan::get()->data;
-        $refPang = RefPangkat::get()->data;
+        // $refJab = RefJabatan::get()->data;
+        $refJab = RefJabatanOld::get();
+        // $refPang = RefPangkat::get()->data;
+        $refPang = RefPangkatOld::get();
 
         return view('spt.monitoring.detail.edit', [
             'data' => $data,
@@ -107,7 +134,8 @@ class SptMonitoringController extends Controller
             abort(403);
         }
 
-        $data = SPTPegawai::getById($id)->data;
+        // $data = SPTPegawai::getById($id)->data;
+        $data = dataSpt::getSpt($id);
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
@@ -142,7 +170,18 @@ class SptMonitoringController extends Controller
             'kdjab.max_digits' => 'Jabatan maksimal 5 digit',
         ]);
         try {
-            $response = SPTPegawai::put($id, [
+            // $response = SPTPegawai::put($id, [
+            //     'tahun' => $request->tahun,
+            //     'nip' => $request->nip,
+            //     'npwp' => $request->npwp,
+            //     'alamat' => $request->alamat,
+            //     'kdgol' => $request->kdgol,
+            //     'kdkawin' => $request->kdkawin,
+            //     'kdjab' => $request->kdjab,
+            //     'kdsatker' => $data->kdsatker
+            // ]);
+
+            $response= dataSpt::update([
                 'tahun' => $request->tahun,
                 'nip' => $request->nip,
                 'npwp' => $request->npwp,
@@ -150,8 +189,10 @@ class SptMonitoringController extends Controller
                 'kdgol' => $request->kdgol,
                 'kdkawin' => $request->kdkawin,
                 'kdjab' => $request->kdjab,
-                'kdsatker' => $data->kdsatker
+                'kdsatker' => auth()->user()->kdsatker,
+                'id' => $id
             ]);
+
             if ($response->failed()) {
                 throw new \Exception($response);
             }
@@ -175,15 +216,18 @@ class SptMonitoringController extends Controller
             abort(403);
         }
 
-        $data = SPTPegawai::getById($id)->data;
+        // $data = SPTPegawai::getById($id)->data;
+        $data = dataSpt::getSpt($id);
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
         try {
-            $response = SPTPegawai::destroy($id);
+            // $response = SPTPegawai::destroy($id);
+            $response = dataSpt::delete($id);
             if ($response->failed()) {
                 throw new \Exception($response);
             }
+            Cache::forget('alikaSPTPegawaiTahunByKdSatker_' . auth()->user()->kdsatker);
             return redirect('/spt-monitoring/' . $kdsatker . '?thn=' . $data->tahun)->with('berhasil', 'Data berhasil dihapus');
         } catch (\Throwable $th) {
             return redirect('/spt-monitoring/' . $kdsatker . '?thn=' . $data->tahun)->with('gagal', $th->getMessage());

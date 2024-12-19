@@ -299,7 +299,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             ->setCellValue('I1', 'Jenis Hari')
             ->setCellValue('J1', 'Jumlah Jam')
         ;
-        for ($row = 1; $row <= 1002; $row++) {
+        for ($row = 1; $row <= 10002; $row++) {
             for ($col = 'B'; $col <= 'J'; $col++) {
                 $cell = $col . $row;
                 $spreadsheet->getActiveSheet()->getStyle($cell)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_TEXT);
@@ -329,7 +329,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             ]);
 
         // Validasi untuk kolom E (Golongan)
-        for ($row = 3; $row <= 1002; $row++) {
+        for ($row = 3; $row <= 10002; $row++) {
             $cell = 'E' . $row;
             $golongan = $spreadsheet->getActiveSheet()->getCell($cell)->getDataValidation();
             $golongan->setType(DataValidation::TYPE_LIST);
@@ -345,7 +345,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         }
 
         // Validasi untuk kolom I (Jenis Hari)
-        for ($row = 3; $row <= 1002; $row++) {
+        for ($row = 3; $row <= 10002; $row++) {
             $cell = 'I' . $row;
             $jenisHari = $spreadsheet->getActiveSheet()->getCell($cell)->getDataValidation();
             $jenisHari->setType(DataValidation::TYPE_LIST);
@@ -360,7 +360,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             $jenisHari->setFormula1('"kerja,libur"');
         }
 
-        for ($row = 3; $row <= 1002; $row++) {
+        for ($row = 3; $row <= 10002; $row++) {
             $cell = 'F' . $row; // Misalnya kolom F untuk tanggal
             $tanggal = $spreadsheet->getActiveSheet()->getCell($cell)->getDataValidation();
             $tanggal->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_CUSTOM);
@@ -377,7 +377,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             $tanggal->setFormula1('=AND(LEN(F' . $row . ')=10, ISNUMBER(DATEVALUE(F' . $row . ')))');
         }
 
-        for ($row = 3; $row <= 1002; $row++) {
+        for ($row = 3; $row <= 10002; $row++) {
             $cell = 'G' . $row;
             $absensimasuk = $spreadsheet->getActiveSheet()->getCell($cell)->getDataValidation();
             $absensimasuk->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_CUSTOM);
@@ -394,7 +394,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             $absensimasuk->setFormula1('=AND(LEN(G' . $row . ')=5, ISNUMBER(TIMEVALUE(G' . $row . ')), MID(G' . $row . ',3,1)=":")');
         }
 
-        for ($row = 3; $row <= 1002; $row++) {
+        for ($row = 3; $row <= 10002; $row++) {
             $cell = 'H' . $row;
             $absensikeluar = $spreadsheet->getActiveSheet()->getCell($cell)->getDataValidation();
             $absensikeluar->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_CUSTOM);
@@ -410,7 +410,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             // Formula untuk validasi
             $absensikeluar->setFormula1('=AND(LEN(H' . $row . ')=5, ISNUMBER(TIMEVALUE(H' . $row . ')), MID(H' . $row . ',3,1)=":")');
         }
-        for ($row = 3; $row <= 1002; $row++) {
+        for ($row = 3; $row <= 10002; $row++) {
             $cell = 'D' . $row; // Misalnya kolom F untuk tanggal
             $nip = $spreadsheet->getActiveSheet()->getCell($cell)->getDataValidation();
             $nip->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_CUSTOM);
@@ -431,7 +431,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
             $spreadsheet->getActiveSheet()->getColumnDimension($column->getColumnIndex())->setAutoSize(true);
         }
 
-        $spreadsheet->getActiveSheet()->getStyle('B2:J1002')->applyFromArray($styleBorder);
+        $spreadsheet->getActiveSheet()->getStyle('B2:J10002')->applyFromArray($styleBorder);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="Template Upload Absensi Lembur.xlsx"');

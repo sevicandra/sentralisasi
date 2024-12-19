@@ -44,7 +44,7 @@
                     <x-table.header>
                         <tr class="*:border">
                             <x-table.header.column-pin class="text-center">No</x-table.header.column-pin>
-                            <x-table.header.column-pin class="text-center">NIP</x-table.header.column-pin>
+                            <x-table.header.column class="text-center">NIP</x-table.header.column>
                             <x-table.header.column class="text-center">Nama</x-table.header.column>
                             <x-table.header.column class="text-center">Detail</x-table.header.column>
                         </tr>

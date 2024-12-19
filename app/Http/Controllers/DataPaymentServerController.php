@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\dataHonorarium;
 use App\Helper\AlikaNew\PenghasilanLain;
+
+// API Alika Old
+use App\Helper\Alika\API2\dataLain;
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
@@ -32,11 +37,15 @@ class DataPaymentServerController extends Controller
         }
 
         if (request('nip')) {
-            $dataLain = PenghasilanLain::getAll(request('nip'), request('tahun'), $limit, $offset)->data;
-            $count = PenghasilanLain::count(request('nip'), request('tahun'))->data;
+            // $dataLain = PenghasilanLain::getAll(request('nip'), request('tahun'), $limit, $offset)->data;
+            $dataLain = dataLain::get(null, $limit, $offset);
+            // $count = PenghasilanLain::count(request('nip'), request('tahun'))->data;
+            $count = dataLain::count();
         } else {
-            $dataLain = PenghasilanLain::getAll(null, null, $limit, $offset)->data;
-            $count = PenghasilanLain::count()->data;
+            // $dataLain = PenghasilanLain::getAll(null, null, $limit, $offset)->data;
+            $dataLain = dataLain::get(null, $limit, $offset);
+            // $count = PenghasilanLain::count()->data;
+            $count = dataLain::count();
         }
         $data = $this->paginate($dataLain, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
 
@@ -59,9 +68,10 @@ class DataPaymentServerController extends Controller
         if (!Gate::allows($gate, auth()->user()->id)) {
             abort(403);
         }
-
+        // $data = PenghasilanLain::getById($id)->data;
+        $data= dataLain::get($id);
         return view('data-payment.server.edit', [
-            'data' => PenghasilanLain::getById($id)->data,
+            'data' => $data,
             'pageTitle' => 'Edit Data Server',
             'honorariumKirim' => dataHonorarium::send(),
             'dataPembayaranLainnyaDraft' => dataPembayaranLainnya::draft(),
@@ -89,7 +99,7 @@ class DataPaymentServerController extends Controller
             'jenis' => 'required',
             'uraian' => 'required',
             'tanggal' => 'required',
-            'nospm' => 'required|numeric',
+            'nospm' => 'nullable|numeric',
         ]);
 
         $request->validate([
@@ -99,7 +109,20 @@ class DataPaymentServerController extends Controller
             'nip' => 'numeric',
         ]);
         try {
-            $response   = PenghasilanLain::put($id, [
+            // $response   = PenghasilanLain::put($id, [
+            //     'bulan' => $request->bulan,
+            //     'tahun' => $request->tahun,
+            //     'kdsatker' => $request->kdsatker,
+            //     'nip' => $request->nip,
+            //     'bruto' => $request->bruto,
+            //     'pph' => $request->pph,
+            //     'netto' => $request->netto,
+            //     'jenis' => $request->jenis,
+            //     'uraian' => $request->uraian,
+            //     'tanggal' => $request->tanggal,
+            //     'nospm' => $request->nospm ?? null,
+            // ]);
+            $response = dataLain::patch([
                 'bulan' => $request->bulan,
                 'tahun' => $request->tahun,
                 'kdsatker' => $request->kdsatker,
@@ -109,8 +132,9 @@ class DataPaymentServerController extends Controller
                 'netto' => $request->netto,
                 'jenis' => $request->jenis,
                 'uraian' => $request->uraian,
-                'tanggal' => $request->tanggal,
+                'tanggal' => strtotime($request->tanggal) + (60 * 60 * 7),
                 'nospm' => $request->nospm ?? null,
+                'id' => $id
             ]);
             if ($response->failed()) {
                 throw new \Exception($response);
@@ -133,7 +157,8 @@ class DataPaymentServerController extends Controller
             abort(403);
         }
         try {
-            $response = PenghasilanLain::destroy($id);
+            // $response = PenghasilanLain::destroy($id);
+            $response = dataLain::delete($id);
             if ($response->getStatusCode() != 200) {
                 throw new \Exception($response);
             }

@@ -22,7 +22,7 @@ class Profil
                     return (json_decode($response, false));
                 }
             );
-            return $value->data;
+            return $value;
         } catch (\Throwable $th) {
             Cache::forget('alikaProfil_' . $kodeSatker . '_' . $tahun);
             return null;

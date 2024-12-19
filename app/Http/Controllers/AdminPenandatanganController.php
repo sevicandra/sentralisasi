@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helper\AlikaNew\Profil;
+
+// API Alika Old
+use App\Helper\Alika\API2\dataPenandatangan;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -20,8 +24,10 @@ class AdminPenandatanganController extends Controller
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
+        // $data = Profil::get(auth()->user()->kdsatker)->data;
+        $data = dataPenandatangan::getDataPenandatangan(auth()->user()->kdsatker);
         return view('admin.penandatangan.index', [
-            'data' => Profil::get(auth()->user()->kdsatker)
+            'data' => $data
         ]);
     }
 
@@ -86,7 +92,22 @@ class AdminPenandatanganController extends Controller
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
         try {
-            $response = Profil::post([
+            // $response = Profil::post([
+            //     'tahun' => $request->tahun,
+            //     'kdsatker' => auth()->user()->kdsatker,
+            //     'nama_ttd_skp' => $request->nama_ttd_skp,
+            //     'nip_ttd_skp' => $request->nip_ttd_skp,
+            //     'jab_ttd_skp' => $request->jab_ttd_skp,
+            //     'nama_ttd_kp4' => $request->nama_ttd_kp4,
+            //     'nip_ttd_kp4' => $request->nip_ttd_kp4,
+            //     'jab_ttd_kp4' => $request->jab_ttd_kp4,
+            //     'npwp_bendahara' => $request->npwp_bendahara,
+            //     'nama_bendahara' => $request->nama_bendahara,
+            //     'nip_bendahara' => $request->nip_bendahara,
+            //     'tgl_spt' => $request->tgl_spt
+            // ]);
+
+            $response = dataPenandatangan::CreateDataPenandatangan([
                 'tahun' => $request->tahun,
                 'kdsatker' => auth()->user()->kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
@@ -98,14 +119,14 @@ class AdminPenandatanganController extends Controller
                 'npwp_bendahara' => $request->npwp_bendahara,
                 'nama_bendahara' => $request->nama_bendahara,
                 'nip_bendahara' => $request->nip_bendahara,
-                'tgl_spt' => $request->tgl_spt
+                'tgl_spt' => $request->tgl_spt,
             ]);
 
             if ($response->failed()) {
                 throw new \Exception($response);
             }
             Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_');
-            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_'. $request->tahun);
+            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_' . $request->tahun);
             return redirect('/admin/penandatangan')->with('berhasil', 'Penandatangan berhasil ditambahkan');
         } catch (\Throwable $th) {
             return redirect('/admin/penandatangan')->with('gagal', $th->getMessage());
@@ -122,7 +143,8 @@ class AdminPenandatanganController extends Controller
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        $data = Profil::getPenandatangan($id)->data;
+        // $data = Profil::getPenandatangan($id)->data;
+        $data = dataPenandatangan::getPenandatangan($id);
         if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
@@ -141,7 +163,8 @@ class AdminPenandatanganController extends Controller
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        if (Profil::getPenandatangan($id)->data->kdsatker != auth()->user()->kdsatker) {
+        $data = dataPenandatangan::getPenandatangan($id);
+        if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
         $request->validate([
@@ -181,7 +204,22 @@ class AdminPenandatanganController extends Controller
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
         try {
-            $response = Profil::put($id, [
+            // $response = Profil::put($id, [
+            //     'tahun' => $request->tahun,
+            //     'kdsatker' => auth()->user()->kdsatker,
+            //     'nama_ttd_skp' => $request->nama_ttd_skp,
+            //     'nip_ttd_skp' => $request->nip_ttd_skp,
+            //     'jab_ttd_skp' => $request->jab_ttd_skp,
+            //     'nama_ttd_kp4' => $request->nama_ttd_kp4,
+            //     'nip_ttd_kp4' => $request->nip_ttd_kp4,
+            //     'jab_ttd_kp4' => $request->jab_ttd_kp4,
+            //     'npwp_bendahara' => $request->npwp_bendahara,
+            //     'nama_bendahara' => $request->nama_bendahara,
+            //     'nip_bendahara' => $request->nip_bendahara,
+            //     'tgl_spt' => $request->tgl_spt
+            // ]);
+
+            $response = dataPenandatangan::UpdateDataPenandatangan([
                 'tahun' => $request->tahun,
                 'kdsatker' => auth()->user()->kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
@@ -194,12 +232,12 @@ class AdminPenandatanganController extends Controller
                 'nama_bendahara' => $request->nama_bendahara,
                 'nip_bendahara' => $request->nip_bendahara,
                 'tgl_spt' => $request->tgl_spt
-            ]);
+            ], $id);
             if ($response->failed()) {
                 throw new \Exception($response);
             }
             Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_');
-            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_'. $request->tahun);
+            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_' . $request->tahun);
             return redirect('/admin/penandatangan')->with('berhasil', 'Penandatangan berhasil diubah');
         } catch (\Throwable $th) {
             return redirect('/admin/penandatangan')->with('gagal', $th->getMessage());

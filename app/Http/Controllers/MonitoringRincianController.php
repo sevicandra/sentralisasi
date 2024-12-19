@@ -12,6 +12,15 @@ use App\Helper\AlikaNew\UangLembur;
 use App\Helper\AlikaNew\KekuranganTukin;
 use App\Helper\AlikaNew\Tukin;
 use App\Helper\AlikaNew\PenghasilanLain;
+
+// API Alika Old
+use App\Helper\Alika\API3\gaji as GajiOld;
+use App\Helper\Alika\API3\penghasilan as PenghasilanOld;
+use App\Helper\Alika\API3\dataMakan;
+use App\Helper\Alika\API3\dataLembur;
+use App\Helper\Alika\API3\tukin as TukinOld;
+use App\Helper\Alika\API3\dataLain;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -102,11 +111,61 @@ class MonitoringRincianController extends Controller
         } else {
             $thn = date('Y');
         }
+        // $penghasilan = collect(Penghasilan::get($nip, $thn)->data);
+        $penghasilan = collect(PenghasilanOld::getPenghasilanTahunan($nip, $thn))->map(function ($item) {
+            return (object) [
+                'bulan' => $item->nama_bulan,
+                'gaji' => (object)[
+                    "bulan" => $item->bulan,
+                    "netto" => $item->netto1,
+                    "bruto" => $item->bruto1,
+                    "potongan" => $item->potongan1,
+                ],
+                'kekuranganGaji' => (object)[
+                    "bulan" => $item->bulan,
+                    "netto" => $item->netto2,
+                    "bruto" => $item->bruto2,
+                    "potongan" => $item->potongan2,
+                ],
+                'tukin' => (object)[
+                    "bulan" => $item->bulan,
+                    "netto" => $item->netto5,
+                    "bruto" => $item->bruto5,
+                    "potongan" => $item->potongan5,
+                ],
+                'kekuranganTukin' => (object)[
+                    "bulan" => $item->bulan,
+                    "netto" => $item->netto6,
+                    "bruto" => $item->bruto6,
+                    "potongan" => $item->potongan6,
+                ],
+                'makan' => (object)[
+                    "bulan" => $item->bulan,
+                    "netto" => $item->netto3,
+                    "bruto" => $item->bruto3,
+                    "potongan" => $item->potongan3,
+                ],
+                'lembur' => (object)[
+                    "bulan" => $item->bulan,
+                    "netto" => $item->netto4,
+                    "bruto" => $item->bruto4,
+                    "potongan" => $item->potongan4,
+                ],
+                'lain' => (object)[
+                    "bulan" => $item->bulan,
+                    "netto" => 0,
+                    "bruto" => 0,
+                    "potongan" => 0,
+                ]
+            ];
+        });
+        // $tahun = Gaji::tahun($nip)->data;
+        $tahun = GajiOld::getTahunGaji($nip);
 
         return view('monitoring.rincian.penghasilan.index', [
             "pageTitle" => "Penghasilan " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
-            "data" => collect(Penghasilan::get($nip, $thn)->data),
-            "tahun" => Gaji::tahun($nip)->data,
+            "data" => $penghasilan,
+            "tahun" => $tahun,
             'nip' => $nip,
             'thn' => $thn
         ]);
@@ -137,19 +196,23 @@ class MonitoringRincianController extends Controller
         }
         switch ($jns) {
             case 'rutin':
-                $data = Gaji::get($nip, $thn)->data;
+                // $data = Gaji::get($nip, $thn)->data;
+                $data = GajiOld::getGaji($nip, $thn);
                 break;
 
             case 'kekurangan':
-                $data = KekuranganGaji::get($nip, $thn)->data;
+                // $data = KekuranganGaji::get($nip, $thn)->data;
+                $data = GajiOld::getKekuranganGaji($nip, $thn);
                 break;
 
             default:
-                $data = Gaji::get($nip, $thn)->data;
+                // $data = Gaji::get($nip, $thn)->data;
+                $data = GajiOld::getGaji($nip, $thn);
                 break;
         }
 
-        $tahun = gaji::Tahun($nip)->data;
+        // $tahun = gaji::Tahun($nip)->data;
+        $tahun = GajiOld::getTahunGaji($nip);
 
         return view('monitoring.rincian.gaji', [
             "pageTitle" => "Gaji " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
@@ -185,9 +248,11 @@ class MonitoringRincianController extends Controller
             $thn = date('Y');
         }
 
-        $tahun = UangMakan::tahun($nip)->data;
+        // $tahun = UangMakan::tahun($nip)->data;
+        $tahun = dataMakan::getTahun($nip);
 
-        $data = UangMakan::get($nip, $thn)->data;
+        // $data = UangMakan::get($nip, $thn)->data;
+        $data = dataMakan::getMakan($nip, $thn);
 
         return view('monitoring.rincian.uang_makan', [
             "pageTitle" => "Uang Makan " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
@@ -222,9 +287,11 @@ class MonitoringRincianController extends Controller
             $thn = date('Y');
         }
 
-        $tahun = UangLembur::tahun($nip)->data;
+        // $tahun = UangLembur::tahun($nip)->data;
+        $tahun = dataLembur::getTahun($nip);
 
-        $data = UangLembur::get($nip, $thn)->data;
+        // $data = UangLembur::get($nip, $thn)->data;
+        $data = dataLembur::getLembur($nip, $thn);
         return view('monitoring.rincian.uang_lembur', [
             "pageTitle" => "Uang Lembur " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
             'data' => collect($data),
@@ -258,19 +325,23 @@ class MonitoringRincianController extends Controller
         }
         switch ($jns) {
             case 'rutin':
-                $data = Tukin::get($nip, $thn)->data;
+                // $data = Tukin::get($nip, $thn)->data;
+                $data = TukinOld::getTukin($nip, $thn);
                 break;
 
             case 'kekurangan':
-                $data = KekuranganTukin::get($nip, $thn)->data;
+                // $data = KekuranganTukin::get($nip, $thn)->data;
+                $data = TukinOld::getKekuranganTukin($nip, $thn);
                 break;
 
             default:
-                $data = Tukin::get($nip, $thn)->data;
+                // $data = Tukin::get($nip, $thn)->data;
+                $data = TukinOld::getTukin($nip, $thn);
                 break;
         }
 
-        $tahun = Tukin::Tahun($nip)->data;
+        // $tahun = Tukin::Tahun($nip)->data;
+        $tahun = TukinOld::getTahun($nip);
 
         return view('monitoring.rincian.tunjangan_kinerja', [
             "pageTitle" => "Tunjangan Kinerja " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
@@ -306,16 +377,19 @@ class MonitoringRincianController extends Controller
         if (!$thn) {
             $thn = date('Y');
         }
-        $jenis = PenghasilanLain::jenis($nip, $thn)->data;
+        // $jenis = PenghasilanLain::jenis($nip, $thn)->data;
+        $jenis = dataLain::getJenis($nip, $thn);
 
         if (!$jns) {
             $jns = $jenis[0]->jenis ?? 'uang-makan';
         }
 
-        $tahun = PenghasilanLain::tahun($nip)->data;
+        // $tahun = PenghasilanLain::tahun($nip)->data;
+        $tahun = dataLain::getTahun($nip);
 
 
-        $data = PenghasilanLain::get($nip, $thn, $jns)->data;
+        // $data = PenghasilanLain::get($nip, $thn, $jns)->data;
+        $data = dataLain::getLain($nip, $thn, $jns);
 
         return view('monitoring.rincian.lainnya.index', [
             "pageTitle" => "Lainnya " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
@@ -349,7 +423,8 @@ class MonitoringRincianController extends Controller
             return abort(403);
         }
 
-        $data = PenghasilanLain::get($nip, $thn, $jns, $bln)->data;
+        // $data = PenghasilanLain::get($nip, $thn, $jns, $bln)->data;
+        $data = dataLain::getLainDetail($nip, $thn, $jns, $bln);
 
         return view('monitoring.rincian.lainnya.detail', [
             "pageTitle" => "Detail " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,

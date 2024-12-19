@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\dataHonorarium;
 use Illuminate\Support\Carbon;
 use App\Helper\AlikaNew\PenghasilanLain;
+
+// API Alika Old
+use App\Helper\Alika\API2\dataLain;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
@@ -250,7 +254,21 @@ class DataPaymentLainController extends Controller
         $count = 0;
         try {
             foreach (dataPembayaranLainnya::paymentPending($kdsatker, $jenis, $thn, $bln)->get() as $item) {
-                $response = PenghasilanLain::post(
+                // $response = PenghasilanLain::post(
+                //     [
+                //         'bulan' => $item->bulan,
+                //         'tahun' => $item->tahun,
+                //         'kdsatker' => $item->kdsatker,
+                //         'nip' => $item->nip,
+                //         'bruto' => $item->bruto,
+                //         'pph' => $item->pph,
+                //         'netto' => $item->bruto - $item->pph,
+                //         'jenis' => $item->jenis,
+                //         'uraian' => $item->uraian,
+                //         'tanggal' => $item->tanggal,
+                //     ]
+                // );
+                $response = dataLain::post(
                     [
                         'bulan' => $item->bulan,
                         'tahun' => $item->tahun,
@@ -262,13 +280,14 @@ class DataPaymentLainController extends Controller
                         'jenis' => $item->jenis,
                         'uraian' => $item->uraian,
                         'tanggal' => $item->tanggal,
+                        'nospm' => $item->nospm ?? null,
                     ]
                 );
                 if ($response->failed()) {
                     throw new \Exception($response);
                 }
-                $data = json_decode($response, false)->data;
-                dataPembayaranLainnya::where('id', $item->id)->update(['sts' => '1', 'server_id' => $data->id]);
+                $data = json_decode($response, false)->data ?? null;
+                dataPembayaranLainnya::where('id', $item->id)->update(['sts' => '1', 'server_id' => $data->id ?? null]);
                 $count++;
             }
             return redirect('/data-payment/lain?thn=' . $thn . '&bln=' . $bln)->with('berhasil', $count . " data berhasil di upload");
@@ -292,25 +311,40 @@ class DataPaymentLainController extends Controller
             abort(403);
         }
         try {
-            $response = PenghasilanLain::post([
-                'bulan' => $dataPembayaranLainnya->bulan,
-                'tahun' => $dataPembayaranLainnya->tahun,
-                'kdsatker' => $dataPembayaranLainnya->kdsatker,
-                'nip' => $dataPembayaranLainnya->nip,
-                'bruto' => $dataPembayaranLainnya->bruto,
-                'pph' => $dataPembayaranLainnya->pph,
-                'netto' => $dataPembayaranLainnya->bruto - $dataPembayaranLainnya->pph,
-                'jenis' => $dataPembayaranLainnya->jenis,
-                'uraian' => $dataPembayaranLainnya->uraian,
-                'tanggal' => $dataPembayaranLainnya->tanggal,
-            ]);
+            // $response = PenghasilanLain::post([
+            //     'bulan' => $dataPembayaranLainnya->bulan,
+            //     'tahun' => $dataPembayaranLainnya->tahun,
+            //     'kdsatker' => $dataPembayaranLainnya->kdsatker,
+            //     'nip' => $dataPembayaranLainnya->nip,
+            //     'bruto' => $dataPembayaranLainnya->bruto,
+            //     'pph' => $dataPembayaranLainnya->pph,
+            //     'netto' => $dataPembayaranLainnya->bruto - $dataPembayaranLainnya->pph,
+            //     'jenis' => $dataPembayaranLainnya->jenis,
+            //     'uraian' => $dataPembayaranLainnya->uraian,
+            //     'tanggal' => $dataPembayaranLainnya->tanggal,
+            // ]);
 
+            $response = dataLain::post(
+                [
+                    'bulan' => $dataPembayaranLainnya->bulan,
+                    'tahun' => $dataPembayaranLainnya->tahun,
+                    'kdsatker' => $dataPembayaranLainnya->kdsatker,
+                    'nip' => $dataPembayaranLainnya->nip,
+                    'bruto' => $dataPembayaranLainnya->bruto,
+                    'pph' => $dataPembayaranLainnya->pph,
+                    'netto' => $dataPembayaranLainnya->bruto - $dataPembayaranLainnya->pph,
+                    'jenis' => $dataPembayaranLainnya->jenis,
+                    'uraian' => $dataPembayaranLainnya->uraian,
+                    'tanggal' => $dataPembayaranLainnya->tanggal,
+                    'nospm' => $dataPembayaranLainnya->nospm ?? null,
+                ]
+            );
             if ($response->failed()) {
                 throw new \Exception($response);
             }
             dataPembayaranLainnya::where('id', $dataPembayaranLainnya->id)->update([
                 'sts' => '1',
-                'server_id' => json_decode($response)->data->id,
+                'server_id' => json_decode($response)->data->id ?? null,
             ]);
         } catch (\Exception $e) {
             return redirect('/data-payment/lain/' . $dataPembayaranLainnya->kdsatker . '/' . $dataPembayaranLainnya->jenis . '/' . $dataPembayaranLainnya->tahun . '/' . $dataPembayaranLainnya->bulan . '/detail')

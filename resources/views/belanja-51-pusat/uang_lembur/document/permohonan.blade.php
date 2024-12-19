@@ -90,13 +90,13 @@
         </tr>
     </table>
     <br>
-    <p style="text-align: center">Register Permohonan Pembayaran Uang Makan</p>
+    <p style="text-align: center">Register Permohonan Pembayaran Lembur</p>
     <p style="text-align: center">Nomor LBKP-{{ $nomor }}</p>
     <br>
     <p class="paragraph">
         Sehubungan dengan Keputusan Direktur Jenderal Kekayaan Negara Nomor 6/KN/2022 Tentang Sentralisasi Pengelolaan
         Belanja Pegawai Untuk Pegawai Lingkup Direktorat Jenderal Kekayaan Negara Bersama dengan ini, kami mengajukan
-        Permohonan Pembayaran Uang Makan Periode Bulan Juni Tahun 2024, dengan
+        Permohonan Pembayaran Lembur dan Uang Makan Lembur Periode Bulan {{ \Carbon\Carbon::createFromDate(null, $bulan)->translatedFormat('F') }} Tahun {{ $tahun }}, dengan
         rincian sebagai berikut:
     </p>
     <table class="rekap">

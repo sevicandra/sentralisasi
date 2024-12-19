@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
 use App\Helper\AlikaNew\PenghasilanLain;
 
+// API Alika Old
+use App\Helper\Alika\API2\dataLain;
+
+
 class DataPaymentUploadLainController extends Controller
 {
     public function index()
@@ -89,7 +93,8 @@ class DataPaymentUploadLainController extends Controller
         try {
             foreach (dataPembayaranLainnya::detailPaymentUpload($kdsatker, $jenis, $thn, $bln)->get() as $item) {
                 if ($item->server_id) {
-                    $response = PenghasilanLain::destroy($item->server_id);
+                    // $response = PenghasilanLain::destroy($item->server_id);
+                    $response = dataLain::delete($item->server_id);
                     if ($response->failed()) {
                         throw new \Exception($response);
                     }
@@ -122,7 +127,8 @@ class DataPaymentUploadLainController extends Controller
 
         try {
             if ($dataPembayaranLainnya->server_id) {
-                $response = PenghasilanLain::destroy($dataPembayaranLainnya->server_id);
+                // $response = PenghasilanLain::destroy($dataPembayaranLainnya->server_id);
+                $response = dataLain::delete($dataPembayaranLainnya->server_id);
                 if ($response->failed()) {
                     throw new \Exception($response);
                 }

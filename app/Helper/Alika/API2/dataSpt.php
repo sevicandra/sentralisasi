@@ -45,7 +45,7 @@ class dataSpt
             'kdjab'=>$data['kdjab'],
             'kdsatker'=>$data['kdsatker'],
         ]);
-        return json_decode($data);
+        return $data;
     }
 
     public static function update($data){
@@ -61,7 +61,7 @@ class dataSpt
             'kdsatker'=>$data['kdsatker'],
             'id'=>$data['id'],
         ]);
-        return json_decode($data);
+        return $data;
     }
 
     public static function delete($id){
@@ -69,6 +69,6 @@ class dataSpt
             'X-API-KEY' => config('alika.key'),
             'id'=>$id,
         ]);
-        return json_decode($data);
+        return $data;
     }
 }

@@ -2,17 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use stdClass;
 use App\Helper\hris;
 use Spipu\Html2Pdf\Html2Pdf;
-use App\Helper\AlikaNew\SPTPegawai;
-use App\Helper\AlikaNew\RefSPTTahunan;
+use App\Helper\AlikaNew\Gaji;
 use App\Helper\AlikaNew\Profil;
 use App\Helper\AlikaNew\Satker;
-use App\Helper\AlikaNew\UangLembur;
 use App\Helper\AlikaNew\UangMakan;
+use App\Helper\AlikaNew\SPTPegawai;
+use App\Helper\AlikaNew\UangLembur;
+use App\Helper\AlikaNew\RefSPTTahunan;
 use App\Helper\AlikaNew\PenghasilanLain;
 use App\Helper\AlikaNew\Penghasilan;
-use App\Helper\AlikaNew\Gaji;
+
+// API Alika Old
+use App\Helper\Alika\API3\spt;
+use App\Helper\Alika\API3\dataMakan;
+use App\Helper\Alika\API3\dataLain;
+use App\Helper\Alika\API3\dataLembur;
+use App\Helper\Alika\API3\gaji as GajiOld;
+use App\Helper\Alika\API3\penghasilan as PenghasilanOld;
+use App\Helper\Alika\API3\satkerAlika;
+use App\Helper\Alika\API3\detailLain;
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -127,8 +140,9 @@ class MonitoringLaporanController extends Controller
         if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
             return abort(403);
         }
-        $tahun = SPTPegawai::tahunByNip($nip)->data;
-
+        // $tahun = SPTPegawai::tahunByNip($nip)->data;
+        $tahun = spt::getTahun($nip);
+        
         if ($thn === null) {
             $thn = collect($tahun)->first()->tahun;
         }
@@ -137,11 +151,20 @@ class MonitoringLaporanController extends Controller
             abort(404);
         }
 
-        $peg = SPTPegawai::get($nip, $thn)->data;
-        $gaji = SPTPegawai::gaji($nip, $thn)->data;
-        $kekuranganGaji = SPTPegawai::kekuranganGaji($nip, $thn)->data;
-        $tukin = SPTPegawai::tukin($nip, $thn)->data;
-        $tarif = RefSPTTahunan::get($thn)->data;
+        // $peg = SPTPegawai::get($nip, $thn)->data;
+        $peg = spt::getSptPegawai($nip, $thn);
+
+        // $gaji = SPTPegawai::gaji($nip, $thn)->data;
+        $gaji = spt::getViewGaji($nip, $thn);
+
+        // $kekuranganGaji = SPTPegawai::kekuranganGaji($nip, $thn)->data;
+        $kekuranganGaji = spt::getViewKurang($nip, $thn);
+
+        // $tukin = SPTPegawai::tukin($nip, $thn)->data;
+        $tukin = spt::getViewTukin($nip, $thn);
+
+        // $tarif = RefSPTTahunan::get($thn)->data;
+        $tarif = detailLain::getTarif($thn);
         return view('monitoring.laporan.pph_pasal_21.index', [
             "pageTitle" => "PPh Pasal 21 " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
             "thn" => $thn,
@@ -176,19 +199,46 @@ class MonitoringLaporanController extends Controller
             return abort(403);
         }
 
-        $tahun = SPTPegawai::tahunByNip($nip)->data;
+        // $tahun = SPTPegawai::tahunByNip($nip)->data;
+        $tahun = spt::getTahun($nip);
 
         if ($thn === null) {
-            $thn = collect($tahun)->last()->tahun;
+            $thn = collect($tahun)->first()->tahun;
         }
 
         if (!isset(collect($tahun)->where('tahun', $thn)->first()->tahun)) {
             abort(404);
         }
 
-        $makan = UangMakan::pph($nip, $thn)->data;
-        $lembur = UangLembur::pph($nip, $thn)->data;
-        $lain = PenghasilanLain::pph($nip, $thn)->data;
+        // $makan = UangMakan::pph($nip, $thn)->data;
+        $data_makan = dataMakan::getPph($nip, $thn);
+        $makan = new stdClass();
+
+        $makan->nip = $data_makan->nip;
+        $makan->tahun = $data_makan->tahun;
+        $makan->bruto = $data_makan->jumlah_bruto;
+        $makan->pph = $data_makan->jumlah_pph;
+        $makan->netto = $data_makan->jumlah_bruto - $data_makan->jumlah_pph;
+
+        // $lembur = UangLembur::pph($nip, $thn)->data;
+        $data_lembur = dataLembur::getPph($nip, $thn);
+        $lembur = new stdClass();
+
+        $lembur->nip = $data_lembur->nip;
+        $lembur->tahun = $data_lembur->tahun;
+        $lembur->bruto = $data_lembur->jumlah_bruto;
+        $lembur->pph = $data_lembur->jumlah_pph;
+        $lembur->netto = $data_lembur->jumlah_bruto - $data_lembur->jumlah_pph;
+
+        // $lain = PenghasilanLain::pph($nip, $thn)->data;
+        $lain = collect(dataLain::getPph($nip, $thn))->map(function ($item) {
+            return (object) [
+                'jenis' => $item->jenis,
+                'bruto' => $item->jumlah_bruto,
+                'pph' => $item->jumlah_pph,
+                'netto' => $item->jumlah_bruto - $item->jumlah_pph
+            ];
+        });
         return view('monitoring.laporan.pph_pasal_21_final.index', [
             "pageTitle" => "PPh Pasal 21 Final " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
             "thn" => $thn,
@@ -221,15 +271,65 @@ class MonitoringLaporanController extends Controller
             return abort(403);
         }
 
-        $tahun = Gaji::tahun($nip)->data;
+        // $tahun = Gaji::tahun($nip)->data;
+        $tahun = GajiOld::getTahunGaji($nip);
+
         if ($thn === null) {
-            $thn = collect($tahun)->last()->tahun;
+            $thn = collect($tahun)->first()->tahun;
         }
 
         if (!isset(collect($tahun)->where('tahun', $thn)->first()->tahun)) {
             abort(404);
         }
-        $penghasilan = Penghasilan::get($nip, $thn)->data;
+        // $penghasilan = Penghasilan::get($nip, $thn)->data;
+        $penghasilan = collect(PenghasilanOld::getPenghasilanTahunan($nip, $thn))->map(function ($item) {
+            return (object) [
+                'bulan' => $item->nama_bulan,
+                'gaji' => (object)[
+                    "bulan"=> $item->bulan,
+                    "netto"=> $item->netto1,
+                    "bruto"=> $item->bruto1,
+                    "potongan"=> $item->potongan1,
+                ],
+                'kekuranganGaji' => (object)[
+                    "bulan"=> $item->bulan,
+                    "netto"=> $item->netto2,
+                    "bruto"=> $item->bruto2,
+                    "potongan"=> $item->potongan2,
+                ],
+                'tukin' => (object)[
+                    "bulan"=> $item->bulan,
+                    "netto"=> $item->netto5,
+                    "bruto"=> $item->bruto5,
+                    "potongan"=> $item->potongan5,
+                ],
+                'kekuranganTukin' => (object)[
+                    "bulan"=> $item->bulan,
+                    "netto"=> $item->netto6,
+                    "bruto"=> $item->bruto6,
+                    "potongan"=> $item->potongan6,
+                ],
+                'makan' => (object)[
+                    "bulan"=> $item->bulan,
+                    "netto"=> $item->netto3,
+                    "bruto"=> $item->bruto3,
+                    "potongan"=> $item->potongan3,
+                ],
+                'lembur' => (object)[
+                    "bulan"=> $item->bulan,
+                    "netto"=> $item->netto4,
+                    "bruto"=> $item->bruto4,
+                    "potongan"=> $item->potongan4,
+                ],
+                'lain' => (object)[
+                    "bulan"=> $item->bulan,
+                    "netto"=> 0,
+                    "bruto"=> 0,
+                    "potongan"=> 0,
+                ]
+            ];
+        });
+
         return view('monitoring.laporan.penghasilan_tahunan.index', [
             "pageTitle" => "Penghasilan Tahunan " . $pegawai_Collection->Nama . " / " . $pegawai_Collection->Nip18,
             "data" => $penghasilan,
@@ -273,13 +373,20 @@ class MonitoringLaporanController extends Controller
             return abort(403);
         }
 
-        $peg = SPTPegawai::get($nip, $thn)->data;
-        $gaji = SPTPegawai::gaji($nip, $thn)->data;
-        $kekuranganGaji = SPTPegawai::kekuranganGaji($nip, $thn)->data;
-        $tukin = SPTPegawai::tukin($nip, $thn)->data;
-        $tarif = RefSPTTahunan::get($thn)->data;
-        $profil = Profil::get($pegawai_Collection->KdSatker, $thn)->data;
-        $satker = Satker::get($pegawai_Collection->KdSatker)->data;
+        // $peg = SPTPegawai::get($nip, $thn)->data;
+        $peg = spt::getSptPegawai($nip, $thn);
+        // $gaji = SPTPegawai::gaji($nip, $thn)->data;
+        $gaji = spt::getViewGaji($nip, $thn);
+        // $kekuranganGaji = SPTPegawai::kekuranganGaji($nip, $thn)->data;
+        $kekuranganGaji = spt::getViewKurang($nip, $thn);
+        // $tukin = SPTPegawai::tukin($nip, $thn)->data;
+        $tukin = spt::getViewTukin($nip, $thn);
+        // $tarif = RefSPTTahunan::get($thn)->data;
+        $tarif = detailLain::getTarif($thn);
+        // $profil = Profil::get($pegawai_Collection->KdSatker, $thn)->data;
+        $profil= detailLain::getProfil($pegawai_Collection->KdSatker, $thn);
+        // $satker = Satker::get($pegawai_Collection->KdSatker)->data;
+        $satker = satkerAlika::getDetailSatker($pegawai_Collection->KdSatker);
         ob_start();
         $html2pdf = ob_get_clean();
 
@@ -321,11 +428,39 @@ class MonitoringLaporanController extends Controller
         if ($pegawai_Collection->KdSatker != auth()->user()->kdsatker) {
             return abort(403);
         }
-        $makan = UangMakan::pph($nip, $thn)->data;
-        $lembur = UangLembur::pph($nip, $thn)->data;
-        $lain = PenghasilanLain::pph($nip, $thn)->data;
-        $profil = Profil::get($pegawai_Collection->KdSatker, $thn)->data;
-        $satker = Satker::get($pegawai_Collection->KdSatker)->data;
+        // $makan = UangMakan::pph($nip, $thn)->data;
+        $data_makan = dataMakan::getPph($nip, $thn);
+        $makan = new stdClass();
+
+        $makan->nip = $data_makan->nip;
+        $makan->tahun = $data_makan->tahun;
+        $makan->bruto = $data_makan->jumlah_bruto;
+        $makan->pph = $data_makan->jumlah_pph;
+        $makan->netto = $data_makan->jumlah_bruto - $data_makan->jumlah_pph;
+
+        // $lembur = UangLembur::pph($nip, $thn)->data;
+        $data_lembur = dataLembur::getPph($nip, $thn);
+        $lembur = new stdClass();
+
+        $lembur->nip = $data_lembur->nip;
+        $lembur->tahun = $data_lembur->tahun;
+        $lembur->bruto = $data_lembur->jumlah_bruto;
+        $lembur->pph = $data_lembur->jumlah_pph;
+        $lembur->netto = $data_lembur->jumlah_bruto - $data_lembur->jumlah_pph;
+
+        // $lain = PenghasilanLain::pph($nip, $thn)->data;
+        $lain = collect(dataLain::getPph($nip, $thn))->map(function ($item) {
+            return (object) [
+                'jenis' => $item->jenis,
+                'bruto' => $item->jumlah_bruto,
+                'pph' => $item->jumlah_pph,
+                'netto' => $item->jumlah_bruto - $item->jumlah_pph
+            ];
+        });
+        // $profil = Profil::get($pegawai_Collection->KdSatker, $thn)->data;
+        $profil= detailLain::getProfil($pegawai_Collection->KdSatker, $thn);
+        // $satker = Satker::get($pegawai_Collection->KdSatker)->data;
+        $satker = satkerAlika::getDetailSatker($pegawai_Collection->KdSatker);
         ob_start();
         $html2pdf = ob_get_clean();
 

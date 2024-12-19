@@ -165,7 +165,9 @@ class Belanja51CreateMakanController extends Controller
             'permohonan' => $permohonan,
             'nomor' => $permohonan->nomor,
             'kop' => $kop,
-            'tanggal' => $permohonan->tanggal
+            'tanggal' => $permohonan->tanggal,
+            'bulan' => $permohonan->bulan,
+            'tahun' => $permohonan->tahun
         ]));
         $register = $html2pdf->output('', 'S');
         $filename = 'permohonan/file/' . Str::uuid() . '.pdf';

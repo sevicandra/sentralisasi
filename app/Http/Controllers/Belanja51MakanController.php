@@ -213,6 +213,8 @@ class Belanja51MakanController extends Controller
                 'nomor' => $id->nomor,
                 'kop' => $kop,
                 'tanggal' => $id->tanggal,
+                'bulan' => $id->bulan,
+                'tahun' => $id->tahun,
             ]),
         );
         $register = $html2pdf->output('', 'S');
