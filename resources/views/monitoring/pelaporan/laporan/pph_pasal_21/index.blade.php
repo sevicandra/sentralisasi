@@ -45,7 +45,7 @@
                 $tberas = $gaji->tberas + $kurang->tberas;
                 $bulat = $gaji->bulat + $kurang->bulat;
                 $tpapua = $gaji->tpapua + $kurang->tpapua;
-                $tk = $tukin->bruto;
+                $tk = $tukin->netto;
                 $bruto = $kelg + $tumum + $tunj + $tberas + $bulat + $tpapua + $tk;
                 $ptkp_wp = $tarif->ptkp_wp;
                 $ptkp_istri = $tarif->ptkp_istri;
