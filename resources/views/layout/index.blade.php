@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
+    @vite('resources/css/app.css')
+    <link rel="preload" as="style" href="/build/assets/app.7458fe71.css">
+    <link rel="stylesheet" href="/build/assets/app.7458fe71.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description"
         content="Dengan Alika Sentralisasi, kami hadirkan pengalaman terbaik pelaksanaan sentralisasi belanja pegawai di layar Anda">
-    @vite('resources/css/app.css')
     <link rel="shortcut icon" href="/img/alika.png" type="image/x-icon">
     @section('head')
 
