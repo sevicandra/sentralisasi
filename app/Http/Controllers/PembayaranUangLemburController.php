@@ -15,7 +15,7 @@ class PembayaranUangLemburController extends Controller
     public function index($thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -49,7 +49,7 @@ class PembayaranUangLemburController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -76,7 +76,7 @@ class PembayaranUangLemburController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -157,7 +157,7 @@ class PembayaranUangLemburController extends Controller
     public function edit(dokumenUangLembur $dokumenUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -191,7 +191,7 @@ class PembayaranUangLemburController extends Controller
     public function update(Request $request, dokumenUangLembur $dokumenUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -444,7 +444,7 @@ class PembayaranUangLemburController extends Controller
     public function delete(dokumenUangLembur $dokumenUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -473,7 +473,7 @@ class PembayaranUangLemburController extends Controller
     public function kirim(dokumenUangLembur $dokumenUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -502,7 +502,7 @@ class PembayaranUangLemburController extends Controller
     public function dokumen(dokumenUangLembur $dokumenUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -530,7 +530,7 @@ class PembayaranUangLemburController extends Controller
     public function dokumen_excel(dokumenUangLembur $dokumenUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];

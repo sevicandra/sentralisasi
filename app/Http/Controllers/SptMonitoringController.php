@@ -57,14 +57,14 @@ class SptMonitoringController extends Controller
             $offset = 0;
         }
         // $tahun = SPTPegawai::tahunByKdSatker($satker->kdsatker)->data;
-        $tahun = dataSpt::getTahun(auth()->user()->kdsatker);
+        $tahun = dataSpt::getTahun($satker->kdsatker);
         if (!request('thn')) {
             $thn = collect($tahun)->last()->tahun;
         } else {
             $thn = request('thn');
         };
         // $spt = SPTPegawai::getByKdSatker($satker->kdsatker, $thn, $limit, $offset, request('nip'))->data;
-        $data_spt= collect(dataSpt::getDataSpt(auth()->user()->kdsatker, $thn, $limit, $offset));
+        $data_spt= collect(dataSpt::getDataSpt($satker->kdsatker, $thn, $limit, $offset));
         if (request('nip')) {
             $data_spt = $data_spt->where('nip', request('nip'));
         }

@@ -19,7 +19,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
     public function index($thn = null, $bln = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -50,7 +50,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -67,7 +67,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -152,7 +152,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
     public function detail($thn, $bln, $nip)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -172,7 +172,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
     public function edit($id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -199,7 +199,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
     public function update(Request $request, AbsensiUangLembur $AbsensiUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -247,7 +247,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
     public function destroy(AbsensiUangLembur $AbsensiUangLembur)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }

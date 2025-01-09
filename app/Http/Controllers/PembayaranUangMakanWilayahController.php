@@ -14,7 +14,7 @@ class PembayaranUangMakanWilayahController extends Controller
     public function index($thn=null, $bln=null)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -49,7 +49,7 @@ class PembayaranUangMakanWilayahController extends Controller
     public function detail($kdsatker, $thn, $bln)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -73,7 +73,7 @@ class PembayaranUangMakanWilayahController extends Controller
     public function dokumen(dokumenUangMakan $dokumenUangMakan)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -92,7 +92,7 @@ class PembayaranUangMakanWilayahController extends Controller
     {
 
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }

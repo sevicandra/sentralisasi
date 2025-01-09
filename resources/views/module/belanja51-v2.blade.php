@@ -1,6 +1,6 @@
 @if (Auth::guard('web')->check())
     @php
-        $gate = ['plt_admin_satker', 'opr_belanja_51_vertikal', 'approver_vertikal'];
+        $gate = ['opr_belanja_51_vertikal', 'approver_vertikal'];
     @endphp
 @else
     @php

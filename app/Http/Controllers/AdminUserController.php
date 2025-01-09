@@ -13,7 +13,7 @@ class AdminUserController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin', 'plt_admin_satker', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -30,7 +30,7 @@ class AdminUserController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['sys_admin', 'plt_admin_satker'];
+            $gate=['sys_admin', 'plt_admin_satker', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -45,7 +45,7 @@ class AdminUserController extends Controller
     public function edit(User $user)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
@@ -67,7 +67,7 @@ class AdminUserController extends Controller
     {
         
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id)) {
                     abort(403);
@@ -142,7 +142,7 @@ class AdminUserController extends Controller
     public function update(Request $request, User $user)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
@@ -252,7 +252,7 @@ class AdminUserController extends Controller
     public function delete(User $user)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
@@ -273,7 +273,7 @@ class AdminUserController extends Controller
     public function role(User $user)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
@@ -294,7 +294,7 @@ class AdminUserController extends Controller
     public function role_create(User $user)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
@@ -316,7 +316,7 @@ class AdminUserController extends Controller
     public function role_store(User $user,role $role)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                     abort(403);
@@ -336,7 +336,7 @@ class AdminUserController extends Controller
     public function role_delete(User $user,role $role)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker'];
+            $gate=['plt_admin_satker', 'admin_pusat'];
             if (! Gate::any(['sys_admin'], auth()->user()->id)) {
                 if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                     abort(403);

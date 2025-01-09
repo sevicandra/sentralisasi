@@ -14,7 +14,7 @@ class SewaRumahDinasController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -41,7 +41,7 @@ class SewaRumahDinasController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -67,7 +67,7 @@ class SewaRumahDinasController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -129,7 +129,7 @@ class SewaRumahDinasController extends Controller
     public function edit(sewaRumahDinas $sewaRumahDinas)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -160,7 +160,7 @@ class SewaRumahDinasController extends Controller
     public function update(Request $request, sewaRumahDinas $sewaRumahDinas)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -229,7 +229,7 @@ class SewaRumahDinasController extends Controller
     public function delete(sewaRumahDinas $sewaRumahDinas)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -256,7 +256,7 @@ class SewaRumahDinasController extends Controller
     public function kirim(sewaRumahDinas $sewaRumahDinas)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -285,7 +285,7 @@ class SewaRumahDinasController extends Controller
     public function cancelPengajuan(sewaRumahDinas $sewaRumahDinas)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -315,7 +315,7 @@ class SewaRumahDinasController extends Controller
     {
         
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -343,7 +343,7 @@ class SewaRumahDinasController extends Controller
     public function nonAktif(Request $request,sewaRumahDinas $sewaRumahDinas)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -384,7 +384,7 @@ class SewaRumahDinasController extends Controller
     public function cancelNonAktif(sewaRumahDinas $sewaRumahDinas)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];

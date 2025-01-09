@@ -1,6 +1,6 @@
 @if (Auth::guard('web')->check())
     @php
-        $gate = ['opr_spt', 'plt_admin_satker', 'sys_admin'];
+        $gate = ['opr_spt', 'plt_admin_satker', 'sys_admin', 'admin_pusat'];
     @endphp
 @else
     @php

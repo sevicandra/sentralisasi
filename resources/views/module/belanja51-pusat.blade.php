@@ -1,6 +1,6 @@
 @if (Auth::guard('web')->check())
     @php
-        $gate = ['opr_belanja_51_pusat', 'approver_pusat'];
+        $gate = ['opr_belanja_51_pusat', 'approver_pusat', 'admin_pusat'];
     @endphp
 @else
     @php

@@ -13,7 +13,7 @@ class SewaRumahDinasNonAktifController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -41,7 +41,7 @@ class SewaRumahDinasNonAktifController extends Controller
     {
         
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_rumdin'];
+            $gate=['plt_admin_satker', 'opr_rumdin', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];

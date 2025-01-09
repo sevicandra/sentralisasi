@@ -13,7 +13,7 @@ class PusatBelanja51Controller extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat', 'approver_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'approver_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -31,7 +31,7 @@ class PusatBelanja51Controller extends Controller
     public function notifikasi(NotifikasiBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat', 'approver_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'approver_pusat', 'admin_pusat'];
         } else {
             $gate = [''];
         }

@@ -23,7 +23,7 @@ class PusatBelanja51CreateLemburController extends Controller
     public function index($thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -47,7 +47,7 @@ class PusatBelanja51CreateLemburController extends Controller
     public function preview($thn, $bln)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -78,7 +78,7 @@ class PusatBelanja51CreateLemburController extends Controller
     {
         // return $request;
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }

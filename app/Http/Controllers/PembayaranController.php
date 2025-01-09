@@ -13,7 +13,7 @@ class PembayaranController extends Controller
     public function index($thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -55,7 +55,7 @@ class PembayaranController extends Controller
     public function detailUM($thn, $bln)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -86,7 +86,7 @@ class PembayaranController extends Controller
     public function detailUL($thn, $bln)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -117,7 +117,7 @@ class PembayaranController extends Controller
     public function dokumenUM(dokumenUangMakan $um)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];
@@ -144,7 +144,7 @@ class PembayaranController extends Controller
     public function dokumenUL(dokumenUangLembur $ul)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
             $gate2=['sys_admin'];
         }else{
             $gate=['admin_satker'];

@@ -109,5 +109,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('approver_pusat', function (User $user) {
             return $user->is('09') && $user->kdsatker === '411792' && $user->kdunit != null;
         });
+
+        Gate::define('admin_pusat', function (User $user) {
+            return $user->is('10') && $user->kdsatker != '411792';
+        });
     }
 }

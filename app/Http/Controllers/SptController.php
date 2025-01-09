@@ -25,7 +25,7 @@ class SptController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
@@ -82,7 +82,7 @@ class SptController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
@@ -111,7 +111,7 @@ class SptController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
@@ -189,7 +189,7 @@ class SptController extends Controller
     public function edit($id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
@@ -225,7 +225,7 @@ class SptController extends Controller
     public function update(Request $request, $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
@@ -311,7 +311,7 @@ class SptController extends Controller
     public function delete($id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
@@ -352,7 +352,7 @@ class SptController extends Controller
     public function import()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];
@@ -373,7 +373,7 @@ class SptController extends Controller
     public function importAlika(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['plt_admin_satker', 'opr_spt'];
+            $gate = ['plt_admin_satker', 'opr_spt', 'admin_pusat'];
             $gate2 = ['sys_admin'];
         } else {
             $gate = ['admin_satker'];

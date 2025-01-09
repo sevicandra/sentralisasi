@@ -30,12 +30,15 @@ class MonitoringRincianController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
 
@@ -88,12 +91,15 @@ class MonitoringRincianController extends Controller
     public function penghasilan($nip = null, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
 
@@ -173,12 +179,15 @@ class MonitoringRincianController extends Controller
     public function gaji($nip = null, $thn = null, $jns = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
 
@@ -226,12 +235,15 @@ class MonitoringRincianController extends Controller
     public function uang_makan($nip = null, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
 
@@ -265,12 +277,15 @@ class MonitoringRincianController extends Controller
     public function uang_lembur($nip = null, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
 
@@ -304,12 +319,15 @@ class MonitoringRincianController extends Controller
     public function tunjangan_kinerja($nip = null, $thn = null, $jns = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
         $pegawai_Collection = hris::getPegawai($nip)->first();
@@ -356,12 +374,15 @@ class MonitoringRincianController extends Controller
     public function lainnya($nip = null, $thn = null, $jns = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
 
@@ -405,12 +426,15 @@ class MonitoringRincianController extends Controller
     public function lainnya_detail($nip, $thn, $jns, $bln)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
 
@@ -438,12 +462,15 @@ class MonitoringRincianController extends Controller
     public function penghasilan_daftar()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
         ob_start();
@@ -458,12 +485,15 @@ class MonitoringRincianController extends Controller
     public function penghasilan_surat()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/penghasilan');
+            }
             abort(403);
         }
         ob_start();

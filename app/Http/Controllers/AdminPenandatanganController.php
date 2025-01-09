@@ -17,7 +17,7 @@ class AdminPenandatanganController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['sys_admin', 'plt_admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -34,7 +34,7 @@ class AdminPenandatanganController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['sys_admin', 'plt_admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -47,7 +47,7 @@ class AdminPenandatanganController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['sys_admin', 'plt_admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -136,7 +136,7 @@ class AdminPenandatanganController extends Controller
     public function edit($id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['sys_admin', 'plt_admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
@@ -156,7 +156,7 @@ class AdminPenandatanganController extends Controller
     public function update(Request $request, $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['sys_admin', 'plt_admin_satker'];
+            $gate = ['sys_admin', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }

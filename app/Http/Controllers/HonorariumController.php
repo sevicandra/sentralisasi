@@ -16,7 +16,7 @@ class HonorariumController extends Controller
     public function index($thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -46,7 +46,7 @@ class HonorariumController extends Controller
     public function create()
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -63,7 +63,7 @@ class HonorariumController extends Controller
     public function import(Request $request)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -75,8 +75,8 @@ class HonorariumController extends Controller
         $request->validate([
             'file_excel'=>'required|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'file_pendukung'=>'required|mimes:pdf',
-            'bulan'=>'required|min:2|max:2',
-            'tahun'=>'required|min:4|max:4',
+            'bulan'=>'required|min_digits:2|max_digits:2',
+            'tahun'=>'required|min_digits:4|max_digits:4',
         ],[
             'file_excel.mimetypes'=>'The file must be a xlsx file',
             'file_pendukung.mimetypes'=>'The file must be a pdf file',
@@ -124,7 +124,7 @@ class HonorariumController extends Controller
     public function dokumen($file)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -141,7 +141,7 @@ class HonorariumController extends Controller
     public function delete($file)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -158,7 +158,7 @@ class HonorariumController extends Controller
     public function kirim($file)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -167,14 +167,14 @@ class HonorariumController extends Controller
             abort(403);    
         }
 
-        dataHonorarium::where('file', $file)->update(['sts' => '1']);
+        dataHonorarium::where('file', $file)->where('sts', '=', '0')->update(['sts' => '1']);
         return Redirect('/honorarium')->with('berhasil', 'data berhasil di hapus');
     }
 
     public function edit(dataHonorarium $dataHonorarium)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -195,7 +195,7 @@ class HonorariumController extends Controller
     public function update(Request $request, $file)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -249,7 +249,7 @@ class HonorariumController extends Controller
     public function detail($file)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -270,7 +270,7 @@ class HonorariumController extends Controller
     public function editDetail(dataHonorarium $dataHonorarium)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -292,7 +292,7 @@ class HonorariumController extends Controller
     public function updateDetail(Request $request, dataHonorarium $dataHonorarium)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -330,7 +330,7 @@ class HonorariumController extends Controller
     public function deleteDetail(dataHonorarium $dataHonorarium)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -353,7 +353,7 @@ class HonorariumController extends Controller
     public function kirimDetail(dataHonorarium $dataHonorarium)
     {
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_honor'];
+            $gate=['plt_admin_satker', 'opr_honor', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }

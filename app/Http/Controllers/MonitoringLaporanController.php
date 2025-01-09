@@ -35,12 +35,15 @@ class MonitoringLaporanController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/pelaporan');
+            }
             abort(403);
         }
 
@@ -93,12 +96,15 @@ class MonitoringLaporanController extends Controller
     public function profil($nip)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/pelaporan');
+            }
             abort(403);
         }
 
@@ -123,12 +129,15 @@ class MonitoringLaporanController extends Controller
     public function pph_pasal_21($nip, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/pelaporan');
+            }
             abort(403);
         }
 
@@ -181,12 +190,15 @@ class MonitoringLaporanController extends Controller
     public function pph_pasal_21_final($nip, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/pelaporan');
+            }
             abort(403);
         }
 
@@ -253,12 +265,15 @@ class MonitoringLaporanController extends Controller
     public function penghasilan_tahunan($nip, $thn = null)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/pelaporan');
+            }
             abort(403);
         }
 
@@ -355,12 +370,15 @@ class MonitoringLaporanController extends Controller
     {
 
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/pelaporan');
+            }
             abort(403);
         }
 
@@ -411,12 +429,15 @@ class MonitoringLaporanController extends Controller
     public function pph_pasal_21_final_cetak($nip, $thn)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_monitoring', 'plt_admin_satker'];
+            $gate = ['opr_monitoring', 'plt_admin_satker', 'admin_pusat'];
         } else {
             $gate = ['admin_satker'];
         }
 
         if (!Gate::any($gate, auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+                return redirect('/monitoring/pelaporan');
+            }
             abort(403);
         }
 

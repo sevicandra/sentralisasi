@@ -18,7 +18,7 @@ class PusatBelanja51MakanController extends Controller
     public function index()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -37,7 +37,7 @@ class PusatBelanja51MakanController extends Controller
     public function arsip()
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -56,7 +56,7 @@ class PusatBelanja51MakanController extends Controller
     public function detail(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -77,7 +77,7 @@ class PusatBelanja51MakanController extends Controller
     public function detailArsip(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -96,7 +96,7 @@ class PusatBelanja51MakanController extends Controller
     public function destroy(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -115,7 +115,7 @@ class PusatBelanja51MakanController extends Controller
     public function kirim(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -141,7 +141,7 @@ class PusatBelanja51MakanController extends Controller
     public function batal(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -167,7 +167,7 @@ class PusatBelanja51MakanController extends Controller
     public function history(PermohonanBelanja51 $id)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -188,7 +188,7 @@ class PusatBelanja51MakanController extends Controller
 
     public function regenerateSurat(PermohonanBelanja51 $id){
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }
@@ -230,7 +230,7 @@ class PusatBelanja51MakanController extends Controller
     public function regenerateLampiran(PermohonanBelanja51 $id, FilePermohonanBelanja51 $file)
     {
         if (Auth::guard('web')->check()) {
-            $gate = ['opr_belanja_51_pusat'];
+            $gate = ['opr_belanja_51_pusat', 'admin_pusat'];
         } else {
             $gate = [];
         }

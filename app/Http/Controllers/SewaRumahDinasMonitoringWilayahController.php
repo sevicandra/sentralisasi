@@ -13,7 +13,7 @@ class SewaRumahDinasMonitoringWilayahController extends Controller
 {
     public function index(){
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -33,7 +33,7 @@ class SewaRumahDinasMonitoringWilayahController extends Controller
 
     public function detail($kdsatker){
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }
@@ -54,7 +54,7 @@ class SewaRumahDinasMonitoringWilayahController extends Controller
     public function dokumen(sewaRumahDinas $sewaRumahDinas)
     {   
         if (Auth::guard('web')->check()) {
-            $gate=['plt_admin_satker', 'opr_belanja_51'];
+            $gate=['plt_admin_satker', 'opr_belanja_51', 'admin_pusat'];
         }else{
             $gate=['admin_satker'];
         }

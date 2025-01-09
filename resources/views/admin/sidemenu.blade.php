@@ -20,7 +20,7 @@
             </ul>
         </li>
         <div class="absolute bottom-0 start-0 p-3 text-base-content">
-            V.1.8
+            V.1.8.1
         </div>
     @endcan
 @endif
