@@ -11,7 +11,7 @@
                     @foreach ($status as $item)
                         <option
                             value="?status={{ $item }} @if (request('search')) &search={{ request('search') }} @endif"
-                            @if (request('status') === $item) selected @endif>
+                            @if (request('status') === $item || (request('status') == null && $item == 'Aktif')) selected  @endif>
                             {{ $item }}
                         </option>
                     @endforeach

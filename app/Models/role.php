@@ -34,11 +34,11 @@ class role extends Model
     {
         if (Auth::guard('web')->check()) {
             if (! Gate::allows('sys_admin', auth()->user()->id)) {
-                return  $data->where('kode', '!=', '02')->where('kode', '!=', '01')->where('kode', '!=', '06');
+                return  $data->where('kode', '!=', '02')->where('kode', '!=', '01')->where('kode', '!=', '06')->where('kode', '!=', '10');
             }
             return  $data;
         }
-        return  $data->where('kode', '!=', '02')->where('kode', '!=', '01')->where('kode', '!=', '06');
+        return  $data->where('kode', '!=', '02')->where('kode', '!=', '01')->where('kode', '!=', '06')->where('kode', '!=', '10');
     }
 
     public function scopeActive($data, $val)
