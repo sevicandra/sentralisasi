@@ -25,6 +25,7 @@
                             <x-table.header.column>Bruto</x-table.header.column>
                             <x-table.header.column>PPh</x-table.header.column>
                             <x-table.header.column>Netto</x-table.header.column>
+                            <x-table.header.column>Upload Date</x-table.header.column>
                             <x-table.header.column>Aksi</x-table.header.column>
                         </tr>
                     </x-table.header>
@@ -51,6 +52,9 @@
                                         </form>
                                     @endcan
                                 </x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ $item->updated_at }}</x-table.body.column>
+                                <x-table.body.column>
                             </tr>
                         @endforeach
                     </x-table.body>

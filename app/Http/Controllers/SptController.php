@@ -53,10 +53,7 @@ class SptController extends Controller
             $thn = request('thn');
         };
         // $spt = SPTPegawai::getByKdSatker(auth()->user()->kdsatker, $thn, $limit, $offset, request('nip'))->data;
-        $data_spt= collect(dataSpt::getDataSpt(auth()->user()->kdsatker, $thn, $limit, $offset));
-        if (request('nip')) {
-            $data_spt = $data_spt->where('nip', request('nip'));
-        }
+        $data_spt= collect(dataSpt::getDataSpt(auth()->user()->kdsatker, $thn));
         $spt = $data_spt->map(function ($item) {
             return (object) [
                 'id' => $item->id,
@@ -68,8 +65,12 @@ class SptController extends Controller
                 'nip' => $item->nip,
             ];
         });
+        if (request('nip')) {
+            $spt = $spt->where('nip', request('nip'));
+        }
+        $count = $spt->count();
+        $spt = $spt->skip($offset)->take($limit);
         // $count = SPTPegawai::countByKdSatker(auth()->user()->kdsatker, $thn)->data;
-        $count = collect(dataSpt::getDataSpt(auth()->user()->kdsatker, $thn))->count();
         $data = $this->paginate($spt, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
         return view('spt.index.index', [
             'data' => $data,
