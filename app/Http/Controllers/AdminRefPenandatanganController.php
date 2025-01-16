@@ -44,8 +44,8 @@ class AdminRefPenandatanganController extends Controller
         if (!Gate::any($gate, auth()->user()->id)) {
             abort(403);
         }
-        // $data = Profil::get(auth()->user()->kdsatker)->data;
-        $data = dataPenandatangan::getDataPenandatangan(auth()->user()->kdsatker);
+        // $data = Profil::get($kdsatker)->data;
+        $data = dataPenandatangan::getDataPenandatangan($kdsatker);
         return view('admin.refPenandatangan.detail', [
             'data' => $data,
             'kdsatker' => $kdsatker,
@@ -135,7 +135,7 @@ class AdminRefPenandatanganController extends Controller
 
             $response = dataPenandatangan::CreateDataPenandatangan([
                 'tahun' => $request->tahun,
-                'kdsatker' => auth()->user()->kdsatker,
+                'kdsatker' => $kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
                 'nip_ttd_skp' => $request->nip_ttd_skp,
                 'jab_ttd_skp' => $request->jab_ttd_skp,
@@ -151,8 +151,8 @@ class AdminRefPenandatanganController extends Controller
             if ($response->failed()) {
                 throw new \Exception($response);
             }
-            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_');
-            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_' . $request->tahun);
+            Cache::forget('alikaProfil_' . $kdsatker . '_');
+            Cache::forget('alikaProfil_' . $kdsatker . '_' . $request->tahun);
             return redirect('/admin/penandatangan')->with('berhasil', 'Penandatangan berhasil ditambahkan');
         } catch (\Throwable $th) {
             return redirect('/admin/penandatangan')->with('gagal', $th->getMessage());
@@ -244,7 +244,7 @@ class AdminRefPenandatanganController extends Controller
 
             $response = dataPenandatangan::UpdateDataPenandatangan([
                 'tahun' => $request->tahun,
-                'kdsatker' => auth()->user()->kdsatker,
+                'kdsatker' => $kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
                 'nip_ttd_skp' => $request->nip_ttd_skp,
                 'jab_ttd_skp' => $request->jab_ttd_skp,
@@ -260,8 +260,8 @@ class AdminRefPenandatanganController extends Controller
             if ($response->failed()) {
                 throw new \Exception($response);
             }
-            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_');
-            Cache::forget('alikaProfil_' . auth()->user()->kdsatker . '_' . $request->tahun);
+            Cache::forget('alikaProfil_' . $kdsatker . '_');
+            Cache::forget('alikaProfil_' . $kdsatker . '_' . $request->tahun);
             return redirect('/admin/penandatangan')->with('berhasil', 'Penandatangan berhasil diubah');
         } catch (\Throwable $th) {
             return redirect('/admin/penandatangan')->with('gagal', $th->getMessage());
