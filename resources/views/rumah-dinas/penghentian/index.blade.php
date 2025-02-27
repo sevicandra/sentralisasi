@@ -40,9 +40,9 @@
                                 <x-table.body.column
                                     class="text-center whitespace-nowrap">{{ $item->tanggal_selesai }}</x-table.body.column>
                                 <x-table.body.column
-                                    class="text-center whitespace-nowrap">{{ $item->tanggal_usulan_ }}</x-table.body.column>
-                                <x-table.body.column
                                     class="text-center whitespace-nowrap">{{ $item->tanggal_usulan_non_aktif }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-center whitespace-nowrap">{{ $item->alasan_penghentian }}</x-table.body.column>
                                 <x-table.body.column
                                     class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</x-table.body.column>
                                 <x-table.body.column class="text-center">
