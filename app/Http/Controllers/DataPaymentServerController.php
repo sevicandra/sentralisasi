@@ -5,11 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\dataHonorarium;
 use App\Helper\AlikaNew\PenghasilanLain;
-
-// API Alika Old
-use App\Helper\Alika\API2\dataLain;
-
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
@@ -26,7 +21,7 @@ class DataPaymentServerController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $limit = 15;
@@ -37,17 +32,15 @@ class DataPaymentServerController extends Controller
         }
 
         if (request('nip')) {
-            // $dataLain = PenghasilanLain::getAll(request('nip'), request('tahun'), $limit, $offset)->data;
-            $dataLain = dataLain::get(null, $limit, $offset);
-            // $count = PenghasilanLain::count(request('nip'), request('tahun'))->data;
-            $count = dataLain::count();
+            $dataLain = PenghasilanLain::getAll(request('nip'), request('tahun'), $limit, $offset);
+            $data = $dataLain->data;
+            $meta = $dataLain->meta;
         } else {
-            // $dataLain = PenghasilanLain::getAll(null, null, $limit, $offset)->data;
-            $dataLain = dataLain::get(null, $limit, $offset);
-            // $count = PenghasilanLain::count()->data;
-            $count = dataLain::count();
+            $dataLain = PenghasilanLain::getAll(null, null, $limit, $offset);
+            $data = $dataLain->data;
+            $meta = $dataLain->meta;
         }
-        $data = $this->paginate($dataLain, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
+        $data = $this->paginate($data, $limit, request('page'), $meta->total, ['path' => ' '])->withQueryString();
 
         return view('data-payment.server.index', [
             'data' => $data,
@@ -65,11 +58,10 @@ class DataPaymentServerController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::allows($gate, auth()->user()->id)) {
+        if (!Gate::allows($gate, session()->get('role'))) {
             abort(403);
         }
-        // $data = PenghasilanLain::getById($id)->data;
-        $data= dataLain::get($id);
+        $data = PenghasilanLain::getById($id)->data;
         return view('data-payment.server.edit', [
             'data' => $data,
             'pageTitle' => 'Edit Data Server',
@@ -86,7 +78,7 @@ class DataPaymentServerController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::allows($gate, auth()->user()->id)) {
+        if (!Gate::allows($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([
@@ -109,20 +101,7 @@ class DataPaymentServerController extends Controller
             'nip' => 'numeric',
         ]);
         try {
-            // $response   = PenghasilanLain::put($id, [
-            //     'bulan' => $request->bulan,
-            //     'tahun' => $request->tahun,
-            //     'kdsatker' => $request->kdsatker,
-            //     'nip' => $request->nip,
-            //     'bruto' => $request->bruto,
-            //     'pph' => $request->pph,
-            //     'netto' => $request->netto,
-            //     'jenis' => $request->jenis,
-            //     'uraian' => $request->uraian,
-            //     'tanggal' => $request->tanggal,
-            //     'nospm' => $request->nospm ?? null,
-            // ]);
-            $response = dataLain::patch([
+            $response   = PenghasilanLain::put($id, [
                 'bulan' => $request->bulan,
                 'tahun' => $request->tahun,
                 'kdsatker' => $request->kdsatker,
@@ -132,9 +111,7 @@ class DataPaymentServerController extends Controller
                 'netto' => $request->netto,
                 'jenis' => $request->jenis,
                 'uraian' => $request->uraian,
-                'tanggal' => strtotime($request->tanggal) + (60 * 60 * 7),
-                'nospm' => $request->nospm ?? null,
-                'id' => $id
+                'tanggal' => strtotime($request->tanggal),
             ]);
             if ($response->failed()) {
                 throw new \Exception($response);
@@ -153,12 +130,11 @@ class DataPaymentServerController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::allows($gate, auth()->user()->id)) {
+        if (!Gate::allows($gate, session()->get('role'))) {
             abort(403);
         }
         try {
-            // $response = PenghasilanLain::destroy($id);
-            $response = dataLain::delete($id);
+            $response = PenghasilanLain::destroy($id);
             if ($response->getStatusCode() != 200) {
                 throw new \Exception($response);
             }

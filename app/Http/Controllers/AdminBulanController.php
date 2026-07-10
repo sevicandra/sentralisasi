@@ -18,7 +18,7 @@ class AdminBulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.bulan.index',[
@@ -34,7 +34,7 @@ class AdminBulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.bulan.create');
@@ -48,7 +48,7 @@ class AdminBulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([
@@ -70,7 +70,7 @@ class AdminBulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.bulan.edit',[
@@ -86,7 +86,7 @@ class AdminBulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([

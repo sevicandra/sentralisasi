@@ -15,7 +15,7 @@ class Penghasilan
             $value = Cache::remember('alikaPenghasilan_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/Penghasilan/Detail/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/Penghasilan/Detail?nip=' . $nip . '&tahun=' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -24,7 +24,8 @@ class Penghasilan
             return null;
         }
     }
-    public static function gaji($nip, $tahun){
+    public static function gaji($nip, $tahun)
+    {
         try {
             $token = Token::get();
             $value = Cache::remember('alikaPenghasilanGaji_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
@@ -39,7 +40,8 @@ class Penghasilan
             return null;
         }
     }
-    public static function tukin($nip, $tahun){
+    public static function tukin($nip, $tahun)
+    {
         try {
             $token = Token::get();
             $value = Cache::remember('alikaPenghasilanTukin_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {

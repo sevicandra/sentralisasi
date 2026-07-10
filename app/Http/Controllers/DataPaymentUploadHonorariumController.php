@@ -6,10 +6,6 @@ use App\Models\dataHonorarium;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
-
-// API Alika Old
-use App\Helper\Alika\API2\dataLain;
-
 use Illuminate\Support\Facades\Storage;
 use App\Helper\AlikaNew\PenghasilanLain;
 
@@ -23,7 +19,7 @@ class DataPaymentUploadHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $tahun = dataHonorarium::tahunUpload();
@@ -68,7 +64,7 @@ class DataPaymentUploadHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return response()->file(Storage::path('honorarium/' . $file . '.pdf'), [
@@ -84,17 +80,13 @@ class DataPaymentUploadHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         try {
             foreach (dataHonorarium::uploadDetail($file)->get() as $item) {
                 if ($item->server_id) {
-                    // $response = PenghasilanLain::destroy($item->server_id);
-                    $response = dataLain::delete($item->server_id);
-                    if ($response->failed()) {
-                        throw new \Exception($response);
-                    }
+                    $response = PenghasilanLain::destroy($item->server_id);
                 }
                 dataHonorarium::where('id', $item->id)->update([
                     'server_id' => null,
@@ -115,7 +107,7 @@ class DataPaymentUploadHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('data-payment.honorarium-upload.detail', [
@@ -134,7 +126,7 @@ class DataPaymentUploadHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataHonorarium->sts != '2') {
@@ -143,11 +135,7 @@ class DataPaymentUploadHonorariumController extends Controller
 
         try {
             if ($dataHonorarium->server_id) {
-                // $response = PenghasilanLain::destroy($dataHonorarium->server_id);
-                $response = dataLain::delete($dataHonorarium->server_id);
-                if ($response->failed()) {
-                    throw new \Exception($response);
-                }
+                $response = PenghasilanLain::destroy($dataHonorarium->server_id);
             }
             $dataHonorarium->update([
                 'sts' => '1',

@@ -35,7 +35,7 @@ class dataSpt
 
     public static function create($data){
         $data=Http::asForm()->withBasicAuth(config('alika.auth'), config('alika.secret'))->post(config('alika.uri2').'data-spt-pegawai',[
-            'X-API-KEY' => config('alika.key'),
+            'X-API-KEY'=> config('alika.key'),
             'tahun'=>$data['tahun'],
             'nip'=>$data['nip'],
             'npwp'=>$data['npwp'],

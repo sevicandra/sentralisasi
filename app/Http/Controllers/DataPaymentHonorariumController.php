@@ -4,11 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\dataHonorarium;
 use App\Helper\AlikaNew\PenghasilanLain;
-
-// API Alika Old
-use App\Helper\Alika\API2\dataLain;
-
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
@@ -24,7 +19,7 @@ class DataPaymentHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -44,7 +39,7 @@ class DataPaymentHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -64,7 +59,7 @@ class DataPaymentHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -81,7 +76,7 @@ class DataPaymentHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         dataHonorarium::dataPendingDetail($file)->update([
@@ -99,7 +94,7 @@ class DataPaymentHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataHonorarium->sts != '1') {
@@ -117,28 +112,13 @@ class DataPaymentHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         try {
             $count = 0;
             foreach (dataHonorarium::dataPendingDetail($file)->get() as $item) {
-                // $response = PenghasilanLain::post(
-                //     [
-                //         'bulan' => $item->bulan,
-                //         'tahun' => $item->tahun,
-                //         'kdsatker' => $item->kdsatker,
-                //         'nip' => $item->nip,
-                //         'bruto' => $item->bruto,
-                //         'pph' => $item->pph,
-                //         'netto' => $item->bruto - $item->pph,
-                //         'jenis' => 'honorarium',
-                //         'uraian' => $item->uraian,
-                //         'tanggal' => $item->tanggal,
-                //         'nospm' => $item->nospm ?? null,
-                //     ]
-                // );
-                $response = dataLain::post(
+                $response = PenghasilanLain::post(
                     [
                         'bulan' => $item->bulan,
                         'tahun' => $item->tahun,
@@ -149,8 +129,7 @@ class DataPaymentHonorariumController extends Controller
                         'netto' => $item->bruto - $item->pph,
                         'jenis' => 'honorarium',
                         'uraian' => $item->uraian,
-                        'tanggal' => $item->tanggal,
-                        'nospm' => $item->nospm ?? null,
+                        'tanggal' => strtotime($item->tanggal),
                     ]
                 );
                 if ($response->failed()) {
@@ -174,41 +153,26 @@ class DataPaymentHonorariumController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataHonorarium->sts != '1') {
             abort(403);
         }
         try {
-            // $response = PenghasilanLain::post([
-            //     'bulan' => $dataHonorarium->bulan,
-            //     'tahun' => $dataHonorarium->tahun,
-            //     'kdsatker' => $dataHonorarium->kdsatker,
-            //     'nip' => $dataHonorarium->nip,
-            //     'bruto' => $dataHonorarium->bruto,
-            //     'pph' => $dataHonorarium->pph,
-            //     'netto' => $dataHonorarium->bruto - $dataHonorarium->pph,
-            //     'jenis' => 'honorarium',
-            //     'uraian' => $dataHonorarium->uraian,
-            //     'tanggal' => $dataHonorarium->tanggal,
-            //     'nospm' => $dataHonorarium->nospm,
-            // ]);
-            $response = dataLain::post(
-                [
-                    'bulan' => $dataHonorarium->bulan,
-                    'tahun' => $dataHonorarium->tahun,
-                    'kdsatker' => $dataHonorarium->kdsatker,
-                    'nip' => $dataHonorarium->nip,
-                    'bruto' => $dataHonorarium->bruto,
-                    'pph' => $dataHonorarium->pph,
-                    'netto' => $dataHonorarium->bruto - $dataHonorarium->pph,
-                    'jenis' => 'honorarium',
-                    'uraian' => $dataHonorarium->uraian,
-                    'tanggal' => $dataHonorarium->tanggal,
-                    'nospm' => $dataHonorarium->nospm ?? null,
-                ]
-            );
+            $response = PenghasilanLain::post([
+                'bulan' => $dataHonorarium->bulan,
+                'tahun' => $dataHonorarium->tahun,
+                'kdsatker' => $dataHonorarium->kdsatker,
+                'nip' => $dataHonorarium->nip,
+                'bruto' => $dataHonorarium->bruto,
+                'pph' => $dataHonorarium->pph,
+                'netto' => $dataHonorarium->bruto - $dataHonorarium->pph,
+                'jenis' => 'honorarium',
+                'uraian' => $dataHonorarium->uraian,
+                'tanggal' => $dataHonorarium->tanggal,
+                'nospm' => $dataHonorarium->nospm,
+            ]);
             if ($response->failed()) {
                 throw new \Exception($response);
             }

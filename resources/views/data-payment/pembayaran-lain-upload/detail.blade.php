@@ -42,7 +42,7 @@
                                     class="text-right">{{ number_format($item->bruto - $item->pph, 2, ',', '.') }}</x-table.body.column>
                                 <x-table.body.column>
                                     <div class="w-full h-full flex gap-1 justify-center">
-                                        @can('adm_server', auth()->user()->id)
+                                        @can('adm_server', session()->get('role'))
                                             <form action="/data-payment/upload/lain/{{ $item->id }}/detail" method="post">
                                                 @csrf
                                                 @method('DELETE')

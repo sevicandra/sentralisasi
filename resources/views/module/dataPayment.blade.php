@@ -1,5 +1,5 @@
 @if (Auth::guard('web')->check())
-    @can('sys_admin', auth()->user()->id)
+    @can('sys_admin', session()->get('role'))
         @php
             $notif = 0;
         @endphp

@@ -17,7 +17,7 @@ class PusatBelanja51Controller extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -35,7 +35,7 @@ class PusatBelanja51Controller extends Controller
         } else {
             $gate = [''];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdunit != auth()->user()->kdunit) {

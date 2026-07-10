@@ -64,7 +64,7 @@ class User extends Authenticatable
     public function scopeSysAdmin($data)
     {
         if (Auth::guard('web')->check()) {
-            if (! Gate::allows('sys_admin', auth()->user()->id)) {
+            if (! Gate::allows('sys_admin', session()->get('role'))) {
                 return $data->where('users.kdsatker', auth()->user()->kdsatker);
             }
             return $data;
@@ -89,6 +89,13 @@ class User extends Authenticatable
     public function scopeAprSatker($data, $kdsatker)
     {
         return $data->where('kdsatker', $kdsatker)->whereHas('role', function ($q) {
+            return $q->where('kode', '09');
+        });
+    }
+
+        public function scopeAprSatkerPusat($data, $kdsatker, $kdunit)
+    {
+        return $data->where('kdsatker', $kdsatker)->where('kdunit', $kdunit)->whereHas('role', function ($q) {
             return $q->where('kode', '09');
         });
     }

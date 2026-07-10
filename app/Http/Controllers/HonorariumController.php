@@ -21,7 +21,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $kdsatker= auth()->user()->kdsatker;
@@ -51,7 +51,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('honorarium.create',[
@@ -68,7 +68,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -129,7 +129,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker) {
+        if (! Gate::any($gate, session()->get('role')) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
         
@@ -146,7 +146,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $file)->max('sts') != 0) {
+        if (! Gate::any($gate, session()->get('role')) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $file)->max('sts') != 0) {
             abort(403);
         }
 
@@ -163,7 +163,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $file)->min('sts') != 0) {
+        if (! Gate::any($gate, session()->get('role')) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $file)->min('sts') != 0) {
             abort(403);    
         }
 
@@ -179,7 +179,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $dataHonorarium->file)->max('sts') != 0) {
+        if (! Gate::any($gate, session()->get('role')) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $dataHonorarium->file)->max('sts') != 0) {
             abort(403);    
         }
         if($dataHonorarium->sts != '0'){
@@ -200,7 +200,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $file)->max('sts') != 0) {
+        if (! Gate::any($gate, session()->get('role')) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker || dataHonorarium::where('file', $file)->max('sts') != 0) {
             abort(403);
         }
 
@@ -254,7 +254,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker) {
+        if (! Gate::any($gate, session()->get('role')) || dataHonorarium::where('file', $file)->first()->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
 
@@ -275,7 +275,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
         
-        if (!Gate::any($gate, auth()->user()->id) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
+        if (!Gate::any($gate, session()->get('role')) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
             abort(403);    
         }
         
@@ -297,7 +297,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
+        if (! Gate::any($gate, session()->get('role')) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
             abort(403);    
         }
         if($dataHonorarium->sts != '0'){
@@ -335,7 +335,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
+        if (! Gate::any($gate, session()->get('role')) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
             abort(403);    
         }
         if($dataHonorarium->sts != '0'){
@@ -358,7 +358,7 @@ class HonorariumController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
+        if (! Gate::any($gate, session()->get('role')) || $dataHonorarium->kdsatker != auth()->user()->kdsatker || $dataHonorarium->sts != 0) {
             abort(403);    
         }
         if($dataHonorarium->sts != '0'){

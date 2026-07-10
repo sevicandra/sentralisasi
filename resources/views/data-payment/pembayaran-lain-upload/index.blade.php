@@ -57,7 +57,7 @@
                                         <form
                                             action="/data-payment/upload/lain/{{ $item->kdsatker }}/{{ $item->jenis }}/{{ $thn }}/{{ $bln }}"
                                             method="post">
-                                            @can('adm_server', auth()->user()->id)
+                                            @can('adm_server', session()->get('role'))
                                                 @csrf
                                                 @method('DELETE')
                                                 <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');"

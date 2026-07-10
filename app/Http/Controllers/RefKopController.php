@@ -17,7 +17,7 @@ class RefKopController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.ref-kop.index',[
@@ -33,7 +33,7 @@ class RefKopController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -48,7 +48,7 @@ class RefKopController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -72,7 +72,7 @@ class RefKopController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -89,7 +89,7 @@ class RefKopController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -113,7 +113,7 @@ class RefKopController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 

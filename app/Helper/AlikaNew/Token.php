@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helper\AlikaNew;
 
 use Illuminate\Support\Facades\Http;
@@ -9,7 +10,7 @@ class Token
     public static function get()
     {
         try {
-            $value = Cache::remember('alikaToken', now()->addMinutes(20), function () {
+            $value = Cache::remember('alikaToken', now()->addMinutes(2), function () {
                 $token = Http::asForm()->post(config('alikaNew.token'), [
                     'client_secret' => config('alikaNew.secret'),
                     'client_id' => config('alikaNew.id'),

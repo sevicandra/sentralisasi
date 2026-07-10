@@ -17,7 +17,7 @@
                             <x-input name="nama" value="{{ old('nama', $data->nama) }}" label="Nama:" size="w-full" :required="true" />
                             <x-input name="nip" value="{{ old('nip', $data->nip) }}" label="NIP:" size="w-full" :required="true" />
                             @if (Auth::guard('web')->check())
-                                @can('sys_admin', auth()->user()->id)
+                                @can('sys_admin', session()->get('role'))
                                     <x-input name="kdsatker" value="{{ old('kdsatker', $data->kdsatker) }}" label="Kode Satker:"
                                         size="w-full" />
                                     <x-input name="kdunit" value="{{ old('kdunit', $data->kdunit) }}" label="Kode Unit:" size="w-full" />

@@ -13,14 +13,14 @@ class PenghasilanLain
         $token = Token::get();
         if ($jns && $bln) {
             try {
-                $value = Cache::remember('alikaPengBayaranLain_' . $nip . '_' . $tahun . "_" . $jns . "_" . $bln, now()->addMinutes(20), function () use ($token, $nip, $tahun, $jns, $bln) {
+                $value = Cache::remember('alikaPenghasilanLain_' . $nip . '_' . $tahun . "_" . $jns . "_" . $bln, now()->addMinutes(20), function () use ($token, $nip, $tahun, $jns, $bln) {
                     $response = Http::withHeaders([
                         'Authorization' => 'Bearer ' . $token
-                    ])->get(config('alikaNew.url') . '/api/PengBayaranLain/GetByNip/' . $nip . '/' . $tahun . '/' . $jns . '/' . $bln);
+                    ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain?nip=' . $nip . '&tahun=' . $tahun . '&jenis=' . $jns . '&bulan=' . $bln);
                     return json_decode($response, false);
                 });
             } catch (\Throwable $th) {
-                Cache::forget('alikaPengBayaranLain_' . $nip . '_' . $tahun . "_" . $jns . "_" . $bln);
+                Cache::forget('alikaPenghasilanLain_' . $nip . '_' . $tahun . "_" . $jns . "_" . $bln);
                 return null;
             }
         }
@@ -29,11 +29,11 @@ class PenghasilanLain
                 $value = Cache::remember('alikaPenghasilanLain_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                     $response = Http::withHeaders([
                         'Authorization' => 'Bearer ' . $token
-                    ])->get(config('alikaNew.url') . '/api/PenghasilanLain/GetByNip/' . $nip . '/' . $tahun);
+                    ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain?nip=' . $nip . '&tahun=' . $tahun);
                     return json_decode($response, false);
                 });
             } catch (\Throwable $th) {
-                Cache::forget('alikaPengBayaranLain_' . $nip . '_' . $tahun);
+                Cache::forget('alikaPenghasilanLain_' . $nip . '_' . $tahun);
                 return null;
             }
         } else {
@@ -41,11 +41,11 @@ class PenghasilanLain
                 $value = Cache::remember('alikaPenghasilanLain_' . $nip . '_' . $tahun . "_" . $jns, now()->addMinutes(20), function () use ($token, $nip, $tahun, $jns) {
                     $response = Http::withHeaders([
                         'Authorization' => 'Bearer ' . $token
-                    ])->get(config('alikaNew.url') . '/api/PenghasilanLain/GetByNip/' . $nip . '/' . $tahun . '/' . $jns);
+                    ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain?nip=' . $nip . '&tahun=' . $tahun . '&jenis=' . $jns);
                     return json_decode($response, false);
                 });
             } catch (\Throwable $th) {
-                Cache::forget('alikaPengBayaranLain_' . $nip . '_' . $tahun . "_" . $jns);
+                Cache::forget('alikaPenghasilanLain_' . $nip . '_' . $tahun . "_" . $jns);
                 return null;
             }
         }
@@ -56,7 +56,7 @@ class PenghasilanLain
         try {
             $token = Token::get();
             $value = Cache::remember('alikaPenghasilanLainTahun_' . $nip, now()->addMinutes(20), function () use ($token, $nip) {
-                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/PenghasilanLain/GetTahun/' . $nip);
+                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/v1/PenghasilanLain/GetTahun?nip=' . $nip);
                 return json_decode($response, false);
             });
             return $value;
@@ -72,7 +72,7 @@ class PenghasilanLain
             $value = Cache::remember('alikaPenghasilanLainJenis_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/PenghasilanLain/GetJenis/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain/GetJenis?nip=' . $nip . '&tahun=' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -88,7 +88,7 @@ class PenghasilanLain
             $value = Cache::remember('alikaPenghasilanLainPph_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/PenghasilanLain/GetPPh/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain/GetPPh/' . $nip . '/' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -103,7 +103,7 @@ class PenghasilanLain
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->get(config('alikaNew.url') . '/api/PenghasilanLain/', [
+            ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain/', [
                 'nip' => $nip,
                 'tahun' => $thn,
                 'limit' => $limit,
@@ -120,10 +120,11 @@ class PenghasilanLain
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->get(config('alikaNew.url') . '/api/PenghasilanLain/Count', [
+            ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain/Count', [
                 'nip' => $nip,
                 'tahun' => $thn
             ]);
+            
             return json_decode($response, false);
         } catch (\Throwable $th) {
             return null;
@@ -135,7 +136,7 @@ class PenghasilanLain
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->get(config('alikaNew.url') . '/api/PenghasilanLain/', ['id' => $id]);
+            ])->get(config('alikaNew.url') . '/api/v1/PenghasilanLain/' . $id,);
             return json_decode($response, false);
         } catch (\Throwable $th) {
             return null;
@@ -147,7 +148,7 @@ class PenghasilanLain
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->put(config('alikaNew.url') . '/api/PenghasilanLain/' . $id, $data);
+            ])->patch(config('alikaNew.url') . '/api/v1/PenghasilanLain/' . $id, $data);
             return $response;
         } catch (\Throwable $th) {
             return null;
@@ -159,7 +160,7 @@ class PenghasilanLain
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->post(config('alikaNew.url') . '/api/PenghasilanLain', $data);
+            ])->post(config('alikaNew.url') . '/api/v1/PenghasilanLain', $data);
             return $response;
         } catch (\Throwable $th) {
             return null;
@@ -171,7 +172,7 @@ class PenghasilanLain
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->delete(config('alikaNew.url') . '/api/PenghasilanLain/' . $id);
+            ])->delete(config('alikaNew.url') . '/api/v1/PenghasilanLain/' . $id);
             return $response;
         } catch (\Throwable $th) {
             return null;

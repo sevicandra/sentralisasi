@@ -7,6 +7,6 @@
         $gate = [];
     @endphp
 @endif
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     <x-module-button name="Belanja 51 Pusat" url="/belanja-51-pusat" icon="img/ico/belanja_51.png" notif="{{ $notifBelanja51TolakPusat }}"/>
 @endcanany

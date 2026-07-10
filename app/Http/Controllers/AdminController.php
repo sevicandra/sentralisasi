@@ -16,7 +16,7 @@ class AdminController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         

@@ -46,7 +46,7 @@
                         <x-table.body.column class="text-right">{{ number_format($item->nilai_potongan, 0, ',', '.') }}</x-table.body.column>
                         <x-table.body.column class="text-center">
                             @if ($item->file)
-                            <form action="/sewa-rumdin/{{ $item->id }}/dokumen" method="post"
+                            <form action="/sewa-rumdin/monitoring-nonaktif/{{ $item->id }}/dokumen" method="post"
                                 target="_blank">
                                 @csrf
                                 @method('patch')

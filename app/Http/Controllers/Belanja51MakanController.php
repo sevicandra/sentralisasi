@@ -22,7 +22,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = PermohonanBelanja51::DraftMakan(auth()->user()->kdsatker)->paginate(15)->withQueryString();
@@ -40,7 +40,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = PermohonanBelanja51::ArsipMakan(auth()->user()->kdsatker)->paginate(15)->withQueryString();
@@ -58,7 +58,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {
@@ -78,7 +78,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {
@@ -98,7 +98,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {
@@ -117,7 +117,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {
@@ -143,7 +143,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {
@@ -169,7 +169,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {
@@ -190,7 +190,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {
@@ -231,7 +231,7 @@ class Belanja51MakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker) {

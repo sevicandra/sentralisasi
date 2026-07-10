@@ -19,7 +19,7 @@ class Belanja51TTEController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = PermohonanBelanja51::TTE(auth()->user()->nip)->paginate(15)->withQueryString();
@@ -38,7 +38,7 @@ class Belanja51TTEController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->nip != auth()->user()->nip || $id->status != 'proses') {
@@ -59,7 +59,7 @@ class Belanja51TTEController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->nip != auth()->user()->nip || $id->status != 'proses') {
@@ -83,7 +83,7 @@ class Belanja51TTEController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->nip != auth()->user()->nip || $id->status != 'proses') {
@@ -134,7 +134,7 @@ class Belanja51TTEController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = PermohonanBelanja51::ArsipTTE(auth()->user()->nip)->paginate(15)->withQueryString();
@@ -153,7 +153,7 @@ class Belanja51TTEController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->nip != auth()->user()->nip || ($id->status != 'kirim' && $id->status != 'approve' && $id->status != 'reject')) {
@@ -174,7 +174,7 @@ class Belanja51TTEController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->nip != auth()->user()->nip) {

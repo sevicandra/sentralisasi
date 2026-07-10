@@ -19,7 +19,7 @@ class SewaRumahDinasUsulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         
@@ -40,7 +40,7 @@ class SewaRumahDinasUsulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -73,7 +73,7 @@ class SewaRumahDinasUsulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -97,7 +97,7 @@ class SewaRumahDinasUsulanController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 

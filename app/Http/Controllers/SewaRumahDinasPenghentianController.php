@@ -18,7 +18,7 @@ class SewaRumahDinasPenghentianController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         
@@ -39,7 +39,7 @@ class SewaRumahDinasPenghentianController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -62,7 +62,7 @@ class SewaRumahDinasPenghentianController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 

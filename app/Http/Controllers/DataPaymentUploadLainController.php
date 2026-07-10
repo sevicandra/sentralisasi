@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
 use App\Helper\AlikaNew\PenghasilanLain;
-
-// API Alika Old
-use App\Helper\Alika\API2\dataLain;
-
-
 class DataPaymentUploadLainController extends Controller
 {
     public function index()
@@ -22,7 +17,7 @@ class DataPaymentUploadLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $tahun = dataPembayaranLainnya::tahunUpload();
@@ -67,7 +62,7 @@ class DataPaymentUploadLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('data-payment.pembayaran-lain-upload.detail', [
@@ -86,18 +81,14 @@ class DataPaymentUploadLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
         try {
             foreach (dataPembayaranLainnya::detailPaymentUpload($kdsatker, $jenis, $thn, $bln)->get() as $item) {
                 if ($item->server_id) {
-                    // $response = PenghasilanLain::destroy($item->server_id);
-                    $response = dataLain::delete($item->server_id);
-                    if ($response->failed()) {
-                        throw new \Exception($response);
-                    }
+                    $response = PenghasilanLain::destroy($item->server_id);
                 }
                 dataPembayaranLainnya::where('id', $item->id)->update([
                     'server_id' => null,
@@ -118,7 +109,7 @@ class DataPaymentUploadLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataPembayaranLainnya->sts != '1') {
@@ -127,11 +118,7 @@ class DataPaymentUploadLainController extends Controller
 
         try {
             if ($dataPembayaranLainnya->server_id) {
-                // $response = PenghasilanLain::destroy($dataPembayaranLainnya->server_id);
-                $response = dataLain::delete($dataPembayaranLainnya->server_id);
-                if ($response->failed()) {
-                    throw new \Exception($response);
-                }
+                $response = PenghasilanLain::destroy($dataPembayaranLainnya->server_id);
             }
             $dataPembayaranLainnya->update([
                 'sts' => '0',

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use stdClass;
 
 class SsoController extends Controller
 {
@@ -18,8 +19,6 @@ class SsoController extends Controller
     {
         session()->regenerate();
         if ($request->code) {
-            // Get Token
-
             $response = Http::asForm()->post(config('sso.base_uri') . config('sso.token')['endpoint'], [
                 'client_id' => config('sso.authorize')['client_id'],
                 'grant_type' => config('sso.authorize')['grant_type'],
@@ -37,37 +36,68 @@ class SsoController extends Controller
                 $response2 = Http::asForm()->post(config('sso.base_uri') . config('sso.userinfo')['endpoint'], [
                     'access_token' => $access_token
                 ]);
-
                 if ($response2) {
                     $userinfo =  json_decode($response2->getBody()->getContents(), false);
                     $nip = $userinfo->nip;
-                    if ($userinfo->jabatan === 'Kepala Subbagian') {
-                        $admin = adminSatker::where('kdunit', $userinfo->kode_organisasi)->first();
-                        if (isset($admin->id)) {
-                            Auth::guard('admin')->loginUsingId($admin->id);
-                            $admin->update([
-                                'nama' => $userinfo->name,
-                                'nip' => $userinfo->nip
-                            ]);
-                            $request->session()->regenerate();
-                            $request->session()->put('gravatar', $userinfo->gravatar);
-                            $request->session()->put('nik', $userinfo->g2c_Nik);
-                            $request->session()->put('name', $userinfo->name);
-                            $request->session()->put('id_token', $token['id_token']);
-                            return redirect()->intended('/');
-                        }
-                    }
-                    $user = User::where('nip', $nip)->first();
+                    $user = User::with('role')->where('nip', $nip)->first();
                     if (isset($user->id)) {
+                        $user->nama = $userinfo->name;
+                        $user->save();
+                        if ($user->kdsatker !== $userinfo->kode_satker) {
+                            $currentUser = User::find($user->id);
+                            $currentUser->kdsatker = $userinfo->kode_satker;
+                            $currentUser->save();
+                            $currentUser->role()->detach();
+                        }
+                        $role = $user->role->map(function ($item) {
+                            return $item->kode;
+                        });
+                        if (strtoupper($userinfo->jabatan) === 'KEPALA SUBBAGIAN') {
+                            $admin = adminSatker::where('kdunit', $userinfo->kode_organisasi)->first();
+                            if (isset($admin->id)) {
+                                $role->push('02');
+                            }
+                        }
+                        if (strtoupper($userinfo->jabatan) === 'KEPALA KANTOR PELAYANAN' || strtoupper($userinfo->jabatan) === 'KEPALA KANTOR WILAYAH') {
+                            $role->push('09');
+                            $role->push('02');
+                        }
                         Auth::guard('web')->loginUsingId($user->id);
                         $request->session()->regenerate();
                         $request->session()->put('gravatar', $userinfo->gravatar);
                         $request->session()->put('name', $userinfo->name);
                         $request->session()->put('nik', $userinfo->g2c_Nik);
+                        $request->session()->put('role', json_encode($role));
+                        $request->session()->put('id_token', $token['id_token']);
+                        return redirect()->intended('/');
+                    } else {
+                        $newUser = User::create([
+                            'name' => $userinfo->name,
+                            'nip' => $userinfo->nip,
+                            'nohp' => $userinfo->phone_number,
+                            'kdsatker' => $userinfo->kode_satker
+                        ]);
+                        $role = new stdClass();
+                        $role = collect($role);
+                        if (strtoupper($userinfo->jabatan) === 'KEPALA SUBBAGIAN') {
+                            $admin = adminSatker::where('kdunit', $userinfo->kode_organisasi)->first();
+                            if (isset($admin->id)) {
+                                $role->push('02');
+                            }
+                        }
+                        if (strtoupper($userinfo->jabatan) === 'KEPALA KANTOR PELAYANAN' || strtoupper($userinfo->jabatan) === 'KEPALA KANTOR WILAYAH') {
+                            $role->push('09');
+                            $role->push('02');
+                        }
+                        Auth::guard('web')->loginUsingId($newUser->id);
+                        $request->session()->regenerate();
+                        $request->session()->put('gravatar', $userinfo->gravatar);
+                        $request->session()->put('name', $userinfo->name);
+                        $request->session()->put('nik', $userinfo->g2c_Nik);
+                        $request->session()->put('role', json_encode($role));
                         $request->session()->put('id_token', $token['id_token']);
                         return redirect()->intended('/');
                     }
-                    return redirect('/login')->with('gagal', 'Pengguna tidak terdaftar');
                 } else {
                     redirect('/login')->with('gagal', 'Request Error');
                 }

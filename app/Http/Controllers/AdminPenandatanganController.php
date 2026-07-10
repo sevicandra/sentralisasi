@@ -21,11 +21,10 @@ class AdminPenandatanganController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
-        // $data = Profil::get(auth()->user()->kdsatker)->data;
-        $data = dataPenandatangan::getDataPenandatangan(auth()->user()->kdsatker);
+        $data = Profil::get(auth()->user()->kdsatker)->data;
         return view('admin.penandatangan.index', [
             'data' => $data
         ]);
@@ -38,7 +37,7 @@ class AdminPenandatanganController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.penandatangan.create');
@@ -51,7 +50,7 @@ class AdminPenandatanganController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -63,7 +62,7 @@ class AdminPenandatanganController extends Controller
             'nama_ttd_kp4' => 'required',
             'nip_ttd_kp4' => 'required|min_digits:18|max_digits:18',
             'jab_ttd_kp4' => 'required',
-            'npwp_bendahara' => 'required|min_digits:15|max_digits:16',
+            'npwp_bendahara' => 'required|min_digits:16|max_digits:16',
             'nama_bendahara' => 'required',
             'nip_bendahara' => 'required|min_digits:18|max_digits:18',
             'tgl_spt' => 'required|date_format:Y-m-d'
@@ -88,26 +87,11 @@ class AdminPenandatanganController extends Controller
             'nip_ttd_kp4.max_digits' => 'NIP TTD KP4 maksimal 18 digit',
             'nip_bendahara.min_digits' => 'NIP Bendahara minimal 18 digit',
             'nip_bendahara.max_digits' => 'NIP Bendahara maksimal 18 digit',
-            'npwp_bendahara.min_digits' => 'NPWP Bendahara minimal 15 digit',
+            'npwp_bendahara.min_digits' => 'NPWP Bendahara minimal 16 digit',
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
         try {
-            // $response = Profil::post([
-            //     'tahun' => $request->tahun,
-            //     'kdsatker' => auth()->user()->kdsatker,
-            //     'nama_ttd_skp' => $request->nama_ttd_skp,
-            //     'nip_ttd_skp' => $request->nip_ttd_skp,
-            //     'jab_ttd_skp' => $request->jab_ttd_skp,
-            //     'nama_ttd_kp4' => $request->nama_ttd_kp4,
-            //     'nip_ttd_kp4' => $request->nip_ttd_kp4,
-            //     'jab_ttd_kp4' => $request->jab_ttd_kp4,
-            //     'npwp_bendahara' => $request->npwp_bendahara,
-            //     'nama_bendahara' => $request->nama_bendahara,
-            //     'nip_bendahara' => $request->nip_bendahara,
-            //     'tgl_spt' => $request->tgl_spt
-            // ]);
-
-            $response = dataPenandatangan::CreateDataPenandatangan([
+            $response = Profil::post([
                 'tahun' => $request->tahun,
                 'kdsatker' => auth()->user()->kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
@@ -119,9 +103,8 @@ class AdminPenandatanganController extends Controller
                 'npwp_bendahara' => $request->npwp_bendahara,
                 'nama_bendahara' => $request->nama_bendahara,
                 'nip_bendahara' => $request->nip_bendahara,
-                'tgl_spt' => $request->tgl_spt,
+                'tgl_spt' => str(strtotime($request->tgl_spt))
             ]);
-
             if ($response->failed()) {
                 throw new \Exception($response);
             }
@@ -140,11 +123,10 @@ class AdminPenandatanganController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
-        // $data = Profil::getPenandatangan($id)->data;
-        $data = dataPenandatangan::getPenandatangan($id);
+        $data = Profil::getPenandatangan($id)->data;
         if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
@@ -160,10 +142,10 @@ class AdminPenandatanganController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
-        $data = dataPenandatangan::getPenandatangan($id);
+        $data = Profil::getPenandatangan($id)->data;
         if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
@@ -175,7 +157,7 @@ class AdminPenandatanganController extends Controller
             'nama_ttd_kp4' => 'required',
             'nip_ttd_kp4' => 'required|min_digits:18|max_digits:18',
             'jab_ttd_kp4' => 'required',
-            'npwp_bendahara' => 'required|min_digits:15|max_digits:16',
+            'npwp_bendahara' => 'required|min_digits:16|max_digits:16',
             'nama_bendahara' => 'required',
             'nip_bendahara' => 'required|min_digits:18|max_digits:18',
             'tgl_spt' => 'required|date_format:Y-m-d'
@@ -200,26 +182,11 @@ class AdminPenandatanganController extends Controller
             'nip_ttd_kp4.max_digits' => 'NIP TTD KP4 maksimal 18 digit',
             'nip_bendahara.min_digits' => 'NIP Bendahara minimal 18 digit',
             'nip_bendahara.max_digits' => 'NIP Bendahara maksimal 18 digit',
-            'npwp_bendahara.min_digits' => 'NPWP Bendahara minimal 15 digit',
+            'npwp_bendahara.min_digits' => 'NPWP Bendahara minimal 16 digit',
             'npwp_bendahara.max_digits' => 'NPWP Bendahara maksimal 16 digit',
         ]);
         try {
-            // $response = Profil::put($id, [
-            //     'tahun' => $request->tahun,
-            //     'kdsatker' => auth()->user()->kdsatker,
-            //     'nama_ttd_skp' => $request->nama_ttd_skp,
-            //     'nip_ttd_skp' => $request->nip_ttd_skp,
-            //     'jab_ttd_skp' => $request->jab_ttd_skp,
-            //     'nama_ttd_kp4' => $request->nama_ttd_kp4,
-            //     'nip_ttd_kp4' => $request->nip_ttd_kp4,
-            //     'jab_ttd_kp4' => $request->jab_ttd_kp4,
-            //     'npwp_bendahara' => $request->npwp_bendahara,
-            //     'nama_bendahara' => $request->nama_bendahara,
-            //     'nip_bendahara' => $request->nip_bendahara,
-            //     'tgl_spt' => $request->tgl_spt
-            // ]);
-
-            $response = dataPenandatangan::UpdateDataPenandatangan([
+            $response = Profil::put($id, [
                 'tahun' => $request->tahun,
                 'kdsatker' => auth()->user()->kdsatker,
                 'nama_ttd_skp' => $request->nama_ttd_skp,
@@ -231,8 +198,8 @@ class AdminPenandatanganController extends Controller
                 'npwp_bendahara' => $request->npwp_bendahara,
                 'nama_bendahara' => $request->nama_bendahara,
                 'nip_bendahara' => $request->nip_bendahara,
-                'tgl_spt' => $request->tgl_spt
-            ], $id);
+                'tgl_spt' => str(strtotime($request->tgl_spt))
+            ]);
             if ($response->failed()) {
                 throw new \Exception($response);
             }

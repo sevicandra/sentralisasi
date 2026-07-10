@@ -16,9 +16,9 @@
                     <a href="/spt/create" class="btn btn-xs btn-secondary">
                         Tambah
                     </a>
-                    <a href="/spt/import" class="btn btn-xs btn-secondary">
+                    {{-- <a href="/spt/import" class="btn btn-xs btn-secondary">
                         import
-                    </a>
+                    </a> --}}
                 </div>
                 <div>
                     <form action="" method="get" autocomplete="off">

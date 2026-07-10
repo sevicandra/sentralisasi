@@ -18,7 +18,7 @@ class AdminUserController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -35,7 +35,7 @@ class AdminUserController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -46,14 +46,14 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                 abort(403);
             }
         }
@@ -68,8 +68,8 @@ class AdminUserController extends Controller
         
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id)) {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role'))) {
                     abort(403);
                 }
     
@@ -143,8 +143,8 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
                 }
                 $request->validate([
@@ -220,7 +220,7 @@ class AdminUserController extends Controller
         }else{
             $gate=['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+        if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
         $request->validate([
@@ -253,14 +253,14 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                 abort(403);
             }
         }
@@ -274,14 +274,14 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                 abort(403);
             }
         }
@@ -295,14 +295,14 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker) {
+            if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker) {
                 abort(403);
             }
         }
@@ -317,14 +317,14 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
+            if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                 abort(403);
             }
         }
@@ -337,14 +337,14 @@ class AdminUserController extends Controller
     {
         if (Auth::guard('web')->check()) {
             $gate=['plt_admin_satker', 'admin_pusat'];
-            if (! Gate::any(['sys_admin'], auth()->user()->id)) {
-                if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
+            if (! Gate::any(['sys_admin'], session()->get('role'))) {
+                if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                     abort(403);
                 }
             }
         }else{
             $gate=['admin_satker'];
-            if (! Gate::any($gate, auth()->user()->id) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
+            if (! Gate::any($gate, session()->get('role')) || $user->kdsatker != auth()->user()->kdsatker || $role->kode === '01' || $role->kode === '02') {
                 abort(403);
             }
         }

@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\dataHonorarium;
 use Illuminate\Support\Carbon;
 use App\Helper\AlikaNew\PenghasilanLain;
-
-// API Alika Old
-use App\Helper\Alika\API2\dataLain;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\dataPembayaranLainnya;
@@ -25,7 +21,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $tahun = dataPembayaranLainnya::tahunPending();
@@ -70,7 +66,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('data-payment.pembayaran-lain.create', [
@@ -88,7 +84,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([
@@ -133,7 +129,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('data-payment.pembayaran-lain.detail.index', [
@@ -152,7 +148,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataPembayaranLainnya->sts != '0') {
@@ -174,7 +170,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataPembayaranLainnya->sts != '0') {
@@ -214,7 +210,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         dataPembayaranLainnya::detailPaymentPending($kdsatker, $jenis, $thn, $bln)->delete();
@@ -229,7 +225,7 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataPembayaranLainnya->sts != '0') {
@@ -248,27 +244,13 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $count = 0;
         try {
             foreach (dataPembayaranLainnya::paymentPending($kdsatker, $jenis, $thn, $bln)->get() as $item) {
-                // $response = PenghasilanLain::post(
-                //     [
-                //         'bulan' => $item->bulan,
-                //         'tahun' => $item->tahun,
-                //         'kdsatker' => $item->kdsatker,
-                //         'nip' => $item->nip,
-                //         'bruto' => $item->bruto,
-                //         'pph' => $item->pph,
-                //         'netto' => $item->bruto - $item->pph,
-                //         'jenis' => $item->jenis,
-                //         'uraian' => $item->uraian,
-                //         'tanggal' => $item->tanggal,
-                //     ]
-                // );
-                $response = dataLain::post(
+                $response = PenghasilanLain::post(
                     [
                         'bulan' => $item->bulan,
                         'tahun' => $item->tahun,
@@ -280,7 +262,6 @@ class DataPaymentLainController extends Controller
                         'jenis' => $item->jenis,
                         'uraian' => $item->uraian,
                         'tanggal' => $item->tanggal,
-                        'nospm' => $item->nospm ?? null,
                     ]
                 );
                 if ($response->failed()) {
@@ -304,41 +285,25 @@ class DataPaymentLainController extends Controller
             $gate = [''];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($dataPembayaranLainnya->sts != '0') {
             abort(403);
         }
         try {
-            // $response = PenghasilanLain::post([
-            //     'bulan' => $dataPembayaranLainnya->bulan,
-            //     'tahun' => $dataPembayaranLainnya->tahun,
-            //     'kdsatker' => $dataPembayaranLainnya->kdsatker,
-            //     'nip' => $dataPembayaranLainnya->nip,
-            //     'bruto' => $dataPembayaranLainnya->bruto,
-            //     'pph' => $dataPembayaranLainnya->pph,
-            //     'netto' => $dataPembayaranLainnya->bruto - $dataPembayaranLainnya->pph,
-            //     'jenis' => $dataPembayaranLainnya->jenis,
-            //     'uraian' => $dataPembayaranLainnya->uraian,
-            //     'tanggal' => $dataPembayaranLainnya->tanggal,
-            // ]);
-
-            $response = dataLain::post(
-                [
-                    'bulan' => $dataPembayaranLainnya->bulan,
-                    'tahun' => $dataPembayaranLainnya->tahun,
-                    'kdsatker' => $dataPembayaranLainnya->kdsatker,
-                    'nip' => $dataPembayaranLainnya->nip,
-                    'bruto' => $dataPembayaranLainnya->bruto,
-                    'pph' => $dataPembayaranLainnya->pph,
-                    'netto' => $dataPembayaranLainnya->bruto - $dataPembayaranLainnya->pph,
-                    'jenis' => $dataPembayaranLainnya->jenis,
-                    'uraian' => $dataPembayaranLainnya->uraian,
-                    'tanggal' => $dataPembayaranLainnya->tanggal,
-                    'nospm' => $dataPembayaranLainnya->nospm ?? null,
-                ]
-            );
+            $response = PenghasilanLain::post([
+                'bulan' => $dataPembayaranLainnya->bulan,
+                'tahun' => $dataPembayaranLainnya->tahun,
+                'kdsatker' => $dataPembayaranLainnya->kdsatker,
+                'nip' => $dataPembayaranLainnya->nip,
+                'bruto' => $dataPembayaranLainnya->bruto,
+                'pph' => $dataPembayaranLainnya->pph,
+                'netto' => $dataPembayaranLainnya->bruto - $dataPembayaranLainnya->pph,
+                'jenis' => $dataPembayaranLainnya->jenis,
+                'uraian' => $dataPembayaranLainnya->uraian,
+                'tanggal' => $dataPembayaranLainnya->tanggal,
+            ]);
             if ($response->failed()) {
                 throw new \Exception($response);
             }

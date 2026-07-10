@@ -35,44 +35,54 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
 
-        Gate::define('sys_admin', function (User $user) {
-            return $user->is('01') === true && $user->kdsatker === '411792';
+        Gate::define('sys_admin', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('01') === true && $user->kdsatker == '411792';
         });
 
-        Gate::define('plt_admin_satker', function (User $user) {
-            return $user->is('02');
+        Gate::define('plt_admin_satker', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('02');
         });
 
-        Gate::define('opr_monitoring', function (User $user) {
-            return $user->is('03');
+        Gate::define('opr_monitoring', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('03');
         });
 
-        Gate::define('opr_belanja_51', function (User $user) {
-            return $user->is('04');
+        Gate::define('opr_belanja_51', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('04');
         });
 
-        Gate::define('opr_belanja_51_pusat', function (User $user) {
-            return $user->is('04') && $user->kdsatker === '411792' && $user->kdunit != null;
+        Gate::define('opr_belanja_51_pusat', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('04') && $user->kdsatker && $user->kdunit != null;
         });
 
-        Gate::define('opr_belanja_51_vertikal', function (User $user) {
-            return $user->is('04') && $user->kdsatker != '411792';
+        Gate::define('opr_belanja_51_vertikal', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('04') && $user->kdsatker != '411792';
         });
 
-        Gate::define('opr_honor', function (User $user) {
-            return $user->is('05');
+        Gate::define('opr_honor', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('05');
         });
 
-        Gate::define('adm_server', function (User $user) {
-            return $user->is('06') && $user->is('01') === true && $user->kdsatker === '411792';
+        Gate::define('adm_server', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('06') && $role->contains('01') === true && $user->kdsatker;
         });
 
-        Gate::define('opr_spt', function (User $user) {
-            return $user->is('07');
+        Gate::define('opr_spt', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('07');
         });
 
-        Gate::define('opr_rumdin', function (User $user) {
-            return $user->is('08');
+        Gate::define('opr_rumdin', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('08');
         });
 
         Gate::define('monitoring', function () {
@@ -102,16 +112,29 @@ class AuthServiceProvider extends ServiceProvider
             };
         });
 
-        Gate::define('approver_vertikal', function (User $user) {
-            return $user->is('09') && $user->kdsatker != '411792';
+        Gate::define('approver_vertikal', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('09') && $user->kdsatker != '411792';
         });
 
-        Gate::define('approver_pusat', function (User $user) {
-            return $user->is('09') && $user->kdsatker === '411792' && $user->kdunit != null;
+        Gate::define('approver_pusat', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('09') && $user->kdsatker && $user->kdunit != null;
         });
 
-        Gate::define('admin_pusat', function (User $user) {
-            return $user->is('10') && $user->kdsatker != '411792';
+        Gate::define('admin_pusat', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('10') && $user->kdsatker != '411792';
+        });
+
+        Gate::define('common_expense', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('12');
+        });
+
+        Gate::define('admin_common_expense', function ($user, $role) {
+            $role = collect(json_decode($role, true));
+            return $role->contains('13');
         });
     }
 }

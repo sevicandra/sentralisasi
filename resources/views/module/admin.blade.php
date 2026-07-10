@@ -8,6 +8,6 @@
     @endphp
 @endif
 
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     <x-module-button name="Admin" url="/admin" icon="img/ico/admin.png" />
 @endcanany

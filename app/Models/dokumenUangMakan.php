@@ -72,7 +72,7 @@ class dokumenUangMakan extends Model
     public function scopeSend($data)
     {
         if (Auth::guard('web')->check()) {
-            if (Gate::any(['sys_admin'], auth()->user()->id)) {
+            if (Gate::any(['sys_admin'], session()->get('role'))) {
                 return $data->where('terkirim', 1)->count();
             }
             return 0;
@@ -83,14 +83,14 @@ class dokumenUangMakan extends Model
     public function scopeDraft($data)
     {
         if (Auth::guard('web')->check()) {
-            if (Gate::any(['plt_admin_satker', 'opr_belanja_51'], auth()->user()->id)) {
+            if (Gate::any(['plt_admin_satker', 'opr_belanja_51'], session()->get('role'))) {
                 return  $data   ->where('kdsatker', auth()->user()->kdsatker)
                                 ->where('terkirim', 0)
                                 ->count();
             }
             return 0;
         }else{
-            if (Gate::any(['admin_satker'], auth()->user()->id)) {
+            if (Gate::any(['admin_satker'], session()->get('role'))) {
                 return  $data   ->where('kdsatker', auth()->user()->kdsatker)
                                 ->where('terkirim', 0)
                                 ->count();

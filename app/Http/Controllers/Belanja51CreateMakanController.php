@@ -27,7 +27,7 @@ class Belanja51CreateMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {
@@ -52,13 +52,13 @@ class Belanja51CreateMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $minDate = Carbon::create($thn, $bln, 1)->format('Y-m-d');
         $maxDate = Carbon::create($thn, $bln)->endOfMonth()->format('Y-m-d');
         $data = AbsensiUangMakan::rekap(auth()->user()->kdsatker, $thn, $bln)->get();
-        $aprSatker = User::AprSatker(auth()->user()->kdsatker)->get();
+        $aprSatker = User::AprSatkerPusat(auth()->user()->kdsatker, auth()->user()->kdunit)->get();
         $adminSatker = adminSatker::where('kdsatker', auth()->user()->kdsatker)->first();
         $satker = satker::where('kdsatker', auth()->user()->kdsatker)->first();
         $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
@@ -83,7 +83,7 @@ class Belanja51CreateMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {

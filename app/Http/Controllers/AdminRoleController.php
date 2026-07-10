@@ -18,7 +18,7 @@ class AdminRoleController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.role.index',[
@@ -34,7 +34,7 @@ class AdminRoleController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.role.create');
@@ -48,7 +48,7 @@ class AdminRoleController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([
@@ -72,7 +72,7 @@ class AdminRoleController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('admin.role.edit',[
@@ -88,7 +88,7 @@ class AdminRoleController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([

@@ -7,7 +7,7 @@
         $gate = ['admin_satker'];
     @endphp
 @endif
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
 
     <x-module-button name="Belanja 51 Vertikal" url="/belanja-51-vertikal" icon="img/ico/belanja_51.png" notif="{{ $notifBelanja51TolakVertikal }}"/>
 @endcanany

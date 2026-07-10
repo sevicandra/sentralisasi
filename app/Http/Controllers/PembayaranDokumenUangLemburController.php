@@ -22,7 +22,7 @@ class PembayaranDokumenUangLemburController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $tahun = dokumenUangLembur::MonitoringPusatTahun();
@@ -107,7 +107,7 @@ class PembayaranDokumenUangLemburController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -133,7 +133,7 @@ class PembayaranDokumenUangLemburController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$dokumenUangLembur->terkirim) {
@@ -151,7 +151,7 @@ class PembayaranDokumenUangLemburController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -171,7 +171,7 @@ class PembayaranDokumenUangLemburController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         
@@ -187,7 +187,7 @@ class PembayaranDokumenUangLemburController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$dokumenUangLembur->terkirim) {

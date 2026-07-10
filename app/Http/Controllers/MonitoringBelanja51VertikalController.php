@@ -22,7 +22,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -43,7 +43,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -63,7 +63,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->status != 'kirim') {
@@ -86,7 +86,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->status != 'kirim') {
@@ -123,7 +123,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $satker = $id->satker;
@@ -212,7 +212,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {
@@ -246,7 +246,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -269,7 +269,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -290,7 +290,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -311,7 +311,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -331,7 +331,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->status != 'kirim') {
@@ -354,7 +354,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->status != 'kirim') {
@@ -391,7 +391,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $satker = $id->satker;
@@ -484,7 +484,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {
@@ -518,7 +518,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -541,7 +541,7 @@ class MonitoringBelanja51VertikalController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 

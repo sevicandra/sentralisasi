@@ -13,7 +13,7 @@ class refJabatan
         $data = Cache::remember('refJabatan',  now()->addMinutes(20), function () {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . Token::get(),
-            ])->get(config('alikaNew.url') . '/api/RefJabatan');
+            ])->get(config('alikaNew.url') . '/api/v1/RefJabatan');
             return json_decode($response, false);
         });
         return $data;

@@ -7,19 +7,19 @@
         $gate = ['admin_satker'];
     @endphp
 @endif
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     @php
         $notif = 0;
 
     @endphp
 
     @if (Auth::guard('web')->check())
-        @canany(['plt_admin_satker', 'opr_belanja_51', 'sys_admin'], auth()->user()->id)
+        @canany(['plt_admin_satker', 'opr_belanja_51', 'sys_admin'], session()->get('role'))
             @php
                 $notif += $uangLemburDraft;
                 $notif += $uangMakanDraft;
             @endphp
-            @can('sys_admin', auth()->user()->id)
+            @can('sys_admin', session()->get('role'))
                 @php
                     $notif += $uangLemburKirim;
                     $notif += $uangMakanKirim;

@@ -15,9 +15,9 @@
             @include('module.honorarium')
         @endcan
         @include('module.dataPayment')
-        @can('spt')
+        <!-- @can('spt')
             @include('module.spt')
-        @endcan
+        @endcan -->
         @can('rumdin')
             @include('module.rumdin')
         @endcan

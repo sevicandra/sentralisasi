@@ -12,7 +12,7 @@ class KekuranganGaji
         try {
             $token = Token::get();
             $value = Cache::remember('alikaKekuranganGaji_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
-                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/KekuranganGaji/GetByNip/' . $nip . '/' . $tahun);
+                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/v1/KekuranganGaji?nip=' . $nip . '&tahun=' . $tahun);
                 return json_decode($response, false);
             });
             return $value;

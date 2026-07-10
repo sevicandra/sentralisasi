@@ -32,8 +32,8 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');
@@ -45,32 +45,18 @@ class SptController extends Controller
             $offset = 0;
         }
 
-        // $tahun = SPTPegawai::tahunByKdSatker(auth()->user()->kdsatker)->data;
-        $tahun = dataSpt::getTahun(auth()->user()->kdsatker);
+        $tahun = SPTPegawai::tahunByKdSatker(auth()->user()->kdsatker)->data;
         if (!request('thn')) {
             $thn = collect($tahun)->first()->tahun;
         } else {
             $thn = request('thn');
         };
-        // $spt = SPTPegawai::getByKdSatker(auth()->user()->kdsatker, $thn, $limit, $offset, request('nip'))->data;
-        $data_spt= collect(dataSpt::getDataSpt(auth()->user()->kdsatker, $thn));
-        $spt = $data_spt->map(function ($item) {
-            return (object) [
-                'id' => $item->id,
-                'npwp' => $item->npwp,
-                'nama_pangkat' => $item->nmgol,
-                'nama_jabatan'=> $item->nm_jabatan,
-                'kdkawin' => $item->kdkawin,
-                'alamat' => $item->alamat,
-                'nip' => $item->nip,
-            ];
-        });
+        $spt = collect(SPTPegawai::getByKdSatker(auth()->user()->kdsatker, $thn, $limit, $offset, request('nip'))->data);
         if (request('nip')) {
             $spt = $spt->where('nip', request('nip'));
         }
-        $count = $spt->count();
         $spt = $spt->skip($offset)->take($limit);
-        // $count = SPTPegawai::countByKdSatker(auth()->user()->kdsatker, $thn)->data;
+        $count = SPTPegawai::countByKdSatker(auth()->user()->kdsatker, $thn)->data;
         $data = $this->paginate($spt, $limit, request('page'), $count, ['path' => ' '])->withQueryString();
         return view('spt.index.index', [
             'data' => $data,
@@ -90,18 +76,15 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');
         }
 
-        // $refJab = RefJabatan::get()->data;
-        $refJab = RefJabatanOld::get();
-        // $refPang = RefPangkat::get()->data;
-        $refPang = RefPangkatOld::get();
-
+        $refJab = RefJabatan::get()->data;
+        $refPang = RefPangkat::get()->data;
         return view('spt.index.create', [
             'refJab' => $refJab,
             'refPang' => $refPang,
@@ -119,8 +102,8 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');
@@ -156,17 +139,7 @@ class SptController extends Controller
             'kdjab.max_digits' => 'Jabatan maksimal 5 digit',
         ]);
         try {
-            // $response = SPTPegawai::post([
-            //     'tahun' => $request->tahun,
-            //     'nip' => $request->nip,
-            //     'npwp' => $request->npwp,
-            //     'alamat' => $request->alamat,
-            //     'kdgol' => $request->kdgol,
-            //     'kdkawin' => $request->kdkawin,
-            //     'kdjab' => $request->kdjab,
-            //     'kdsatker' => auth()->user()->kdsatker
-            // ]);
-            $response= dataSpt::create([
+            $response = SPTPegawai::post([
                 'tahun' => $request->tahun,
                 'nip' => $request->nip,
                 'npwp' => $request->npwp,
@@ -176,7 +149,6 @@ class SptController extends Controller
                 'kdjab' => $request->kdjab,
                 'kdsatker' => auth()->user()->kdsatker
             ]);
-
             if ($response->failed()) {
                 throw new \Exception($response->json('message'));
             }
@@ -197,8 +169,8 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');
@@ -210,10 +182,8 @@ class SptController extends Controller
             abort(403);
         }
 
-        // $refJab = RefJabatan::get()->data;
-        $refJab = RefJabatanOld::get();
-        // $refPang = RefPangkat::get()->data;
-        $refPang = RefPangkatOld::get();
+        $refJab = RefJabatan::get()->data;
+        $refPang = RefPangkat::get()->data;
 
         return view('spt.index.edit', [
             'data' => $data,
@@ -233,15 +203,13 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');
         }
-        // $data = SPTPegawai::getById($id)->data;
-        $data = dataSpt::getSpt($id);
-
+        $data = SPTPegawai::getById($id)->data;
         if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
@@ -276,18 +244,7 @@ class SptController extends Controller
             'kdjab.max_digits' => 'Jabatan maksimal 5 digit',
         ]);
         try {
-            // $response = SPTPegawai::put($id, [
-            //     'tahun' => $request->tahun,
-            //     'nip' => $request->nip,
-            //     'npwp' => $request->npwp,
-            //     'alamat' => $request->alamat,
-            //     'kdgol' => $request->kdgol,
-            //     'kdkawin' => $request->kdkawin,
-            //     'kdjab' => $request->kdjab,
-            //     'kdsatker' => $data->kdsatker
-            // ]);
-
-            $response= dataSpt::update([
+            $response = SPTPegawai::put($id, [
                 'tahun' => $request->tahun,
                 'nip' => $request->nip,
                 'npwp' => $request->npwp,
@@ -295,10 +252,8 @@ class SptController extends Controller
                 'kdgol' => $request->kdgol,
                 'kdkawin' => $request->kdkawin,
                 'kdjab' => $request->kdjab,
-                'kdsatker' => auth()->user()->kdsatker,
-                'id' => $id
+                'kdsatker' => $data->kdsatker
             ]);
-
             if ($response->failed()) {
                 throw new \Exception($response);
             }
@@ -319,22 +274,20 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');
         }
-        // $data = SPTPegawai::getById($id)->data;
-        $data = dataSpt::getSpt($id);
+        $data = SPTPegawai::getById($id)->data;
 
         if ($data->kdsatker != auth()->user()->kdsatker) {
             abort(403);
         }
 
         try {
-            // $response = SPTPegawai::destroy($id);
-            $response = dataSpt::delete($id);
+            $response = SPTPegawai::destroy($id);
             if ($response->failed()) {
                 throw new \Exception($response);
             }
@@ -360,8 +313,8 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');
@@ -381,8 +334,8 @@ class SptController extends Controller
             $gate2 = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
-            if (!Gate::any($gate2, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
+            if (!Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/spt-monitoring');

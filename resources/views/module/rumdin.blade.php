@@ -7,16 +7,16 @@
         $gate = ['admin_satker'];
     @endphp
 @endif
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     @php
         $notif = 0;
     @endphp
     @if (Auth::guard('web')->check())
-        @canany(['plt_admin_satker', 'opr_rumdin', 'sys_admin'], auth()->user()->id)
+        @canany(['plt_admin_satker', 'opr_rumdin', 'sys_admin'], session()->get('role'))
             @php
                 $notif += $rumdinReject;
             @endphp
-            @can('sys_admin', auth()->user()->id)
+            @can('sys_admin', session()->get('role'))
                 @php
                     $notif += $rumdinUsulan;
                     $notif += $rumdinPenghentian;

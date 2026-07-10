@@ -15,7 +15,7 @@ class UangLembur
             $value = Cache::remember('alikaUangLembur_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/UangLembur/GetByNip/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/UangLembur?nip=' . $nip . '&tahun=' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -29,7 +29,7 @@ class UangLembur
         try {
             $token = Token::get();
             $value = Cache::remember('alikaUangLemburTahun_' . $nip, now()->addMinutes(20), function () use ($token, $nip) {
-                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/UangLembur/GetTahun/' . $nip);
+                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/v1/UangLembur/GetTahun?nip=' . $nip);
                 return json_decode($response, false);
             });
             return $value;

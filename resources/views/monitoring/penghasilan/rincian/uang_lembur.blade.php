@@ -8,7 +8,7 @@
             <div class="flex flex-col gap-2 flex-wrap py-2 px-4">
                 <div class="w-full flex gap-1 flex-wrap">
                     @foreach ($tahun as $item)
-                        <a href="{{ config('app.url') }}/monitoring/rincian/{{ $satker->kdsatker }}/{{ $nip }}/uang-lembur/{{ $item->tahun }}"
+                        <a href="{{ config('app.url') }}/monitoring/penghasilan/{{ $satker->kdsatker }}/{{ $nip }}/uang-lembur/{{ $item->tahun }}"
                             class="btn btn-xs btn-outline btn-primary @if ((Request('thn') === null && $item->tahun === date('Y')) || $item->tahun === request('thn')) btn-active @endif">{{ $item->tahun }}</a>
                     @endforeach
                 </div>

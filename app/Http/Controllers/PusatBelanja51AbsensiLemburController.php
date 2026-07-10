@@ -23,7 +23,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {
@@ -54,7 +54,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -71,7 +71,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([
@@ -156,7 +156,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = AbsensiUangLembur::DetailPusat(auth()->user()->kdsatker, auth()->user()->kdunit, $thn, $bln, $nip);
@@ -176,7 +176,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = AbsensiUangLembur::find($id);
@@ -203,7 +203,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -251,7 +251,7 @@ class PusatBelanja51AbsensiLemburController extends Controller
         } else {
             $gate = [];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 

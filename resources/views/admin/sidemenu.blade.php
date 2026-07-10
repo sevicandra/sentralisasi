@@ -6,7 +6,7 @@
     </ul>
 </li>
 @if (Auth::guard('web')->check())
-    @can('sys_admin', auth()->user()->id)
+    @can('sys_admin', session()->get('role'))
         <li>
             <h2 class="menu-title">Referensi</h2>
             <ul>

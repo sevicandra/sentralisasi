@@ -18,7 +18,7 @@
                             <x-input name="nip" value="{{ old('nip') }}" label="NIP:" size="w-full"
                                 :required="true" />
                             @if (Auth::guard('web')->check())
-                                @can('sys_admin', auth()->user()->id)
+                                @can('sys_admin', session()->get('role'))
                                     <x-input name="kdsatker" value="{{ old('kdsatker') }}" label="Kode Satker:"
                                         size="w-full" />
                                     <x-input name="kdunit" value="{{ old('kdunit') }}" label="Kode Unit:" size="w-full" />

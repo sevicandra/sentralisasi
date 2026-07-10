@@ -15,7 +15,7 @@ class KekuranganTukin
             $value = Cache::remember('alikaKekuranganTukin_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/KekuranganTukin/GetByNip/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/KekuranganTukin?nip=' . $nip . '&tahun=' . $tahun);
                 return json_decode($response, false);
             });
             return $value;

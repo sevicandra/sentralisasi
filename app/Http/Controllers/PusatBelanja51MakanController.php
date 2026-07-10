@@ -22,7 +22,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = PermohonanBelanja51::DraftMakanPusat(auth()->user()->kdsatker, auth()->user()->kdunit)
@@ -41,7 +41,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = PermohonanBelanja51::ArsipMakanPusat(auth()->user()->kdsatker, auth()->user()->kdunit)
@@ -60,7 +60,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -81,7 +81,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker || $id->kdunit != auth()->user()->kdunit) {
@@ -100,7 +100,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker || $id->kdunit != auth()->user()->kdunit) {
@@ -119,7 +119,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker || $id->kdunit != auth()->user()->kdunit) {
@@ -145,7 +145,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker || $id->kdunit != auth()->user()->kdunit) {
@@ -171,7 +171,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker || $id->kdunit != auth()->user()->kdunit) {
@@ -192,7 +192,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker || $id->kdunit != auth()->user()->kdunit) {
@@ -234,7 +234,7 @@ class PusatBelanja51MakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if ($id->kdsatker != auth()->user()->kdsatker || $id->kdunit != auth()->user()->kdunit) {

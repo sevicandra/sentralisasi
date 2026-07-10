@@ -12,17 +12,14 @@ class Profil
     {
         try {
             $token = Token::get();
-            $value = Cache::remember(
-                'alikaProfil_' . $kodeSatker . '_' . $tahun,
-                now()->addMinutes(20),
-                function () use ($token, $kodeSatker, $tahun) {
                     $response = Http::withHeaders([
                         'Authorization' => 'Bearer ' . $token
-                    ])->get(config('alikaNew.url') . '/api/Profil/GetByKdSatker/' . $kodeSatker . '/' . $tahun);
+                    ])->get(config('alikaNew.url') . '/api/v1/Profil/' ,[
+                        'kdsatker' => $kodeSatker,
+                        'tahun' => $tahun,
+                        'sort'=>'-tahun'
+                    ]);
                     return (json_decode($response, false));
-                }
-            );
-            return $value;
         } catch (\Throwable $th) {
             Cache::forget('alikaProfil_' . $kodeSatker . '_' . $tahun);
             return null;
@@ -35,7 +32,7 @@ class Profil
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->post(config('alikaNew.url') . '/api/Profil', $data);
+            ])->post(config('alikaNew.url') . '/api/v1/Profil', $data);
             return $response;
         } catch (\Throwable $th) {
             Cache::forget('alikaToken');
@@ -49,7 +46,7 @@ class Profil
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->put(config('alikaNew.url') . '/api/Profil/'. $id, $data);
+            ])->patch(config('alikaNew.url') . '/api/v1/Profil/'. $id, $data);
             return $response;
         } catch (\Throwable $th) {
             Cache::forget('alikaToken');
@@ -63,7 +60,7 @@ class Profil
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->delete(config('alikaNew.url') . '/api/Profil', $data);
+            ])->delete(config('alikaNew.url') . '/api/v1/Profil', $data);
             return $response;
         } catch (\Throwable $th) {
             Cache::forget('alikaToken');
@@ -77,7 +74,7 @@ class Profil
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->get(config('alikaNew.url') . '/api/Profil/?id=' . $id);
+            ])->get(config('alikaNew.url') . '/api/v1/Profil/' . $id);
             return json_decode($response, false);
         } catch (\Throwable $th) {
             Cache::forget('alikaToken');

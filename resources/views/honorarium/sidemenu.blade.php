@@ -8,7 +8,7 @@
     @endphp
 @endif
 
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     <li>
         <h2 class="menu-title">Halaman Utama</h2>
         <ul>

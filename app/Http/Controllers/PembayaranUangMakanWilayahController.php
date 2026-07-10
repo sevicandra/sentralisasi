@@ -19,7 +19,7 @@ class PembayaranUangMakanWilayahController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || ! Gate::any('wilayah', [auth()->user()->kdsatker])) {
+        if (! Gate::any($gate, session()->get('role')) || ! Gate::any('wilayah', [auth()->user()->kdsatker])) {
             abort(403);
         }
 
@@ -54,7 +54,7 @@ class PembayaranUangMakanWilayahController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || ! Gate::any('wilayah', [auth()->user()->kdsatker]) || ! satker::koordinator($kdsatker, auth()->user()->kdsatker)) {
+        if (! Gate::any($gate, session()->get('role')) || ! Gate::any('wilayah', [auth()->user()->kdsatker]) || ! satker::koordinator($kdsatker, auth()->user()->kdsatker)) {
             abort(403);
         }
 
@@ -78,7 +78,7 @@ class PembayaranUangMakanWilayahController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || ! Gate::any('wilayah', [auth()->user()->kdsatker]) || ! satker::koordinator($dokumenUangMakan->kdsatker, auth()->user()->kdsatker)) {
+        if (! Gate::any($gate, session()->get('role')) || ! Gate::any('wilayah', [auth()->user()->kdsatker]) || ! satker::koordinator($dokumenUangMakan->kdsatker, auth()->user()->kdsatker)) {
             abort(403);
         }
         
@@ -97,7 +97,7 @@ class PembayaranUangMakanWilayahController extends Controller
             $gate=['admin_satker'];
         }
 
-        if (! Gate::any($gate, auth()->user()->id) || ! Gate::any('wilayah', [auth()->user()->kdsatker]) || ! satker::koordinator($dokumenUangMakan->kdsatker, auth()->user()->kdsatker)) {
+        if (! Gate::any($gate, session()->get('role')) || ! Gate::any('wilayah', [auth()->user()->kdsatker]) || ! satker::koordinator($dokumenUangMakan->kdsatker, auth()->user()->kdsatker)) {
             abort(403);
         }
         

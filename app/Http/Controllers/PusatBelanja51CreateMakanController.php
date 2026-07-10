@@ -27,7 +27,7 @@ class PusatBelanja51CreateMakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {
@@ -51,7 +51,7 @@ class PusatBelanja51CreateMakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $minDate = Carbon::create($thn, $bln, 1)->format('Y-m-d');
@@ -81,7 +81,7 @@ class PusatBelanja51CreateMakanController extends Controller
         } else {
             $gate = [];
         }
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {

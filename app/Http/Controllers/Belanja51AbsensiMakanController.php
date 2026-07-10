@@ -20,7 +20,7 @@ class Belanja51AbsensiMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         if (!$thn) {
@@ -51,7 +51,7 @@ class Belanja51AbsensiMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $notifBelanja51Tolak = NotifikasiBelanja51::NotifikasiVertikal(auth()->user()->kdsatker);
@@ -68,7 +68,7 @@ class Belanja51AbsensiMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $request->validate([
@@ -146,7 +146,7 @@ class Belanja51AbsensiMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = AbsensiUangMakan::Detail(auth()->user()->kdsatker, $thn, $bln, $nip);
@@ -167,7 +167,7 @@ class Belanja51AbsensiMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $data = AbsensiUangMakan::find($id);
@@ -194,7 +194,7 @@ class Belanja51AbsensiMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -226,7 +226,7 @@ class Belanja51AbsensiMakanController extends Controller
         } else {
             $gate = ['admin_satker'];
         }
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 

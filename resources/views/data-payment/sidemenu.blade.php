@@ -1,4 +1,4 @@
-@canany(['sys_admin'], auth()->user()->id)
+@canany(['sys_admin'], session()->get('role'))
     <li>
         <h2 class="menu-title">Halaman Utama</h2>
         <ul>

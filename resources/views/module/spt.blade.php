@@ -7,6 +7,6 @@
         $gate = ['admin_satker'];
     @endphp
 @endif
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     <x-module-button name="SPT" url="/spt" icon="img/ico/spt.png" />
 @endcanany

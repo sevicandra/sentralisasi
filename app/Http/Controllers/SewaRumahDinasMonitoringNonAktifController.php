@@ -17,7 +17,7 @@ class SewaRumahDinasMonitoringNonAktifController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('rumah-dinas.monitoring_nonaktif.index',[
@@ -36,7 +36,7 @@ class SewaRumahDinasMonitoringNonAktifController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         return view('rumah-dinas.monitoring_nonaktif.detail',[
@@ -56,7 +56,7 @@ class SewaRumahDinasMonitoringNonAktifController extends Controller
             $gate=[];
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 

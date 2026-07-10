@@ -22,8 +22,8 @@ class MonitoringController extends Controller
 
         // }
 
-        // if (! Gate::any($gate, auth()->user()->id)) {
-        //     if (! Gate::any($gate2, auth()->user()->id)) {
+        // if (! Gate::any($gate, session()->get('role'))) {
+        //     if (! Gate::any($gate2, session()->get('role'))) {
         //         abort(403);
         //     }
         //     return Redirect('/monitoring/penghasilan');
@@ -95,8 +95,8 @@ class MonitoringController extends Controller
 
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
-            if (! Gate::any($gate2, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
+            if (! Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/monitoring/penghasilan');

@@ -42,9 +42,8 @@
                                 <x-table.body.column
                                     class="text-right">{{ number_format($item->bruto - $item->pph, 2, ',', '.') }}</x-table.body.column>
                                 <x-table.body.column>
-                                    @can('adm_server', auth()->user()->id)
-                                        <form action="/data-payment/upload/honorarium/{{ $item->id }}/detail"
-                                            method="post">
+                                    @can('adm_server', session()->get('role'))
+                                        <form action="/data-payment/upload/honorarium/{{ $item->id }}/detail" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');"
@@ -52,9 +51,7 @@
                                         </form>
                                     @endcan
                                 </x-table.body.column>
-                                <x-table.body.column
-                                    class="text-right">{{ $item->updated_at }}</x-table.body.column>
-                                <x-table.body.column>
+                                <x-table.body.column class="text-right">{{ $item->updated_at }}</x-table.body.column>
                             </tr>
                         @endforeach
                     </x-table.body>

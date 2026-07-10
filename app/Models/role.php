@@ -33,7 +33,7 @@ class role extends Model
     public function scopeSysAdmin($data)
     {
         if (Auth::guard('web')->check()) {
-            if (! Gate::allows('sys_admin', auth()->user()->id)) {
+            if (! Gate::allows('sys_admin', session()->get('role'))) {
                 return  $data->where('kode', '!=', '02')->where('kode', '!=', '01')->where('kode', '!=', '06')->where('kode', '!=', '10');
             }
             return  $data;

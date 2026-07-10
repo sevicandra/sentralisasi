@@ -7,7 +7,7 @@
         $gate = ['admin_satker'];
     @endphp
 @endif
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     @php
         $notif = 0;
     @endphp

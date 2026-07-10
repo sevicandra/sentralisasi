@@ -10,7 +10,7 @@
     @endphp
 @endif
 
-@canany($gate, auth()->user()->id)
+@canany($gate, session()->get('role'))
     <li>
         <h2 class="menu-title">Halaman Utama</h2>
         <ul>
@@ -42,7 +42,7 @@
     </li>
 @endcan
 
-@canany($gate2, auth()->user()->id)
+@canany($gate2, session()->get('role'))
     <li>
         <h2 class="menu-title">TTE</h2>
         <ul>

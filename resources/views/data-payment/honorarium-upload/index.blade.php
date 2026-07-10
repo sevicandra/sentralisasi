@@ -44,32 +44,35 @@
                                 <x-table.body.column class="text-center">{{ $loop->iteration }}</x-table.body.column>
                                 <x-table.body.column class="text-center">{{ $item->nmsatker }}</x-table.body.column>
                                 <x-table.body.column class="text-center">{{ $item->jmh }}</x-table.body.column>
-                                <x-table.body.column class="text-right">{{ number_format($item->bruto, 2, ',', '.') }}</x-table.body.column>
-                                <x-table.body.column class="text-right">{{ number_format($item->pph, 2, ',', '.') }}</x-table.body.column>
-                                <x-table.body.column class="text-right">{{ number_format($item->bruto - $item->pph, 2, ',', '.') }}
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->bruto, 2, ',', '.') }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->pph, 2, ',', '.') }}</x-table.body.column>
+                                <x-table.body.column
+                                    class="text-right">{{ number_format($item->bruto - $item->pph, 2, ',', '.') }}
                                 </x-table.body.column>
                                 <x-table.body.column class="text-center">
-                                    <form action="/data-payment/upload/honorarium/{{ $item->file }}/dokumen"
-                                        method="get" target="_blank">
+                                    <form action="/data-payment/upload/honorarium/{{ $item->file }}/dokumen" method="get"
+                                        target="_blank">
                                         @csrf
                                         <button class="btn btn-xs btn-outline btn-primary">file</button>
                                     </form>
                                 </x-table.body.column>
                                 <x-table.body.column>
-                                  <div class="w-full h-full flex gap-1 justify-center">
-                                    <form action="/data-payment/upload/honorarium/{{ $item->file }}" method="post">
-                                        @can('adm_server', auth()->user()->id)
-                                            @csrf
-                                            @method('DELETE')
-                                            <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');"
-                                                type="submit" class="btn btn-xs btn-error">tolak</button>
-                                        @endcan
-                                        <a href="/data-payment/upload/honorarium/{{ $item->file }}/detail"
-                                            data-toggle="tooltip" data-placement="bottom" title="detail"
-                                            class="btn btn-xs btn-primary">detail</a>
-                                    </form>
+                                    <div class="w-full h-full flex gap-1 justify-center">
+                                        <form action="/data-payment/upload/honorarium/{{ $item->file }}" method="post">
+                                            @can('adm_server', session()->get('role'))
+                                                @csrf
+                                                @method('DELETE')
+                                                <button onclick="return confirm('Apakah Anda yakin akan menghapus data ini?');"
+                                                    type="submit" class="btn btn-xs btn-error">tolak</button>
+                                            @endcan
+                                            <a href="/data-payment/upload/honorarium/{{ $item->file }}/detail"
+                                                data-toggle="tooltip" data-placement="bottom" title="detail"
+                                                class="btn btn-xs btn-primary">detail</a>
+                                        </form>
 
-                                  </div>
+                                    </div>
                                 </x-table.body.column>
                             </tr>
                         @endforeach

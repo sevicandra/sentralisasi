@@ -18,7 +18,7 @@ class SPTPegawai
                 function () use ($token, $nip, $tahun) {
                     $response = Http::withHeaders([
                         'Authorization' => 'Bearer ' . $token
-                    ])->get(config('alikaNew.url') . '/api/DataSptPegawai/GetByNip/' . $nip . '/' . $tahun);
+                    ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/?nip=' . $nip . '&tahun=' . $tahun);
                     return json_decode($response, false);
                 }
             );
@@ -35,7 +35,7 @@ class SPTPegawai
             $value = Cache::remember('alikaSPTPegawaiTahunByNip_' . $nip, now()->addMinutes(20), function () use ($token, $nip) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/DataSptPegawai/GetTahun/GetByNip/' . $nip);
+                ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/GetTahun?nip=' . $nip);
                 return json_decode($response, false);
             });
             return $value;
@@ -51,7 +51,7 @@ class SPTPegawai
             $value = Cache::remember('alikaSPTPegawaiGaji_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/DataSptPegawai/Gaji/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/Gaji/' . $nip . '/' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -67,7 +67,7 @@ class SPTPegawai
             $value = Cache::remember('alikaSPTPegawaiKekuranganGaji_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/DataSptPegawai/KekuranganGaji/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/KekuranganGaji/' . $nip . '/' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -83,7 +83,7 @@ class SPTPegawai
             $value = Cache::remember('alikaSPTPegawaiTukin_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/DataSptPegawai/Tukin/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/Tukin/' . $nip . '/' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -99,10 +99,10 @@ class SPTPegawai
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
 
-            ])->get(config('alikaNew.url') . '/api/DataSptPegawai/GetByKdSatker/' . $kdSatker . '/' . $tahun . '/', [
-                'limit' => $limit,
-                'offset' => $offset,
-                'keyword' => $nip
+            ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai', [
+                'kdsatker' => $kdSatker,
+                'tahun' => $tahun, 
+                'nip' => $nip
             ]);
 
             return json_decode($response, false);
@@ -116,7 +116,7 @@ class SPTPegawai
             $value = Cache::remember('alikaSPTPegawaiTahunByKdSatker_' . $kdSatker, now()->addMinutes(20), function () use ($token, $kdSatker) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/DataSptPegawai/GetTahun/GetByKdSatker/' . $kdSatker);
+                ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/GetTahun?kdsatker' . $kdSatker);
                 return json_decode($response, false);
             });
             return $value;
@@ -131,10 +131,7 @@ class SPTPegawai
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->get(config('alikaNew.url') . '/api/DataSptPegawai/Count/', [
-                'kdsatker' => $kdSatker,
-                'tahun' => $tahun
-            ]);
+            ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/Count?kdsatker=' . $kdSatker . '&tahun=' . $tahun);
             return json_decode($response, false);
         } catch (\Throwable $th) {
             return null;
@@ -146,7 +143,7 @@ class SPTPegawai
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->get(config('alikaNew.url') . '/api/DataSptPegawai/', ['id' => $id]);
+            ])->get(config('alikaNew.url') . '/api/v1/DataSptPegawai/' . $id);
             return json_decode($response, false);
         } catch (\Throwable $th) {
             return null;
@@ -158,7 +155,7 @@ class SPTPegawai
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->put(config('alikaNew.url') . '/api/DataSptPegawai/' . $id, $data);
+            ])->patch(config('alikaNew.url') . '/api/v1/DataSptPegawai/' . $id, $data);
             return $response;
         } catch (\Throwable $th) {
             return null;
@@ -170,7 +167,7 @@ class SPTPegawai
             $token = Token::get();
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token
-            ])->delete(config('alikaNew.url') . '/api/DataSptPegawai/' . $id);
+            ])->delete(config('alikaNew.url') . '/api/v1/DataSptPegawai/' . $id);
             return $response;
         } catch (\Throwable $th) {
             return null;
@@ -181,8 +178,8 @@ class SPTPegawai
         try {
             $token = Token::get();
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token 
-            ])->post(config('alikaNew.url') . '/api/DataSptPegawai/', $data);
+                'Authorization' => 'Bearer ' . $token
+            ])->post(config('alikaNew.url') . '/api/v1/DataSptPegawai/', $data);
             return $response;
         } catch (\Throwable $th) {
             return null;

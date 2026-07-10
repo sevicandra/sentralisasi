@@ -15,7 +15,7 @@ class UangMakan
             $value = Cache::remember('alikaUangMakan_' . $nip . '_' . $tahun, now()->addMinutes(20), function () use ($token, $nip, $tahun) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token
-                ])->get(config('alikaNew.url') . '/api/UangMakan/GetByNip/' . $nip . '/' . $tahun);
+                ])->get(config('alikaNew.url') . '/api/v1/UangMakan?nip=' . $nip . '&tahun=' . $tahun);
                 return json_decode($response, false);
             });
             return $value;
@@ -30,7 +30,7 @@ class UangMakan
         try {
             $token = Token::get();
             $value = Cache::remember('alikaUangMakanTahun_' . $nip, now()->addMinutes(20), function () use ($token, $nip) {
-                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/UangMakan/GetTahun/' . $nip);
+                $response = Http::withToken($token)->get(config('alikaNew.url') . '/api/v1/UangMakan/GetTahun?nip=' . $nip);
                 return json_decode($response, false);
             });
             return $value;

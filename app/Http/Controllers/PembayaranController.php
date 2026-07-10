@@ -21,8 +21,8 @@ class PembayaranController extends Controller
 
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
-            if (! Gate::any($gate2, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
+            if (! Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/belanja-51/dokumen-uang-makan');
@@ -63,8 +63,8 @@ class PembayaranController extends Controller
 
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
-            if (! Gate::any($gate2, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
+            if (! Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/belanja-51/dokumen-uang-makan');
@@ -94,8 +94,8 @@ class PembayaranController extends Controller
 
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
-            if (! Gate::any($gate2, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
+            if (! Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/monitoring/dokumen-uang-makan');
@@ -125,8 +125,8 @@ class PembayaranController extends Controller
 
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
-            if (! Gate::any($gate2, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
+            if (! Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/belanja-51/dokumen-uang-makan');
@@ -152,8 +152,8 @@ class PembayaranController extends Controller
 
         }
 
-        if (! Gate::any($gate, auth()->user()->id)) {
-            if (! Gate::any($gate2, auth()->user()->id)) {
+        if (! Gate::any($gate, session()->get('role'))) {
+            if (! Gate::any($gate2, session()->get('role'))) {
                 abort(403);
             }
             return Redirect('/monitoring/dokumen-uang-makan');

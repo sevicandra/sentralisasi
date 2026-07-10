@@ -29,7 +29,7 @@ class SptMonitoringController extends Controller
             $gate = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
@@ -47,7 +47,7 @@ class SptMonitoringController extends Controller
             $gate = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
         $limit = 15;
@@ -102,19 +102,16 @@ class SptMonitoringController extends Controller
             $gate = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
-        // $data = SPTPegawai::getById($id)->data;
-        $data = dataSpt::getSpt($id);
+        $data = SPTPegawai::getById($id)->data;
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
 
-        // $refJab = RefJabatan::get()->data;
-        $refJab = RefJabatanOld::get();
-        // $refPang = RefPangkat::get()->data;
-        $refPang = RefPangkatOld::get();
+        $refJab = RefJabatan::get()->data;
+        $refPang = RefPangkat::get()->data;
 
         return view('spt.monitoring.detail.edit', [
             'data' => $data,
@@ -132,12 +129,11 @@ class SptMonitoringController extends Controller
             $gate = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
-        // $data = SPTPegawai::getById($id)->data;
-        $data = dataSpt::getSpt($id);
+        $data = SPTPegawai::getById($id)->data;
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
@@ -214,18 +210,16 @@ class SptMonitoringController extends Controller
             $gate = [];
         }
 
-        if (!Gate::any($gate, auth()->user()->id)) {
+        if (!Gate::any($gate, session()->get('role'))) {
             abort(403);
         }
 
-        // $data = SPTPegawai::getById($id)->data;
-        $data = dataSpt::getSpt($id);
+        $data = SPTPegawai::getById($id)->data;
         if ($data->kdsatker != $kdsatker) {
             abort(403);
         }
         try {
-            // $response = SPTPegawai::destroy($id);
-            $response = dataSpt::delete($id);
+            $response = SPTPegawai::destroy($id);
             if ($response->failed()) {
                 throw new \Exception($response);
             }

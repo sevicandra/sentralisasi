@@ -28,7 +28,7 @@
                     <x-table.header>
                         <tr class="*:border-x *:text-center">
                             <x-table.header.column>No</x-table.header.column>
-                            @canany(['adm_server'], auth()->user()->id)
+                            @canany(['adm_server'], session()->get('role'))
                                 <x-table.header.column>ID</x-table.header.column>
                             @endcan
                             <x-table.header.column>Bulan</x-table.header.column>
@@ -41,7 +41,7 @@
                             <x-table.header.column>uraian</x-table.header.column>
                             <x-table.header.column>tanggal</x-table.header.column>
                             <x-table.header.column>nospm</x-table.header.column>
-                            @canany(['adm_server'], auth()->user()->id)
+                            @canany(['adm_server'], session()->get('role'))
                                 <x-table.header.column>#</x-table.header.column>
                             @endcan
                         </tr>
@@ -53,7 +53,7 @@
                         @foreach ($data as $item)
                             <tr class="*:border">
                                 <x-table.body.column>{{ $i++ }}</x-table.body.column>
-                                @canany(['adm_server'], auth()->user()->id)
+                                @canany(['adm_server'], session()->get('role'))
                                     <x-table.body.column>{{ $item->id }}</x-table.body.column>
                                 @endcan
                                 <x-table.body.column>{{ $item->bulan }}</x-table.body.column>
@@ -69,7 +69,7 @@
                                 <x-table.body.column class="min-w-80">{{ $item->uraian }}</x-table.body.column>
                                 <x-table.body.column class="whitespace-nowrap">{{ date('d-m-Y', $item->tanggal) }}</x-table.body.column>
                                 <x-table.body.column>{{ $item->nospm }}</x-table.body.column>
-                                @canany(['adm_server'], auth()->user()->id)
+                                @canany(['adm_server'], session()->get('role'))
                                     <x-table.body.column class="text-center">
                                         <span class="flex gap-2">
                                             <a href="/data-payment/server/{{ $item->id }}/edit"

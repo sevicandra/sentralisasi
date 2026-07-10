@@ -14,7 +14,7 @@ class RefPangkat
         $data = Cache::remember('refPangkat',  now()->addMinutes(20), function () {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . Token::get(),
-            ])->get(config('alikaNew.url') . '/api/RefPangkat');
+            ])->get(config('alikaNew.url') . '/api/v1/RefPangkat');
             return json_decode($response, false);
         });
         return $data;
