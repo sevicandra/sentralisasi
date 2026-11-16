@@ -96,7 +96,7 @@ class DataPaymentLainController extends Controller
 
         $file = $request->file('file_excel');
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $spreadsheet = $reader->load($file);
+        $spreadsheet = $reader->load($file->getPathname());
         $sheetData = $spreadsheet->getSheetByName('honorarium')->toArray();
         $slicedSheet = array_slice($sheetData, 2);
         foreach ($slicedSheet as $item) {

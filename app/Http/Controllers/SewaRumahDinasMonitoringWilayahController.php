@@ -8,6 +8,7 @@ use App\Models\sewaRumahDinas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SewaRumahDinasMonitoringWilayahController extends Controller
 {
@@ -66,5 +67,10 @@ class SewaRumahDinasMonitoringWilayahController extends Controller
         return response()->file(Storage::path($sewaRumahDinas->file),[
             'Content-Type' => 'application/pdf',
         ]);
+    }
+
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

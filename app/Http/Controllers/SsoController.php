@@ -13,7 +13,7 @@ class SsoController extends Controller
 {
     public function sso()
     {
-        return redirect(config('sso.base_uri') . config('sso.authorize')['endpoint'] . '?grant_type=' . config('sso.authorize')['grant_type'] . '&response_type=' . config('sso.authorize')['response_type'] . '&client_id=' . config('sso.authorize')['client_id'] . '&scope=' . config('sso.authorize')['scope'] . '&nonce=' .  config('sso.authorize')['nonce'] . 'state=' . config('sso.authorize')['state'] . '&redirect_uri=' . config('sso.authorize')['redirect_uri']);
+        return redirect(config('sso.base_uri') . config('sso.authorize')['endpoint'] . '?grant_type=' . config('sso.authorize')['grant_type'] . '&response_type=' . config('sso.authorize')['response_type'] . '&client_id=' . config('sso.authorize')['client_id'] . '&scope=' . config('sso.authorize')['scope'] . '&nonce=' . config('sso.authorize')['nonce'] . 'state=' . config('sso.authorize')['state'] . '&redirect_uri=' . config('sso.authorize')['redirect_uri']);
     }
     public function sign_in(Request $request)
     {
@@ -27,7 +27,7 @@ class SsoController extends Controller
                 'redirect_uri' => config('sso.authorize')['redirect_uri']
             ]);
 
-            $token =  json_decode($response->getBody()->getContents(), true);
+            $token = json_decode($response->getBody()->getContents(), true);
             if (!isset($token['access_token'])) {
                 return redirect('/sso');
             }
@@ -37,7 +37,7 @@ class SsoController extends Controller
                     'access_token' => $access_token
                 ]);
                 if ($response2) {
-                    $userinfo =  json_decode($response2->getBody()->getContents(), false);
+                    $userinfo = json_decode($response2->getBody()->getContents(), false);
                     $nip = $userinfo->nip;
                     $user = User::with('role')->where('nip', $nip)->first();
                     if (isset($user->id)) {

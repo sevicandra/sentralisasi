@@ -230,7 +230,7 @@ class SptMonitoringController extends Controller
         }
     }
 
-    public function paginate($items, $perPage = 15, $page = null, $count, $options = [])
+    public function paginate($items, $perPage = 15, $page = null, $count = 0, $options = [])
     {
         return new LengthAwarePaginator($items, $count, $perPage, $page, $options);
     }

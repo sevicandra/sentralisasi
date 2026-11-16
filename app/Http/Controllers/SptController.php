@@ -298,7 +298,7 @@ class SptController extends Controller
         }
     }
 
-    public function paginate($items, $perPage = 15, $page = null, $count, $options = [])
+    public function paginate($items, $perPage = 15, $page = null, $count = 0, $options = [])
     {
         return new LengthAwarePaginator($items, $count, $perPage, $page, $options);
     }
@@ -349,7 +349,7 @@ class SptController extends Controller
         ]);
         $file = $request->file('file_excel');
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $spreadsheet = $reader->load($file);
+        $spreadsheet = $reader->load($file->getPathname());
         $sheetData = $spreadsheet->getSheetByName('spt')->toArray();
         $slicedSheet = collect(array_slice($sheetData, 2));
         $errors = collect();

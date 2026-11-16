@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SewaRumahDinasController extends Controller
 {
@@ -411,5 +412,10 @@ class SewaRumahDinasController extends Controller
         ]);
 
         return redirect('/sewa-rumdin')->with('berhasil','Perhononan berhasil dibatalkan.');
+    }
+
+        public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

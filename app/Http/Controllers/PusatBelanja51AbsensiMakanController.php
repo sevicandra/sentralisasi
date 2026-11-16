@@ -81,7 +81,7 @@ class PusatBelanja51AbsensiMakanController extends Controller
         } else {
             return redirect()->back()->with('gagal', 'File Excel Tidak Valid');
         }
-        $spreadsheet = $reader->load($file);
+        $spreadsheet = $reader->load($file->getPathname());
         $sheet = $spreadsheet->getActiveSheet();
         $highestRow = $sheet->getHighestRow();
         $firstRow = null;

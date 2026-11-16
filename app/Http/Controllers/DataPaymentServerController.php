@@ -144,7 +144,7 @@ class DataPaymentServerController extends Controller
         return redirect('/data-payment/server')->with('berhasil', 'Selamat Data Berhasil di Hapus');
     }
 
-    public function paginate($items, $perPage = 15, $page = null, $count, $options = [])
+    public function paginate($items, $perPage = 15, $page = null, $count = 0, $options = [])
     {
         return new LengthAwarePaginator($items, $count, $perPage, $page, $options);
     }

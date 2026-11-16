@@ -37,8 +37,7 @@ class sewaRumahDinas extends Model
     {
         return $this->where('kdsatker', auth()->user()->kdsatker)
             ->where('status', '!=', 'non_aktif')
-            ->where('catatan', null)
-            ->orderBy('tmt', 'desc');
+            ->where('catatan', null);
     }
 
     public function scopeUsulan()
@@ -47,31 +46,31 @@ class sewaRumahDinas extends Model
             ->where('catatan', null)
             ->leftJoin('satkers', 'sewa_rumah_dinas.kdsatker', '=', 'satkers.kdsatker')
             ->select(['sewa_rumah_dinas.*', 'satkers.nmsatker'])
-            ->orderBy('updated_at', 'desc');
+            ;
     }
 
     public function scopeReject()
     {
-        return $this->where('kdsatker', auth()->user()->kdsatker)
+        return $this->where('kdsatker', auth()->user()->kdsatker)->orderBy('updated_at', 'desc')
             ->where('status', 'draft')
             ->where('catatan', "!=", null)
-            ->orderBy('updated_at', 'desc');
+            ;
     }
 
     public function scopePenghentian()
     {
-        return $this->where('status', 'usulan_non_aktif')
+        return $this->where('status', 'usulan_non_aktif')->orderBy('updated_at', 'desc')
             ->where('catatan', null)
             ->leftJoin('satkers', 'sewa_rumah_dinas.kdsatker', '=', 'satkers.kdsatker')
             ->select(['sewa_rumah_dinas.*', 'satkers.nmsatker'])
-            ->orderBy('updated_at', 'desc');
+            ;
     }
 
     public function scopeNonAktif()
     {
-        return $this->where('kdsatker', auth()->user()->kdsatker)
+        return $this->orderBy('tanggal_selesai', 'desc')->where('kdsatker', auth()->user()->kdsatker)
             ->where('status', 'non_aktif')
-            ->orderBy('tanggal_selesai', 'desc');
+            ;
     }
 
     public function scopeMonitoring()

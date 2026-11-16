@@ -627,11 +627,11 @@ Route::controller(PusatBelanja51CreateLemburController::class)->group(function (
     Route::post('/belanja-51-pusat/uang-lembur/create/{thn}/{bln}', 'store')->middleware('auth:web,admin');
 });
 
-Route::controller(MonitoringBelanja51Controller::class)->group(function (){
+Route::controller(MonitoringBelanja51Controller::class)->group(function () {
     Route::get('/belanja-51-monitoring', 'index')->middleware('auth:web');
 });
 
-Route::controller(MonitoringBelanja51VertikalController::class)->group(function (){
+Route::controller(MonitoringBelanja51VertikalController::class)->group(function () {
     Route::get('/belanja-51-monitoring/vertikal/uang-makan', 'uangMakan')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/vertikal/uang-makan/detail/{id}', 'uangMakanDetail')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/vertikal/uang-makan/detail/{id}/rekap', 'uangMakanRekap')->middleware('auth:web');
@@ -655,7 +655,7 @@ Route::controller(MonitoringBelanja51VertikalController::class)->group(function 
     Route::get('/belanja-51-monitoring/vertikal/uang-lembur/monitoring/{thn}/{bln}/{kdsatker}', 'uangLemburMonitoringRekap')->middleware('auth:web');
 });
 
-Route::controller(MonitoringBelanja51PusatController::class)->group(function (){
+Route::controller(MonitoringBelanja51PusatController::class)->group(function () {
     Route::get('/belanja-51-monitoring/pusat/uang-makan', 'uangMakan')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/pusat/uang-makan/detail/{id}', 'uangMakanDetail')->middleware('auth:web');
     Route::get('/belanja-51-monitoring/pusat/uang-makan/detail/{id}/rekap', 'uangMakanRekap')->middleware('auth:web');

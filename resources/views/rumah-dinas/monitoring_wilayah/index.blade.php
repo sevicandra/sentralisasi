@@ -23,7 +23,7 @@
             </div>
             <div class="overflow-x-auto overflow-y-auto h-full w-full">
                 <x-table class="collapse">
-                    <x-table-header>
+                    <x-table.header>
                         <tr class="*:text-center *:border-x">
                             <x-table.header.column>No</x-table.header.column>
                             <x-table.header.column>Kode</x-table.header.column>
@@ -31,8 +31,8 @@
                             <x-table.header.column>Jumlah</x-table.header.column>
                             <x-table.header.column></x-table.header.column>
                         </tr>
-                    </x-table-header>
-                    <x-table-body>
+                    </x-table.header>
+                    <x-table.body>
                         @foreach ($data as $item)
                             <tr class="*:border">
                                 <x-table.body.column>{{ $loop->iteration }}</x-table.body.column>
@@ -47,7 +47,7 @@
                                 </x-table.body.column>
                             </tr>
                         @endforeach
-                    </x-table-body>
+                    </x-table.body>
                 </x-table>
             </div>
         </div>

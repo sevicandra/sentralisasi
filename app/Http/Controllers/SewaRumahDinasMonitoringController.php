@@ -6,6 +6,7 @@ use App\Models\satker;
 use App\Models\sewaRumahDinas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Storage;
 
 class SewaRumahDinasMonitoringController extends Controller
@@ -64,5 +65,10 @@ class SewaRumahDinasMonitoringController extends Controller
         return response()->file(Storage::path($sewaRumahDinas->file),[
             'Content-Type' => 'application/pdf',
         ]);
+    }
+
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

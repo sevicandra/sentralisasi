@@ -175,7 +175,7 @@ class MonitoringBelanja51PusatController extends Controller
                 ->setCellValue('G' . ($i + 1), $item->absensikeluar)
             ;
             $spreadsheet
-                ->getActiveSheet(0)
+                ->getActiveSheet()
                 ->getCell('C' . ($i + 1))
                 ->setValueExplicit($item->nip, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $spreadsheet->getActiveSheet()
@@ -448,7 +448,7 @@ class MonitoringBelanja51PusatController extends Controller
                 ->setCellValue('I' . ($i + 1), $item->jumlahjam)
             ;
             $spreadsheet
-                ->getActiveSheet(0)
+                ->getActiveSheet()
                 ->getCell('C' . ($i + 1))
                 ->setValueExplicit($item->nip, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $spreadsheet->getActiveSheet()
